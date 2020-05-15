@@ -1,0 +1,46 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/icons/Back.png</file>
+        <file>res/icons/BackHover.png</file>
+        <file>res/icons/Close.png</file>
+        <file>res/icons/CloseHover.png</file>
+        <file>res/icons/Cycle.png</file>
+        <file>res/icons/CycleHover.png</file>
+        <file>res/icons/Down.png</file>
+        <file>res/icons/DownHover.png</file>
+        <file>res/icons/File.png</file>
+        <file>res/icons/FileHover.png</file>
+        <file>res/icons/FullScreen.png</file>
+        <file>res/icons/FullScreenHover.png</file>
+        <file>res/icons/Maximize.png</file>
+        <file>res/icons/MaximizeHover.png</file>
+        <file>res/icons/Menu.png</file>
+        <file>res/icons/MenuHover.png</file>
+        <file>res/icons/Minimize.png</file>
+        <file>res/icons/MinimizeHover.png</file>
+        <file>res/icons/Once.png</file>
+        <file>res/icons/OnceHover.png</file>
+        <file>res/icons/Pause.png</file>
+        <file>res/icons/PauseHover.png</file>
+        <file>res/icons/Play.png</file>
+        <file>res/icons/PlayHover.png</file>
+        <file>res/icons/Previous.png</file>
+        <file>res/icons/PreviousHover.png</file>
+        <file>res/icons/Random.png</file>
+        <file>res/icons/RandomHover.png</file>
+        <file>res/icons/Restore.png</file>
+        <file>res/icons/RestoreHover.png</file>
+        <file>res/icons/scale.png</file>
+        <file>res/icons/ScaleHover.png</file>
+        <file>res/icons/Sequence.png</file>
+        <file>res/icons/SequenceHover.png</file>
+        <file>res/icons/Speed.png</file>
+        <file>res/icons/SpeedHover.png</file>
+        <file>res/icons/Stop.png</file>
+        <file>res/icons/StopHover.png</file>
+        <file>res/images/op.gif</file>
+        <file>res/images/ovBG.png</file>
+        <file>res/data/EmulatorConfig.db</file>
+        <file>res/images/blueStar.png</file>
+    </qresource>
+</RCC>

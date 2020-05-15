@@ -1,0 +1,16 @@
+/cloned/
+
+# ds ignore dir list
+/TermWork_DS/build/
+/TermWork_DS/android/
+/TermWork_DS/released/
+/TermWork_DS/log/
+/TermWork_DS/bin/
+
+# dns ignore dir list
+/DNS_Server/DNS_Server/x64/
+/DNS_Server/.vs/
+
+# pokemon ignore dir list
+/Pokemon/Pokemon/x64/
+/Pokemon/.vs/
