@@ -10,10 +10,27 @@ CONFIG -= app_bundle
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += PROTOBUF_USE_DLLS
 
 INCLUDEPATH += \
-		include/
+		include/				\
+		../protobuf_headers/	\
+		../protocol/			\
 
+#CONFIG(debug, debug|release) {
+
+#       LIBS += 相关debug库
+
+#}else{
+
+#     LIBS+= 相关release库
+
+#} 
+
+LIBS += \
+	-L$$PWD/../lib/ -llibprotobuf	\
+	-L$$PWD/../lib/ -llibprotobufd	\
+	
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -34,3 +51,14 @@ HEADERS += \
 	include/PreCompile.h \
 	src/Pokemons/HighAtkPkm.h \
 	src/Pokemons/PokemonBase/PokemonBase.h
+
+win32-msvc* {
+    QMAKE_CXXFLAGS *=  /wd"4244"
+    contains (QMAKE_CXXFLAGS_WARN_ON, -w34244) : QMAKE_CXXFLAGS_WARN_ON -= -w34244
+    QMAKE_CXXFLAGS *=  /wd"4267"
+    contains (QMAKE_CXXFLAGS_WARN_ON, -w34267) : QMAKE_CXXFLAGS_WARN_ON -= -w34267
+    QMAKE_CXXFLAGS *=  /wd"4100"
+    contains (QMAKE_CXXFLAGS_WARN_ON, -w34100) : QMAKE_CXXFLAGS_WARN_ON -= -w34100
+    QMAKE_CXXFLAGS *=  /wd"4251"
+    contains (QMAKE_CXXFLAGS_WARN_ON, -w34251) : QMAKE_CXXFLAGS_WARN_ON -= -w34251
+}

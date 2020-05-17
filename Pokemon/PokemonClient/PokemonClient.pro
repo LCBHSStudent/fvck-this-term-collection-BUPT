@@ -8,6 +8,16 @@ CONFIG += c++17
 # depend on your compiler). Refer to the documentation for the
 # deprecated API to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += PROTOBUF_USE_DLLS
+
+INCLUDEPATH += \
+		include/				\
+		../protobuf_headers/	\
+		../protocol/			\
+
+LIBS += \
+	-L$$PWD/../lib/ -llibprotobuf	\
+	-L$$PWD/../lib/ -llibprotobufd	\
 
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -29,3 +39,15 @@ QML_DESIGNER_IMPORT_PATH =
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
+win32-msvc* {
+    QMAKE_CXXFLAGS *=  /wd"4244"
+    contains (QMAKE_CXXFLAGS_WARN_ON, -w34244) : QMAKE_CXXFLAGS_WARN_ON -= -w34244
+    QMAKE_CXXFLAGS *=  /wd"4267"
+    contains (QMAKE_CXXFLAGS_WARN_ON, -w34267) : QMAKE_CXXFLAGS_WARN_ON -= -w34267
+    QMAKE_CXXFLAGS *=  /wd"4100"
+    contains (QMAKE_CXXFLAGS_WARN_ON, -w34100) : QMAKE_CXXFLAGS_WARN_ON -= -w34100
+    QMAKE_CXXFLAGS *=  /wd"4251"
+    contains (QMAKE_CXXFLAGS_WARN_ON, -w34251) : QMAKE_CXXFLAGS_WARN_ON -= -w34251
+}
