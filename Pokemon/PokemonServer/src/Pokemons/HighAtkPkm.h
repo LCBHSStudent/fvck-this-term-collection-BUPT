@@ -11,7 +11,8 @@ public:
 public FUNCTION:	
 	uint32
 		attack(
-			const uint32 skillIndex
+			const uint32          skillIndex,
+            const PokemonBase*    target
 		) override;
 	void
 		levelUp() override;

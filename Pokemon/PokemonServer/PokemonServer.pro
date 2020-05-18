@@ -1,6 +1,6 @@
 QT -= gui
 QT += sql
-# QT += network
+QT += network
 
 CONFIG += c++17 console
 CONFIG -= app_bundle
@@ -11,7 +11,7 @@ CONFIG -= app_bundle
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += PROTOBUF_USE_DLLS
-
+PRECOMPILED_HEADER = include/PreCompile.h
 INCLUDEPATH += \
 		include/				\
 		../protobuf_headers/	\
@@ -19,11 +19,11 @@ INCLUDEPATH += \
 
 #CONFIG(debug, debug|release) {
 
-#       LIBS += 相关debug库
+#       LIBS += 
 
 #}else{
 
-#     LIBS+= 相关release库
+#     LIBS+= 
 
 #} 
 
@@ -37,8 +37,12 @@ LIBS += \
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        src/BattleField/BattleField.cpp \
+        src/ORMHelper/ORMHelper.cpp \
         src/Pokemons/HighAtkPkm.cpp \
         src/Pokemons/PokemonBase/PokemonBase.cpp \
+        src/Pokemons/PokemonBase/PokemonFactory.cpp \
+		src/SocketHelper/SocketHelper.cpp \
         src/PreCompile.cpp \
         src/main.cpp
 
@@ -49,8 +53,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
 	include/PreCompile.h \
+	include/Reflect.hpp \
+	src/BattleField/BattleField.h \
+	src/ORMHelper/ORMHelper.h \
 	src/Pokemons/HighAtkPkm.h \
-	src/Pokemons/PokemonBase/PokemonBase.h
+	src/Pokemons/PokemonBase/PokemonBase.h \
+	src/Pokemons/PokemonBase/PokemonFactory.h \
+	src/SocketHelper/SocketHelper.h	\
 
 win32-msvc* {
     QMAKE_CXXFLAGS *=  /wd"4244"

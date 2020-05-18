@@ -2,9 +2,6 @@
 
 #include <PreCompile.h>
 
-#define FUNCTION 
-#define RESOURCE 
-
 class PokemonBase {
 public:
 		 PokemonBase() = default;
@@ -32,39 +29,56 @@ public RESOURCE:
 
 	};
 #endif
-	static const uint32 MAX_LEVEL = 15;
-
+	static const uint32 
+        MAX_LEVEL = 15;
+    
 public FUNCTION:
 	void
 		gainExperience(uint32 exp);
-	std::string_view
-		getName() { return m_name; }
-
-
+    
+    GET(uint32, id)
+    GET(uint32, exp)
+    GET(uint32, ATK)
+    GET(uint32, curATK)
+    GET(uint32, HP)
+    GET(uint32, curHP)
+    GET(uint32, DEF)
+    GET(uint32, curDEF)
+    GET(uint32, INTV)
+    GET(uint32, curINTV)
+    
+    GET(PokemonType, pkmType)
+    GET(PokemonRare, pkmRare)
+    
+    GET(std::string_view, name)
+    
 protected FUNCTION:
 	virtual uint32
 		attack(
-			const uint32 skillIndex
+			const uint32        skillIndex,
+            const PokemonBase*  target
 		) = 0;
 	virtual void
 		levelUp() = 0;
 
 protected RESOURCE:
 	std::string
-		m_name {};
-	uint32
+		m_name  = {};
+    uint32
+        m_id    = 0;
+    uint32
 		m_level = 0;
 	uint32
 		m_exp	= 0;
 
 	uint32
-		m_atk  = 0, m_curATK  = 0;
+		m_ATK  = 0, m_curATK  = 0;
 	uint32
-		m_hp   = 0, m_curHP   = 0;
+		m_HP   = 0, m_curHP   = 0;
 	uint32
-		m_def  = 0, m_curDEF  = 0;
+		m_DEF  = 0, m_curDEF  = 0;
 	uint32
-		m_intv = 0, m_curINTV = 0;
+		m_INTV = 0, m_curINTV = 0;
 
 	PokemonType
 		m_pkmType = PokemonType::UNDEFINED;
