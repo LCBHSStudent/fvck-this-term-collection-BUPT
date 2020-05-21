@@ -3,11 +3,11 @@
 #include <PreCompile.h>
 
 class PokemonBase {
+    friend class PokemonSkill;
 public:
 		 PokemonBase() = default;
 	virtual
 		~PokemonBase() = default;
-
 
 public RESOURCE:
 	enum class PokemonType {
@@ -23,14 +23,17 @@ public RESOURCE:
 		SSR,
 		UNDEFINED
 	};
+    enum class PokemonAttribute {
+        FIRE = 0,
+        WATER,
+        GRASS,
+        UNDEFINED
+    };
 
-#ifndef QT_DEPENDECE
-	enum class SkillType {
-
-	};
-#endif
 	static const uint32 
         MAX_LEVEL = 15;
+    static int
+        LEVEL_UP_EXP[15];
     
 public FUNCTION:
 	void
@@ -49,14 +52,15 @@ public FUNCTION:
     
     GET(PokemonType, pkmType)
     GET(PokemonRare, pkmRare)
+    GET(PokemonAttribute, pkmAttri)
     
     GET(std::string_view, name)
     
 protected FUNCTION:
 	virtual uint32
 		attack(
-			const uint32        skillIndex,
-            const PokemonBase*  target
+            PokemonBase&    target,
+		    uint32          skillIndex
 		) = 0;
 	virtual void
 		levelUp() = 0;
@@ -79,10 +83,11 @@ protected RESOURCE:
 		m_DEF  = 0, m_curDEF  = 0;
 	uint32
 		m_INTV = 0, m_curINTV = 0;
-
+    
 	PokemonType
 		m_pkmType = PokemonType::UNDEFINED;
 	PokemonRare
 		m_pkmRare = PokemonRare::UNDEFINED;
-	/*std::array< ,4>*/
+    PokemonAttribute
+        m_pkmAttri = PokemonAttribute::UNDEFINED;
 };

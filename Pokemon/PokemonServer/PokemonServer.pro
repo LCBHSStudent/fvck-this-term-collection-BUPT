@@ -5,6 +5,8 @@ QT += network
 CONFIG += c++17 console
 CONFIG -= app_bundle
 
+debug: DEFINES += _ITERATOR_DEBUG_LEVEL=0
+
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -42,7 +44,9 @@ SOURCES += \
         src/Pokemons/HighAtkPkm.cpp \
         src/Pokemons/PokemonBase/PokemonBase.cpp \
         src/Pokemons/PokemonBase/PokemonFactory.cpp \
+	src/Pokemons/PokemonBase/PokemonSkill.cpp \
 		src/SocketHelper/SocketHelper.cpp \
+		src/User/User.cpp \
         src/PreCompile.cpp \
         src/main.cpp
 
@@ -59,7 +63,10 @@ HEADERS += \
 	src/Pokemons/HighAtkPkm.h \
 	src/Pokemons/PokemonBase/PokemonBase.h \
 	src/Pokemons/PokemonBase/PokemonFactory.h \
+	src/Pokemons/PokemonBase/PokemonSkill.h \
+	src/Pokemons/TestPokemonFunction.hpp \
 	src/SocketHelper/SocketHelper.h	\
+	src/User/User.h \
 
 win32-msvc* {
     QMAKE_CXXFLAGS *=  /wd"4244"

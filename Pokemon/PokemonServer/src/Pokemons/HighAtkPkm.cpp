@@ -5,10 +5,17 @@ HighAtkPkm::HighAtkPkm(const std::string_view name) {
 }
 
 uint32 HighAtkPkm::attack(
-        const uint32        skillIndex,
-        const PokemonBase*  target
+        PokemonBase&    target,
+        uint32          skillIndex
 ) {
-	return 0;
+    switch (skillIndex) {
+    case 0:
+        qDebug() << "goto test brench";
+        return 0;
+    default:
+        qDebug() << "using an unknown skill";
+        return 0;
+    }
 }
 
 void HighAtkPkm::levelUp() {

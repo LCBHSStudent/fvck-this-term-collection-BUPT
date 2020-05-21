@@ -1,5 +1,9 @@
 #include "PokemonBase.h"
 
+int PokemonBase::LEVEL_UP_EXP[15] = {
+    0
+};
+
 void PokemonBase::gainExperience(uint32 exp) {
 	if ((m_exp + exp) <= m_exp)
 		return;

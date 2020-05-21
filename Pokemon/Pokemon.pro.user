@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.11.0, 2020-05-18T15:55:08. -->
+<!-- Written by QtCreator 4.11.0, 2020-05-18T22:45:46. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -371,7 +371,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">false</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory"></value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">A:/WorkSpace/TermWork/Pokemon/build/MSVC_x64_Debug/PokemonServer</value>
    </valuemap>
