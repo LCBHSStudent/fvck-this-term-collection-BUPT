@@ -8,6 +8,7 @@
 #include <vector>
 #include <thread>
 #include <cstdint>
+#include <iostream>
 #include <typeinfo>
 #include <functional>
 #include <type_traits>

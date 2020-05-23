@@ -66,6 +66,7 @@ HEADERS += \
 	src/Pokemons/PokemonBase/PokemonSkill.h \
 	src/Pokemons/TestPokemonFunction.hpp \
 	src/SocketHelper/SocketHelper.h	\
+	src/UnitTest.hpp \
 	src/User/User.h \
 
 win32-msvc* {

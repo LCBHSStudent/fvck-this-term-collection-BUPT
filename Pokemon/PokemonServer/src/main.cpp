@@ -1,12 +1,11 @@
 #include <PreCompile.h>
 
-#include "Pokemons/TestPokemonFunction.hpp"
+#include "UnitTest.hpp"
 
 int main(int argc, char *argv[]) {
     QCoreApplication app(argc, argv);
     
-    TestCreatePokemon();
-    TestPokemonSkillFuncAddr();
+    TestReflect();
     
     return app.exec();
 }

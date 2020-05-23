@@ -22,5 +22,11 @@ void TestPokemonSkillFuncAddr() {
     qDebug() << addr2 - addr1 << addr2 - addr3 << addr4 - addr3;
 }
 
+void TestCallSkillFuncTion() {
+    HighAtkPkm* testPkm = new HighAtkPkm("test");
+    HighAtkPkm* testPkm2 = new HighAtkPkm("test2");
+    PokemonSkill::FireBall(testPkm, testPkm2);
+}
+
 
 #endif // TESTPOKEMONFUNCTION_H
