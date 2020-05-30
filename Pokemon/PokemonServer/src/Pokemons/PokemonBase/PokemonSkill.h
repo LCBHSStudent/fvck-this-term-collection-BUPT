@@ -11,7 +11,7 @@
 
 #define REGISTER_METHOD(_method_) \
     static FuncReflectHelper<PokemonSkill, QString, PokemonSkill::SkillFunc>    \
-        _method_(PokemonSkill::s_skillMap, #_method_, &PokemonSkill::_method_); \
+        _##_method_(PokemonSkill::s_skillMap, #_method_, &PokemonSkill::_method_); \
     SKILL_FUNC(_method_) \
 
 class PokemonBase;
@@ -38,10 +38,10 @@ public FUNCTION:
     SKILL_FUNC_DEF(WindBreath);
     
 public RESOURCE:
-    static 
-        QHash<QString, SkillFunc>
-            s_skillMap;
-    static std::random_device rdev;
+    static QHash<QString, SkillFunc>
+        s_skillMap;
+    static std::random_device
+        rdev;
     
 };
 

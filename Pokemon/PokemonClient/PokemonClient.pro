@@ -1,5 +1,5 @@
 QT += quick
-# QT += network
+QT += network
 
 CONFIG += c++17
 
@@ -9,6 +9,7 @@ CONFIG += c++17
 # deprecated API to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += PROTOBUF_USE_DLLS
+PRECOMPILED_HEADER = include/PreCompile.h
 
 INCLUDEPATH += \
 		include/				\
@@ -25,6 +26,10 @@ LIBS += \
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        ../protocol/UserProtocol.pb.cc \
+        src/ClientBackend/NetworkHelper/NetworkHelper.cpp \
+        src/ClientBackend/ClientBackend.cpp \
+        src/PreCompile.cpp \
         src/main.cpp
 
 RESOURCES += qml.qrc
@@ -51,3 +56,8 @@ win32-msvc* {
     QMAKE_CXXFLAGS *=  /wd"4251"
     contains (QMAKE_CXXFLAGS_WARN_ON, -w34251) : QMAKE_CXXFLAGS_WARN_ON -= -w34251
 }
+
+HEADERS += \
+	include/PreCompile.h \
+	src/ClientBackend/NetworkHelper/NetworkHelper.h \
+	src/ClientBackend/ClientBackend.h

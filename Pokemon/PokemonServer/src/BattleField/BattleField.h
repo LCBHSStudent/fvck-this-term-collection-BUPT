@@ -9,8 +9,18 @@ class BattleField: public QObject {
     Q_OBJECT
 public:
     explicit 
-        BattleField(QObject* parent = nullptr):
-            QObject(parent) {}
+        BattleField(
+            User* userA,
+            User* userB,
+            QObject* parent = nullptr
+        ):  QObject(parent) {}
+        
+        
+public FUNCTION:
+    
+        
+private RESOURCE:
+    
 };
 
 #endif // BATTLEFIELD_H

@@ -39,16 +39,18 @@ LIBS += \
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        src/BattleField/BattleField.cpp \
-        src/ORMHelper/ORMHelper.cpp \
-        src/Pokemons/HighAtkPkm.cpp \
-        src/Pokemons/PokemonBase/PokemonBase.cpp \
-        src/Pokemons/PokemonBase/PokemonFactory.cpp \
+	../protocol/UserProtocol.pb.cc \
+	src/BattleField/BattleField.cpp \
+	src/ORMHelper/ORMHelper.cpp \
+	src/Pokemons/PokemonBase/PokemonBase.cpp \
+	src/Pokemons/PokemonBase/PokemonFactory.cpp \
 	src/Pokemons/PokemonBase/PokemonSkill.cpp \
-		src/SocketHelper/SocketHelper.cpp \
-		src/User/User.cpp \
-        src/PreCompile.cpp \
-        src/main.cpp
+	src/Pokemons/VariousPokemon.cpp \
+	src/ServerBackend/ServerBackend.cpp \
+	src/NetworkHelper/NetworkHelper.cpp \
+	src/User/User.cpp \
+	src/PreCompile.cpp \
+	src/main.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -60,12 +62,13 @@ HEADERS += \
 	include/Reflect.hpp \
 	src/BattleField/BattleField.h \
 	src/ORMHelper/ORMHelper.h \
-	src/Pokemons/HighAtkPkm.h \
 	src/Pokemons/PokemonBase/PokemonBase.h \
 	src/Pokemons/PokemonBase/PokemonFactory.h \
 	src/Pokemons/PokemonBase/PokemonSkill.h \
 	src/Pokemons/TestPokemonFunction.hpp \
-	src/SocketHelper/SocketHelper.h	\
+	src/Pokemons/VariousPokemon.h \
+	src/ServerBackend/ServerBackend.h \
+	src/NetworkHelper/NetworkHelper.h \
 	src/UnitTest.hpp \
 	src/User/User.h \
 

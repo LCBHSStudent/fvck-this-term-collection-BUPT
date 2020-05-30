@@ -1,5 +1,17 @@
 #include "PokemonBase.h"
 
+PokemonBase::PokemonBase(ARGS_LIST):
+    m_name(_name),
+    m_id(_id),
+    m_level(_level),
+    m_exp(_exp),
+    m_ATK(_ATK),
+    m_HP(_HP),
+    m_DEF(_DEF),
+    m_SPD(_SPD),
+    m_pkmType(PokemonType(_type)),
+    m_pkmAttr(PokemonAttribute(_attr)) {}
+
 int PokemonBase::LEVEL_UP_EXP[15] = {
     0
 };

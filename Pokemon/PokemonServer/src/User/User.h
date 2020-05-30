@@ -3,12 +3,17 @@
 
 #include <PreCompile.h>
 
-class User : public QObject {
+class User: public QObject {
     Q_OBJECT
 public:
     explicit User(QObject *parent = nullptr);
     
-signals:
+public FUNCTION:
+    
+    
+    
+    
+public RESOURCE:
     
 };
 

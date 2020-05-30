@@ -3,6 +3,7 @@
 
 #include <map>
 #include <array>
+#include <string>
 #include <memory>
 #include <string>
 #include <vector>
@@ -10,6 +11,7 @@
 #include <cstdint>
 #include <iostream>
 #include <typeinfo>
+#include <iostream>
 #include <functional>
 #include <type_traits>
 #include <string_view>
@@ -30,15 +32,14 @@ using uint32 = uint32_t;
 #define RESOURCE 
 
 #include <QHash>
+#include <QtQml>
 #include <QDebug>
 #include <QObject>
-#include <QSqlError>
-#include <QTcpServer>
+#include <QQuickItem>
 #include <QTcpSocket>
-#include <QSqlDriver>
-#include <QSqlDatabase>
 #include <QHostAddress>
-#include <QCoreApplication>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 #include <QtConcurrent/QtConcurrent>
 
 #endif // PRECOMPILE_H

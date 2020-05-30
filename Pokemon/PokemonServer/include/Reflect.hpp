@@ -8,13 +8,10 @@ struct FuncReflectHelper final {
 public:
     explicit 
         FuncReflectHelper(QHash<KeyType, FuncType>& saver, KeyType&& key, FuncType func) {
-            std::cout << "construct\n";
             saver[std::forward<KeyType>(key)] = func;
             this->~FuncReflectHelper();
         }
-        ~FuncReflectHelper() {
-            std::cout << "destruct\n";
-        };
+        ~FuncReflectHelper() {}
 };
 
 #endif // REFLECT_H

@@ -2,28 +2,34 @@
 
 #include <PreCompile.h>
 
+#define ARGS_LIST \
+    std::string_view    _name,  \
+    uint32              _id,    \
+    uint32              _level, \
+    uint32              _exp,   \
+    uint32              _ATK,   \
+    uint32              _HP,    \
+    uint32              _DEF,   \
+    uint32              _SPD,   \
+    uint32              _type,  \
+    uint32              _attr   \
+
 class PokemonBase {
     friend class PokemonSkill;
 public:
-		 PokemonBase() = default;
+		 PokemonBase(ARGS_LIST);
 	virtual
 		~PokemonBase() = default;
 
 public RESOURCE:
-	enum class PokemonType {
+	enum class PokemonType: uint32 {
 		HIGH_ATTACK = 0,
 		HIGH_HITPOINT,
 		HIGH_DEFENSE,
 		HIGH_SPEED,
 		UNDEFINED
 	};
-	enum class PokemonRare {
-		R = 0,
-		SR,
-		SSR,
-		UNDEFINED
-	};
-    enum class PokemonAttribute {
+    enum class PokemonAttribute: uint32 {
         FIRE = 0,
         WATER,
         GRASS,
@@ -47,12 +53,11 @@ public FUNCTION:
     GET(uint32, curHP)
     GET(uint32, DEF)
     GET(uint32, curDEF)
-    GET(uint32, INTV)
-    GET(uint32, curINTV)
+    GET(uint32, SPD)
+    GET(uint32, curSPD)
     
     GET(PokemonType, pkmType)
-    GET(PokemonRare, pkmRare)
-    GET(PokemonAttribute, pkmAttri)
+    GET(PokemonAttribute, pkmAttr)
     
     GET(std::string_view, name)
     
@@ -82,12 +87,10 @@ protected RESOURCE:
 	uint32
 		m_DEF  = 0, m_curDEF  = 0;
 	uint32
-		m_INTV = 0, m_curINTV = 0;
+		m_SPD = 0, m_curSPD = 0;
     
 	PokemonType
-		m_pkmType = PokemonType::UNDEFINED;
-	PokemonRare
-		m_pkmRare = PokemonRare::UNDEFINED;
+		m_pkmType  = PokemonType::UNDEFINED;
     PokemonAttribute
-        m_pkmAttri = PokemonAttribute::UNDEFINED;
+        m_pkmAttr  = PokemonAttribute::UNDEFINED;
 };

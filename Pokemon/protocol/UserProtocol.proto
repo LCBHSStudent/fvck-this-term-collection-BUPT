@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package UserProtocol;
+
+message UserSignUpRequestInfo {
+    string userName     = 1;
+    string userPsw      = 2;
+}
+
+message UserSignUpResponseInfo {
+    enum SignUpStatus {
+        SUCCESS                 = 0;
+        USER_ALREADY_EXISTS     = 1;
+        USERNAME_FORMAT_ERROR   = 2;
+        USERPSW_FORMAT_ERROR    = 3;
+        SERVER_REFUSED          = 4;
+        UNKNOWN_FAILURE         = 5;
+    }
+    SignUpStatus status = 1;
+}
+
+message UserLoginRequestInfo {
+    string userName     = 1;
+    string userPsw      = 2;
+}
+
+message UserLoginResponseInfo {
+    enum LoginStatus {
+        SUCCESS          = 0;
+        USER_NOT_EXISTS  = 1;
+        USERPSW_ERROR    = 3;
+        SERVER_REFUSED   = 4;
+        UNKNOWN_FAILURE  = 5;
+    }
+    LoginStatus status = 1;
+}
+
+message UserInfo {
+    string          userName  = 1;
+    repeated int32  pokemonId = 2;
+}
