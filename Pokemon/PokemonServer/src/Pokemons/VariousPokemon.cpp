@@ -1,8 +1,7 @@
 #include "VariousPokemon.h"
 
-HighAtkPkm::HighAtkPkm(
-    ARGS_LIST
-):PokemonBase(PKM_INIT_LIST) {
+//----------------------ATK REFERED------------------------//
+HighAtkPkm::HighAtkPkm(ARGS_LIST): PokemonBase(PKM_INIT_LIST) {
     
 }
 
@@ -14,5 +13,54 @@ uint32 HighAtkPkm::attack(
 }
 
 void HighAtkPkm::levelUp() {
+    
+}
+
+//----------------------HP REFERED-------------------------//
+HighHpPkm::HighHpPkm(ARGS_LIST): PokemonBase(PKM_INIT_LIST) {
+    
+}
+
+uint32 HighHpPkm::attack(
+    PokemonBase &target,
+    uint32 skillIndex
+) {
+    return 0;
+}
+
+void HighHpPkm::levelUp() {
+    
+}
+
+//----------------------DEF REFERED------------------------//
+HighDefPkm::HighDefPkm(ARGS_LIST): PokemonBase(PKM_INIT_LIST) {
+    
+}
+
+uint32 HighDefPkm::attack(
+    PokemonBase &target,
+    uint32 skillIndex
+) {
+    return 0;
+}
+
+void HighDefPkm::levelUp() {
+    
+}
+
+
+//----------------------SPD REFERED------------------------//
+HighSpdPkm::HighSpdPkm(ARGS_LIST): PokemonBase(PKM_INIT_LIST) {
+    
+}
+
+uint32 HighSpdPkm::attack(
+    PokemonBase &target,
+    uint32 skillIndex
+) {
+    return 0;
+}
+
+void HighSpdPkm::levelUp() {
     
 }

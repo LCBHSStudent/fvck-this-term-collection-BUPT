@@ -15,11 +15,13 @@ public:
             QObject* parent = nullptr
         ):  QObject(parent) {}
         
-        
-public FUNCTION:
+public RESOURCE:
+    QList<int>
+        m_buffList = {};
     
-        
 private RESOURCE:
+    std::array<User, 2> 
+        users = {};
     
 };
 
