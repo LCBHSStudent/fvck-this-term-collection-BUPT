@@ -68,5 +68,11 @@
     <ClInclude Include="include\uv.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\config.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hash_table.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -157,6 +157,8 @@
     <ClCompile Include="src\main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\config.h" />
+    <ClInclude Include="include\hash_table.h" />
     <ClInclude Include="include\uv.h" />
     <ClInclude Include="include\uv\aix.h" />
     <ClInclude Include="include\uv\android-ifaddrs.h" />
