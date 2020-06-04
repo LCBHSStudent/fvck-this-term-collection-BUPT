@@ -74,7 +74,8 @@ public slots:
             QString     destCity,
             int         startH,
             int         startM,
-            int         policy
+            int         policy,
+            int         timeLmt = 0x3F3F3F3F
         );
     
     CityModel* 
@@ -163,7 +164,8 @@ public:
             BackendBase*    instance,
             QString&        fromCity,
             QString&        destCity,
-            int             startT
+            int             startT,
+            int             timeLmt = 0x7FFFFFF
         );
 };
 

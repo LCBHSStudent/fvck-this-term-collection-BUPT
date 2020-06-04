@@ -166,11 +166,11 @@ Page {
         
         Emitter {
             id: customerEmt
-            emitRate: 500
+            emitRate: 125
             width:  1
             height: 1
             
-            enabled: true
+            enabled: false
             
             property real destX
             property real destY
@@ -181,20 +181,15 @@ Page {
                 y: customerEmt.destY
             }
             
-            size: utils.dp(7)
-            sizeVariation: 2
+            size: utils.dp(10)
+//            sizeVariation: 1
             
             PropertyAnimation {
                 id:     pathAnimation
                 target: customerEmt
                 properties: "lifeSpan"
                 from: 0
-                to: {
-                    return Math.sqrt(
-                        Math.pow((customerEmt.destX - customerEmt.x), 2) +
-                        Math.pow((customerEmt.destY - customerEmt.y), 2)
-                    ) * 1.05
-                }
+                to: duration - 100
 
                 duration: customerEmt.duration
                 running: false
@@ -202,6 +197,8 @@ Page {
                 
                 onFinished: {
                     customerEmt.lifeSpan = 0
+                    customerEmt.enabled = false
+                    console.log("hehe   ")
                 }
             }
             
@@ -209,11 +206,17 @@ Page {
                 customerEmt.x = citys[fromId][0];                
                 customerEmt.y = citys[fromId][1];
                 
-                customerEmt.destX = citys[destId][0] - customerEmt.x;
-                customerEmt.destY = citys[destId][1] - customerEmt.y;
+                var tempX = citys[destId][0] - customerEmt.x;
+                var tempY = citys[destId][1] - customerEmt.y;
+                
+                customerEmt.destX = tempX / Math.sqrt(tempX*tempX + tempY*tempY) * 100
+                customerEmt.destY = tempY / Math.sqrt(tempX*tempX + tempY*tempY) * 100
                 
                 customerEmt.duration = duration
                 
+                console.log(x, y, destX, destY, duration)
+                
+                customerEmt.enabled = true
                 pathAnimation.start()
             }
         }
@@ -222,10 +225,15 @@ Page {
     Connections {
         target: backend
         onSigCustomerPosChanged: {
-            if(fromId === destId)
-                return;
-            customerEmt.setEmitInfo(fromId, destId, duratiom)
+            customerEmt.setEmitInfo(fromId, destId, duration)
         }
     }
+    
+//    Button {
+//        anchors.centerIn: parent
+//        width: 100
+//        height: 100
+//        onClicked: customerEmt.setEmitInfo(7, 10, 6000)
+//    }
     
 }

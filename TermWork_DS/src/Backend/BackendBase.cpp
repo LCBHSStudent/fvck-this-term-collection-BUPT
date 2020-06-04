@@ -162,7 +162,11 @@ void BackendBase::mainLoop() {
             emit sysTimeChanged();
             ten = 0;
         }
-        m_customer->updateStatus();
+        QString log;
+        m_customer->updateStatus(log);
+        if(log.length()) {
+            emit sigNewMessage(log);
+        }
         
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         ten++;
@@ -174,7 +178,8 @@ void BackendBase::slotStartQuery(
     QString     destCity,
     int         startH,
     int         startM,
-    int         policy
+    int         policy,
+    int         timeLmt
 ) {
     if(fromCity == destCity) 
         return;
@@ -185,19 +190,21 @@ void BackendBase::slotStartQuery(
     
 //    m_absData->printAllRouteInfo(fromCity);
     
+    emit sigNewMessage(m_sysTime.toString("[yyyy-MM-dd HH:mm]") + "Start query");
+    m_customer->setSysTime(
+        m_sysTime.time().hour()*3600 + m_sysTime.time().minute()*60
+    );
     switch (policy) {
     case TimeRefered:
+        AlgorithmHelper::runWithAlgorithmDij(
+            this, fromCity, destCity, startH*60 + startM, timeLmt);
         break;
         
     case SafetyRefered:
-        emit sigNewMessage(m_sysTime.toString("[yyyy-MM-dd HH:mm]") + "Start query");
         AlgorithmHelper::runWithAlgorithmDij(
             this, fromCity, destCity, startH*60 + startM);
-        m_customer->setSysTime(
-            m_sysTime.time().hour()*3600 + m_sysTime.time().minute()*60
-        );
-        break;
         
+        break;
     default:
         emit sigNewMessage("\n\tUnkonw policy");
         break;

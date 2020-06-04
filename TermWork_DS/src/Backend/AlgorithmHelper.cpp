@@ -25,7 +25,8 @@ void AlgorithmHelper::runWithAlgorithmDij(
     BackendBase*    instance,
     QString&        fromCity,
     QString&        destCity,
-    int             startT
+    int             startT,
+    int             timeLmt
 ) {
     using std::vector;
     using std::queue;
@@ -120,11 +121,16 @@ void AlgorithmHelper::runWithAlgorithmDij(
             int waitTime = 
                 ((route.startTime + (24*60)) -
                  prevTime) % (24*60);
+            
+            if(waitTime + prevTime > timeLmt) {
+                continue;
+            }
+            
             double risk =
-                static_cast<double>(waitTime) / 60 *
+                static_cast<double>(waitTime) / 60.0f *
                 instance->m_absData->m_cityIdHash[curCity].factor;
             
-            risk += route.costTime / 60 * RISK[route.vehicleType];
+            risk += route.costTime / 60.0f * RISK[route.vehicleType];
             
             if(static_cast<int>(risk) < risks[route.destCity]) {
                 risks[route.destCity] = static_cast<int>(risk);
@@ -214,6 +220,17 @@ void AlgorithmHelper::runWithAlgorithmDij(
                     route.serialNum,
                     route.vehicleType,
                     instance->m_absData->m_cityIdHash[cityId].name,
+                    instance->m_absData->m_cityIdHash[nextCity].name
+                )
+            );
+            instance->m_customer->addTask(
+                Task(
+                    0,
+                    prevFinTime[cityId],
+                    Customer::Arrive,
+                    0,
+                    0,
+                    instance->m_absData->m_cityIdHash[nextCity].name,
                     instance->m_absData->m_cityIdHash[nextCity].name
                 )
             );

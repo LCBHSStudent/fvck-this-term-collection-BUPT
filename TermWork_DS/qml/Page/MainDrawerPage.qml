@@ -159,6 +159,40 @@ Page {
             font.bold: true
             color: "#FFFFFF"
         }
+        TextField {
+            id: timeLmt
+            width: utils.dp(80)
+            enabled: travelTypeBtn.travelType === Backend.TimeRefered
+            placeholderText: "单位:分钟"
+            placeholderTextColor: utils.colorClouds
+            validator: RegExpValidator {regExp: /^[0-9]*$/}
+            maximumLength: 5
+            
+            background: Rectangle {
+                color: parent.enabled? "#647687": utils.colorWetAsphalt
+            }
+            Rectangle {
+                visible: parent.activeFocus
+                anchors.fill: parent
+                color: "transparent"
+                border.color: "#00ABA9"
+                border.width: utils.dp(1)
+            }
+            font.bold: true
+            color: "#FFFFFF"
+            
+            Text {
+                anchors.left: parent.left
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.top
+                anchors.bottomMargin: utils.dp(5)
+                text: qsTr(" 时间限制")
+                color: utils.colorAlizarin
+                font.pixelSize: utils.dp(15)
+                font.bold: true
+                
+            }
+        }
     }     
     
     
@@ -188,13 +222,17 @@ Page {
                 destCityBox.currentValue,
                 startH.text,
                 startM.text,
-                travelTypeBtn.travelType
+                travelTypeBtn.travelType,
+                timeLmt.text
             )
         }
     }
     
-    TextArea {
-        id: field
+    ScrollView {
+        id: view
+        height: 448
+        width: 788
+        clip: true
         anchors {
             top: goBtn.bottom
             bottom: visualPageBtn.top
@@ -202,15 +240,22 @@ Page {
             right: parent.right
             margins: utils.dp(20)
         }
-        enabled: false
         
-        color: utils.colorClouds
-        
-        Connections {
-            target: backend
-            onSigNewMessage: {
-                field.append(msg)
+        TextArea {
+            id: field
+            enabled: false
+            color: utils.colorClouds
+            
+            Connections {
+                target: backend
+                onSigNewMessage: {
+                    field.append(msg)
+                }
             }
+            Component.onCompleted: console.log(field.width, field.height)
         }
     }
+    
+    
+    
 }       

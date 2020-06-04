@@ -36,6 +36,7 @@ public:
     QString destCity;
 };
 
+class BackendBase;
 class Customer final: public QObject {
     Q_OBJECT
 public:
@@ -55,6 +56,7 @@ public:
     enum BehaviorType {
         Waiting = 0,
         Traveling,
+        Arrive,
     };
     
 signals:
@@ -76,7 +78,7 @@ public:
     void
         addTask(const Task&);
     void
-        updateStatus();
+        updateStatus(QString&);
     
 private:
     int
