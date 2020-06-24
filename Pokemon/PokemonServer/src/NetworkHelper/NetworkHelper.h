@@ -15,10 +15,24 @@ public FUNCTION:
 public RESOURCE:
     inline static int port = 1919;
     enum DataType {
-        UserSignUpRequestInfo = Qt::UserRole,
+        UserSignUpRequestInfo = 0,
         UserLoginRequestInfo,
     };
-    
+	
+signals:
+	void 
+		sigUserLogin(QString& user, QString& password);
+	void
+		sigUserLogout(QString& user);
+	void
+		sigRequestUserInfo(QString& user);
+	void 
+		sigRequestPokemonInfo(QString& user);
+	void
+		sigStartUserBattle(QString& reqUser, QString& destUser);
+	void
+		sigStartVirtualBattle(QString& reqUser);
+	
 private slots:
     void
         slotNewConnection();

@@ -7,22 +7,32 @@
 
 class BattleField: public QObject {
     Q_OBJECT
-public:
-    explicit 
+public: 
         BattleField(
-            User* userA,
-            User* userB,
-            QObject* parent = nullptr
-        ):  QObject(parent) {}
-        
+            User*           userA,
+            User*           userB,
+            PokemonBase*    pkmA,
+            PokemonBase*    pkmB,
+            QObject*        parent = nullptr
+        );
+    virtual 
+        ~BattleField();
+    
+public FUNCTION:
+    void turn(QString& actionA, QString& actionB);
+    
 public RESOURCE:
     QList<int>
         m_buffList = {};
     
-private RESOURCE:
-    std::array<User, 2> 
-        users = {};
+private:
+    void queryBuffList();
     
+private RESOURCE:
+    std::array<User*, 2>
+        m_users = {};
+    std::array<PokemonBase*, 2>
+        m_pkmList = {};
 };
 
 #endif // BATTLEFIELD_H

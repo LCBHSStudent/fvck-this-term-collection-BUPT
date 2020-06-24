@@ -16,7 +16,7 @@ public FUNCTION:
 	uint32
 		attack(
             PokemonBase&    target,
-            uint32          skillIndex = 0
+            QString&        skillName
 		) override;
 	void
 		levelUp() override;
@@ -33,7 +33,7 @@ public FUNCTION:
 	uint32
 		attack(
             PokemonBase&    target,
-            uint32          skillIndex = 0
+            QString&        skillName
 		) override;
 	void
 		levelUp() override;
@@ -51,7 +51,7 @@ public FUNCTION:
 	uint32
 		attack(
             PokemonBase&    target,
-            uint32          skillIndex = 0
+            QString&        skillName
 		) override;
 	void
 		levelUp() override;
@@ -68,7 +68,7 @@ public FUNCTION:
 	uint32
 		attack(
             PokemonBase&    target,
-            uint32          skillIndex = 0
+            QString&        skillName
 		) override;
 	void
 		levelUp() override;

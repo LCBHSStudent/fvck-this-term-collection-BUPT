@@ -11,6 +11,9 @@ ServerBackend::ServerBackend():
         throw std::runtime_error("failed to connect local mysql");
     }
     
+    prepare("CREATE TABLE users IF NOT EXIST");
+    
+    // m_serverPkm.append()
 }
 
 void ServerBackend::slotUserLogin() {

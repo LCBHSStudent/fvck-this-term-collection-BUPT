@@ -47,7 +47,7 @@ public RESOURCE:
     const  static int 
         connectLmt = 3000;
     enum DataType {
-        UserSignUpResponseInfo = Qt::UserRole,
+        UserSignUpResponseInfo = 0,
         UserLoginResponseInfo,
         UserInfo,
     };

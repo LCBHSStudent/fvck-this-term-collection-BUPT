@@ -7,7 +7,7 @@ HighAtkPkm::HighAtkPkm(ARGS_LIST): PokemonBase(PKM_INIT_LIST) {
 
 uint32 HighAtkPkm::attack(
     PokemonBase&    target,
-    uint32          skillIndex
+    QString&        skillName
 ) {
     return 0;
 }
@@ -22,8 +22,8 @@ HighHpPkm::HighHpPkm(ARGS_LIST): PokemonBase(PKM_INIT_LIST) {
 }
 
 uint32 HighHpPkm::attack(
-    PokemonBase &target,
-    uint32 skillIndex
+    PokemonBase&    target,
+    QString&        skillName
 ) {
     return 0;
 }
@@ -38,8 +38,8 @@ HighDefPkm::HighDefPkm(ARGS_LIST): PokemonBase(PKM_INIT_LIST) {
 }
 
 uint32 HighDefPkm::attack(
-    PokemonBase &target,
-    uint32 skillIndex
+    PokemonBase&    target,
+    QString&        skillName
 ) {
     return 0;
 }
@@ -55,8 +55,8 @@ HighSpdPkm::HighSpdPkm(ARGS_LIST): PokemonBase(PKM_INIT_LIST) {
 }
 
 uint32 HighSpdPkm::attack(
-    PokemonBase &target,
-    uint32 skillIndex
+    PokemonBase&    target,
+    QString&        skillName
 ) {
     return 0;
 }

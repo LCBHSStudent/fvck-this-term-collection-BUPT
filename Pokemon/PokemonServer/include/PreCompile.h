@@ -2,12 +2,14 @@
 #define PRECOMPILE_H
 
 #include <map>
+#include <tuple>
 #include <array>
 #include <memory>
 #include <string>
 #include <vector>
 #include <thread>
 #include <cstdint>
+#include <conio.h>
 #include <iostream>
 #include <typeinfo>
 #include <functional>
@@ -17,11 +19,14 @@
 using byte   = uint8_t;
 using uint32 = uint32_t;
 
+#define uptr std::unique_ptr
+#define sptr std::shared_ptr
+
 #define GET_CLASS_NAME(_class_) \
     QString(typeid(_class_).name())
 
 #define GET(_type_, _property_)  \
-    _type_ get_##_property_() const noexcept { return m_##_property_; }
+    inline _type_ get_##_property_() const noexcept { return m_##_property_; }
 
 #define MALLOC(_size_, _type_) \
     static_cast<type*>(malloc(_size_ * sizeof(_type_)))
@@ -33,6 +38,7 @@ using uint32 = uint32_t;
 #include <QDebug>
 #include <QObject>
 #include <QSqlError>
+#include <QSqlQuery>
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QSqlDriver>

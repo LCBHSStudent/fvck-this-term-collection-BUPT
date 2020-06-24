@@ -8,7 +8,21 @@
 int main(int argc, char *argv[]) {
     QCoreApplication app(argc, argv);
     
-    std::unique_ptr<ServerBackend> backend(new ServerBackend);
+    ServerBackend* pBackend = nullptr;
+    
+    while(true) {
+        if(_getch() == 'y') {
+            pBackend = new ServerBackend;
+            std::cout << "new server backend instance was built up\n";
+        } else {
+            if(pBackend != nullptr) {
+                delete pBackend;
+                pBackend = nullptr;
+                std::cout << "destroy server backend instance\n";
+            }
+        }
+    }
+    
     
     return app.exec();
 }

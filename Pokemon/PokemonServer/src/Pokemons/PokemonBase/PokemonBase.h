@@ -61,11 +61,11 @@ public FUNCTION:
     
     GET(std::string_view, name)
     
-protected FUNCTION:
+public FUNCTION:
 	virtual uint32
 		attack(
             PokemonBase&    target,
-		    uint32          skillIndex
+		    QString&        skillName
 		) = 0;
 	virtual void
 		levelUp() = 0;
@@ -93,4 +93,6 @@ protected RESOURCE:
 		m_pkmType  = PokemonType::UNDEFINED;
     PokemonAttribute
         m_pkmAttr  = PokemonAttribute::UNDEFINED;
+    std::array<QString, 4>
+        m_skills   = {};
 };

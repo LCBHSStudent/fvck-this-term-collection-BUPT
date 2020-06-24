@@ -10,7 +10,7 @@ public:
     
 public RESOURCE:
 	enum class BadgeType: uint32 {
-		GOLDEN = Qt::UserRole,
+		GOLDEN = 0,
 		SILVER,
 		BRONZE
 	};

@@ -41,7 +41,6 @@ LIBS += \
 SOURCES += \
 	../protocol/UserProtocol.pb.cc \
 	src/BattleField/BattleField.cpp \
-	src/ORMHelper/ORMHelper.cpp \
 	src/Pokemons/PokemonBase/PokemonBase.cpp \
 	src/Pokemons/PokemonBase/PokemonFactory.cpp \
 	src/Pokemons/PokemonBase/PokemonSkill.cpp \
@@ -61,7 +60,6 @@ HEADERS += \
 	include/PreCompile.h \
 	include/Reflect.hpp \
 	src/BattleField/BattleField.h \
-	src/ORMHelper/ORMHelper.h \
 	src/Pokemons/PokemonBase/PokemonBase.h \
 	src/Pokemons/PokemonBase/PokemonFactory.h \
 	src/Pokemons/PokemonBase/PokemonSkill.h \
