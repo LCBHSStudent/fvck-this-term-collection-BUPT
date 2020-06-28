@@ -14,6 +14,8 @@
     uint32              _type,  \
     uint32              _attr   \
 
+struct Buff {int buffId; int turnCnt;};
+
 class PokemonBase {
     friend class PokemonSkill;
 public:
@@ -35,7 +37,23 @@ public RESOURCE:
         GRASS,
         UNDEFINED
     };
-
+    enum BuffType {
+        ATK_UP_S = 0,   ATK_UP_L, ATK_UP_M,
+        DEF_UP_S,       DEF_UP_L, DEF_UP_M,
+        SPD_UP_S,       SPD_UP_L, SPD_UP_M,
+        ATK_DOWN_S, ATK_DOWN_L, ATK_DOWN_M,
+        DEF_DOWN_S, DEF_DOWN_L, DEF_DOWN_M,
+        SPD_DOWN_S, SPD_DOWN_L, SPD_DOWN_M,
+        
+        REVIVE,
+        POISONING,
+        DAMAGE_HALF,
+        DAMAGE_INVALID,
+        
+        SLEEPING,
+        PALSYING,
+    };
+    
 	static const uint32 
         MAX_LEVEL = 15;
     static int
@@ -62,7 +80,7 @@ public FUNCTION:
     GET(std::string_view, name)
     
 public FUNCTION:
-	virtual uint32
+	virtual Buff
 		attack(
             PokemonBase&    target,
 		    QString&        skillName

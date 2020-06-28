@@ -21,10 +21,6 @@ public:
 public FUNCTION:
     void turn(QString& actionA, QString& actionB);
     
-public RESOURCE:
-    QList<int>
-        m_buffList = {};
-    
 private:
     void queryBuffList();
     
@@ -33,6 +29,9 @@ private RESOURCE:
         m_users = {};
     std::array<PokemonBase*, 2>
         m_pkmList = {};
+    QList<Buff>
+        m_buffListA = {},
+        m_buffListB = {};
 };
 
 #endif // BATTLEFIELD_H

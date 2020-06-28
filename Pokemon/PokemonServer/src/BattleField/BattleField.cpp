@@ -28,19 +28,32 @@ void BattleField::turn(QString& actionA, QString& actionB) {
         }
         
         if(spdA > spdB) {
-            pkmA.attack(pkmB, actionA);
-            pkmB.attack(pkmA, actionB);
-        } else if (spdA < spdB) {
-            pkmB.attack(pkmA, actionB);
-            pkmA.attack(pkmB, actionA);
+            auto buffA = pkmA.attack(pkmB, actionA);
+            auto buffB = pkmB.attack(pkmA, actionB);
+            
+            (void)buffA, (void)buffB;
+        } 
+        else if (spdA < spdB) {
+            auto buffB = pkmB.attack(pkmA, actionB);
+            auto buffA = pkmA.attack(pkmB, actionA);
+            
+            (void)buffA, (void)buffB;
         }
     }
     
 }
 
 void BattleField::queryBuffList() {
-    for(auto buff: m_buffList) {
-        switch (buff) {
+    for(auto buff: m_buffListA) {
+        switch (buff.buffId) {
+        case 0:
+            break;
+        default:
+            break;
+        }
+    }
+    for(auto buff: m_buffListA) {
+        switch (buff.buffId) {
         case 0:
             break;
         default:

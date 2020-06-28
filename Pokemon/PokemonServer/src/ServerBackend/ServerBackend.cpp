@@ -11,8 +11,18 @@ ServerBackend::ServerBackend():
         throw std::runtime_error("failed to connect local mysql");
     }
     
-    prepare("CREATE TABLE users IF NOT EXIST");
-    
+    QSqlQuery createTable(m_db);
+    const QString userTableStat = "CREATE TABLE IF NOT EXISTS pokemon_skills(\
+    SKILL           VARCHAR(128)    NOT NULL    PRIMARY KEY,\
+    DESCRIPTION     VARCHAR(256)    NOT NULL\
+);";
+    createTable.prepare(userTableStat);
+    createTable.exec();
+    qDebug() << (
+        createTable.lastError().text().isEmpty()?
+        "Create skills table succeed":
+        createTable.lastError().text()
+    );
     // m_serverPkm.append()
 }
 

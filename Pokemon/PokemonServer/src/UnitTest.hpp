@@ -5,6 +5,7 @@
 #include "Pokemons/TestPokemonFunction.hpp"
 #include <Reflect.hpp>
 #include "User/User.h"
+#include "BattleField/BattleField.h"
 
 void TestReflect() {
     PokemonSkill::useSkillByName("FireBall");
@@ -37,7 +38,9 @@ void TestCompileArglistQuery() {
 }
 
 void TestUserBattle() {
-    // User* userA = new User;
+    User* userA = new User;
+    User* userB = nullptr;
+    (void) userA, (void) userB;
 }
 
 #endif // UNITTEST_H

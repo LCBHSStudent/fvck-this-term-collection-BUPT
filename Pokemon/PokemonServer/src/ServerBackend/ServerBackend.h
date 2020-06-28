@@ -32,14 +32,7 @@ public FUNCTION:
         std::apply([&query, this](auto&&... args) {
             ((query.addBindValue(QVariant::fromValue(args)), std::cout << args), ...);
         }, a);
-        query.exec();
         
-        QString&& error = query.lastError().text();
-        if(error.isEmpty()) {
-            qDebug() << QString(_query.data()) << "succeed!";
-        } else {
-            qDebug() << error;
-        }
         return query;
     }
     

@@ -14,6 +14,7 @@ int main(int argc, char *argv[]) {
         if(_getch() == 'y') {
             pBackend = new ServerBackend;
             std::cout << "new server backend instance was built up\n";
+            TestUserBattle();
         } else {
             if(pBackend != nullptr) {
                 delete pBackend;

@@ -7,12 +7,29 @@
     (dest->m_pkmAttr == PokemonBase::PokemonAttribute::_ATTR)
 
 #define ATK_DEBUG(_SKILL) \
-    std::cout << user->m_name << "Ê¹ÓÃ" #_SKILL "¹¥»÷ÁË" << dest->m_name << "\n"
+    std::cout << user->m_name \
+              << "Ê¹ÓÃ" #_SKILL "¹¥»÷ÁË" \
+              << dest->m_name << "\n"
 
-QHash<QString, PokemonSkill::SkillFunc> PokemonSkill::s_skillMap = {};
+#define RAND_OZ \
+    PokemonSkill::s_distr(PokemonSkill::s_engine)
+
+QHash<QString, PokemonSkill::SkillFunc> 
+    PokemonSkill::s_skillMap = {};
+
+std::random_device
+    PokemonSkill::s_rdev;
+std::default_random_engine 
+    PokemonSkill::s_engine(s_rdev());
+std::uniform_real_distribution<float> 
+    PokemonSkill::s_distr(0.0f, 1.0f);
+
+REGISTER_SKILL(JJJJ) {
+    ATK_DEBUG(ÆÕÍ¨¹¥»÷);
+}
 
 REGISTER_SKILL(FireBall) {
-    ATK_DEBUG("»ðÇò");
+    ATK_DEBUG(»ðÇò);
     //---¼ÆËãÉËº¦---//
     
     if JUDGE_ATTR(GRASS) {
@@ -30,7 +47,7 @@ REGISTER_SKILL(FireBall) {
 }
 
 REGISTER_SKILL(GreassLeaf) {
-    ATK_DEBUG("Ò¶ÈÐ");
+    ATK_DEBUG(Ò¶ÈÐ);
     //---¼ÆËãÉËº¦---//
     
     if JUDGE_ATTR(GRASS) {
@@ -47,7 +64,7 @@ REGISTER_SKILL(GreassLeaf) {
 }
 
 REGISTER_SKILL(WaterBullet) {
-    ATK_DEBUG("Ë®µ¯");
+    ATK_DEBUG(Ë®µ¯);
     //---¼ÆËãÉËº¦---//
     
     if JUDGE_ATTR(GRASS) {
@@ -64,7 +81,7 @@ REGISTER_SKILL(WaterBullet) {
 }
 
 REGISTER_SKILL(WindBreath) {
-    ATK_DEBUG("·çÏ¢");
+    ATK_DEBUG(·çÏ¢);
     //---¼ÆËãÉËº¦---//
     
     if JUDGE_ATTR(GRASS) {

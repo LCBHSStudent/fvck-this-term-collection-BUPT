@@ -17,7 +17,7 @@
 class PokemonBase;
 
 class PokemonSkill {
-public:    
+public:
     using SkillFunc = void(/*PokemonSkill::*/*)(PokemonBase*, PokemonBase*);
 public FUNCTION:
     PokemonSkill()  = delete;
@@ -27,11 +27,12 @@ public FUNCTION:
         useSkillByName(
             QString&& name,
             PokemonBase* user = nullptr,
-            PokemonBase* dest = nullptr)
-        {
+            PokemonBase* dest = nullptr
+        ) {
             s_skillMap[name](user, dest);
         }
     
+    SKILL_FUNC_DEF(JJJJ);
     SKILL_FUNC_DEF(FireBall);
     SKILL_FUNC_DEF(GreassLeaf);
     SKILL_FUNC_DEF(WaterBullet);
@@ -41,7 +42,11 @@ public RESOURCE:
     static QHash<QString, SkillFunc>
         s_skillMap;
     static std::random_device
-        rdev;
+        s_rdev;
+    static std::default_random_engine
+        s_engine;
+    static std::uniform_real_distribution<float>
+        s_distr;
     
 };
 
