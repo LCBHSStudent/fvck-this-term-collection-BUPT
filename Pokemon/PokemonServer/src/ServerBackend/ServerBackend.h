@@ -36,6 +36,12 @@ public FUNCTION:
         return query;
     }
     
+private FUNCTION:
+    void
+        createTable() const;
+    void 
+        createUserTable(const QString& username) const;
+    
 private RESOURCE:
     std::unique_ptr<NetworkHelper>
         m_helper;

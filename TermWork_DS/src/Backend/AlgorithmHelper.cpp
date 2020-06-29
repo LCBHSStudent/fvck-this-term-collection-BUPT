@@ -41,7 +41,14 @@ void AlgorithmHelper::runWithAlgorithmDij(
     vector<bool> visit(cityNum, false);
     vector<int>  risks(cityNum, INF);
     vector<int>  prev(cityNum, -1);
-    vector<int>  prevFinTime(cityNum, 0);
+    vector<vector<int>>  
+        spendTime(cityNum);
+    for(size_t i = 0; i < cityNum; i++) {
+        spendTime[i].resize(cityNum);
+        if(i == static_cast<size_t>(startCityId)) {
+            spendTime[i] = vector<int>(cityNum, startT);
+        }
+    }
     vector<vector<int>>
         routeIndex(cityNum);
     for(auto& vec: routeIndex) {
@@ -50,15 +57,13 @@ void AlgorithmHelper::runWithAlgorithmDij(
 //    vector<int>  routeIndex(cityNum, -1);
     
     
-    int curCity           = startCityId;
-    prevFinTime[curCity]  = startT;
-    
+    int curCity             = startCityId;
     risks[curCity]          = 0;
     visit[curCity]          = true;
     
 //    for(auto& route: instance->m_absData->m_routeMap[curCity]) {
     {
-        int prevTime = prevFinTime[curCity];
+        int prevTime = startT;
         for(size_t i = 0, size = instance->m_absData->m_routeMap[curCity].size();
             i < size; i++)
         {
@@ -66,6 +71,11 @@ void AlgorithmHelper::runWithAlgorithmDij(
             int waitTime = 
                 ((route.startTime + (24*60)) -
                  prevTime) % (24*60);
+            
+            if(waitTime + route.costTime > timeLmt) {
+                continue;
+            }
+            
             double risk =
                 static_cast<double>(waitTime) / 60 *
                 instance->m_absData->m_cityIdHash[curCity].factor;
@@ -78,7 +88,8 @@ void AlgorithmHelper::runWithAlgorithmDij(
                     [curCity][route.destCity] =
                         static_cast<int>(i);
                 
-                prevFinTime[curCity] = prevTime + waitTime;
+                spendTime[curCity][route.destCity] =
+                    prevTime + waitTime + route.costTime;
                 prev[route.destCity] = curCity;
                 qDebug() << risks[route.destCity] << " " << i;
             }
@@ -102,11 +113,11 @@ void AlgorithmHelper::runWithAlgorithmDij(
         }
         visit[curCity]  = true;
         
-        prevFinTime[curCity] = 
-            instance->m_absData->m_routeMap[prev[curCity]]
-                [routeIndex[prev[curCity]][curCity]].costTime +
-                prevFinTime[prev[curCity]];
-        int prevTime = prevFinTime[curCity];
+//        prevFinTime[curCity] = 
+//            instance->m_absData->m_routeMap[prev[curCity]]
+//                [routeIndex[prev[curCity]][curCity]].costTime +
+//                prevFinTime[prev[curCity]];
+        int prevTime = spendTime[temp][curCity];
         
         if(curCity == destCityID)
             break;
@@ -122,7 +133,7 @@ void AlgorithmHelper::runWithAlgorithmDij(
                 ((route.startTime + (24*60)) -
                  prevTime) % (24*60);
             
-            if(waitTime + prevTime > timeLmt) {
+            if(waitTime + prevTime + route.costTime - startT > timeLmt) {
                 continue;
             }
             
@@ -138,7 +149,7 @@ void AlgorithmHelper::runWithAlgorithmDij(
                     [curCity][route.destCity] =
                         static_cast<int>(i);
                 
-                prevFinTime[curCity] = prevTime + waitTime;
+                spendTime[curCity][route.destCity] = prevTime + waitTime + route.costTime;
                 prev[route.destCity] = curCity;
                 qDebug() << risks[route.destCity] << i;
             }
@@ -171,6 +182,7 @@ void AlgorithmHelper::runWithAlgorithmDij(
         routePass[index] = startCityId;
         
         QString result {};
+        int taskStartTime = startT;
         while(index < cityNum - 1) {
             int cityId   = routePass[index];
             int nextCity = routePass[index + 1];
@@ -191,7 +203,6 @@ void AlgorithmHelper::runWithAlgorithmDij(
             
             qDebug()<< "城市信息" 
                     << cityId 
-                    << prevFinTime[cityId] 
                     << routeId;
             qDebug()<< "选择路线信息"
                     << route.costTime
@@ -203,8 +214,8 @@ void AlgorithmHelper::runWithAlgorithmDij(
             
             instance->m_customer->addTask(
                 Task(
-                    startT,
-                    prevFinTime[cityId] - route.costTime,
+                    taskStartTime,
+                    spendTime[cityId][nextCity] - route.costTime,
                     Customer::Waiting,
                     route.serialNum,
                     route.vehicleType,
@@ -214,8 +225,8 @@ void AlgorithmHelper::runWithAlgorithmDij(
             );
             instance->m_customer->addTask(
                 Task(
-                    prevFinTime[cityId] - route.costTime,
-                    prevFinTime[cityId],
+                    spendTime[cityId][nextCity] - route.costTime,
+                    spendTime[cityId][nextCity],
                     Customer::Traveling,
                     route.serialNum,
                     route.vehicleType,
@@ -226,7 +237,7 @@ void AlgorithmHelper::runWithAlgorithmDij(
             instance->m_customer->addTask(
                 Task(
                     0,
-                    prevFinTime[cityId],
+                    spendTime[cityId][nextCity],
                     Customer::Arrive,
                     0,
                     0,
@@ -234,14 +245,16 @@ void AlgorithmHelper::runWithAlgorithmDij(
                     instance->m_absData->m_cityIdHash[nextCity].name
                 )
             );
-            startT = prevFinTime[cityId];
+            taskStartTime = spendTime[cityId][nextCity];
             
             index++;
         }
         
         result += "\n\t总耗时:" +
-                    QString::number(prevFinTime[destCityID] / 60) + "小时" +
-                    QString::number(prevFinTime[destCityID] % 60) + "分钟";
+                    QString::number
+                        ((spendTime[prev[destCityID]][destCityID] - startT) / 60) + "小时" +
+                    QString::number
+                        ((spendTime[prev[destCityID]][destCityID] - startT) % 60) + "分钟";
         result += "\n\t总危险值:" + QString::number(risks[destCityID]);
         
         emit instance->sigNewMessage(

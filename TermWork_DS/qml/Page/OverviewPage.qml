@@ -110,14 +110,14 @@ Page {
         }
         
         Timer {
-            interval: 1000
+            interval: 1500
             running: true
             repeat: true
             onTriggered: {
                 for(var i = 0; i < citys.length; i++) {
                     emt.x = citys[i][0]
                     emt.y = citys[i][1]
-                    emt.burst(114)
+                    emt.burst(81)
                 }
             }
         }
@@ -164,9 +164,17 @@ Page {
             alpha: 0
         }
         
+        Attractor {
+            width: 1; height: 1
+            system: customerSys
+            pointX: citys[10][0]
+            pointY: citys[10][1]
+            strength: 100000
+        }
+        
         Emitter {
             id: customerEmt
-            emitRate: 125
+            emitRate: 128
             width:  1
             height: 1
             
@@ -179,28 +187,29 @@ Page {
             velocity: PointDirection {
                 x: customerEmt.destX
                 y: customerEmt.destY
+                xVariation: 1
+                yVariation: 1
             }
             
-            size: utils.dp(10)
+            size: utils.dp(5)
 //            sizeVariation: 1
             
-            PropertyAnimation {
-                id:     pathAnimation
-                target: customerEmt
-                properties: "lifeSpan"
-                from: 0
-                to: duration - 100
+//            PropertyAnimation {
+//                id:     pathAnimation
+//                target: customerEmt
+//                properties: "lifeSpan"
+//                from: 0
+//                to: duration - 100
 
-                duration: customerEmt.duration
-                running: false
-                loops: 1
+//                duration: customerEmt.duration
+//                running: false
+//                loops: 1
                 
-                onFinished: {
-                    customerEmt.lifeSpan = 0
-                    customerEmt.enabled = false
-                    console.log("hehe   ")
-                }
-            }
+//                onFinished: {
+//                    customerEmt.lifeSpan = 0
+//                    customerEmt.enabled = false
+//                }
+//            }
             
             function setEmitInfo(fromId, destId, duration) {
                 customerEmt.x = citys[fromId][0];                
@@ -209,18 +218,56 @@ Page {
                 var tempX = citys[destId][0] - customerEmt.x;
                 var tempY = citys[destId][1] - customerEmt.y;
                 
-                customerEmt.destX = tempX / Math.sqrt(tempX*tempX + tempY*tempY) * 100
-                customerEmt.destY = tempY / Math.sqrt(tempX*tempX + tempY*tempY) * 100
+                customerEmt.destX = tempX / duration * 1000
+                                 // tempX / Math.sqrt(tempX*tempX + tempY*tempY)
+                customerEmt.destY = tempY / duration * 1000
+                                 // tempY / Math.sqrt(tempX*tempX + tempY*tempY)
                 
                 customerEmt.duration = duration
                 
                 console.log(x, y, destX, destY, duration)
                 
                 customerEmt.enabled = true
-                pathAnimation.start()
+                customerEmt.lifeSpan = duration
+                pathTimer.interval = duration
+                pathTimer.start()
+                // pathAnimation.start()
             }
         }
     }
+    
+    Timer {
+        id: pathTimer
+        running: false
+        repeat:  false
+        onTriggered: {
+            customerSys.reset()
+            customerEmt.lifeSpan = 0
+            // resetSysAction.start()
+        }
+    }
+    
+//    PropertyAnimation {
+//        id: resetSysAction
+//        target: customerSys
+//        property: "opacity"
+//        from: 1
+//        to: 0
+//        duration: 50
+//        onFinished: {
+//            customerSys.reset()
+//            customerSys.opacity = 1
+//            //recoverSysOpacity.start()
+//        }
+//    }
+//    PropertyAnimation {
+//        id: recoverSysOpacity
+//        target: customerSys
+//        property: "opacity"
+//        from: 0
+//        to: 1
+//        duration: 400
+//    }
     
     Connections {
         target: backend
@@ -233,7 +280,7 @@ Page {
 //        anchors.centerIn: parent
 //        width: 100
 //        height: 100
-//        onClicked: customerEmt.setEmitInfo(7, 10, 6000)
+//        onClicked: customerEmt.setEmitInfo(Math.floor(Math.random()*12), Math.floor(Math.random()*12), 10000)
 //    }
     
 }

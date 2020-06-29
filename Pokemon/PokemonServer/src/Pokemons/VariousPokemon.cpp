@@ -5,11 +5,11 @@ HighAtkPkm::HighAtkPkm(ARGS_LIST): PokemonBase(PKM_INIT_LIST) {
     
 }
 
-Buff HighAtkPkm::attack(
+BuffResult HighAtkPkm::attack(
     PokemonBase&    target,
     QString&        skillName
 ) {
-    return {0, 0};
+    return BuffResult();
 }
 
 void HighAtkPkm::levelUp() {
@@ -21,11 +21,11 @@ HighHpPkm::HighHpPkm(ARGS_LIST): PokemonBase(PKM_INIT_LIST) {
     
 }
 
-Buff HighHpPkm::attack(
+BuffResult HighHpPkm::attack(
     PokemonBase&    target,
     QString&        skillName
 ) {
-    return {0, 0};
+    return BuffResult();
 }
 
 void HighHpPkm::levelUp() {
@@ -37,11 +37,11 @@ HighDefPkm::HighDefPkm(ARGS_LIST): PokemonBase(PKM_INIT_LIST) {
     
 }
 
-Buff HighDefPkm::attack(
+BuffResult HighDefPkm::attack(
     PokemonBase&    target,
     QString&        skillName
 ) {
-    return {0, 0};
+    return BuffResult();
 }
 
 void HighDefPkm::levelUp() {
@@ -54,11 +54,11 @@ HighSpdPkm::HighSpdPkm(ARGS_LIST): PokemonBase(PKM_INIT_LIST) {
     
 }
 
-Buff HighSpdPkm::attack(
+BuffResult HighSpdPkm::attack(
     PokemonBase&    target,
     QString&        skillName
 ) {
-    return {0, 0};
+    return BuffResult();
 }
 
 void HighSpdPkm::levelUp() {

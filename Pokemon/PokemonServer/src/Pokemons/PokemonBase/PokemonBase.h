@@ -14,7 +14,29 @@
     uint32              _type,  \
     uint32              _attr   \
 
-struct Buff {int buffId; int turnCnt;};
+struct Buff {
+FUNCTION    
+    Buff(): buffId(0), turnCnt(0){}
+    Buff(int id, int cnt): buffId(id), turnCnt(cnt){}
+    
+RESOURCE
+    int buffId;
+    int turnCnt;
+};
+
+struct BuffResult {
+FUNCTION
+    BuffResult(): selfBuf(), destBuf(){}
+    BuffResult(
+        int _selfId, int _selfCnt,
+        int _destId, int _destCnt
+    ):  selfBuf(_selfId, _selfCnt),
+        destBuf(_destId, _destCnt) {}
+    
+RESOURCE
+    Buff selfBuf;
+    Buff destBuf;
+};
 
 class PokemonBase {
     friend class PokemonSkill;
@@ -50,6 +72,7 @@ public RESOURCE:
         DAMAGE_HALF,
         DAMAGE_INVALID,
         
+        SLIENT,
         SLEEPING,
         PALSYING,
     };
@@ -80,7 +103,7 @@ public FUNCTION:
     GET(std::string_view, name)
     
 public FUNCTION:
-	virtual Buff
+	virtual BuffResult
 		attack(
             PokemonBase&    target,
 		    QString&        skillName
