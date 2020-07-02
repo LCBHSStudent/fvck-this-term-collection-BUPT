@@ -1,4 +1,4 @@
-#ifndef BATTLEFIELD_H
+﻿#ifndef BATTLEFIELD_H
 #define BATTLEFIELD_H
 
 #include <PreCompile.h>
@@ -19,7 +19,7 @@ public:
         ~BattleField();
     
 public FUNCTION:
-    void turn(QString& actionA, QString& actionB);
+    void turn(const QString& actionA, const QString& actionB);
     
 private:
     void queryBuffList();

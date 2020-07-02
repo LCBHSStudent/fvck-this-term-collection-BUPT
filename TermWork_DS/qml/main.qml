@@ -1,4 +1,4 @@
-import QtQuick 2.14
+﻿import QtQuick 2.14
 import QtQuick.Window 2.14
 import QtQuick.Controls 2.14
 
@@ -18,6 +18,9 @@ ApplicationWindow {
     height:  (Qt.platform.os === "windows" || Qt.platform.os === "mac")?
                  720:
                  Screen.desktopAvailableHeight
+    
+    signal sigPauseAnimation()
+    signal sigContinueAnimation()
     
     UIBase {
         id: utils
@@ -139,10 +142,14 @@ ApplicationWindow {
         dragMargin: utils.dp(20)
         enabled: stack.depth === 1
         onOpened: {
-            backend.invokePauseMainThrd();
+            // console.log("open")
+            backend.invokePauseMainThrd()
+            root.sigPauseAnimation()
         }
         onClosed: {
-            backend.invokeContinueMainThrd();
+            // console.log("close")
+            backend.invokeContinueMainThrd()
+            root.sigContinueAnimation()
         }
     }
     
@@ -158,7 +165,7 @@ ApplicationWindow {
             root.showNormal()
         if(showState == -1){
             try {
-                root.close();
+                root.close()
                 // root.destroy(10);
             }
             catch(err){

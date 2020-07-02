@@ -1,22 +1,24 @@
-#pragma once
+﻿#pragma once
 
 #include "PokemonBase/PokemonBase.h"
-    
-#define PKM_INIT_LIST \
-    _name, _id, _level, _exp, _ATK, _HP, _DEF, _SPD, _type, _attr
+#include "PokemonBase/PokemonSkill.h"
+
+#define PKM_INIT_LIST(_TYPE) \
+    _name, _id, _level, _exp, _ATK, _HP, _DEF, _SPD, _attr, _TYPE
 
 
 
 class HighAtkPkm: public PokemonBase {
+    friend class PokemonSkill;
 public:	
-		HighAtkPkm(ARGS_LIST);
+		HighAtkPkm(DEF_ARGS_LIST);
 	virtual
 		~HighAtkPkm() = default;
 public FUNCTION:	
 	BuffResult
 		attack(
             PokemonBase&    target,
-            QString&        skillName
+            const QString&  skillName
 		) override;
 	void
 		levelUp() override;
@@ -24,17 +26,18 @@ public FUNCTION:
 
 
 class HighHpPkm: public PokemonBase {
+    friend class PokemonSkill;
 public:	
 	explicit
-		HighHpPkm(ARGS_LIST);
+		HighHpPkm(DEF_ARGS_LIST);
 	virtual
 		~HighHpPkm() = default;
 public FUNCTION:	
 	BuffResult
-		attack(
+        attack(
             PokemonBase&    target,
-            QString&        skillName
-		) override;
+            const QString&  skillName
+        ) override;
 	void
 		levelUp() override;
 };
@@ -42,16 +45,17 @@ public FUNCTION:
 
 
 class HighDefPkm: public PokemonBase {
+    friend class PokemonSkill;
 public:	
 	explicit
-		HighDefPkm(ARGS_LIST);
+		HighDefPkm(DEF_ARGS_LIST);
 	virtual
 		~HighDefPkm() = default;
 public FUNCTION:	
 	BuffResult
 		attack(
             PokemonBase&    target,
-            QString&        skillName
+            const QString&  skillName
 		) override;
 	void
 		levelUp() override;
@@ -59,16 +63,17 @@ public FUNCTION:
 
 
 class HighSpdPkm: public PokemonBase {
+    friend class PokemonSkill;
 public:	
 	explicit
-		HighSpdPkm(ARGS_LIST);
+		HighSpdPkm(DEF_ARGS_LIST);
 	virtual
 		~HighSpdPkm() = default;
 public FUNCTION:	
 	BuffResult
 		attack(
             PokemonBase&    target,
-            QString&        skillName
+            const QString&  skillName
 		) override;
 	void
 		levelUp() override;

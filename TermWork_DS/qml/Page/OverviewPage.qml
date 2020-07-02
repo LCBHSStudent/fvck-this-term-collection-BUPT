@@ -1,4 +1,4 @@
-import QtQuick 2.14
+﻿import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Particles 2.14
 
@@ -174,7 +174,7 @@ Page {
         
         Emitter {
             id: customerEmt
-            emitRate: 128
+            emitRate: 16
             width:  1
             height: 1
             
@@ -187,11 +187,12 @@ Page {
             velocity: PointDirection {
                 x: customerEmt.destX
                 y: customerEmt.destY
-                xVariation: 1
-                yVariation: 1
+                xVariation: 0.1
+                yVariation: 0.1
             }
             
             size: utils.dp(5)
+            
 //            sizeVariation: 1
             
 //            PropertyAnimation {
@@ -229,7 +230,7 @@ Page {
                 
                 customerEmt.enabled = true
                 customerEmt.lifeSpan = duration
-                pathTimer.interval = duration
+                pathTimer.duration = duration
                 pathTimer.start()
                 // pathAnimation.start()
             }
@@ -239,11 +240,40 @@ Page {
     Timer {
         id: pathTimer
         running: false
-        repeat:  false
+        repeat:  true
+        
+        property int  duration:  0
+        property int  factor:    0
+        property int  recover:   0
+        property bool paused: false
+        interval: 100
+        
+        function pause() {
+            if(pathTimer.running && !paused) {
+                paused = true
+                recover = duration - (interval * factor)
+                factor = 0
+                stop()
+            }
+        }
+        function resume() {
+            if(paused) {
+                duration = recover
+                start()
+                paused = false
+            }
+        }
+        
         onTriggered: {
-            customerSys.reset()
-            customerEmt.lifeSpan = 0
-            // resetSysAction.start()
+            if(factor < duration/100) {
+                factor++
+            } else {
+                customerSys.reset()
+                customerEmt.lifeSpan = 0
+                customerEmt.enabled = false
+                pathTimer.stop()
+                factor = 0
+            }
         }
     }
     
@@ -273,6 +303,23 @@ Page {
         target: backend
         onSigCustomerPosChanged: {
             customerEmt.setEmitInfo(fromId, destId, duration)
+        }
+    }
+    Connections {
+        target: root
+        onSigPauseAnimation: {
+            console.log("pause")
+            pathTimer.pause()
+            if(!customerSys.paused) {
+                customerSys.pause()
+            }
+        }
+        onSigContinueAnimation: {
+            console.log("resume")
+            pathTimer.resume()
+            if(customerSys.paused) {
+                customerSys.resume()
+            }
         }
     }
     

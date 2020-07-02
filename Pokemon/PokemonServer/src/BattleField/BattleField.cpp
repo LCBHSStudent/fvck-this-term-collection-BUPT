@@ -1,6 +1,4 @@
-#include "BattleField.h"
-
-
+﻿#include "BattleField.h"
 
 BattleField::BattleField(
     User*           userA,
@@ -9,15 +7,30 @@ BattleField::BattleField(
     PokemonBase*    pkmB,
     QObject*        parent
 ):  QObject(parent) {
-    m_users = {userA, userB};
-    m_pkmList = {pkmA, pkmB};
+    // 初始化对战环境啊嗯
+    {
+        m_users = {userA, userB};
+        m_pkmList = {pkmA, pkmB};
+    }
+    // 初始化宝可梦战斗属性
+    {
+        pkmA->set_curHP(pkmA->get_HP());
+        pkmA->set_curATK(pkmA->get_ATK());
+        pkmA->set_curDEF(pkmA->get_DEF());
+        pkmA->set_curSPD(pkmA->get_SPD());
+        
+        pkmB->set_curHP(pkmA->get_HP());
+        pkmB->set_curATK(pkmA->get_ATK());
+        pkmB->set_curDEF(pkmA->get_DEF());
+        pkmB->set_curSPD(pkmA->get_SPD());
+    }
 }
 
 BattleField::~BattleField() {
     
 }
 
-void BattleField::turn(QString& actionA, QString& actionB) {
+void BattleField::turn(const QString& actionA, const QString& actionB) {
     PokemonBase& pkmA = *m_pkmList[0];
     PokemonBase& pkmB = *m_pkmList[1];
     queryBuffList();

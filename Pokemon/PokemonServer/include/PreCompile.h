@@ -1,5 +1,7 @@
-#ifndef PRECOMPILE_H
+﻿#ifndef PRECOMPILE_H
 #define PRECOMPILE_H
+
+#pragma execution_character_set("utf-8")
 
 #include <map>
 #include <tuple>
@@ -28,8 +30,19 @@ using uint32 = uint32_t;
 #define GET(_type_, _property_)  \
     inline _type_ get_##_property_() const noexcept { return m_##_property_; }
 
+#define SET(_type_, _property_) \
+inline void set_##_property_(const _type_& var) { \
+    m_##_property_ = var;\
+}\
+
+#define PROPERTY(_type_, _property_) \
+    GET(_type_, _property_) \
+    SET(_type_, _property_) \
+
 #define MALLOC(_size_, _type_) \
     static_cast<type*>(malloc(_size_ * sizeof(_type_)))
+
+#define DEBUG_FLAG
 
 #define FUNCTION 
 #define RESOURCE 

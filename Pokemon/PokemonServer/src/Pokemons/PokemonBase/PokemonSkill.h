@@ -1,4 +1,4 @@
-#ifndef POKEMONSKILL_H
+﻿#ifndef POKEMONSKILL_H
 #define POKEMONSKILL_H
 
 #include <PreCompile.h>
@@ -25,11 +25,19 @@ public FUNCTION:
     
     static void 
         useSkillByName(
-            QString&& name,
-            PokemonBase* user = nullptr,
-            PokemonBase* dest = nullptr
+            const QString&  name,
+            PokemonBase*    user = nullptr,
+            PokemonBase*    dest = nullptr
         ) {
-            s_skillMap[name](user, dest);
+            if(!user || !dest) {
+                qDebug() << "[PokemonSkill]: 目标或使用者为空";
+                return;
+            }
+            if(s_skillMap.count(name)) {
+                s_skillMap[name](user, dest);
+            } else {
+                qDebug() << "[PokemonSkill]: 不存在技能" << name;
+            }
         }
     
     SKILL_FUNC_DEF(JJJJ);

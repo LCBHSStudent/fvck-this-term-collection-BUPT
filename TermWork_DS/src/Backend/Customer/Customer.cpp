@@ -1,4 +1,4 @@
-#include "Customer.h"
+﻿#include "Customer.h"
 
 void Customer::addTask(Task&& task) {
     m_taskQueue.push(std::forward<Task&&>(task));
@@ -15,7 +15,7 @@ void Customer::updateStatus(QString& log) {
             Task& task  = m_taskQueue.front();
             if(task.behaviorType == Customer::Arrive) {
                 log =  "旅客到达【" + task.destCity + "】, ";
-                log += "当前时间" + QString::number(task.endTime/60);
+                log += "当前时间" + QString::number(task.endTime/60%24);
                 log += ":";
                 log += QString::number(task.endTime%60);
             } else {

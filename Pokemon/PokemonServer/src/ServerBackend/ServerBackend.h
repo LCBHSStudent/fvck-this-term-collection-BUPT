@@ -1,4 +1,4 @@
-#ifndef SERVERBACKEND_H
+﻿#ifndef SERVERBACKEND_H
 #define SERVERBACKEND_H
 
 #include <PreCompile.h>
@@ -23,24 +23,9 @@ public slots:
     void 
         slotRequestPokemonInfo();
     
-public FUNCTION:
-    template<typename... Args>
-    [[nodiscard]] QSqlQuery prepare(std::string _query, Args&&... args) {
-        QSqlQuery query(m_db);
-        query.prepare(_query.data());
-        auto a = std::forward_as_tuple(args...);
-        std::apply([&query, this](auto&&... args) {
-            ((query.addBindValue(QVariant::fromValue(args)), std::cout << args), ...);
-        }, a);
-        
-        return query;
-    }
-    
 private FUNCTION:
     void
-        createTable() const;
-    void 
-        createUserTable(const QString& username) const;
+        createUserTable(const QString& username);
     
 private RESOURCE:
     std::unique_ptr<NetworkHelper>

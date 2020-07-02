@@ -1,13 +1,15 @@
-#ifndef USER_H
+﻿#ifndef USER_H
 #define USER_H
 
 #include <PreCompile.h>
+
+class PokemonBase;
 
 class User: public QObject {
     Q_OBJECT
 public:
 	User();
-    
+    ~User();
 public RESOURCE:
 	enum class BadgeType: uint32 {
 		GOLDEN = 0,
@@ -21,6 +23,8 @@ public FUNCTION:
 	GET(BadgeType, countBadge)
 	GET(BadgeType, qualityBadge)
 	GET(QList<uint32>, pokemonList)
+	
+	void createBattlePkm(uint32 pkmId);
     
 private RESOURCE:
 	std::string
@@ -33,7 +37,8 @@ private RESOURCE:
 		m_qualityBadge;
 	QList<uint32>
 		m_pokemonList;
-	
+	PokemonBase*
+		m_selectedPkm = nullptr;
 };
 
 #endif // USER_H

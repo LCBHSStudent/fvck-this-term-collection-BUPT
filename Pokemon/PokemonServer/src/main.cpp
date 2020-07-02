@@ -1,4 +1,4 @@
-#include <PreCompile.h>
+﻿#include <PreCompile.h>
 
 #include "UnitTest.hpp"
 
@@ -9,6 +9,11 @@ int main(int argc, char *argv[]) {
     QCoreApplication app(argc, argv);
     
     ServerBackend* pBackend = nullptr;
+    
+#ifdef Q_OS_WINDOWS
+    system("chcp 65001");
+    system("cls");
+#endif
     
     while(true) {
         if(_getch() == 'y') {

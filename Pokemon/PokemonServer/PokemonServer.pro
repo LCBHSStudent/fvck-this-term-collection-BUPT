@@ -47,6 +47,7 @@ SOURCES += \
 	src/Pokemons/VariousPokemon.cpp \
 	src/ServerBackend/ServerBackend.cpp \
 	src/NetworkHelper/NetworkHelper.cpp \
+	src/StorageHelper/StorageHelper.cpp \
 	src/User/User.cpp \
 	src/PreCompile.cpp \
 	src/main.cpp
@@ -67,6 +68,7 @@ HEADERS += \
 	src/Pokemons/VariousPokemon.h \
 	src/ServerBackend/ServerBackend.h \
 	src/NetworkHelper/NetworkHelper.h \
+	src/StorageHelper/StorageHelper.h \
 	src/UnitTest.hpp \
 	src/User/User.h \
 

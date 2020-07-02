@@ -1,19 +1,28 @@
-#include "PokemonSkill.h"
+ï»¿#include "PokemonSkill.h"
 #include "PokemonBase.h"
 
 #define REGISTER_SKILL REGISTER_METHOD
 
-#define JUDGE_ATTR(_ATTR) \
-    (dest->m_pkmAttr == PokemonBase::PokemonAttribute::_ATTR)
+// ----------DEFINATIONS FOR CONVIENCE---------- //
 
-#define ATK_DEBUG(_SKILL) \
+#define JUDGE_ATTR(_ATTR) \
+    (dest->m_pkmAttr == PokemonBase::PokemonAttribute::_ATTR) \
+
+#define ATK_DEBUG(_SKILL)\
     std::cout << user->m_name \
-              << "Ê¹ÓÃ" #_SKILL "¹¥»÷ÁË" \
-              << dest->m_name << "\n"
+              << "ä½¿ç”¨" #_SKILL "æ”»å‡»äº†" \
+              << dest->m_name << "\n" \
 
 #define RAND_OZ \
-    PokemonSkill::s_distr(PokemonSkill::s_engine)
+    PokemonSkill::s_distr(PokemonSkill::s_engine) \
 
+#define JUDGE_PKM_TYPE(_pkm, _type) \
+    if(_pkm->m_pkmType == PokemonBase::PokemonType::_type) \
+
+#define JUDGE_OZ(_standard) \
+    if(s_distr(s_engine) <= get_percent(_standard)) \
+
+// ---------GLOBAL VARIABLES---------- //
 QHash<QString, PokemonSkill::SkillFunc> 
     PokemonSkill::s_skillMap = {};
 
@@ -23,14 +32,38 @@ std::default_random_engine
     PokemonSkill::s_engine(s_rdev());
 std::uniform_real_distribution<float> 
     PokemonSkill::s_distr(0.0f, 1.0f);
+constexpr auto get_percent = [](int percentVal) {
+    return static_cast<float>(percentVal) / 100.0f;};
+// ----------------------------------- //
 
+
+
+
+
+// ------------DEFINATION OF SKILLS------------ //
 REGISTER_SKILL(JJJJ) {
-    ATK_DEBUG(ÆÕÍ¨¹¥»÷);
+    ATK_DEBUG(æ™®é€šæ”»å‡»);
+    qDebug() << &user->m_curATK << &dest->m_curDEF;
+    int damage = user->m_curATK - dest->m_curDEF;
+    if(damage > 0) {
+        JUDGE_PKM_TYPE(dest, HIGH_DEFENSE) {
+            JUDGE_OZ(100) {
+#ifdef DEBUG_FLAG
+                std::cout << dest->m_name + "ç”±äºé˜²å¾¡å‹å®å¯æ¢¦ç‰¹æ€§ï¼Œæœ‰æ¦‚ç‡æŠµæ¶ˆä¸€åŠä¼¤å®³\n";
+#endif 
+                damage /= 2;
+            }
+        }
+        JUDGE_PKM_TYPE(user, HIGH_ATTACK) {
+            damage *= 1.5;
+        }
+        dest->m_curHP -= damage;
+    }
 }
 
 REGISTER_SKILL(FireBall) {
-    ATK_DEBUG(»ğÇò);
-    //---¼ÆËãÉËº¦---//
+    ATK_DEBUG(ç«çƒ);
+    //---è®¡ç®—ä¼¤å®³---//
     
     if JUDGE_ATTR(GRASS) {
         
@@ -40,15 +73,15 @@ REGISTER_SKILL(FireBall) {
         
     }
     
-    //------Éú³Ébuff-----//
-    //--------Ğ§¹û-------//
+    //------ç”Ÿæˆbuff-----//
+    //--------æ•ˆæœ-------//
     //return x (buff id)//
     
 }
 
 REGISTER_SKILL(GreassLeaf) {
-    ATK_DEBUG(Ò¶ÈĞ);
-    //---¼ÆËãÉËº¦---//
+    ATK_DEBUG(å¶åˆƒ);
+    //---è®¡ç®—ä¼¤å®³---//
     
     if JUDGE_ATTR(GRASS) {
         
@@ -58,14 +91,14 @@ REGISTER_SKILL(GreassLeaf) {
         
     }
     
-    //------Éú³Ébuff-----//
-    //--------Ğ§¹û-------//
+    //------ç”Ÿæˆbuff-----//
+    //--------æ•ˆæœ-------//
     //return x (buff id)//
 }
 
 REGISTER_SKILL(WaterBullet) {
-    ATK_DEBUG(Ë®µ¯);
-    //---¼ÆËãÉËº¦---//
+    ATK_DEBUG(æ°´å¼¹);
+    //---è®¡ç®—ä¼¤å®³---//
     
     if JUDGE_ATTR(GRASS) {
         
@@ -75,14 +108,14 @@ REGISTER_SKILL(WaterBullet) {
         
     }
     
-    //------Éú³Ébuff-----//
-    //--------Ğ§¹û-------//
+    //------ç”Ÿæˆbuff-----//
+    //--------æ•ˆæœ-------//
     //return x (buff id)//
 }
 
 REGISTER_SKILL(WindBreath) {
-    ATK_DEBUG(·çÏ¢);
-    //---¼ÆËãÉËº¦---//
+    ATK_DEBUG(é£æ¯);
+    //---è®¡ç®—ä¼¤å®³---//
     
     if JUDGE_ATTR(GRASS) {
         
@@ -92,7 +125,9 @@ REGISTER_SKILL(WindBreath) {
         
     }
     
-    //------Éú³Ébuff-----//
-    //--------Ğ§¹û-------//
+    //------ç”Ÿæˆbuff-----//
+    //--------æ•ˆæœ-------//
     //return x (buff id)//
 }
+
+// ------------------------------------- //

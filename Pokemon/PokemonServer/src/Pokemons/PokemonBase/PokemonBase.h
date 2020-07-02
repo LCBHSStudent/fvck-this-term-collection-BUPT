@@ -1,18 +1,30 @@
-#pragma once
+﻿#pragma once
 
 #include <PreCompile.h>
 
 #define ARGS_LIST \
     std::string_view    _name,  \
-    uint32              _id,    \
-    uint32              _level, \
-    uint32              _exp,   \
-    uint32              _ATK,   \
-    uint32              _HP,    \
-    uint32              _DEF,   \
-    uint32              _SPD,   \
-    uint32              _type,  \
-    uint32              _attr   \
+    int                 _id,    \
+    int                 _level, \
+    int                 _exp,   \
+    int                 _ATK,   \
+    int                 _HP,    \
+    int                 _DEF,   \
+    int                 _SPD,   \
+    int                 _attr,  \
+    int                 _type   \
+    
+#define DEF_ARGS_LIST \
+    std::string_view    _name,  \
+    int                 _id,    \
+    int                 _level, \
+    int                 _exp,   \
+    int                 _ATK,   \
+    int                 _HP,    \
+    int                 _DEF,   \
+    int                 _SPD,   \
+    int                 _attr,  \
+    int                 _type = UNDEFINED_TYPE \
 
 struct Buff {
 FUNCTION    
@@ -41,23 +53,23 @@ RESOURCE
 class PokemonBase {
     friend class PokemonSkill;
 public:
-		 PokemonBase(ARGS_LIST);
+		 PokemonBase(DEF_ARGS_LIST);
 	virtual
 		~PokemonBase() = default;
 
 public RESOURCE:
-	enum class PokemonType: uint32 {
+	enum PokemonType {
 		HIGH_ATTACK = 0,
 		HIGH_HITPOINT,
 		HIGH_DEFENSE,
 		HIGH_SPEED,
-		UNDEFINED
+		UNDEFINED_TYPE
 	};
-    enum class PokemonAttribute: uint32 {
+    enum PokemonAttribute {
         FIRE = 0,
         WATER,
         GRASS,
-        UNDEFINED
+        UNDEFINED_ATTR
     };
     enum BuffType {
         ATK_UP_S = 0,   ATK_UP_L, ATK_UP_M,
@@ -77,63 +89,67 @@ public RESOURCE:
         PALSYING,
     };
     
-	static const uint32 
+	static const int    
         MAX_LEVEL = 15;
     static int
         LEVEL_UP_EXP[15];
     
 public FUNCTION:
 	void
-		gainExperience(uint32 exp);
+		gainExperience(int exp);
     
-    GET(uint32, id)
-    GET(uint32, exp)
-    GET(uint32, ATK)
-    GET(uint32, curATK)
-    GET(uint32, HP)
-    GET(uint32, curHP)
-    GET(uint32, DEF)
-    GET(uint32, curDEF)
-    GET(uint32, SPD)
-    GET(uint32, curSPD)
+    PROPERTY(int, id)
+    PROPERTY(int, exp)
+    PROPERTY(int, ATK)
+    PROPERTY(int, curATK)
+    PROPERTY(int, HP)
+    PROPERTY(int, curHP)
+    PROPERTY(int, DEF)
+    PROPERTY(int, curDEF)
+    PROPERTY(int, SPD)
+    PROPERTY(int, curSPD)
     
-    GET(PokemonType, pkmType)
-    GET(PokemonAttribute, pkmAttr)
+    PROPERTY(PokemonType, pkmType)
+    PROPERTY(PokemonAttribute, pkmAttr)
     
-    GET(std::string_view, name)
+    PROPERTY(std::string_view, name)
     
 public FUNCTION:
 	virtual BuffResult
 		attack(
-            PokemonBase&    target,
-		    QString&        skillName
+                  PokemonBase&    target,
+		    const QString&        skillName
 		) = 0;
 	virtual void
 		levelUp() = 0;
+	void 
+        setSkill(int    slot, const QString& name) {
+            m_skills[slot] = name;    
+        }
 
 protected RESOURCE:
 	std::string
 		m_name  = {};
-    uint32
+    int   
         m_id    = 0;
-    uint32
+    int   
 		m_level = 0;
-	uint32
+	int   
 		m_exp	= 0;
 
-	uint32
+	int   
 		m_ATK  = 0, m_curATK  = 0;
-	uint32
+	int   
 		m_HP   = 0, m_curHP   = 0;
-	uint32
+	int   
 		m_DEF  = 0, m_curDEF  = 0;
-	uint32
+	int   
 		m_SPD = 0, m_curSPD = 0;
     
 	PokemonType
-		m_pkmType  = PokemonType::UNDEFINED;
+		m_pkmType  = UNDEFINED_TYPE;
     PokemonAttribute
-        m_pkmAttr  = PokemonAttribute::UNDEFINED;
+        m_pkmAttr  = UNDEFINED_ATTR;
     std::array<QString, 4>
         m_skills   = {};
 };

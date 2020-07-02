@@ -1,4 +1,4 @@
-#include "BackendBase.h"
+﻿#include "BackendBase.h"
 
 #include <QtConcurrent/QtConcurrent>
 #include <iostream>
@@ -165,7 +165,7 @@ void BackendBase::mainLoop() {
         QString log;
         m_customer->updateStatus(log);
         if(log.length()) {
-            emit sigNewMessage(log);
+            emit sigNewMessage(m_sysTime.toString("[yyyy-MM-dd HH:mm] ") + log);
         }
         
         std::this_thread::sleep_for(std::chrono::milliseconds(100));

@@ -1,4 +1,5 @@
-#include "ServerBackend.h"
+﻿#include "ServerBackend.h"
+#include "../StorageHelper/StorageHelper.h"
 
 ServerBackend::ServerBackend():
     m_helper(new NetworkHelper)
@@ -11,7 +12,6 @@ ServerBackend::ServerBackend():
         throw std::runtime_error("failed to connect local mysql");
     }
     
-    createTable();
     createUserTable("_server");
     // m_serverPkm.append()
 }
@@ -36,44 +36,7 @@ void ServerBackend::slotRequestPokemonInfo() {
     
 }
 
-void ServerBackend::createTable() const {
-    QSqlQuery createQuery(m_db);
-//---------创建技能说明索引表------------//   
-    const QString skillTableStat = 
-"CREATE TABLE IF NOT EXISTS skill_list(\
-    NAME            VARCHAR(64)     NOT NULL    PRIMARY KEY,\
-    ALIAS           VARCHAR(64)     NOT NULL,\
-    DESCRIPTION     VARCHAR(256)    NOT NULL\
-);";
-    createQuery.prepare(skillTableStat);
-    createQuery.exec();
-    qDebug() << (
-        createQuery.lastError().text().isEmpty()?
-        "Create skill list table succeed":
-        createQuery.lastError().text()
-    );
-    
-    createQuery.clear();
-    
-    const QString userTableStat = 
-"CREATE TABLE IF NOT EXISTS user_list(\
-    USERNAME            VARCHAR(128)    NOT NULL    PRIMARY KEY,\
-    PASSWORD            VARCHAR(128)    NOT NULL,\
-    TOTAL_BATTLE_TIME   INT             NOT NULL    DEFAULT 0,\
-    WINNER_TIME         INT             NOT NULL    DEFAULT 0\
-);";
-    createQuery.prepare(userTableStat);
-    createQuery.exec();
-    qDebug() << (
-        createQuery.lastError().text().isEmpty()?
-        "Create user list table succeed":
-        createQuery.lastError().text()
-    );
-    
-    createQuery.clear();
-}
-
-void ServerBackend::createUserTable(const QString& username) const {
+void ServerBackend::createUserTable(const QString& username) {
     QSqlQuery createQuery(m_db);
     const QString userTableStat = 
 "CREATE TABLE IF NOT EXISTS `user_" + username + "`(\
@@ -92,14 +55,5 @@ void ServerBackend::createUserTable(const QString& username) const {
     PKM_SKILL_3 VARCHAR(64)     NOT NULL,\
     PKM_SKILL_4 VARCHAR(64)     NOT NULL\
 );";
-    
-    createQuery.prepare(userTableStat);
-    createQuery.exec();
-    qDebug() << (
-        createQuery.lastError().text().isEmpty()?
-        "Create user_" + username + " table succeed":
-        createQuery.lastError().text()
-    );
-    
-    createQuery.clear();     
+    StorageHelper::Instance().transaction(userTableStat);
 }
