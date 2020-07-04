@@ -32,7 +32,9 @@ SOURCES += \
         src/PreCompile.cpp \
         src/main.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += \
+	qml.qrc \
+	resource.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -58,6 +60,7 @@ win32-msvc* {
 }
 
 HEADERS += \
+	../protocol/MessageTypeGlobal.h \
 	include/PreCompile.h \
 	src/ClientBackend/NetworkHelper/NetworkHelper.h \
 	src/ClientBackend/ClientBackend.h

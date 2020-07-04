@@ -1,4 +1,14 @@
-#include "NetworkHelper.h"
+﻿#include "NetworkHelper.h"
+
+#include <MessageTypeGlobal.h>
+#include <google/protobuf/message.h>
+#include <google/protobuf/descriptor.h>
+#include <google/protobuf/descriptor.pb.h>
+#include <google/protobuf/dynamic_message.h>
+#include <google/protobuf/compiler/importer.h>
+
+#define EMIT_SIG(_name) \
+    emit sig##_name(QByteArray(data.data()+4, data.size()-4))
 
 NetworkHelper::NetworkHelper(QObject *parent):
     QObject(parent),
@@ -9,14 +19,26 @@ NetworkHelper::NetworkHelper(QObject *parent):
     } else {
         connect(
             m_server, &QTcpServer::newConnection,
-            this, &NetworkHelper::slotNewConnection
+            this, &NetworkHelper::slotNewConnection, Qt::DirectConnection
         );
     }
 }
 
+NetworkHelper::~NetworkHelper() {
+    if(!m_server) {
+        delete m_server;
+        m_server = nullptr;
+    }
+    for(auto& pClient: m_clients) {
+        delete pClient;
+        pClient = nullptr;
+    }
+}
+
+// 记得CLIENT 断开时 DISCONNECT
 void NetworkHelper::slotNewConnection() {
     QTcpSocket* clntSocket = m_server->nextPendingConnection();
-    
+    // 似乎会自动释放啊嗯
     connect(
         clntSocket, &QTcpSocket::disconnected,
         clntSocket, &QTcpSocket::deleteLater
@@ -36,17 +58,37 @@ void NetworkHelper::slotNewConnection() {
 }
 
 void NetworkHelper::slotReadClient() {
-    QTcpSocket* clntSocket = reinterpret_cast<QTcpSocket*>(sender());
-    QByteArray data = clntSocket->readAll();
+    QTcpSocket* client = reinterpret_cast<QTcpSocket*>(sender());
+    QByteArray  data   = client->readAll();
     
-    qDebug() << data.length();
+    int type = *reinterpret_cast<int*>(data.data());
+    switch (type) {
+    case MessageType::UserSignUpRequest:
+        EMIT_SIG(UserSignUp);
+        break;
+    default:
+        qDebug() << "known message type";
+        break;
+    }
 }
 
 void NetworkHelper::slotGotDisconnection() {
-    m_clients.removeAt(
-        m_clients.indexOf(reinterpret_cast<QTcpSocket*>(sender()))
+    qDebug() << "someone disconnected";
+    
+    auto client = reinterpret_cast<QTcpSocket*>(sender());
+    
+    disconnect(
+        client, &QTcpSocket::readyRead,
+        this, &NetworkHelper::slotReadClient
+    );
+    disconnect(
+        client, &QTcpSocket::disconnected,
+        this, &NetworkHelper::slotGotDisconnection
     );
     
+    m_clients.removeAt(
+        m_clients.indexOf(client)
+    );
     // emit
 }
 
@@ -56,3 +98,44 @@ size_t NetworkHelper::sendToClient(
 ) {
     return 0;
 }
+
+int NetworkHelper::DynamicParseFromPBFile(
+    const QString& filename,
+    const QString& classname,
+    std::function<void(::google::protobuf::Message* msg)> cb
+) {
+    // TODO 检查文件名是否合法
+    auto pos = filename.lastIndexOf('/');
+    QString path;
+    QString file;
+    if(pos == std::string::npos) {
+        file = filename;
+    } else {
+        path = filename.mid(0, pos);
+        file = filename.mid(pos + 1);
+    }
+
+    ::google::protobuf::compiler::DiskSourceTree sourceTree;
+    sourceTree.MapPath("", path.toStdString());
+    ::google::protobuf::compiler::Importer importer(&sourceTree, NULL);
+    importer.Import(file.toStdString());
+    const ::google::protobuf::Descriptor *descriptor
+        = importer.pool()->FindMessageTypeByName(classname.toStdString());
+    if(!descriptor) {
+        return 1;
+    }
+    ::google::protobuf::DynamicMessageFactory factory;
+    const ::google::protobuf::Message *message
+        = factory.GetPrototype(descriptor);
+    if(!message) {
+        return 2;
+    }
+    ::google::protobuf::Message* msg = message->New();
+    if(!msg) {
+        return 3;
+    }
+    cb(msg);
+    delete msg;
+    return 0;
+}
+                                          

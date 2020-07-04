@@ -34,12 +34,16 @@ BOOL DeleteHashTable(HashTable* table) {
 	}
 }
 
+// 取hash类型的总bit数
 #define TOTAL_BITS \
 	(sizeof(size_t) * 8)
+// 取低位bit数
 #define THREE_QUARTERS \
 	((TOTAL_BITS * 3) / 4)
+// 取高位bit数
 #define ONE_EIGHTH \
 	sizeof(size_t)
+// 取
 #define HIGH_BITS \
 	(((size_t)-1) << (TOTAL_BITS - ONE_EIGHTH))
 

@@ -187,11 +187,11 @@ Page {
             velocity: PointDirection {
                 x: customerEmt.destX
                 y: customerEmt.destY
-                xVariation: 0.1
-                yVariation: 0.1
+                xVariation: 0.5
+                yVariation: 0.5
             }
             
-            size: utils.dp(5)
+            size: utils.dp(10)
             
 //            sizeVariation: 1
             
@@ -322,12 +322,5 @@ Page {
             }
         }
     }
-    
-//    Button {
-//        anchors.centerIn: parent
-//        width: 100
-//        height: 100
-//        onClicked: customerEmt.setEmitInfo(Math.floor(Math.random()*12), Math.floor(Math.random()*12), 10000)
-//    }
     
 }

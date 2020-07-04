@@ -1,4 +1,4 @@
-#include "NetworkHelper.h"
+﻿#include "NetworkHelper.h"
 
 NetworkHelper::NetworkHelper(
     const QString   hostAddr,
@@ -8,11 +8,19 @@ NetworkHelper::NetworkHelper(
     m_status(false),
     m_nextBlockSize(0),
     m_socket(new QTcpSocket),
-    m_timeoutTimer(new QTimer)
+    m_timeoutTimer(new QTimer),
+    m_keepAliveTimer(new QTimer)
 {
     m_timeoutTimer->setSingleShot(true);
+    m_keepAliveTimer->setSingleShot(false);
+    m_keepAliveTimer->setInterval(heartBeatInterval);
+    m_keepAliveTimer->setTimerType(Qt::TimerType::CoarseTimer);
+    
     connect(m_timeoutTimer, &QTimer::timeout,
             this, &NetworkHelper::connectionTimeout);
+    connect(m_keepAliveTimer, &QTimer::timeout,
+            this, &NetworkHelper::checkAndReconnect);
+    
     connect(m_socket, &QTcpSocket::disconnected,
             this, &NetworkHelper::closeConnection);
     
@@ -20,6 +28,8 @@ NetworkHelper::NetworkHelper(
             this, &NetworkHelper::connected);
     connect(m_socket, &QTcpSocket::readyRead,
             this, &NetworkHelper::readyRead);
+    
+    m_keepAliveTimer->start();
 }
 
 void NetworkHelper::connect2host() {
@@ -35,9 +45,19 @@ void NetworkHelper::connectionTimeout() {
     }
 }
 
+void NetworkHelper::checkAndReconnect() {
+    qDebug() << "check socket status";
+    qDebug() << m_socket->state();
+    if(m_socket->state() != QAbstractSocket::ConnectedState) {
+        qDebug() << "try to reconnect host machine";
+        connect2host();
+    }
+}
+
 void NetworkHelper::connected() {
     m_status = true;
     m_timeoutTimer->stop();
+    qDebug() << "successfully connect to server";
     emit statusChanged(true);
 }
 
@@ -72,10 +92,12 @@ void NetworkHelper::readyRead() {
 }
 
 void NetworkHelper::closeConnection() {
+    qDebug() << "disconnect from server";
     m_timeoutTimer->stop();
     
-    disconnect(m_socket, &QTcpSocket::connected, 0, 0);
-    disconnect(m_socket, &QTcpSocket::readyRead, 0, 0);
+    // 防止服务端重启后客户端收不到已连接的信号
+//    disconnect(m_socket, &QTcpSocket::connected, 0, 0);
+//    disconnect(m_socket, &QTcpSocket::readyRead, 0, 0);
     
     bool shouldEmit = false;
     switch (m_socket->state()) {

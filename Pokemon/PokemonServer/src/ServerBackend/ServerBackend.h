@@ -6,22 +6,21 @@
 #include "../BattleField/BattleField.h"
 #include "../NetworkHelper/NetworkHelper.h"
 
+#define NET_SLOT(_name) \
+    void slot##_name(const QByteArray data)
+
 class ServerBackend: public QObject {
     Q_OBJECT
 public:
     ServerBackend();
+    ~ServerBackend();
     
 public slots:
-    void
-        slotUserLogin();
-    void
-        slotUserLogout();
-    void
-        slotUserSingUp();
-    void
-        slotRequestUserInfo();
-    void 
-        slotRequestPokemonInfo();
+    NET_SLOT(UserLogin);
+    NET_SLOT(UserSignUp);
+    NET_SLOT(RequestUserInfo);
+    NET_SLOT(UserLogout);
+    NET_SLOT(RequestPkmInfo);
     
 private FUNCTION:
     void

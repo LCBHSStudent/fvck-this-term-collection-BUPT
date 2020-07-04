@@ -14,6 +14,7 @@ debug: DEFINES += _ITERATOR_DEBUG_LEVEL=0
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += PROTOBUF_USE_DLLS
 PRECOMPILED_HEADER = include/PreCompile.h
+
 INCLUDEPATH += \
 		include/				\
 		../protobuf_headers/	\
@@ -58,6 +59,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+	../protocol/MessageTypeGlobal.h \
 	include/PreCompile.h \
 	include/Reflect.hpp \
 	src/BattleField/BattleField.h \

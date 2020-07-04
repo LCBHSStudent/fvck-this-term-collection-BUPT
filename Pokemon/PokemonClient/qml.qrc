@@ -1,5 +1,13 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/pages/LoginPage.qml</file>
+        <file>qml/components/UIBase.qml</file>
+        <file>qml/components/MTextInput.qml</file>
+        <file>qml/components/MCheckBox.qml</file>
+        <file>qml/components/MText.qml</file>
+        <file>qml/components/MImgBtn.qml</file>
+        <file>qml/components/OneBtnToast.qml</file>
+        <file>qml/components/MFlatBtn.qml</file>
     </qresource>
 </RCC>

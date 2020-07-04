@@ -1,4 +1,4 @@
-#ifndef NETWORKHELPER_H
+﻿#ifndef NETWORKHELPER_H
 #define NETWORKHELPER_H
 
 #include <PreCompile.h>
@@ -28,11 +28,27 @@ public slots:
         sendToServer(QByteArray&&);
 
 signals:
-    void 
+    void
         statusChanged(bool);
     void 
         hasReadSome(QString msg);
 
+    
+public RESOURCE:
+    inline static int 
+        port = 1919;
+    const  static int 
+        connectLmt = 3000;
+    const  static int 
+        heartBeatInterval = 15000;
+    enum DataType {
+        UserSignUpResponseInfo = 0,
+        UserLoginResponseInfo,
+        UserInfo,
+    };
+    
+public FUNCTION:
+    
 private slots:
     void 
         readyRead();
@@ -40,19 +56,10 @@ private slots:
         connected();
     void 
         connectionTimeout();
+    void
+        checkAndReconnect();
     
-public RESOURCE:
-    inline static int 
-        port = 1919;
-    const  static int 
-        connectLmt = 3000;
-    enum DataType {
-        UserSignUpResponseInfo = 0,
-        UserLoginResponseInfo,
-        UserInfo,
-    };
-    
-private:
+private RESOURCE:
     QString
         m_host;
     bool
@@ -63,6 +70,8 @@ private:
         m_socket;
     QTimer*
         m_timeoutTimer;
+    QTimer*
+        m_keepAliveTimer;
 };
 
 #endif // NETWORKHELPER_H

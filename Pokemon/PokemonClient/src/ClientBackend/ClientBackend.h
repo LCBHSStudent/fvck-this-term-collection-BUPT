@@ -1,4 +1,4 @@
-#ifndef CLIENTBACKEND_H
+﻿#ifndef CLIENTBACKEND_H
 #define CLIENTBACKEND_H
 
 #include <PreCompile.h>
@@ -16,12 +16,10 @@ public:
 signals:
         
 public FUNCTION:
-    Q_INVOKABLE void 
+    Q_INVOKABLE void
         sendLoginRequest(QString username, QString password);
     Q_INVOKABLE void
         sendSignUpRequest(QString username, QString password);
-    
-    
     
 private RESOURCE:
     QString 

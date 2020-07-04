@@ -1,5 +1,15 @@
 ﻿#include "ServerBackend.h"
+#include <UserProtocol.pb.h>
 #include "../StorageHelper/StorageHelper.h"
+
+#undef NET_SLOT
+#define NET_SLOT(_name) \
+    void ServerBackend::slot##_name(const QByteArray data)
+#define CONNECT_EVENT(_eventName) \
+    connect(                                        \
+        m_helper.get(), &NetworkHelper::sig##_eventName,  \
+        this,            &ServerBackend::slot##_eventName  \
+    )\
 
 ServerBackend::ServerBackend():
     m_helper(new NetworkHelper)
@@ -13,27 +23,26 @@ ServerBackend::ServerBackend():
     }
     
     createUserTable("_server");
+    // CONNECT SLOTS AND SIGNALS
+    {
+        CONNECT_EVENT(UserLogin);
+        CONNECT_EVENT(UserSignUp);
+        CONNECT_EVENT(RequestUserInfo);
+        CONNECT_EVENT(UserLogout);
+        CONNECT_EVENT(RequestPkmInfo);
+    }
+    
+    // 添加服务器精灵
     // m_serverPkm.append()
 }
 
-void ServerBackend::slotUserLogin() {
-    
-}
-
-void ServerBackend::slotUserLogout() {
-    
-}
-
-void ServerBackend::slotUserSingUp() {
-    
-}
-
-void ServerBackend::slotRequestUserInfo() {
-    
-}
-
-void ServerBackend::slotRequestPokemonInfo() {
-    
+ServerBackend::~ServerBackend() {
+    // RELEASE TCP SOCKET SERVER HELPER
+    m_helper.release();
+    for(auto& pData: m_serverPkm) {
+        delete pData;
+        pData = nullptr;
+    }
 }
 
 void ServerBackend::createUserTable(const QString& username) {
@@ -56,4 +65,27 @@ void ServerBackend::createUserTable(const QString& username) {
     PKM_SKILL_4 VARCHAR(64)     NOT NULL\
 );";
     StorageHelper::Instance().transaction(userTableStat);
+}
+
+NET_SLOT(UserLogin) {
+    UserProtocol::UserLoginRequestInfo info = {};
+}
+
+NET_SLOT(UserSignUp) {
+    UserProtocol::UserSignUpRequestInfo info = {};
+    info.ParseFromArray(data.data(), data.size());
+    
+    info.PrintDebugString();
+}
+
+NET_SLOT(RequestUserInfo) {
+    
+}
+
+NET_SLOT(UserLogout) {
+    
+}
+
+NET_SLOT(RequestPkmInfo) {
+    
 }

@@ -9,8 +9,9 @@
 
 # dns ignore dir list
 /DNS_Server/DNS_Server/x64/
+/DNS_Server/x64/
 /DNS_Server/.vs/
 
 # pokemon ignore dir list
-/Pokemon/Pokemon/x64/
-/Pokemon/.vs/
+/Pokemon/build/
+/Pokemon/release/

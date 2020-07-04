@@ -8,10 +8,10 @@
 #define JUDGE_ATTR(_ATTR) \
     (dest->m_pkmAttr == PokemonBase::PokemonAttribute::_ATTR) \
 
-#define ATK_DEBUG(_SKILL)\
-    std::cout << user->m_name \
-              << "使用" #_SKILL "攻击了" \
-              << dest->m_name << "\n" \
+#define ATK_DEBUG(_SKILL) \
+    qDebug()  << user->m_name \
+              + "使用" #_SKILL "攻击了" \
+              + dest->m_name + "\n" \
 
 #define RAND_OZ \
     PokemonSkill::s_distr(PokemonSkill::s_engine) \
@@ -38,8 +38,6 @@ constexpr auto get_percent = [](int percentVal) {
 
 
 
-
-
 // ------------DEFINATION OF SKILLS------------ //
 REGISTER_SKILL(JJJJ) {
     ATK_DEBUG(普通攻击);
@@ -47,9 +45,9 @@ REGISTER_SKILL(JJJJ) {
     int damage = user->m_curATK - dest->m_curDEF;
     if(damage > 0) {
         JUDGE_PKM_TYPE(dest, HIGH_DEFENSE) {
-            JUDGE_OZ(100) {
+            JUDGE_OZ(50) {
 #ifdef DEBUG_FLAG
-                std::cout << dest->m_name + "由于防御型宝可梦特性，有概率抵消一半伤害\n";
+                qDebug() << dest->m_name + "由于防御型宝可梦特性，有概率抵消一半伤害\n";
 #endif 
                 damage /= 2;
             }

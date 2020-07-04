@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/ui/btn_back.png</file>
+        <file>res/ui/btn_back_press.png</file>
+        <file>res/ui/ic_eye_off.png</file>
+        <file>res/ui/ic_eye_on.png</file>
+    </qresource>
+</RCC>

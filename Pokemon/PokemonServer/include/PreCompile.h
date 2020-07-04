@@ -11,6 +11,7 @@
 #include <vector>
 #include <thread>
 #include <cstdint>
+#include <cstdlib>
 #include <conio.h>
 #include <iostream>
 #include <typeinfo>

@@ -3,7 +3,7 @@
 #include <PreCompile.h>
 
 #define ARGS_LIST \
-    std::string_view    _name,  \
+    QString             _name,  \
     int                 _id,    \
     int                 _level, \
     int                 _exp,   \
@@ -15,7 +15,7 @@
     int                 _type   \
     
 #define DEF_ARGS_LIST \
-    std::string_view    _name,  \
+    QString             _name,  \
     int                 _id,    \
     int                 _level, \
     int                 _exp,   \
@@ -112,7 +112,7 @@ public FUNCTION:
     PROPERTY(PokemonType, pkmType)
     PROPERTY(PokemonAttribute, pkmAttr)
     
-    PROPERTY(std::string_view, name)
+    PROPERTY(QString, name)
     
 public FUNCTION:
 	virtual BuffResult
@@ -128,7 +128,7 @@ public FUNCTION:
         }
 
 protected RESOURCE:
-	std::string
+	QString
 		m_name  = {};
     int   
         m_id    = 0;

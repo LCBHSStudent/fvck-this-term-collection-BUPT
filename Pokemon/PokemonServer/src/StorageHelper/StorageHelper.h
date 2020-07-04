@@ -27,7 +27,7 @@ public FUNCTION:
         
         auto argTuple = std::forward_as_tuple(args...);
         std::apply([&query, this](auto&&... args) {
-            ((query.addBindValue(QVariant::fromValue(args)), std::cout << args), ...);
+            ((query.addBindValue(QVariant::fromValue(args))), ...);
         }, argTuple);
         
         query.exec();

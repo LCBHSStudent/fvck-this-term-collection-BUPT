@@ -1,6 +1,7 @@
-#include "ClientBackend.h"
+﻿#include "ClientBackend.h"
 
 #include <UserProtocol.pb.h>
+#include <MessageTypeGlobal.h>
 #include "NetworkHelper/NetworkHelper.h"
 
 ClientBackend::ClientBackend(QString hostAddr):
@@ -23,6 +24,7 @@ void ClientBackend::sendLoginRequest(
 ) {
     
 }
+
 void ClientBackend::sendSignUpRequest(
     QString username,
     QString password
@@ -38,10 +40,11 @@ void ClientBackend::sendSignUpRequest(
     qDebug() << info.ByteSizeLong();
     
     auto byteLength = info.ByteSizeLong();
-    auto data       = new char[info.ByteSizeLong()];
+    auto data       = new char[info.ByteSizeLong() + 4];
+    *reinterpret_cast<int*>(data) = MessageType::UserSignUpRequest;
     
-    info.SerializeToArray(data, byteLength);
+    info.SerializeToArray(data + 4, byteLength);
     
-    m_helper->sendToServer(QByteArray(data, byteLength));
+    m_helper->sendToServer(QByteArray(data, byteLength + 4));
     // m_helper->sendToServer();
 }

@@ -6,6 +6,7 @@
 #include <Reflect.hpp>
 #include "User/User.h"
 #include "BattleField/BattleField.h"
+#include "NetworkHelper/NetworkHelper.h"
 
 void TestReflect() {
     PokemonSkill::useSkillByName("FireBall");
@@ -47,6 +48,10 @@ void TestUserBattle() {
     hdef.setSkill(0, "JJJJ");
     BattleField bf = BattleField(userA, userB, &hatk, &hdef);
     bf.turn("JJJJ", "JJJJ");
+}
+
+void TestMarshalProto() {
+    
 }
 
 #endif // UNITTEST_H

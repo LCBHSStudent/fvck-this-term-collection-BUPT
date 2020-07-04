@@ -1,16 +1,29 @@
-#ifndef SOCKETHELPER_H
+﻿#ifndef SOCKETHELPER_H
 #define SOCKETHELPER_H
 
 #include <PreCompile.h>
+#include "../../protocol/UserProtocol.pb.h"
+
+#define NET_SIG(_name) \
+    void sig##_name(const QByteArray data);
 
 class NetworkHelper: public QObject {
     Q_OBJECT
 public:
     explicit NetworkHelper(QObject *parent = nullptr);
+    virtual ~NetworkHelper();
     
 public FUNCTION:
     size_t
-        sendToClient(QTcpSocket*, const QString&);    
+        sendToClient(QTcpSocket*, const QString&);
+    static int 
+        DynamicParseFromPBFile(
+            const QString&  filename,
+            const QString&  classname,
+            std::function<
+                void(::google::protobuf::Message* msg)
+            >               cb
+        );
     
 public RESOURCE:
     inline static int port = 1919;
@@ -20,18 +33,13 @@ public RESOURCE:
     };
 	
 signals:
-	void 
-		sigUserLogin(QString& user, QString& password);
-	void
-		sigUserLogout(QString& user);
-	void
-		sigRequestUserInfo(QString& user);
-	void 
-		sigRequestPokemonInfo(QString& user);
-	void
-		sigStartUserBattle(QString& reqUser, QString& destUser);
-	void
-		sigStartVirtualBattle(QString& reqUser);
+    NET_SIG(UserLogin)
+    NET_SIG(UserSignUp)
+    NET_SIG(UserLogout)
+    NET_SIG(RequestPkmInfo)
+    NET_SIG(StartUserBattle)
+    NET_SIG(RequestUserInfo)
+    NET_SIG(StartVirtualBattle)
 	
 private slots:
     void
