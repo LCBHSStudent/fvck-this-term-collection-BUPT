@@ -12,7 +12,7 @@ debug: DEFINES += _ITERATOR_DEBUG_LEVEL=0
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-DEFINES += PROTOBUF_USE_DLLS
+
 PRECOMPILED_HEADER = include/PreCompile.h
 
 INCLUDEPATH += \
@@ -30,9 +30,15 @@ INCLUDEPATH += \
 
 #} 
 
-LIBS += \
-	-L$$PWD/../lib/ -llibprotobuf	\
-	-L$$PWD/../lib/ -llibprotobufd	\
+win32: {
+	DEFINES += PROTOBUF_USE_DLLS
+	LIBS += \
+		-L$$PWD/../lib/ -llibprotobuf	\
+		-L$$PWD/../lib/ -llibprotobufd	\
+}
+android: {
+	LIBS += $$PWD/../lib/libprotobuf.a
+}
 	
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -41,6 +47,7 @@ LIBS += \
 
 SOURCES += \
 	../protocol/UserProtocol.pb.cc \
+	../protocol/BattleProtocol.pb.cc \
 	src/BattleField/BattleField.cpp \
 	src/Pokemons/PokemonBase/PokemonBase.cpp \
 	src/Pokemons/PokemonBase/PokemonFactory.cpp \

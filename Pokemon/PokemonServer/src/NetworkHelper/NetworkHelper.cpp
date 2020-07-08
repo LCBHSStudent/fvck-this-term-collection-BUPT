@@ -8,7 +8,7 @@
 #include <google/protobuf/compiler/importer.h>
 
 #define EMIT_SIG(_name) \
-    emit sig##_name(QByteArray(data.data()+4, data.size()-4))
+    emit sig##_name(client, QByteArray(data.data()+4, data.size()-4))
 
 NetworkHelper::NetworkHelper(QObject *parent):
     QObject(parent),
@@ -66,6 +66,9 @@ void NetworkHelper::slotReadClient() {
     case MessageType::UserSignUpRequest:
         EMIT_SIG(UserSignUp);
         break;
+    case MessageType::UserLoginRequest:
+        EMIT_SIG(UserLogin);
+        break;
     default:
         qDebug() << "known message type";
         break;
@@ -97,6 +100,14 @@ size_t NetworkHelper::sendToClient(
     const QString&  msg
 ) {
     return 0;
+}
+
+size_t NetworkHelper::sendToClient(
+    QTcpSocket*    socket,
+    QByteArray&&   data
+) {
+    socket->write(data, data.length());
+    return data.length();
 }
 
 int NetworkHelper::DynamicParseFromPBFile(

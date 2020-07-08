@@ -2,13 +2,14 @@ QT += quick
 QT += network
 
 CONFIG += c++17
+CONFIG += resources_big
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Refer to the documentation for the
 # deprecated API to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-DEFINES += PROTOBUF_USE_DLLS
+
 PRECOMPILED_HEADER = include/PreCompile.h
 
 INCLUDEPATH += \
@@ -16,10 +17,15 @@ INCLUDEPATH += \
 		../protobuf_headers/	\
 		../protocol/			\
 
-LIBS += \
-	-L$$PWD/../lib/ -llibprotobuf	\
-	-L$$PWD/../lib/ -llibprotobufd	\
-
+win32: {
+	DEFINES += PROTOBUF_USE_DLLS
+	LIBS += \
+		-L$$PWD/../lib/ -llibprotobuf	\
+		-L$$PWD/../lib/ -llibprotobufd	\
+}
+android: {
+	LIBS += $$PWD/../lib/libprotobuf.a
+}
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -27,6 +33,7 @@ LIBS += \
 
 SOURCES += \
         ../protocol/UserProtocol.pb.cc \
+		../protocol/BattleProtocol.pb.cc \
         src/ClientBackend/NetworkHelper/NetworkHelper.cpp \
         src/ClientBackend/ClientBackend.cpp \
         src/PreCompile.cpp \

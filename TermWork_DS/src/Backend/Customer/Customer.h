@@ -1,4 +1,4 @@
-#ifndef CUSTOMER_H
+﻿#ifndef CUSTOMER_H
 #define CUSTOMER_H
 
 #include <QObject>
@@ -36,7 +36,7 @@ public:
     QString destCity;
 };
 
-class BackendBase;
+
 class Customer final: public QObject {
     Q_OBJECT
 public:
@@ -79,6 +79,8 @@ public:
         addTask(const Task&);
     void
         updateStatus(QString&);
+    bool
+        isTaskEmpty() const {return m_taskQueue.empty();}
     
 private:
     int

@@ -18,14 +18,13 @@ ApplicationWindow {
                  832:
                  Screen.desktopAvailableHeight
     
-    function dpH(val) {return val/100.0*root.height}
-    function dpW(val) {return val/100.0*root.width}
+    function w(val) {return val/100.0*root.width}
     
-    UIBase {id: utils}    
+    UIBase {id: utils}
     
     StackView {
         id: stack
-        initialItem: LoginPage {id: loginPage}
+        initialItem: LoginPage {id: loginPage}   // 测试更改中
         anchors.fill: parent
     }
 }

@@ -1,4 +1,4 @@
-#ifndef BACKENDBASE_H
+﻿#ifndef BACKENDBASE_H
 #define BACKENDBASE_H
 
 #include <QDebug>
@@ -20,6 +20,7 @@
 #include "DataModel/AbstractData.h"
 #include "Customer/Customer.h"
 
+// 装饰品，个人习惯
 #define FUNCTION 
 #define RESOURCE 
 #define Q_RESOURCE 
@@ -27,16 +28,18 @@
 class BackendBase : public QQuickItem {
     Q_OBJECT
     
-    friend class AlgorithmHelper;
-    
+    friend class AlgorithmHelper;   // 辅助友元类，用于计算最短路径
+    // 供GUI使用的城市modelData
     Q_PROPERTY(
         CityModel*  cityModel
         READ        getCityModel
         NOTIFY      cityModelChanged)
+    // 与GUI同步的系统时间展示
     Q_PROPERTY(
         QString     sysTime
         READ        getSysTime
         NOTIFY      sysTimeChanged)
+    // 供GUI使用的时刻表modelData
     Q_PROPERTY(
         ScheduleModel*  scheduleModel
         READ            getScheduleModel
@@ -51,6 +54,7 @@ public:
 public RESOURCE:
     Q_ENUMS(TransType)
     Q_ENUMS(TravelPolicy)
+    // 定义旅行工具&策略枚举并暴露给GUI使用
     enum TransType {
         Airplane = 0,
         Train,
@@ -63,21 +67,22 @@ public RESOURCE:
     
 public slots:
     void
-        slotLoadData();
+        slotLoadData();             // 从数据库读取城市以及时刻表信息
     void
-        invokePauseMainThrd();
+        invokePauseMainThrd();      // 用于GUI方打开侧边栏操作时冻结后台系统时间
     void
-        invokeContinueMainThrd();
-    void
+        invokeContinueMainThrd();   // 用于GUI方关闭侧边栏时解冻后台时间
+    void                            // 暴露给GUI的查询接口
         slotStartQuery(
             QString     fromCity,
             QString     destCity,
             int         startH,
             int         startM,
             int         policy,
+            bool        setoff,
             int         timeLmt = 0x3F3F3F3F
         );
-    
+    // 用于暴露数据modelData给GUI
     CityModel* 
         getCityModel() const {
             return m_cityData;
@@ -95,14 +100,14 @@ public slots:
     
     void
         setRunning(bool flag) {m_running = flag;}
-    void
+    void                                    // 提示GUI旅客位置变化的信号
         slotCustomerPosChanged(
             QString from,
             QString dest,
             qint64  duration
         );
     
-signals:
+signals:    // 信号，字面义
     void 
         sigLoadDataFinished();
     void
@@ -123,8 +128,10 @@ signals:
         );
     void
         sigNewMessage(QString msg);
+    void
+        sigPopupMessage(QString msg);
     
-    
+    // 供后台类自身工作调用的私有函数实现
 private FUNCTION:
     void
         loadData();
@@ -140,21 +147,21 @@ private Q_RESOURCE:
 //        m_mainLoopMtx {};
     
 private RESOURCE:
-    CityModel*
+    CityModel*                      // 供GUI使用的城市数据
         m_cityData      = nullptr;
-    ScheduleModel*
+    ScheduleModel*                  // 供GUI使用的时刻表数据
         m_scheduleData  = nullptr;
-    AbstractData*
+    AbstractData*                   // 供寻路策略算法使用的抽象数据
         m_absData       = nullptr;
-    Customer*
+    Customer*                       // 全局唯一旅客
         m_customer      = nullptr;
-    bool
+    bool                            // 系统是否存活 (生命周期至窗口关闭)
         m_running       = true;
-    bool
+    bool                            // 系统是否未被冻结
         m_mlPaused      = false;
-    
 };
 
+// 算法辅助类，只包含一个静态函数，只提供接口
 class AlgorithmHelper final {
     AlgorithmHelper()  = delete;
     ~AlgorithmHelper() = delete;
@@ -165,8 +172,9 @@ public:
             QString&        fromCity,
             QString&        destCity,
             int             startT,
+            bool            setoff,
             int             timeLmt = 0x7FFFFFF
         );
 };
 
-#endif // BACKENDBASE_H
+#endif

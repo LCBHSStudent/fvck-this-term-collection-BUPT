@@ -1,28 +1,41 @@
 ﻿#include "ServerBackend.h"
 #include <UserProtocol.pb.h>
+#include <MessageTypeGlobal.h>
 #include "../StorageHelper/StorageHelper.h"
 
-#undef NET_SLOT
+#undef  NET_SLOT
 #define NET_SLOT(_name) \
-    void ServerBackend::slot##_name(const QByteArray data)
-#define CONNECT_EVENT(_eventName) \
-    connect(                                        \
-        m_helper.get(), &NetworkHelper::sig##_eventName,  \
-        this,            &ServerBackend::slot##_eventName  \
-    )\
+    void ServerBackend::slot##_name(QTcpSocket* client, const QByteArray data)
+
+#define CONNECT_EVENT(_eventName)                           \
+    connect(                                                \
+        m_helper.get(), &NetworkHelper::sig##_eventName,    \
+        this,            &ServerBackend::slot##_eventName)  \
+
+#define DEFAULT_FUNC std::function<void(QSqlQuery&)>()
+
+// ----------------Progress Before Sending Network Data---------------- //
+#define PROC_PROTODATA(_messageType, _dataBlockName) \
+    auto byteLength = _dataBlockName.ByteSizeLong();                    \
+    auto pData      = new char[_dataBlockName.ByteSizeLong() + 4];      \
+    *reinterpret_cast<int*>(pData) = MessageType::_messageType;         \
+                                                                        \
+    _dataBlockName.SerializeToArray(pData + 4, byteLength);             \
+                                                                        \
+    m_helper->sendToClient(client, QByteArray(pData, byteLength + 4));  \
+    delete[] pData                                                      \
+// -------------------------------------------------------------------- //
 
 ServerBackend::ServerBackend():
     m_helper(new NetworkHelper)
 {
-    m_db = QSqlDatabase::addDatabase("QMYSQL");
-    m_db.setDatabaseName ("pokemon");
-    m_db.setUserName("root");
-    m_db.setPassword ("password");
-    if(!m_db.open()) {
-        throw std::runtime_error("failed to connect local mysql");
-    }
+    StorageHelper::Instance();
     
     createUserTable("_server");
+    // 添加服务器精灵
+    // m_serverPkm.append()
+    
+    
     // CONNECT SLOTS AND SIGNALS
     {
         CONNECT_EVENT(UserLogin);
@@ -31,9 +44,6 @@ ServerBackend::ServerBackend():
         CONNECT_EVENT(UserLogout);
         CONNECT_EVENT(RequestPkmInfo);
     }
-    
-    // 添加服务器精灵
-    // m_serverPkm.append()
 }
 
 ServerBackend::~ServerBackend() {
@@ -45,8 +55,8 @@ ServerBackend::~ServerBackend() {
     }
 }
 
+// 创建用户表，记录其拥有的宝可梦信息
 void ServerBackend::createUserTable(const QString& username) {
-    QSqlQuery createQuery(m_db);
     const QString userTableStat = 
 "CREATE TABLE IF NOT EXISTS `user_" + username + "`(\
     PKM_ID      INT             NOT NULL PRIMARY KEY,\
@@ -64,28 +74,171 @@ void ServerBackend::createUserTable(const QString& username) {
     PKM_SKILL_3 VARCHAR(64)     NOT NULL,\
     PKM_SKILL_4 VARCHAR(64)     NOT NULL\
 );";
-    StorageHelper::Instance().transaction(userTableStat);
+    StorageHelper::Instance().transaction(userTableStat, DEFAULT_FUNC);
 }
 
+// -----------------------NETWORK TRANSACTION-------------------------- //
+/*@ 参数类型 QTcpSocket* client, const QByteArray data
+ *@ 用于处理接收到对应类型的网络信号后，通过protobuf序列化获取信息
+ *@ 最后利用PROC_PROTODATA返回响应信息
+ */
+
+// 处理用户登录请求
 NET_SLOT(UserLogin) {
-    UserProtocol::UserLoginRequestInfo info = {};
+    UserProtocol::UserLoginRequestInfo reqInfo = {};
+    reqInfo.ParseFromArray(data.data(), data.size());
+    
+    qDebug() << "[ServerBackend] :UserLogin";
+    reqInfo.PrintDebugString();
+    
+    bool    flag = false;
+    QString userPsw;
+    
+    StorageHelper::Instance().transaction(
+        "SELECT PASSWORD FROM `user_list` WHERE USERNAME=?",
+        [&userPsw, &flag](QSqlQuery& query) {
+            flag = true;
+            userPsw = query.value(0).toString();
+        },
+        QString::fromStdString(reqInfo.username())
+    );
+    
+    UserProtocol::UserLoginResponseInfo resInfo = {};
+    if(flag) {
+        if(userPsw == QString::fromStdString(reqInfo.userpsw())) {
+            resInfo.set_status(
+                UserProtocol::UserLoginResponseInfo_LoginStatus_SUCCESS);
+            // TODO: 将 User 加入 UserList？
+            
+        } else {
+            resInfo.set_status(
+                UserProtocol::UserLoginResponseInfo_LoginStatus_USERPSW_ERROR);
+        }
+    } else {
+        resInfo.set_status(
+            UserProtocol::UserLoginResponseInfo_LoginStatus_USER_NOT_EXISTS);
+    }
+    
+    PROC_PROTODATA(UserLoginResponse, resInfo);
 }
 
+// 处理用户注册请求
 NET_SLOT(UserSignUp) {
-    UserProtocol::UserSignUpRequestInfo info = {};
-    info.ParseFromArray(data.data(), data.size());
+    UserProtocol::UserSignUpRequestInfo reqInfo = {};
+    reqInfo.ParseFromArray(data.data(), data.size());
     
-    info.PrintDebugString();
+    qDebug() << "[ServerBackend]: UserSignUp"; 
+    reqInfo.PrintDebugString();
+    
+    int count = 0;
+    StorageHelper::Instance().transaction(
+        "SELECT count(*) FROM `user_list` WHERE USERNAME=?",
+        [&count](QSqlQuery& query){
+            count = query.value(0).toInt();
+        },
+        QString::fromStdString(reqInfo.username())
+    );
+    
+    UserProtocol::UserSignUpResponseInfo resInfo = {};
+    if(count > 0) {
+        qDebug() << "user already exist";
+        resInfo.set_status(
+            UserProtocol::UserSignUpResponseInfo_SignUpStatus_USER_ALREADY_EXISTS);
+    } else {
+        StorageHelper::Instance().transaction(
+            "INSERT INTO user_list("
+                "USERNAME, PASSWORD"
+            ") VALUES(?, ?)", 
+            DEFAULT_FUNC,
+            QString::fromStdString(reqInfo.username()),
+            QString::fromStdString(reqInfo.userpsw())
+        );
+        createUserTable(QString::fromStdString(reqInfo.username()));
+        resInfo.set_status(
+            UserProtocol::UserSignUpResponseInfo_SignUpStatus_SUCCESS);
+    }
+    
+    PROC_PROTODATA(UserSignUpResponse, resInfo);
 }
 
+// 处理获取用户信息
 NET_SLOT(RequestUserInfo) {
+    UserProtocol::UserInfoRequest reqInfo = {};
+    reqInfo.ParseFromArray(data.data(), data.size());
     
+    // 获取用户宝可梦信息
+    std::vector<int> pkmIdList;
+    int pkmCount = 0,
+        highLevelPkmCnt = 0;
+    StorageHelper::Instance().transaction(
+        "SELECT PKM_ID, PKM_LEVEL FROM `user_" + 
+        QString::fromStdString(reqInfo.username()) + "`",
+        [&pkmIdList, &pkmCount, &highLevelPkmCnt](QSqlQuery& query) {
+            pkmIdList.push_back(query.value(0).toInt());
+            int level = query.value(1).toInt();
+            if(level == 15) {
+                highLevelPkmCnt++;
+            }
+            pkmCount++;
+        }
+    );
+    
+    int totalBattleTime = 0,
+        totalWinnerTime = 0;
+    // 获取用户信息(胜场胜率)
+    StorageHelper::Instance().transaction(
+        "SELECT TOTAL_BATTLE_TIME, WINNER_TIME FROM `user_list",
+        [&totalBattleTime, &totalWinnerTime](QSqlQuery& query) {
+            totalBattleTime = query.value(0).toInt();
+            totalWinnerTime = query.value(1).toInt();
+        }
+    );
+    
+    UserProtocol::UserInfoResponse resInfo = {};
+    if(pkmCount >= 20) {
+        resInfo.set_pkmamountbadge(
+            UserProtocol::UserInfoResponse_BadgeType_GOLD);
+    } else if(pkmCount >= 10) {
+        resInfo.set_pkmamountbadge(
+            UserProtocol::UserInfoResponse_BadgeType_SILVER);
+    } else {
+        resInfo.set_pkmamountbadge(
+            UserProtocol::UserInfoResponse_BadgeType_BRONZE);
+    }
+    
+    if(highLevelPkmCnt >= 10) {
+        resInfo.set_highlevelbadge(
+            UserProtocol::UserInfoResponse_BadgeType_GOLD);
+    } else if(highLevelPkmCnt >= 5) {
+        resInfo.set_highlevelbadge(
+            UserProtocol::UserInfoResponse_BadgeType_SILVER);
+    } else {
+        resInfo.set_highlevelbadge(
+            UserProtocol::UserInfoResponse_BadgeType_BRONZE);
+    }
+    
+    for(auto pkmId: pkmIdList) {
+        resInfo.add_pokemonid(pkmId);
+    }
+    
+    resInfo.set_timeofduel(totalBattleTime);
+    resInfo.set_timeofwins(totalWinnerTime);
+    
+    PROC_PROTODATA(UserInfoResponse, resInfo);
 }
 
+// 处理用户登出 & 断线
 NET_SLOT(UserLogout) {
-    
+    (void)client;
+    (void)data;
 }
 
+// 处理获取宝可梦信息请求
 NET_SLOT(RequestPkmInfo) {
+    (void)client;
+    
+    UserProtocol::UserPokemonDataRequestInfo reqInfo = {};
+    reqInfo.ParseFromArray(data.data(), data.size());
+    
     
 }

@@ -6,6 +6,15 @@ StorageHelper* StorageHelper::
     m_instance = nullptr;
 
 StorageHelper::StorageHelper() {
+    m_db = QSqlDatabase::addDatabase("QMYSQL");
+    m_db.setDatabaseName ("pokemon");
+    m_db.setUserName("root");
+    m_db.setPassword ("password");
+    
+    if(!m_db.open()) {
+        throw std::runtime_error("failed to connect local mysql");
+    }
+    
     QSqlQuery createQuery(m_db);
 //---------创建技能说明索引表------------//   
     const QString skillTableStat = 

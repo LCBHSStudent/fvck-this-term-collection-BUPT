@@ -34,6 +34,9 @@ ApplicationWindow {
         onSigCloseRootWindow: {
             root.close()
         }
+        onSigPopupMessage: {
+            popup.showPopup(msg, "确定")
+        }
     }
     
 //    onFocusObjectChanged: {
@@ -191,5 +194,11 @@ ApplicationWindow {
     
     onClosing: {
         backend.setRunning(false)
+    }
+    
+    OneBtnToast { 
+        id: popup
+        contentW: parent.width * 0.3
+        contentH: parent.height * 0.4
     }
 }

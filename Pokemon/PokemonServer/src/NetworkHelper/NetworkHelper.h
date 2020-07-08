@@ -5,7 +5,7 @@
 #include "../../protocol/UserProtocol.pb.h"
 
 #define NET_SIG(_name) \
-    void sig##_name(const QByteArray data);
+    void sig##_name(QTcpSocket* client, const QByteArray data);
 
 class NetworkHelper: public QObject {
     Q_OBJECT
@@ -16,22 +16,20 @@ public:
 public FUNCTION:
     size_t
         sendToClient(QTcpSocket*, const QString&);
+    size_t
+        sendToClient(QTcpSocket*, QByteArray&&);
     static int 
         DynamicParseFromPBFile(
             const QString&  filename,
             const QString&  classname,
             std::function<
                 void(::google::protobuf::Message* msg)
-            >               cb
+            > cb
         );
     
 public RESOURCE:
     inline static int port = 1919;
-    enum DataType {
-        UserSignUpRequestInfo = 0,
-        UserLoginRequestInfo,
-    };
-	
+
 signals:
     NET_SIG(UserLogin)
     NET_SIG(UserSignUp)

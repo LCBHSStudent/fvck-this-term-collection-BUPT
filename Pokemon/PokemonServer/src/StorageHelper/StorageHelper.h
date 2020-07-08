@@ -19,14 +19,14 @@ public FUNCTION:
     template<typename... Args>
     void transaction(
         const QString& queryStat,
-        std::function<void(QSqlQuery&)> process = std::function<void(QSqlQuery&)>(),
+        std::function<void(QSqlQuery&)> process,
         Args&&... args
     ) const {
         QSqlQuery query(m_db);
         query.prepare(queryStat);
         
         auto argTuple = std::forward_as_tuple(args...);
-        std::apply([&query, this](auto&&... args) {
+        std::apply([&query](auto&&... args) {
             ((query.addBindValue(QVariant::fromValue(args))), ...);
         }, argTuple);
         

@@ -16,23 +16,18 @@ BackendBase::BackendBase(QQuickItem *parent):
 {
     // copy sqlite file
     {
-        QFile preDB("./EmulatorConfig.db");
-        if (preDB.exists()) {
+        QFileInfo preDB("./EmulatorConfig.db");
+        if (!preDB.exists()) {
             QFile::setPermissions(
                 "./EmulatorConfig.db",
                 QFile::ReadOther | QFile::WriteOther
             );
-            
-            if(!preDB.remove()) {
-                qDebug() << preDB.errorString();
-            }
+            QFile dbFile(":/res/data/EmulatorConfig.db");
+            dbFile.copy("./EmulatorConfig.db");
+//            if(!preDB.remove()) {
+//                qDebug() << preDB.errorString();
+//            }
         }
-        QFile dbFile(":/res/data/EmulatorConfig.db");
-        dbFile.copy("./EmulatorConfig.db");
-//        if(!QFileInfo("./EmulatorConfig.db").exists()) {
-//            QFile dbFile(":/res/data/EmulatorConfig.db");
-//            dbFile.copy("./EmulatorConfig.db");
-//        }
         
     }
     m_sqlite = QSqlDatabase::contains("qt_sql_default_connection")?
@@ -179,15 +174,25 @@ void BackendBase::slotStartQuery(
     int         startH,
     int         startM,
     int         policy,
+    bool        setoff,
     int         timeLmt
 ) {
-    if(fromCity == destCity) 
+    if(fromCity == destCity) {
+        emit sigPopupMessage("出发地与到达地不能相同");
         return;
-    if(startH >= 24 || startH < 0)
+    }
+    if(startH >= 24 || startH < 0) {
+        emit sigPopupMessage("请输入正确的小时范围(0~23)");
         return;
-    if(startM >= 60 || startM < 0)
+    }
+    if(startM >= 60 || startM < 0) {
+        emit sigPopupMessage("请输入正确的分钟时刻(0~59)");
         return;
-    
+    }
+    if(setoff && !m_customer->isTaskEmpty()) {
+        emit sigPopupMessage("旅客仍在旅行中, 请使用查询模式");
+        return;
+    }
 //    m_absData->printAllRouteInfo(fromCity);
     
     emit sigNewMessage(m_sysTime.toString("[yyyy-MM-dd HH:mm]") + "Start query");
@@ -197,12 +202,12 @@ void BackendBase::slotStartQuery(
     switch (policy) {
     case TimeRefered:
         AlgorithmHelper::runWithAlgorithmDij(
-            this, fromCity, destCity, startH*60 + startM, timeLmt);
+            this, fromCity, destCity, startH*60 + startM, setoff, timeLmt);
         break;
         
     case SafetyRefered:
         AlgorithmHelper::runWithAlgorithmDij(
-            this, fromCity, destCity, startH*60 + startM);
+            this, fromCity, destCity, startH*60 + startM, setoff);
         
         break;
     default:

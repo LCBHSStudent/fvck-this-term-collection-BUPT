@@ -14,6 +14,7 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+extern PROTOBUF_INTERNAL_EXPORT_UserProtocol_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PokemonInfo_UserProtocol_2eproto;
 namespace UserProtocol {
 class UserSignUpRequestInfoDefaultTypeInternal {
  public:
@@ -31,24 +32,68 @@ class UserLoginResponseInfoDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<UserLoginResponseInfo> _instance;
 } _UserLoginResponseInfo_default_instance_;
-class UserInfoDefaultTypeInternal {
+class UserInfoRequestDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<UserInfo> _instance;
-} _UserInfo_default_instance_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<UserInfoRequest> _instance;
+} _UserInfoRequest_default_instance_;
+class UserInfoResponseDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<UserInfoResponse> _instance;
+} _UserInfoResponse_default_instance_;
+class UserPokemonDataRequestInfoDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<UserPokemonDataRequestInfo> _instance;
+} _UserPokemonDataRequestInfo_default_instance_;
+class PokemonInfoDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PokemonInfo> _instance;
+} _PokemonInfo_default_instance_;
+class UserPokemonDataResponseInfoDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<UserPokemonDataResponseInfo> _instance;
+} _UserPokemonDataResponseInfo_default_instance_;
 }  // namespace UserProtocol
-static void InitDefaultsscc_info_UserInfo_UserProtocol_2eproto() {
+static void InitDefaultsscc_info_PokemonInfo_UserProtocol_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::UserProtocol::_UserInfo_default_instance_;
-    new (ptr) ::UserProtocol::UserInfo();
+    void* ptr = &::UserProtocol::_PokemonInfo_default_instance_;
+    new (ptr) ::UserProtocol::PokemonInfo();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::UserProtocol::UserInfo::InitAsDefaultInstance();
+  ::UserProtocol::PokemonInfo::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_UserInfo_UserProtocol_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_UserInfo_UserProtocol_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PokemonInfo_UserProtocol_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_PokemonInfo_UserProtocol_2eproto}, {}};
+
+static void InitDefaultsscc_info_UserInfoRequest_UserProtocol_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::UserProtocol::_UserInfoRequest_default_instance_;
+    new (ptr) ::UserProtocol::UserInfoRequest();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::UserProtocol::UserInfoRequest::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_UserInfoRequest_UserProtocol_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_UserInfoRequest_UserProtocol_2eproto}, {}};
+
+static void InitDefaultsscc_info_UserInfoResponse_UserProtocol_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::UserProtocol::_UserInfoResponse_default_instance_;
+    new (ptr) ::UserProtocol::UserInfoResponse();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::UserProtocol::UserInfoResponse::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_UserInfoResponse_UserProtocol_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_UserInfoResponse_UserProtocol_2eproto}, {}};
 
 static void InitDefaultsscc_info_UserLoginRequestInfo_UserProtocol_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -78,6 +123,35 @@ static void InitDefaultsscc_info_UserLoginResponseInfo_UserProtocol_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_UserLoginResponseInfo_UserProtocol_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_UserLoginResponseInfo_UserProtocol_2eproto}, {}};
 
+static void InitDefaultsscc_info_UserPokemonDataRequestInfo_UserProtocol_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::UserProtocol::_UserPokemonDataRequestInfo_default_instance_;
+    new (ptr) ::UserProtocol::UserPokemonDataRequestInfo();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::UserProtocol::UserPokemonDataRequestInfo::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_UserPokemonDataRequestInfo_UserProtocol_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_UserPokemonDataRequestInfo_UserProtocol_2eproto}, {}};
+
+static void InitDefaultsscc_info_UserPokemonDataResponseInfo_UserProtocol_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::UserProtocol::_UserPokemonDataResponseInfo_default_instance_;
+    new (ptr) ::UserProtocol::UserPokemonDataResponseInfo();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::UserProtocol::UserPokemonDataResponseInfo::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_UserPokemonDataResponseInfo_UserProtocol_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_UserPokemonDataResponseInfo_UserProtocol_2eproto}, {
+      &scc_info_PokemonInfo_UserProtocol_2eproto.base,}};
+
 static void InitDefaultsscc_info_UserSignUpRequestInfo_UserProtocol_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -106,8 +180,8 @@ static void InitDefaultsscc_info_UserSignUpResponseInfo_UserProtocol_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_UserSignUpResponseInfo_UserProtocol_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_UserSignUpResponseInfo_UserProtocol_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_UserProtocol_2eproto[5];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_UserProtocol_2eproto[2];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_UserProtocol_2eproto[9];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_UserProtocol_2eproto[3];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_UserProtocol_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_UserProtocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -138,19 +212,65 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_UserProtocol_2eproto::offsets[
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::UserProtocol::UserLoginResponseInfo, status_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserInfo, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserInfoRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserInfo, username_),
-  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserInfo, pokemonid_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserInfoRequest, username_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserInfoResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserInfoResponse, username_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserInfoResponse, timeofduel_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserInfoResponse, timeofwins_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserInfoResponse, pkmamountbadge_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserInfoResponse, highlevelbadge_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserInfoResponse, pokemonid_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserPokemonDataRequestInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserPokemonDataRequestInfo, username_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserPokemonDataRequestInfo, pokemonid_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, id_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, name_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, level_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, type_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, exp_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, attr_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, atk_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, def_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, hp_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, spd_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, skill_1_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, skill_2_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, skill_3_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, skill_4_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserPokemonDataResponseInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserPokemonDataResponseInfo, data_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::UserProtocol::UserSignUpRequestInfo)},
   { 7, -1, sizeof(::UserProtocol::UserSignUpResponseInfo)},
   { 13, -1, sizeof(::UserProtocol::UserLoginRequestInfo)},
   { 20, -1, sizeof(::UserProtocol::UserLoginResponseInfo)},
-  { 26, -1, sizeof(::UserProtocol::UserInfo)},
+  { 26, -1, sizeof(::UserProtocol::UserInfoRequest)},
+  { 32, -1, sizeof(::UserProtocol::UserInfoResponse)},
+  { 43, -1, sizeof(::UserProtocol::UserPokemonDataRequestInfo)},
+  { 50, -1, sizeof(::UserProtocol::PokemonInfo)},
+  { 69, -1, sizeof(::UserProtocol::UserPokemonDataResponseInfo)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -158,43 +278,64 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_UserSignUpResponseInfo_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_UserLoginRequestInfo_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_UserLoginResponseInfo_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_UserInfo_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_UserInfoRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_UserInfoResponse_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_UserPokemonDataRequestInfo_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_PokemonInfo_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_UserPokemonDataResponseInfo_default_instance_),
 };
 
 const char descriptor_table_protodef_UserProtocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\022UserProtocol.proto\022\014UserProtocol\":\n\025Us"
-  "erSignUpRequestInfo\022\020\n\010userName\030\001 \001(\t\022\017\n"
-  "\007userPsw\030\002 \001(\t\"\360\001\n\026UserSignUpResponseInf"
+  "erSignUpRequestInfo\022\020\n\010userName\030\001 \001(\014\022\017\n"
+  "\007userPsw\030\002 \001(\014\"\360\001\n\026UserSignUpResponseInf"
   "o\022A\n\006status\030\001 \001(\01621.UserProtocol.UserSig"
   "nUpResponseInfo.SignUpStatus\"\222\001\n\014SignUpS"
   "tatus\022\013\n\007SUCCESS\020\000\022\027\n\023USER_ALREADY_EXIST"
   "S\020\001\022\031\n\025USERNAME_FORMAT_ERROR\020\002\022\030\n\024USERPS"
   "W_FORMAT_ERROR\020\003\022\022\n\016SERVER_REFUSED\020\004\022\023\n\017"
   "UNKNOWN_FAILURE\020\005\"9\n\024UserLoginRequestInf"
-  "o\022\020\n\010userName\030\001 \001(\t\022\017\n\007userPsw\030\002 \001(\t\"\305\001\n"
+  "o\022\020\n\010userName\030\001 \001(\014\022\017\n\007userPsw\030\002 \001(\014\"\305\001\n"
   "\025UserLoginResponseInfo\022\?\n\006status\030\001 \001(\0162/"
   ".UserProtocol.UserLoginResponseInfo.Logi"
   "nStatus\"k\n\013LoginStatus\022\013\n\007SUCCESS\020\000\022\023\n\017U"
-  "SER_NOT_EXISTS\020\001\022\021\n\rUSERPSW_ERROR\020\003\022\022\n\016S"
-  "ERVER_REFUSED\020\004\022\023\n\017UNKNOWN_FAILURE\020\005\"/\n\010"
-  "UserInfo\022\020\n\010userName\030\001 \001(\t\022\021\n\tpokemonId\030"
-  "\002 \003(\005b\006proto3"
+  "SER_NOT_EXISTS\020\001\022\021\n\rUSERPSW_ERROR\020\002\022\022\n\016S"
+  "ERVER_REFUSED\020\003\022\023\n\017UNKNOWN_FAILURE\020\004\"#\n\017"
+  "UserInfoRequest\022\020\n\010userName\030\001 \001(\014\"\276\001\n\020Us"
+  "erInfoResponse\022\020\n\010userName\030\001 \001(\014\022\022\n\ntime"
+  "OfDuel\030\002 \001(\005\022\022\n\ntimeOfWins\030\003 \001(\005\022\026\n\016pkmA"
+  "mountBadge\030\004 \001(\005\022\026\n\016highLevelBadge\030\005 \001(\005"
+  "\022\021\n\tpokemonId\030\006 \003(\005\"-\n\tBadgeType\022\n\n\006BRON"
+  "ZE\020\000\022\n\n\006SILVER\020\001\022\010\n\004GOLD\020\002\"A\n\032UserPokemo"
+  "nDataRequestInfo\022\020\n\010userName\030\001 \001(\014\022\021\n\tpo"
+  "kemonId\030\002 \003(\005\"\326\001\n\013PokemonInfo\022\n\n\002id\030\001 \001("
+  "\005\022\014\n\004name\030\002 \001(\014\022\r\n\005level\030\003 \001(\005\022\014\n\004type\030\004"
+  " \001(\005\022\013\n\003exp\030\005 \001(\005\022\014\n\004attr\030\006 \001(\005\022\013\n\003atk\030\007"
+  " \001(\005\022\013\n\003def\030\010 \001(\005\022\n\n\002hp\030\t \001(\005\022\013\n\003spd\030\n \001"
+  "(\005\022\017\n\007skill_1\030\013 \001(\014\022\017\n\007skill_2\030\014 \001(\014\022\017\n\007"
+  "skill_3\030\r \001(\014\022\017\n\007skill_4\030\016 \001(\014\"F\n\033UserPo"
+  "kemonDataResponseInfo\022\'\n\004data\030\001 \003(\0132\031.Us"
+  "erProtocol.PokemonInfob\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_UserProtocol_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_UserProtocol_2eproto_sccs[5] = {
-  &scc_info_UserInfo_UserProtocol_2eproto.base,
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_UserProtocol_2eproto_sccs[9] = {
+  &scc_info_PokemonInfo_UserProtocol_2eproto.base,
+  &scc_info_UserInfoRequest_UserProtocol_2eproto.base,
+  &scc_info_UserInfoResponse_UserProtocol_2eproto.base,
   &scc_info_UserLoginRequestInfo_UserProtocol_2eproto.base,
   &scc_info_UserLoginResponseInfo_UserProtocol_2eproto.base,
+  &scc_info_UserPokemonDataRequestInfo_UserProtocol_2eproto.base,
+  &scc_info_UserPokemonDataResponseInfo_UserProtocol_2eproto.base,
   &scc_info_UserSignUpRequestInfo_UserProtocol_2eproto.base,
   &scc_info_UserSignUpResponseInfo_UserProtocol_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_UserProtocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_UserProtocol_2eproto = {
-  false, false, descriptor_table_protodef_UserProtocol_2eproto, "UserProtocol.proto", 653,
-  &descriptor_table_UserProtocol_2eproto_once, descriptor_table_UserProtocol_2eproto_sccs, descriptor_table_UserProtocol_2eproto_deps, 5, 0,
+  false, false, descriptor_table_protodef_UserProtocol_2eproto, "UserProtocol.proto", 1190,
+  &descriptor_table_UserProtocol_2eproto_once, descriptor_table_UserProtocol_2eproto_sccs, descriptor_table_UserProtocol_2eproto_deps, 9, 0,
   schemas, file_default_instances, TableStruct_UserProtocol_2eproto::offsets,
-  file_level_metadata_UserProtocol_2eproto, 5, file_level_enum_descriptors_UserProtocol_2eproto, file_level_service_descriptors_UserProtocol_2eproto,
+  file_level_metadata_UserProtocol_2eproto, 9, file_level_enum_descriptors_UserProtocol_2eproto, file_level_service_descriptors_UserProtocol_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -237,9 +378,9 @@ bool UserLoginResponseInfo_LoginStatus_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
+    case 2:
     case 3:
     case 4:
-    case 5:
       return true;
     default:
       return false;
@@ -255,6 +396,29 @@ constexpr UserLoginResponseInfo_LoginStatus UserLoginResponseInfo::UNKNOWN_FAILU
 constexpr UserLoginResponseInfo_LoginStatus UserLoginResponseInfo::LoginStatus_MIN;
 constexpr UserLoginResponseInfo_LoginStatus UserLoginResponseInfo::LoginStatus_MAX;
 constexpr int UserLoginResponseInfo::LoginStatus_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* UserInfoResponse_BadgeType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_UserProtocol_2eproto);
+  return file_level_enum_descriptors_UserProtocol_2eproto[2];
+}
+bool UserInfoResponse_BadgeType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr UserInfoResponse_BadgeType UserInfoResponse::BRONZE;
+constexpr UserInfoResponse_BadgeType UserInfoResponse::SILVER;
+constexpr UserInfoResponse_BadgeType UserInfoResponse::GOLD;
+constexpr UserInfoResponse_BadgeType UserInfoResponse::BadgeType_MIN;
+constexpr UserInfoResponse_BadgeType UserInfoResponse::BadgeType_MAX;
+constexpr int UserInfoResponse::BadgeType_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 
 // ===================================================================
@@ -339,21 +503,19 @@ const char* UserSignUpRequestInfo::_InternalParse(const char* ptr, ::PROTOBUF_NA
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // string userName = 1;
+      // bytes userName = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           auto str = _internal_mutable_username();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "UserProtocol.UserSignUpRequestInfo.userName"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string userPsw = 2;
+      // bytes userPsw = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           auto str = _internal_mutable_userpsw();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "UserProtocol.UserSignUpRequestInfo.userPsw"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -385,23 +547,15 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string userName = 1;
+  // bytes userName = 1;
   if (this->username().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_username().data(), static_cast<int>(this->_internal_username().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "UserProtocol.UserSignUpRequestInfo.userName");
-    target = stream->WriteStringMaybeAliased(
+    target = stream->WriteBytesMaybeAliased(
         1, this->_internal_username(), target);
   }
 
-  // string userPsw = 2;
+  // bytes userPsw = 2;
   if (this->userpsw().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_userpsw().data(), static_cast<int>(this->_internal_userpsw().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "UserProtocol.UserSignUpRequestInfo.userPsw");
-    target = stream->WriteStringMaybeAliased(
+    target = stream->WriteBytesMaybeAliased(
         2, this->_internal_userpsw(), target);
   }
 
@@ -421,17 +575,17 @@ size_t UserSignUpRequestInfo::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string userName = 1;
+  // bytes userName = 1;
   if (this->username().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_username());
   }
 
-  // string userPsw = 2;
+  // bytes userPsw = 2;
   if (this->userpsw().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_userpsw());
   }
 
@@ -784,21 +938,19 @@ const char* UserLoginRequestInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAM
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // string userName = 1;
+      // bytes userName = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           auto str = _internal_mutable_username();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "UserProtocol.UserLoginRequestInfo.userName"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string userPsw = 2;
+      // bytes userPsw = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           auto str = _internal_mutable_userpsw();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "UserProtocol.UserLoginRequestInfo.userPsw"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -830,23 +982,15 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string userName = 1;
+  // bytes userName = 1;
   if (this->username().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_username().data(), static_cast<int>(this->_internal_username().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "UserProtocol.UserLoginRequestInfo.userName");
-    target = stream->WriteStringMaybeAliased(
+    target = stream->WriteBytesMaybeAliased(
         1, this->_internal_username(), target);
   }
 
-  // string userPsw = 2;
+  // bytes userPsw = 2;
   if (this->userpsw().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_userpsw().data(), static_cast<int>(this->_internal_userpsw().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "UserProtocol.UserLoginRequestInfo.userPsw");
-    target = stream->WriteStringMaybeAliased(
+    target = stream->WriteBytesMaybeAliased(
         2, this->_internal_userpsw(), target);
   }
 
@@ -866,17 +1010,17 @@ size_t UserLoginRequestInfo::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string userName = 1;
+  // bytes userName = 1;
   if (this->username().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_username());
   }
 
-  // string userPsw = 2;
+  // bytes userPsw = 2;
   if (this->userpsw().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_userpsw());
   }
 
@@ -1149,20 +1293,224 @@ void UserLoginResponseInfo::InternalSwap(UserLoginResponseInfo* other) {
 
 // ===================================================================
 
-void UserInfo::InitAsDefaultInstance() {
+void UserInfoRequest::InitAsDefaultInstance() {
 }
-class UserInfo::_Internal {
+class UserInfoRequest::_Internal {
  public:
 };
 
-UserInfo::UserInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+UserInfoRequest::UserInfoRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:UserProtocol.UserInfoRequest)
+}
+UserInfoRequest::UserInfoRequest(const UserInfoRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  username_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_username().empty()) {
+    username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_username(),
+      GetArena());
+  }
+  // @@protoc_insertion_point(copy_constructor:UserProtocol.UserInfoRequest)
+}
+
+void UserInfoRequest::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_UserInfoRequest_UserProtocol_2eproto.base);
+  username_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+UserInfoRequest::~UserInfoRequest() {
+  // @@protoc_insertion_point(destructor:UserProtocol.UserInfoRequest)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void UserInfoRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  username_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void UserInfoRequest::ArenaDtor(void* object) {
+  UserInfoRequest* _this = reinterpret_cast< UserInfoRequest* >(object);
+  (void)_this;
+}
+void UserInfoRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void UserInfoRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const UserInfoRequest& UserInfoRequest::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_UserInfoRequest_UserProtocol_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void UserInfoRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:UserProtocol.UserInfoRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  username_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* UserInfoRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // bytes userName = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_username();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* UserInfoRequest::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:UserProtocol.UserInfoRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bytes userName = 1;
+  if (this->username().size() > 0) {
+    target = stream->WriteBytesMaybeAliased(
+        1, this->_internal_username(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:UserProtocol.UserInfoRequest)
+  return target;
+}
+
+size_t UserInfoRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:UserProtocol.UserInfoRequest)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // bytes userName = 1;
+  if (this->username().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_username());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void UserInfoRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:UserProtocol.UserInfoRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  const UserInfoRequest* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<UserInfoRequest>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:UserProtocol.UserInfoRequest)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:UserProtocol.UserInfoRequest)
+    MergeFrom(*source);
+  }
+}
+
+void UserInfoRequest::MergeFrom(const UserInfoRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:UserProtocol.UserInfoRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.username().size() > 0) {
+    _internal_set_username(from._internal_username());
+  }
+}
+
+void UserInfoRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:UserProtocol.UserInfoRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void UserInfoRequest::CopyFrom(const UserInfoRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:UserProtocol.UserInfoRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UserInfoRequest::IsInitialized() const {
+  return true;
+}
+
+void UserInfoRequest::InternalSwap(UserInfoRequest* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  username_.Swap(&other->username_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata UserInfoRequest::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void UserInfoResponse::InitAsDefaultInstance() {
+}
+class UserInfoResponse::_Internal {
+ public:
+};
+
+UserInfoResponse::UserInfoResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena),
   pokemonid_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:UserProtocol.UserInfo)
+  // @@protoc_insertion_point(arena_constructor:UserProtocol.UserInfoResponse)
 }
-UserInfo::UserInfo(const UserInfo& from)
+UserInfoResponse::UserInfoResponse(const UserInfoResponse& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       pokemonid_(from.pokemonid_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -1171,42 +1519,392 @@ UserInfo::UserInfo(const UserInfo& from)
     username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_username(),
       GetArena());
   }
-  // @@protoc_insertion_point(copy_constructor:UserProtocol.UserInfo)
+  ::memcpy(&timeofduel_, &from.timeofduel_,
+    static_cast<size_t>(reinterpret_cast<char*>(&highlevelbadge_) -
+    reinterpret_cast<char*>(&timeofduel_)) + sizeof(highlevelbadge_));
+  // @@protoc_insertion_point(copy_constructor:UserProtocol.UserInfoResponse)
 }
 
-void UserInfo::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_UserInfo_UserProtocol_2eproto.base);
+void UserInfoResponse::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_UserInfoResponse_UserProtocol_2eproto.base);
   username_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&timeofduel_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&highlevelbadge_) -
+      reinterpret_cast<char*>(&timeofduel_)) + sizeof(highlevelbadge_));
 }
 
-UserInfo::~UserInfo() {
-  // @@protoc_insertion_point(destructor:UserProtocol.UserInfo)
+UserInfoResponse::~UserInfoResponse() {
+  // @@protoc_insertion_point(destructor:UserProtocol.UserInfoResponse)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void UserInfo::SharedDtor() {
+void UserInfoResponse::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
   username_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-void UserInfo::ArenaDtor(void* object) {
-  UserInfo* _this = reinterpret_cast< UserInfo* >(object);
+void UserInfoResponse::ArenaDtor(void* object) {
+  UserInfoResponse* _this = reinterpret_cast< UserInfoResponse* >(object);
   (void)_this;
 }
-void UserInfo::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+void UserInfoResponse::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 }
-void UserInfo::SetCachedSize(int size) const {
+void UserInfoResponse::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const UserInfo& UserInfo::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_UserInfo_UserProtocol_2eproto.base);
+const UserInfoResponse& UserInfoResponse::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_UserInfoResponse_UserProtocol_2eproto.base);
   return *internal_default_instance();
 }
 
 
-void UserInfo::Clear() {
-// @@protoc_insertion_point(message_clear_start:UserProtocol.UserInfo)
+void UserInfoResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:UserProtocol.UserInfoResponse)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  pokemonid_.Clear();
+  username_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::memset(&timeofduel_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&highlevelbadge_) -
+      reinterpret_cast<char*>(&timeofduel_)) + sizeof(highlevelbadge_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* UserInfoResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // bytes userName = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_username();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 timeOfDuel = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          timeofduel_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 timeOfWins = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          timeofwins_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 pkmAmountBadge = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          pkmamountbadge_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 highLevelBadge = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          highlevelbadge_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated int32 pokemonId = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 50)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_pokemonid(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48) {
+          _internal_add_pokemonid(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* UserInfoResponse::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:UserProtocol.UserInfoResponse)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bytes userName = 1;
+  if (this->username().size() > 0) {
+    target = stream->WriteBytesMaybeAliased(
+        1, this->_internal_username(), target);
+  }
+
+  // int32 timeOfDuel = 2;
+  if (this->timeofduel() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_timeofduel(), target);
+  }
+
+  // int32 timeOfWins = 3;
+  if (this->timeofwins() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_timeofwins(), target);
+  }
+
+  // int32 pkmAmountBadge = 4;
+  if (this->pkmamountbadge() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_pkmamountbadge(), target);
+  }
+
+  // int32 highLevelBadge = 5;
+  if (this->highlevelbadge() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(5, this->_internal_highlevelbadge(), target);
+  }
+
+  // repeated int32 pokemonId = 6;
+  {
+    int byte_size = _pokemonid_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          6, _internal_pokemonid(), byte_size, target);
+    }
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:UserProtocol.UserInfoResponse)
+  return target;
+}
+
+size_t UserInfoResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:UserProtocol.UserInfoResponse)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated int32 pokemonId = 6;
+  {
+    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      Int32Size(this->pokemonid_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+    }
+    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
+    _pokemonid_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  // bytes userName = 1;
+  if (this->username().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_username());
+  }
+
+  // int32 timeOfDuel = 2;
+  if (this->timeofduel() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_timeofduel());
+  }
+
+  // int32 timeOfWins = 3;
+  if (this->timeofwins() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_timeofwins());
+  }
+
+  // int32 pkmAmountBadge = 4;
+  if (this->pkmamountbadge() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_pkmamountbadge());
+  }
+
+  // int32 highLevelBadge = 5;
+  if (this->highlevelbadge() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_highlevelbadge());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void UserInfoResponse::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:UserProtocol.UserInfoResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  const UserInfoResponse* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<UserInfoResponse>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:UserProtocol.UserInfoResponse)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:UserProtocol.UserInfoResponse)
+    MergeFrom(*source);
+  }
+}
+
+void UserInfoResponse::MergeFrom(const UserInfoResponse& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:UserProtocol.UserInfoResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  pokemonid_.MergeFrom(from.pokemonid_);
+  if (from.username().size() > 0) {
+    _internal_set_username(from._internal_username());
+  }
+  if (from.timeofduel() != 0) {
+    _internal_set_timeofduel(from._internal_timeofduel());
+  }
+  if (from.timeofwins() != 0) {
+    _internal_set_timeofwins(from._internal_timeofwins());
+  }
+  if (from.pkmamountbadge() != 0) {
+    _internal_set_pkmamountbadge(from._internal_pkmamountbadge());
+  }
+  if (from.highlevelbadge() != 0) {
+    _internal_set_highlevelbadge(from._internal_highlevelbadge());
+  }
+}
+
+void UserInfoResponse::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:UserProtocol.UserInfoResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void UserInfoResponse::CopyFrom(const UserInfoResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:UserProtocol.UserInfoResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UserInfoResponse::IsInitialized() const {
+  return true;
+}
+
+void UserInfoResponse::InternalSwap(UserInfoResponse* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  pokemonid_.InternalSwap(&other->pokemonid_);
+  username_.Swap(&other->username_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(UserInfoResponse, highlevelbadge_)
+      + sizeof(UserInfoResponse::highlevelbadge_)
+      - PROTOBUF_FIELD_OFFSET(UserInfoResponse, timeofduel_)>(
+          reinterpret_cast<char*>(&timeofduel_),
+          reinterpret_cast<char*>(&other->timeofduel_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata UserInfoResponse::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void UserPokemonDataRequestInfo::InitAsDefaultInstance() {
+}
+class UserPokemonDataRequestInfo::_Internal {
+ public:
+};
+
+UserPokemonDataRequestInfo::UserPokemonDataRequestInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  pokemonid_(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:UserProtocol.UserPokemonDataRequestInfo)
+}
+UserPokemonDataRequestInfo::UserPokemonDataRequestInfo(const UserPokemonDataRequestInfo& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      pokemonid_(from.pokemonid_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  username_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_username().empty()) {
+    username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_username(),
+      GetArena());
+  }
+  // @@protoc_insertion_point(copy_constructor:UserProtocol.UserPokemonDataRequestInfo)
+}
+
+void UserPokemonDataRequestInfo::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_UserPokemonDataRequestInfo_UserProtocol_2eproto.base);
+  username_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+UserPokemonDataRequestInfo::~UserPokemonDataRequestInfo() {
+  // @@protoc_insertion_point(destructor:UserProtocol.UserPokemonDataRequestInfo)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void UserPokemonDataRequestInfo::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  username_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void UserPokemonDataRequestInfo::ArenaDtor(void* object) {
+  UserPokemonDataRequestInfo* _this = reinterpret_cast< UserPokemonDataRequestInfo* >(object);
+  (void)_this;
+}
+void UserPokemonDataRequestInfo::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void UserPokemonDataRequestInfo::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const UserPokemonDataRequestInfo& UserPokemonDataRequestInfo::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_UserPokemonDataRequestInfo_UserProtocol_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void UserPokemonDataRequestInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:UserProtocol.UserPokemonDataRequestInfo)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -1216,7 +1914,7 @@ void UserInfo::Clear() {
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* UserInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* UserPokemonDataRequestInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
   while (!ctx->Done(&ptr)) {
@@ -1224,12 +1922,11 @@ const char* UserInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::i
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // string userName = 1;
+      // bytes userName = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           auto str = _internal_mutable_username();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "UserProtocol.UserInfo.userName"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1265,19 +1962,15 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* UserInfo::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* UserPokemonDataRequestInfo::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:UserProtocol.UserInfo)
+  // @@protoc_insertion_point(serialize_to_array_start:UserProtocol.UserPokemonDataRequestInfo)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string userName = 1;
+  // bytes userName = 1;
   if (this->username().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_username().data(), static_cast<int>(this->_internal_username().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "UserProtocol.UserInfo.userName");
-    target = stream->WriteStringMaybeAliased(
+    target = stream->WriteBytesMaybeAliased(
         1, this->_internal_username(), target);
   }
 
@@ -1294,12 +1987,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:UserProtocol.UserInfo)
+  // @@protoc_insertion_point(serialize_to_array_end:UserProtocol.UserPokemonDataRequestInfo)
   return target;
 }
 
-size_t UserInfo::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:UserProtocol.UserInfo)
+size_t UserPokemonDataRequestInfo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:UserProtocol.UserPokemonDataRequestInfo)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -1321,10 +2014,10 @@ size_t UserInfo::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // string userName = 1;
+  // bytes userName = 1;
   if (this->username().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_username());
   }
 
@@ -1337,23 +2030,23 @@ size_t UserInfo::ByteSizeLong() const {
   return total_size;
 }
 
-void UserInfo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:UserProtocol.UserInfo)
+void UserPokemonDataRequestInfo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:UserProtocol.UserPokemonDataRequestInfo)
   GOOGLE_DCHECK_NE(&from, this);
-  const UserInfo* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<UserInfo>(
+  const UserPokemonDataRequestInfo* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<UserPokemonDataRequestInfo>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:UserProtocol.UserInfo)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:UserProtocol.UserPokemonDataRequestInfo)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:UserProtocol.UserInfo)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:UserProtocol.UserPokemonDataRequestInfo)
     MergeFrom(*source);
   }
 }
 
-void UserInfo::MergeFrom(const UserInfo& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:UserProtocol.UserInfo)
+void UserPokemonDataRequestInfo::MergeFrom(const UserPokemonDataRequestInfo& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:UserProtocol.UserPokemonDataRequestInfo)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -1365,32 +2058,793 @@ void UserInfo::MergeFrom(const UserInfo& from) {
   }
 }
 
-void UserInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:UserProtocol.UserInfo)
+void UserPokemonDataRequestInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:UserProtocol.UserPokemonDataRequestInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void UserInfo::CopyFrom(const UserInfo& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:UserProtocol.UserInfo)
+void UserPokemonDataRequestInfo::CopyFrom(const UserPokemonDataRequestInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:UserProtocol.UserPokemonDataRequestInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool UserInfo::IsInitialized() const {
+bool UserPokemonDataRequestInfo::IsInitialized() const {
   return true;
 }
 
-void UserInfo::InternalSwap(UserInfo* other) {
+void UserPokemonDataRequestInfo::InternalSwap(UserPokemonDataRequestInfo* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   pokemonid_.InternalSwap(&other->pokemonid_);
   username_.Swap(&other->username_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata UserInfo::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata UserPokemonDataRequestInfo::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void PokemonInfo::InitAsDefaultInstance() {
+}
+class PokemonInfo::_Internal {
+ public:
+};
+
+PokemonInfo::PokemonInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:UserProtocol.PokemonInfo)
+}
+PokemonInfo::PokemonInfo(const PokemonInfo& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_name().empty()) {
+    name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_name(),
+      GetArena());
+  }
+  skill_1_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_skill_1().empty()) {
+    skill_1_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_skill_1(),
+      GetArena());
+  }
+  skill_2_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_skill_2().empty()) {
+    skill_2_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_skill_2(),
+      GetArena());
+  }
+  skill_3_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_skill_3().empty()) {
+    skill_3_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_skill_3(),
+      GetArena());
+  }
+  skill_4_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_skill_4().empty()) {
+    skill_4_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_skill_4(),
+      GetArena());
+  }
+  ::memcpy(&id_, &from.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&spd_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(spd_));
+  // @@protoc_insertion_point(copy_constructor:UserProtocol.PokemonInfo)
+}
+
+void PokemonInfo::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_PokemonInfo_UserProtocol_2eproto.base);
+  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  skill_1_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  skill_2_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  skill_3_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  skill_4_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&spd_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(spd_));
+}
+
+PokemonInfo::~PokemonInfo() {
+  // @@protoc_insertion_point(destructor:UserProtocol.PokemonInfo)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void PokemonInfo::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  skill_1_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  skill_2_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  skill_3_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  skill_4_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void PokemonInfo::ArenaDtor(void* object) {
+  PokemonInfo* _this = reinterpret_cast< PokemonInfo* >(object);
+  (void)_this;
+}
+void PokemonInfo::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void PokemonInfo::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const PokemonInfo& PokemonInfo::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_PokemonInfo_UserProtocol_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void PokemonInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:UserProtocol.PokemonInfo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  skill_1_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  skill_2_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  skill_3_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  skill_4_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::memset(&id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&spd_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(spd_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* PokemonInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // int32 id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bytes name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          auto str = _internal_mutable_name();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 level = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          level_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 type = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          type_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 exp = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          exp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 attr = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
+          attr_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 atk = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+          atk_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 def = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
+          def_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 hp = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
+          hp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 spd = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 80)) {
+          spd_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bytes skill_1 = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 90)) {
+          auto str = _internal_mutable_skill_1();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bytes skill_2 = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 98)) {
+          auto str = _internal_mutable_skill_2();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bytes skill_3 = 13;
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 106)) {
+          auto str = _internal_mutable_skill_3();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bytes skill_4 = 14;
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 114)) {
+          auto str = _internal_mutable_skill_4();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* PokemonInfo::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:UserProtocol.PokemonInfo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 id = 1;
+  if (this->id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
+  }
+
+  // bytes name = 2;
+  if (this->name().size() > 0) {
+    target = stream->WriteBytesMaybeAliased(
+        2, this->_internal_name(), target);
+  }
+
+  // int32 level = 3;
+  if (this->level() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_level(), target);
+  }
+
+  // int32 type = 4;
+  if (this->type() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_type(), target);
+  }
+
+  // int32 exp = 5;
+  if (this->exp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(5, this->_internal_exp(), target);
+  }
+
+  // int32 attr = 6;
+  if (this->attr() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(6, this->_internal_attr(), target);
+  }
+
+  // int32 atk = 7;
+  if (this->atk() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(7, this->_internal_atk(), target);
+  }
+
+  // int32 def = 8;
+  if (this->def() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(8, this->_internal_def(), target);
+  }
+
+  // int32 hp = 9;
+  if (this->hp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(9, this->_internal_hp(), target);
+  }
+
+  // int32 spd = 10;
+  if (this->spd() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(10, this->_internal_spd(), target);
+  }
+
+  // bytes skill_1 = 11;
+  if (this->skill_1().size() > 0) {
+    target = stream->WriteBytesMaybeAliased(
+        11, this->_internal_skill_1(), target);
+  }
+
+  // bytes skill_2 = 12;
+  if (this->skill_2().size() > 0) {
+    target = stream->WriteBytesMaybeAliased(
+        12, this->_internal_skill_2(), target);
+  }
+
+  // bytes skill_3 = 13;
+  if (this->skill_3().size() > 0) {
+    target = stream->WriteBytesMaybeAliased(
+        13, this->_internal_skill_3(), target);
+  }
+
+  // bytes skill_4 = 14;
+  if (this->skill_4().size() > 0) {
+    target = stream->WriteBytesMaybeAliased(
+        14, this->_internal_skill_4(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:UserProtocol.PokemonInfo)
+  return target;
+}
+
+size_t PokemonInfo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:UserProtocol.PokemonInfo)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // bytes name = 2;
+  if (this->name().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_name());
+  }
+
+  // bytes skill_1 = 11;
+  if (this->skill_1().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_skill_1());
+  }
+
+  // bytes skill_2 = 12;
+  if (this->skill_2().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_skill_2());
+  }
+
+  // bytes skill_3 = 13;
+  if (this->skill_3().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_skill_3());
+  }
+
+  // bytes skill_4 = 14;
+  if (this->skill_4().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_skill_4());
+  }
+
+  // int32 id = 1;
+  if (this->id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_id());
+  }
+
+  // int32 level = 3;
+  if (this->level() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_level());
+  }
+
+  // int32 type = 4;
+  if (this->type() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_type());
+  }
+
+  // int32 exp = 5;
+  if (this->exp() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_exp());
+  }
+
+  // int32 attr = 6;
+  if (this->attr() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_attr());
+  }
+
+  // int32 atk = 7;
+  if (this->atk() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_atk());
+  }
+
+  // int32 def = 8;
+  if (this->def() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_def());
+  }
+
+  // int32 hp = 9;
+  if (this->hp() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_hp());
+  }
+
+  // int32 spd = 10;
+  if (this->spd() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_spd());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void PokemonInfo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:UserProtocol.PokemonInfo)
+  GOOGLE_DCHECK_NE(&from, this);
+  const PokemonInfo* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<PokemonInfo>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:UserProtocol.PokemonInfo)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:UserProtocol.PokemonInfo)
+    MergeFrom(*source);
+  }
+}
+
+void PokemonInfo::MergeFrom(const PokemonInfo& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:UserProtocol.PokemonInfo)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.name().size() > 0) {
+    _internal_set_name(from._internal_name());
+  }
+  if (from.skill_1().size() > 0) {
+    _internal_set_skill_1(from._internal_skill_1());
+  }
+  if (from.skill_2().size() > 0) {
+    _internal_set_skill_2(from._internal_skill_2());
+  }
+  if (from.skill_3().size() > 0) {
+    _internal_set_skill_3(from._internal_skill_3());
+  }
+  if (from.skill_4().size() > 0) {
+    _internal_set_skill_4(from._internal_skill_4());
+  }
+  if (from.id() != 0) {
+    _internal_set_id(from._internal_id());
+  }
+  if (from.level() != 0) {
+    _internal_set_level(from._internal_level());
+  }
+  if (from.type() != 0) {
+    _internal_set_type(from._internal_type());
+  }
+  if (from.exp() != 0) {
+    _internal_set_exp(from._internal_exp());
+  }
+  if (from.attr() != 0) {
+    _internal_set_attr(from._internal_attr());
+  }
+  if (from.atk() != 0) {
+    _internal_set_atk(from._internal_atk());
+  }
+  if (from.def() != 0) {
+    _internal_set_def(from._internal_def());
+  }
+  if (from.hp() != 0) {
+    _internal_set_hp(from._internal_hp());
+  }
+  if (from.spd() != 0) {
+    _internal_set_spd(from._internal_spd());
+  }
+}
+
+void PokemonInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:UserProtocol.PokemonInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void PokemonInfo::CopyFrom(const PokemonInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:UserProtocol.PokemonInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PokemonInfo::IsInitialized() const {
+  return true;
+}
+
+void PokemonInfo::InternalSwap(PokemonInfo* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  name_.Swap(&other->name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  skill_1_.Swap(&other->skill_1_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  skill_2_.Swap(&other->skill_2_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  skill_3_.Swap(&other->skill_3_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  skill_4_.Swap(&other->skill_4_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(PokemonInfo, spd_)
+      + sizeof(PokemonInfo::spd_)
+      - PROTOBUF_FIELD_OFFSET(PokemonInfo, id_)>(
+          reinterpret_cast<char*>(&id_),
+          reinterpret_cast<char*>(&other->id_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata PokemonInfo::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void UserPokemonDataResponseInfo::InitAsDefaultInstance() {
+}
+class UserPokemonDataResponseInfo::_Internal {
+ public:
+};
+
+UserPokemonDataResponseInfo::UserPokemonDataResponseInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  data_(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:UserProtocol.UserPokemonDataResponseInfo)
+}
+UserPokemonDataResponseInfo::UserPokemonDataResponseInfo(const UserPokemonDataResponseInfo& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      data_(from.data_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:UserProtocol.UserPokemonDataResponseInfo)
+}
+
+void UserPokemonDataResponseInfo::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_UserPokemonDataResponseInfo_UserProtocol_2eproto.base);
+}
+
+UserPokemonDataResponseInfo::~UserPokemonDataResponseInfo() {
+  // @@protoc_insertion_point(destructor:UserProtocol.UserPokemonDataResponseInfo)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void UserPokemonDataResponseInfo::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void UserPokemonDataResponseInfo::ArenaDtor(void* object) {
+  UserPokemonDataResponseInfo* _this = reinterpret_cast< UserPokemonDataResponseInfo* >(object);
+  (void)_this;
+}
+void UserPokemonDataResponseInfo::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void UserPokemonDataResponseInfo::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const UserPokemonDataResponseInfo& UserPokemonDataResponseInfo::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_UserPokemonDataResponseInfo_UserProtocol_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void UserPokemonDataResponseInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:UserProtocol.UserPokemonDataResponseInfo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  data_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* UserPokemonDataResponseInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // repeated .UserProtocol.PokemonInfo data = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_data(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* UserPokemonDataResponseInfo::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:UserProtocol.UserPokemonDataResponseInfo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated .UserProtocol.PokemonInfo data = 1;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_data_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, this->_internal_data(i), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:UserProtocol.UserPokemonDataResponseInfo)
+  return target;
+}
+
+size_t UserPokemonDataResponseInfo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:UserProtocol.UserPokemonDataResponseInfo)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .UserProtocol.PokemonInfo data = 1;
+  total_size += 1UL * this->_internal_data_size();
+  for (const auto& msg : this->data_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void UserPokemonDataResponseInfo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:UserProtocol.UserPokemonDataResponseInfo)
+  GOOGLE_DCHECK_NE(&from, this);
+  const UserPokemonDataResponseInfo* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<UserPokemonDataResponseInfo>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:UserProtocol.UserPokemonDataResponseInfo)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:UserProtocol.UserPokemonDataResponseInfo)
+    MergeFrom(*source);
+  }
+}
+
+void UserPokemonDataResponseInfo::MergeFrom(const UserPokemonDataResponseInfo& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:UserProtocol.UserPokemonDataResponseInfo)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  data_.MergeFrom(from.data_);
+}
+
+void UserPokemonDataResponseInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:UserProtocol.UserPokemonDataResponseInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void UserPokemonDataResponseInfo::CopyFrom(const UserPokemonDataResponseInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:UserProtocol.UserPokemonDataResponseInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UserPokemonDataResponseInfo::IsInitialized() const {
+  return true;
+}
+
+void UserPokemonDataResponseInfo::InternalSwap(UserPokemonDataResponseInfo* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  data_.InternalSwap(&other->data_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata UserPokemonDataResponseInfo::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -1410,8 +2864,20 @@ template<> PROTOBUF_NOINLINE ::UserProtocol::UserLoginRequestInfo* Arena::Create
 template<> PROTOBUF_NOINLINE ::UserProtocol::UserLoginResponseInfo* Arena::CreateMaybeMessage< ::UserProtocol::UserLoginResponseInfo >(Arena* arena) {
   return Arena::CreateMessageInternal< ::UserProtocol::UserLoginResponseInfo >(arena);
 }
-template<> PROTOBUF_NOINLINE ::UserProtocol::UserInfo* Arena::CreateMaybeMessage< ::UserProtocol::UserInfo >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::UserProtocol::UserInfo >(arena);
+template<> PROTOBUF_NOINLINE ::UserProtocol::UserInfoRequest* Arena::CreateMaybeMessage< ::UserProtocol::UserInfoRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::UserProtocol::UserInfoRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::UserProtocol::UserInfoResponse* Arena::CreateMaybeMessage< ::UserProtocol::UserInfoResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::UserProtocol::UserInfoResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::UserProtocol::UserPokemonDataRequestInfo* Arena::CreateMaybeMessage< ::UserProtocol::UserPokemonDataRequestInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::UserProtocol::UserPokemonDataRequestInfo >(arena);
+}
+template<> PROTOBUF_NOINLINE ::UserProtocol::PokemonInfo* Arena::CreateMaybeMessage< ::UserProtocol::PokemonInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::UserProtocol::PokemonInfo >(arena);
+}
+template<> PROTOBUF_NOINLINE ::UserProtocol::UserPokemonDataResponseInfo* Arena::CreateMaybeMessage< ::UserProtocol::UserPokemonDataResponseInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::UserProtocol::UserPokemonDataResponseInfo >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

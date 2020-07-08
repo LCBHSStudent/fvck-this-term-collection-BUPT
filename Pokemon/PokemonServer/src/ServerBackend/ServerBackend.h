@@ -7,14 +7,14 @@
 #include "../NetworkHelper/NetworkHelper.h"
 
 #define NET_SLOT(_name) \
-    void slot##_name(const QByteArray data)
+    void slot##_name(QTcpSocket* client, const QByteArray data)
 
 class ServerBackend: public QObject {
     Q_OBJECT
 public:
     ServerBackend();
     ~ServerBackend();
-    
+     
 public slots:
     NET_SLOT(UserLogin);
     NET_SLOT(UserSignUp);
@@ -29,8 +29,6 @@ private FUNCTION:
 private RESOURCE:
     std::unique_ptr<NetworkHelper>
         m_helper;
-    QSqlDatabase
-        m_db = {};
     QList<User>
         m_userList = {};
     

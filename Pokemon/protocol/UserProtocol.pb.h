@@ -48,7 +48,7 @@ struct TableStruct_UserProtocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[9]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -56,15 +56,27 @@ struct TableStruct_UserProtocol_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_UserProtocol_2eproto;
 namespace UserProtocol {
-class UserInfo;
-class UserInfoDefaultTypeInternal;
-extern UserInfoDefaultTypeInternal _UserInfo_default_instance_;
+class PokemonInfo;
+class PokemonInfoDefaultTypeInternal;
+extern PokemonInfoDefaultTypeInternal _PokemonInfo_default_instance_;
+class UserInfoRequest;
+class UserInfoRequestDefaultTypeInternal;
+extern UserInfoRequestDefaultTypeInternal _UserInfoRequest_default_instance_;
+class UserInfoResponse;
+class UserInfoResponseDefaultTypeInternal;
+extern UserInfoResponseDefaultTypeInternal _UserInfoResponse_default_instance_;
 class UserLoginRequestInfo;
 class UserLoginRequestInfoDefaultTypeInternal;
 extern UserLoginRequestInfoDefaultTypeInternal _UserLoginRequestInfo_default_instance_;
 class UserLoginResponseInfo;
 class UserLoginResponseInfoDefaultTypeInternal;
 extern UserLoginResponseInfoDefaultTypeInternal _UserLoginResponseInfo_default_instance_;
+class UserPokemonDataRequestInfo;
+class UserPokemonDataRequestInfoDefaultTypeInternal;
+extern UserPokemonDataRequestInfoDefaultTypeInternal _UserPokemonDataRequestInfo_default_instance_;
+class UserPokemonDataResponseInfo;
+class UserPokemonDataResponseInfoDefaultTypeInternal;
+extern UserPokemonDataResponseInfoDefaultTypeInternal _UserPokemonDataResponseInfo_default_instance_;
 class UserSignUpRequestInfo;
 class UserSignUpRequestInfoDefaultTypeInternal;
 extern UserSignUpRequestInfoDefaultTypeInternal _UserSignUpRequestInfo_default_instance_;
@@ -73,9 +85,13 @@ class UserSignUpResponseInfoDefaultTypeInternal;
 extern UserSignUpResponseInfoDefaultTypeInternal _UserSignUpResponseInfo_default_instance_;
 }  // namespace UserProtocol
 PROTOBUF_NAMESPACE_OPEN
-template<> ::UserProtocol::UserInfo* Arena::CreateMaybeMessage<::UserProtocol::UserInfo>(Arena*);
+template<> ::UserProtocol::PokemonInfo* Arena::CreateMaybeMessage<::UserProtocol::PokemonInfo>(Arena*);
+template<> ::UserProtocol::UserInfoRequest* Arena::CreateMaybeMessage<::UserProtocol::UserInfoRequest>(Arena*);
+template<> ::UserProtocol::UserInfoResponse* Arena::CreateMaybeMessage<::UserProtocol::UserInfoResponse>(Arena*);
 template<> ::UserProtocol::UserLoginRequestInfo* Arena::CreateMaybeMessage<::UserProtocol::UserLoginRequestInfo>(Arena*);
 template<> ::UserProtocol::UserLoginResponseInfo* Arena::CreateMaybeMessage<::UserProtocol::UserLoginResponseInfo>(Arena*);
+template<> ::UserProtocol::UserPokemonDataRequestInfo* Arena::CreateMaybeMessage<::UserProtocol::UserPokemonDataRequestInfo>(Arena*);
+template<> ::UserProtocol::UserPokemonDataResponseInfo* Arena::CreateMaybeMessage<::UserProtocol::UserPokemonDataResponseInfo>(Arena*);
 template<> ::UserProtocol::UserSignUpRequestInfo* Arena::CreateMaybeMessage<::UserProtocol::UserSignUpRequestInfo>(Arena*);
 template<> ::UserProtocol::UserSignUpResponseInfo* Arena::CreateMaybeMessage<::UserProtocol::UserSignUpResponseInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -113,9 +129,9 @@ inline bool UserSignUpResponseInfo_SignUpStatus_Parse(
 enum UserLoginResponseInfo_LoginStatus : int {
   UserLoginResponseInfo_LoginStatus_SUCCESS = 0,
   UserLoginResponseInfo_LoginStatus_USER_NOT_EXISTS = 1,
-  UserLoginResponseInfo_LoginStatus_USERPSW_ERROR = 3,
-  UserLoginResponseInfo_LoginStatus_SERVER_REFUSED = 4,
-  UserLoginResponseInfo_LoginStatus_UNKNOWN_FAILURE = 5,
+  UserLoginResponseInfo_LoginStatus_USERPSW_ERROR = 2,
+  UserLoginResponseInfo_LoginStatus_SERVER_REFUSED = 3,
+  UserLoginResponseInfo_LoginStatus_UNKNOWN_FAILURE = 4,
   UserLoginResponseInfo_LoginStatus_UserLoginResponseInfo_LoginStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   UserLoginResponseInfo_LoginStatus_UserLoginResponseInfo_LoginStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
@@ -137,6 +153,32 @@ inline bool UserLoginResponseInfo_LoginStatus_Parse(
     const std::string& name, UserLoginResponseInfo_LoginStatus* value) {
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<UserLoginResponseInfo_LoginStatus>(
     UserLoginResponseInfo_LoginStatus_descriptor(), name, value);
+}
+enum UserInfoResponse_BadgeType : int {
+  UserInfoResponse_BadgeType_BRONZE = 0,
+  UserInfoResponse_BadgeType_SILVER = 1,
+  UserInfoResponse_BadgeType_GOLD = 2,
+  UserInfoResponse_BadgeType_UserInfoResponse_BadgeType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  UserInfoResponse_BadgeType_UserInfoResponse_BadgeType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool UserInfoResponse_BadgeType_IsValid(int value);
+constexpr UserInfoResponse_BadgeType UserInfoResponse_BadgeType_BadgeType_MIN = UserInfoResponse_BadgeType_BRONZE;
+constexpr UserInfoResponse_BadgeType UserInfoResponse_BadgeType_BadgeType_MAX = UserInfoResponse_BadgeType_GOLD;
+constexpr int UserInfoResponse_BadgeType_BadgeType_ARRAYSIZE = UserInfoResponse_BadgeType_BadgeType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* UserInfoResponse_BadgeType_descriptor();
+template<typename T>
+inline const std::string& UserInfoResponse_BadgeType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, UserInfoResponse_BadgeType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function UserInfoResponse_BadgeType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    UserInfoResponse_BadgeType_descriptor(), enum_t_value);
+}
+inline bool UserInfoResponse_BadgeType_Parse(
+    const std::string& name, UserInfoResponse_BadgeType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<UserInfoResponse_BadgeType>(
+    UserInfoResponse_BadgeType_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -256,13 +298,13 @@ class UserSignUpRequestInfo PROTOBUF_FINAL :
     kUserNameFieldNumber = 1,
     kUserPswFieldNumber = 2,
   };
-  // string userName = 1;
+  // bytes userName = 1;
   void clear_username();
   const std::string& username() const;
   void set_username(const std::string& value);
   void set_username(std::string&& value);
   void set_username(const char* value);
-  void set_username(const char* value, size_t size);
+  void set_username(const void* value, size_t size);
   std::string* mutable_username();
   std::string* release_username();
   void set_allocated_username(std::string* username);
@@ -281,13 +323,13 @@ class UserSignUpRequestInfo PROTOBUF_FINAL :
   std::string* _internal_mutable_username();
   public:
 
-  // string userPsw = 2;
+  // bytes userPsw = 2;
   void clear_userpsw();
   const std::string& userpsw() const;
   void set_userpsw(const std::string& value);
   void set_userpsw(std::string&& value);
   void set_userpsw(const char* value);
-  void set_userpsw(const char* value, size_t size);
+  void set_userpsw(const void* value, size_t size);
   std::string* mutable_userpsw();
   std::string* release_userpsw();
   void set_allocated_userpsw(std::string* userpsw);
@@ -611,13 +653,13 @@ class UserLoginRequestInfo PROTOBUF_FINAL :
     kUserNameFieldNumber = 1,
     kUserPswFieldNumber = 2,
   };
-  // string userName = 1;
+  // bytes userName = 1;
   void clear_username();
   const std::string& username() const;
   void set_username(const std::string& value);
   void set_username(std::string&& value);
   void set_username(const char* value);
-  void set_username(const char* value, size_t size);
+  void set_username(const void* value, size_t size);
   std::string* mutable_username();
   std::string* release_username();
   void set_allocated_username(std::string* username);
@@ -636,13 +678,13 @@ class UserLoginRequestInfo PROTOBUF_FINAL :
   std::string* _internal_mutable_username();
   public:
 
-  // string userPsw = 2;
+  // bytes userPsw = 2;
   void clear_userpsw();
   const std::string& userpsw() const;
   void set_userpsw(const std::string& value);
   void set_userpsw(std::string&& value);
   void set_userpsw(const char* value);
-  void set_userpsw(const char* value, size_t size);
+  void set_userpsw(const void* value, size_t size);
   std::string* mutable_userpsw();
   std::string* release_userpsw();
   void set_allocated_userpsw(std::string* userpsw);
@@ -848,23 +890,23 @@ class UserLoginResponseInfo PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
-class UserInfo PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UserProtocol.UserInfo) */ {
+class UserInfoRequest PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UserProtocol.UserInfoRequest) */ {
  public:
-  inline UserInfo() : UserInfo(nullptr) {};
-  virtual ~UserInfo();
+  inline UserInfoRequest() : UserInfoRequest(nullptr) {};
+  virtual ~UserInfoRequest();
 
-  UserInfo(const UserInfo& from);
-  UserInfo(UserInfo&& from) noexcept
-    : UserInfo() {
+  UserInfoRequest(const UserInfoRequest& from);
+  UserInfoRequest(UserInfoRequest&& from) noexcept
+    : UserInfoRequest() {
     *this = ::std::move(from);
   }
 
-  inline UserInfo& operator=(const UserInfo& from) {
+  inline UserInfoRequest& operator=(const UserInfoRequest& from) {
     CopyFrom(from);
     return *this;
   }
-  inline UserInfo& operator=(UserInfo&& from) noexcept {
+  inline UserInfoRequest& operator=(UserInfoRequest&& from) noexcept {
     if (GetArena() == from.GetArena()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -882,20 +924,20 @@ class UserInfo PROTOBUF_FINAL :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const UserInfo& default_instance();
+  static const UserInfoRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const UserInfo* internal_default_instance() {
-    return reinterpret_cast<const UserInfo*>(
-               &_UserInfo_default_instance_);
+  static inline const UserInfoRequest* internal_default_instance() {
+    return reinterpret_cast<const UserInfoRequest*>(
+               &_UserInfoRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     4;
 
-  friend void swap(UserInfo& a, UserInfo& b) {
+  friend void swap(UserInfoRequest& a, UserInfoRequest& b) {
     a.Swap(&b);
   }
-  inline void Swap(UserInfo* other) {
+  inline void Swap(UserInfoRequest* other) {
     if (other == this) return;
     if (GetArena() == other->GetArena()) {
       InternalSwap(other);
@@ -903,7 +945,7 @@ class UserInfo PROTOBUF_FINAL :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(UserInfo* other) {
+  void UnsafeArenaSwap(UserInfoRequest* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -911,17 +953,17 @@ class UserInfo PROTOBUF_FINAL :
 
   // implements Message ----------------------------------------------
 
-  inline UserInfo* New() const final {
-    return CreateMaybeMessage<UserInfo>(nullptr);
+  inline UserInfoRequest* New() const final {
+    return CreateMaybeMessage<UserInfoRequest>(nullptr);
   }
 
-  UserInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<UserInfo>(arena);
+  UserInfoRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<UserInfoRequest>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const UserInfo& from);
-  void MergeFrom(const UserInfo& from);
+  void CopyFrom(const UserInfoRequest& from);
+  void MergeFrom(const UserInfoRequest& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -935,13 +977,420 @@ class UserInfo PROTOBUF_FINAL :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(UserInfo* other);
+  void InternalSwap(UserInfoRequest* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "UserProtocol.UserInfo";
+    return "UserProtocol.UserInfoRequest";
   }
   protected:
-  explicit UserInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  explicit UserInfoRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_UserProtocol_2eproto);
+    return ::descriptor_table_UserProtocol_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUserNameFieldNumber = 1,
+  };
+  // bytes userName = 1;
+  void clear_username();
+  const std::string& username() const;
+  void set_username(const std::string& value);
+  void set_username(std::string&& value);
+  void set_username(const char* value);
+  void set_username(const void* value, size_t size);
+  std::string* mutable_username();
+  std::string* release_username();
+  void set_allocated_username(std::string* username);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_username();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_username(
+      std::string* username);
+  private:
+  const std::string& _internal_username() const;
+  void _internal_set_username(const std::string& value);
+  std::string* _internal_mutable_username();
+  public:
+
+  // @@protoc_insertion_point(class_scope:UserProtocol.UserInfoRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr username_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_UserProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class UserInfoResponse PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UserProtocol.UserInfoResponse) */ {
+ public:
+  inline UserInfoResponse() : UserInfoResponse(nullptr) {};
+  virtual ~UserInfoResponse();
+
+  UserInfoResponse(const UserInfoResponse& from);
+  UserInfoResponse(UserInfoResponse&& from) noexcept
+    : UserInfoResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline UserInfoResponse& operator=(const UserInfoResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline UserInfoResponse& operator=(UserInfoResponse&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const UserInfoResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UserInfoResponse* internal_default_instance() {
+    return reinterpret_cast<const UserInfoResponse*>(
+               &_UserInfoResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(UserInfoResponse& a, UserInfoResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(UserInfoResponse* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(UserInfoResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UserInfoResponse* New() const final {
+    return CreateMaybeMessage<UserInfoResponse>(nullptr);
+  }
+
+  UserInfoResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<UserInfoResponse>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const UserInfoResponse& from);
+  void MergeFrom(const UserInfoResponse& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(UserInfoResponse* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "UserProtocol.UserInfoResponse";
+  }
+  protected:
+  explicit UserInfoResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_UserProtocol_2eproto);
+    return ::descriptor_table_UserProtocol_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  typedef UserInfoResponse_BadgeType BadgeType;
+  static constexpr BadgeType BRONZE =
+    UserInfoResponse_BadgeType_BRONZE;
+  static constexpr BadgeType SILVER =
+    UserInfoResponse_BadgeType_SILVER;
+  static constexpr BadgeType GOLD =
+    UserInfoResponse_BadgeType_GOLD;
+  static inline bool BadgeType_IsValid(int value) {
+    return UserInfoResponse_BadgeType_IsValid(value);
+  }
+  static constexpr BadgeType BadgeType_MIN =
+    UserInfoResponse_BadgeType_BadgeType_MIN;
+  static constexpr BadgeType BadgeType_MAX =
+    UserInfoResponse_BadgeType_BadgeType_MAX;
+  static constexpr int BadgeType_ARRAYSIZE =
+    UserInfoResponse_BadgeType_BadgeType_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  BadgeType_descriptor() {
+    return UserInfoResponse_BadgeType_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& BadgeType_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, BadgeType>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function BadgeType_Name.");
+    return UserInfoResponse_BadgeType_Name(enum_t_value);
+  }
+  static inline bool BadgeType_Parse(const std::string& name,
+      BadgeType* value) {
+    return UserInfoResponse_BadgeType_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPokemonIdFieldNumber = 6,
+    kUserNameFieldNumber = 1,
+    kTimeOfDuelFieldNumber = 2,
+    kTimeOfWinsFieldNumber = 3,
+    kPkmAmountBadgeFieldNumber = 4,
+    kHighLevelBadgeFieldNumber = 5,
+  };
+  // repeated int32 pokemonId = 6;
+  int pokemonid_size() const;
+  private:
+  int _internal_pokemonid_size() const;
+  public:
+  void clear_pokemonid();
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_pokemonid(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+      _internal_pokemonid() const;
+  void _internal_add_pokemonid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+      _internal_mutable_pokemonid();
+  public:
+  ::PROTOBUF_NAMESPACE_ID::int32 pokemonid(int index) const;
+  void set_pokemonid(int index, ::PROTOBUF_NAMESPACE_ID::int32 value);
+  void add_pokemonid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+      pokemonid() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+      mutable_pokemonid();
+
+  // bytes userName = 1;
+  void clear_username();
+  const std::string& username() const;
+  void set_username(const std::string& value);
+  void set_username(std::string&& value);
+  void set_username(const char* value);
+  void set_username(const void* value, size_t size);
+  std::string* mutable_username();
+  std::string* release_username();
+  void set_allocated_username(std::string* username);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_username();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_username(
+      std::string* username);
+  private:
+  const std::string& _internal_username() const;
+  void _internal_set_username(const std::string& value);
+  std::string* _internal_mutable_username();
+  public:
+
+  // int32 timeOfDuel = 2;
+  void clear_timeofduel();
+  ::PROTOBUF_NAMESPACE_ID::int32 timeofduel() const;
+  void set_timeofduel(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_timeofduel() const;
+  void _internal_set_timeofduel(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 timeOfWins = 3;
+  void clear_timeofwins();
+  ::PROTOBUF_NAMESPACE_ID::int32 timeofwins() const;
+  void set_timeofwins(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_timeofwins() const;
+  void _internal_set_timeofwins(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 pkmAmountBadge = 4;
+  void clear_pkmamountbadge();
+  ::PROTOBUF_NAMESPACE_ID::int32 pkmamountbadge() const;
+  void set_pkmamountbadge(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_pkmamountbadge() const;
+  void _internal_set_pkmamountbadge(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 highLevelBadge = 5;
+  void clear_highlevelbadge();
+  ::PROTOBUF_NAMESPACE_ID::int32 highlevelbadge() const;
+  void set_highlevelbadge(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_highlevelbadge() const;
+  void _internal_set_highlevelbadge(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:UserProtocol.UserInfoResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 > pokemonid_;
+  mutable std::atomic<int> _pokemonid_cached_byte_size_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr username_;
+  ::PROTOBUF_NAMESPACE_ID::int32 timeofduel_;
+  ::PROTOBUF_NAMESPACE_ID::int32 timeofwins_;
+  ::PROTOBUF_NAMESPACE_ID::int32 pkmamountbadge_;
+  ::PROTOBUF_NAMESPACE_ID::int32 highlevelbadge_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_UserProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class UserPokemonDataRequestInfo PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UserProtocol.UserPokemonDataRequestInfo) */ {
+ public:
+  inline UserPokemonDataRequestInfo() : UserPokemonDataRequestInfo(nullptr) {};
+  virtual ~UserPokemonDataRequestInfo();
+
+  UserPokemonDataRequestInfo(const UserPokemonDataRequestInfo& from);
+  UserPokemonDataRequestInfo(UserPokemonDataRequestInfo&& from) noexcept
+    : UserPokemonDataRequestInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline UserPokemonDataRequestInfo& operator=(const UserPokemonDataRequestInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline UserPokemonDataRequestInfo& operator=(UserPokemonDataRequestInfo&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const UserPokemonDataRequestInfo& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UserPokemonDataRequestInfo* internal_default_instance() {
+    return reinterpret_cast<const UserPokemonDataRequestInfo*>(
+               &_UserPokemonDataRequestInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  friend void swap(UserPokemonDataRequestInfo& a, UserPokemonDataRequestInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(UserPokemonDataRequestInfo* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(UserPokemonDataRequestInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UserPokemonDataRequestInfo* New() const final {
+    return CreateMaybeMessage<UserPokemonDataRequestInfo>(nullptr);
+  }
+
+  UserPokemonDataRequestInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<UserPokemonDataRequestInfo>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const UserPokemonDataRequestInfo& from);
+  void MergeFrom(const UserPokemonDataRequestInfo& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(UserPokemonDataRequestInfo* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "UserProtocol.UserPokemonDataRequestInfo";
+  }
+  protected:
+  explicit UserPokemonDataRequestInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena);
   private:
   static void ArenaDtor(void* object);
   inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -986,13 +1435,13 @@ class UserInfo PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
       mutable_pokemonid();
 
-  // string userName = 1;
+  // bytes userName = 1;
   void clear_username();
   const std::string& username() const;
   void set_username(const std::string& value);
   void set_username(std::string&& value);
   void set_username(const char* value);
-  void set_username(const char* value, size_t size);
+  void set_username(const void* value, size_t size);
   std::string* mutable_username();
   std::string* release_username();
   void set_allocated_username(std::string* username);
@@ -1011,7 +1460,7 @@ class UserInfo PROTOBUF_FINAL :
   std::string* _internal_mutable_username();
   public:
 
-  // @@protoc_insertion_point(class_scope:UserProtocol.UserInfo)
+  // @@protoc_insertion_point(class_scope:UserProtocol.UserPokemonDataRequestInfo)
  private:
   class _Internal;
 
@@ -1021,6 +1470,512 @@ class UserInfo PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 > pokemonid_;
   mutable std::atomic<int> _pokemonid_cached_byte_size_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr username_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_UserProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class PokemonInfo PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UserProtocol.PokemonInfo) */ {
+ public:
+  inline PokemonInfo() : PokemonInfo(nullptr) {};
+  virtual ~PokemonInfo();
+
+  PokemonInfo(const PokemonInfo& from);
+  PokemonInfo(PokemonInfo&& from) noexcept
+    : PokemonInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline PokemonInfo& operator=(const PokemonInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PokemonInfo& operator=(PokemonInfo&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const PokemonInfo& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const PokemonInfo* internal_default_instance() {
+    return reinterpret_cast<const PokemonInfo*>(
+               &_PokemonInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  friend void swap(PokemonInfo& a, PokemonInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PokemonInfo* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PokemonInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline PokemonInfo* New() const final {
+    return CreateMaybeMessage<PokemonInfo>(nullptr);
+  }
+
+  PokemonInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<PokemonInfo>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const PokemonInfo& from);
+  void MergeFrom(const PokemonInfo& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PokemonInfo* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "UserProtocol.PokemonInfo";
+  }
+  protected:
+  explicit PokemonInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_UserProtocol_2eproto);
+    return ::descriptor_table_UserProtocol_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNameFieldNumber = 2,
+    kSkill1FieldNumber = 11,
+    kSkill2FieldNumber = 12,
+    kSkill3FieldNumber = 13,
+    kSkill4FieldNumber = 14,
+    kIdFieldNumber = 1,
+    kLevelFieldNumber = 3,
+    kTypeFieldNumber = 4,
+    kExpFieldNumber = 5,
+    kAttrFieldNumber = 6,
+    kAtkFieldNumber = 7,
+    kDefFieldNumber = 8,
+    kHpFieldNumber = 9,
+    kSpdFieldNumber = 10,
+  };
+  // bytes name = 2;
+  void clear_name();
+  const std::string& name() const;
+  void set_name(const std::string& value);
+  void set_name(std::string&& value);
+  void set_name(const char* value);
+  void set_name(const void* value, size_t size);
+  std::string* mutable_name();
+  std::string* release_name();
+  void set_allocated_name(std::string* name);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_name();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_name(
+      std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // bytes skill_1 = 11;
+  void clear_skill_1();
+  const std::string& skill_1() const;
+  void set_skill_1(const std::string& value);
+  void set_skill_1(std::string&& value);
+  void set_skill_1(const char* value);
+  void set_skill_1(const void* value, size_t size);
+  std::string* mutable_skill_1();
+  std::string* release_skill_1();
+  void set_allocated_skill_1(std::string* skill_1);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_skill_1();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_skill_1(
+      std::string* skill_1);
+  private:
+  const std::string& _internal_skill_1() const;
+  void _internal_set_skill_1(const std::string& value);
+  std::string* _internal_mutable_skill_1();
+  public:
+
+  // bytes skill_2 = 12;
+  void clear_skill_2();
+  const std::string& skill_2() const;
+  void set_skill_2(const std::string& value);
+  void set_skill_2(std::string&& value);
+  void set_skill_2(const char* value);
+  void set_skill_2(const void* value, size_t size);
+  std::string* mutable_skill_2();
+  std::string* release_skill_2();
+  void set_allocated_skill_2(std::string* skill_2);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_skill_2();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_skill_2(
+      std::string* skill_2);
+  private:
+  const std::string& _internal_skill_2() const;
+  void _internal_set_skill_2(const std::string& value);
+  std::string* _internal_mutable_skill_2();
+  public:
+
+  // bytes skill_3 = 13;
+  void clear_skill_3();
+  const std::string& skill_3() const;
+  void set_skill_3(const std::string& value);
+  void set_skill_3(std::string&& value);
+  void set_skill_3(const char* value);
+  void set_skill_3(const void* value, size_t size);
+  std::string* mutable_skill_3();
+  std::string* release_skill_3();
+  void set_allocated_skill_3(std::string* skill_3);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_skill_3();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_skill_3(
+      std::string* skill_3);
+  private:
+  const std::string& _internal_skill_3() const;
+  void _internal_set_skill_3(const std::string& value);
+  std::string* _internal_mutable_skill_3();
+  public:
+
+  // bytes skill_4 = 14;
+  void clear_skill_4();
+  const std::string& skill_4() const;
+  void set_skill_4(const std::string& value);
+  void set_skill_4(std::string&& value);
+  void set_skill_4(const char* value);
+  void set_skill_4(const void* value, size_t size);
+  std::string* mutable_skill_4();
+  std::string* release_skill_4();
+  void set_allocated_skill_4(std::string* skill_4);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_skill_4();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_skill_4(
+      std::string* skill_4);
+  private:
+  const std::string& _internal_skill_4() const;
+  void _internal_set_skill_4(const std::string& value);
+  std::string* _internal_mutable_skill_4();
+  public:
+
+  // int32 id = 1;
+  void clear_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 id() const;
+  void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_id() const;
+  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 level = 3;
+  void clear_level();
+  ::PROTOBUF_NAMESPACE_ID::int32 level() const;
+  void set_level(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_level() const;
+  void _internal_set_level(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 type = 4;
+  void clear_type();
+  ::PROTOBUF_NAMESPACE_ID::int32 type() const;
+  void set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_type() const;
+  void _internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 exp = 5;
+  void clear_exp();
+  ::PROTOBUF_NAMESPACE_ID::int32 exp() const;
+  void set_exp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_exp() const;
+  void _internal_set_exp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 attr = 6;
+  void clear_attr();
+  ::PROTOBUF_NAMESPACE_ID::int32 attr() const;
+  void set_attr(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_attr() const;
+  void _internal_set_attr(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 atk = 7;
+  void clear_atk();
+  ::PROTOBUF_NAMESPACE_ID::int32 atk() const;
+  void set_atk(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_atk() const;
+  void _internal_set_atk(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 def = 8;
+  void clear_def();
+  ::PROTOBUF_NAMESPACE_ID::int32 def() const;
+  void set_def(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_def() const;
+  void _internal_set_def(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 hp = 9;
+  void clear_hp();
+  ::PROTOBUF_NAMESPACE_ID::int32 hp() const;
+  void set_hp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_hp() const;
+  void _internal_set_hp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 spd = 10;
+  void clear_spd();
+  ::PROTOBUF_NAMESPACE_ID::int32 spd() const;
+  void set_spd(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_spd() const;
+  void _internal_set_spd(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:UserProtocol.PokemonInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr skill_1_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr skill_2_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr skill_3_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr skill_4_;
+  ::PROTOBUF_NAMESPACE_ID::int32 id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 level_;
+  ::PROTOBUF_NAMESPACE_ID::int32 type_;
+  ::PROTOBUF_NAMESPACE_ID::int32 exp_;
+  ::PROTOBUF_NAMESPACE_ID::int32 attr_;
+  ::PROTOBUF_NAMESPACE_ID::int32 atk_;
+  ::PROTOBUF_NAMESPACE_ID::int32 def_;
+  ::PROTOBUF_NAMESPACE_ID::int32 hp_;
+  ::PROTOBUF_NAMESPACE_ID::int32 spd_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_UserProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class UserPokemonDataResponseInfo PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UserProtocol.UserPokemonDataResponseInfo) */ {
+ public:
+  inline UserPokemonDataResponseInfo() : UserPokemonDataResponseInfo(nullptr) {};
+  virtual ~UserPokemonDataResponseInfo();
+
+  UserPokemonDataResponseInfo(const UserPokemonDataResponseInfo& from);
+  UserPokemonDataResponseInfo(UserPokemonDataResponseInfo&& from) noexcept
+    : UserPokemonDataResponseInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline UserPokemonDataResponseInfo& operator=(const UserPokemonDataResponseInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline UserPokemonDataResponseInfo& operator=(UserPokemonDataResponseInfo&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const UserPokemonDataResponseInfo& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UserPokemonDataResponseInfo* internal_default_instance() {
+    return reinterpret_cast<const UserPokemonDataResponseInfo*>(
+               &_UserPokemonDataResponseInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    8;
+
+  friend void swap(UserPokemonDataResponseInfo& a, UserPokemonDataResponseInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(UserPokemonDataResponseInfo* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(UserPokemonDataResponseInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UserPokemonDataResponseInfo* New() const final {
+    return CreateMaybeMessage<UserPokemonDataResponseInfo>(nullptr);
+  }
+
+  UserPokemonDataResponseInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<UserPokemonDataResponseInfo>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const UserPokemonDataResponseInfo& from);
+  void MergeFrom(const UserPokemonDataResponseInfo& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(UserPokemonDataResponseInfo* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "UserProtocol.UserPokemonDataResponseInfo";
+  }
+  protected:
+  explicit UserPokemonDataResponseInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_UserProtocol_2eproto);
+    return ::descriptor_table_UserProtocol_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDataFieldNumber = 1,
+  };
+  // repeated .UserProtocol.PokemonInfo data = 1;
+  int data_size() const;
+  private:
+  int _internal_data_size() const;
+  public:
+  void clear_data();
+  ::UserProtocol::PokemonInfo* mutable_data(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UserProtocol::PokemonInfo >*
+      mutable_data();
+  private:
+  const ::UserProtocol::PokemonInfo& _internal_data(int index) const;
+  ::UserProtocol::PokemonInfo* _internal_add_data();
+  public:
+  const ::UserProtocol::PokemonInfo& data(int index) const;
+  ::UserProtocol::PokemonInfo* add_data();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UserProtocol::PokemonInfo >&
+      data() const;
+
+  // @@protoc_insertion_point(class_scope:UserProtocol.UserPokemonDataResponseInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UserProtocol::PokemonInfo > data_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_UserProtocol_2eproto;
 };
@@ -1035,7 +1990,7 @@ class UserInfo PROTOBUF_FINAL :
 #endif  // __GNUC__
 // UserSignUpRequestInfo
 
-// string userName = 1;
+// bytes userName = 1;
 inline void UserSignUpRequestInfo::clear_username() {
   username_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
@@ -1071,7 +2026,7 @@ inline void UserSignUpRequestInfo::set_username(const char* value) {
               GetArena());
   // @@protoc_insertion_point(field_set_char:UserProtocol.UserSignUpRequestInfo.userName)
 }
-inline void UserSignUpRequestInfo::set_username(const char* value,
+inline void UserSignUpRequestInfo::set_username(const void* value,
     size_t size) {
   
   username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
@@ -1116,7 +2071,7 @@ inline void UserSignUpRequestInfo::unsafe_arena_set_allocated_username(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.UserSignUpRequestInfo.userName)
 }
 
-// string userPsw = 2;
+// bytes userPsw = 2;
 inline void UserSignUpRequestInfo::clear_userpsw() {
   userpsw_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
@@ -1152,7 +2107,7 @@ inline void UserSignUpRequestInfo::set_userpsw(const char* value) {
               GetArena());
   // @@protoc_insertion_point(field_set_char:UserProtocol.UserSignUpRequestInfo.userPsw)
 }
-inline void UserSignUpRequestInfo::set_userpsw(const char* value,
+inline void UserSignUpRequestInfo::set_userpsw(const void* value,
     size_t size) {
   
   userpsw_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
@@ -1225,7 +2180,7 @@ inline void UserSignUpResponseInfo::set_status(::UserProtocol::UserSignUpRespons
 
 // UserLoginRequestInfo
 
-// string userName = 1;
+// bytes userName = 1;
 inline void UserLoginRequestInfo::clear_username() {
   username_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
@@ -1261,7 +2216,7 @@ inline void UserLoginRequestInfo::set_username(const char* value) {
               GetArena());
   // @@protoc_insertion_point(field_set_char:UserProtocol.UserLoginRequestInfo.userName)
 }
-inline void UserLoginRequestInfo::set_username(const char* value,
+inline void UserLoginRequestInfo::set_username(const void* value,
     size_t size) {
   
   username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
@@ -1306,7 +2261,7 @@ inline void UserLoginRequestInfo::unsafe_arena_set_allocated_username(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.UserLoginRequestInfo.userName)
 }
 
-// string userPsw = 2;
+// bytes userPsw = 2;
 inline void UserLoginRequestInfo::clear_userpsw() {
   userpsw_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
@@ -1342,7 +2297,7 @@ inline void UserLoginRequestInfo::set_userpsw(const char* value) {
               GetArena());
   // @@protoc_insertion_point(field_set_char:UserProtocol.UserLoginRequestInfo.userPsw)
 }
-inline void UserLoginRequestInfo::set_userpsw(const char* value,
+inline void UserLoginRequestInfo::set_userpsw(const void* value,
     size_t size) {
   
   userpsw_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
@@ -1413,60 +2368,60 @@ inline void UserLoginResponseInfo::set_status(::UserProtocol::UserLoginResponseI
 
 // -------------------------------------------------------------------
 
-// UserInfo
+// UserInfoRequest
 
-// string userName = 1;
-inline void UserInfo::clear_username() {
+// bytes userName = 1;
+inline void UserInfoRequest::clear_username() {
   username_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline const std::string& UserInfo::username() const {
-  // @@protoc_insertion_point(field_get:UserProtocol.UserInfo.userName)
+inline const std::string& UserInfoRequest::username() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.UserInfoRequest.userName)
   return _internal_username();
 }
-inline void UserInfo::set_username(const std::string& value) {
+inline void UserInfoRequest::set_username(const std::string& value) {
   _internal_set_username(value);
-  // @@protoc_insertion_point(field_set:UserProtocol.UserInfo.userName)
+  // @@protoc_insertion_point(field_set:UserProtocol.UserInfoRequest.userName)
 }
-inline std::string* UserInfo::mutable_username() {
-  // @@protoc_insertion_point(field_mutable:UserProtocol.UserInfo.userName)
+inline std::string* UserInfoRequest::mutable_username() {
+  // @@protoc_insertion_point(field_mutable:UserProtocol.UserInfoRequest.userName)
   return _internal_mutable_username();
 }
-inline const std::string& UserInfo::_internal_username() const {
+inline const std::string& UserInfoRequest::_internal_username() const {
   return username_.Get();
 }
-inline void UserInfo::_internal_set_username(const std::string& value) {
+inline void UserInfoRequest::_internal_set_username(const std::string& value) {
   
   username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
 }
-inline void UserInfo::set_username(std::string&& value) {
+inline void UserInfoRequest::set_username(std::string&& value) {
   
   username_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:UserProtocol.UserInfo.userName)
+  // @@protoc_insertion_point(field_set_rvalue:UserProtocol.UserInfoRequest.userName)
 }
-inline void UserInfo::set_username(const char* value) {
+inline void UserInfoRequest::set_username(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:UserProtocol.UserInfo.userName)
+  // @@protoc_insertion_point(field_set_char:UserProtocol.UserInfoRequest.userName)
 }
-inline void UserInfo::set_username(const char* value,
+inline void UserInfoRequest::set_username(const void* value,
     size_t size) {
   
   username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:UserProtocol.UserInfo.userName)
+  // @@protoc_insertion_point(field_set_pointer:UserProtocol.UserInfoRequest.userName)
 }
-inline std::string* UserInfo::_internal_mutable_username() {
+inline std::string* UserInfoRequest::_internal_mutable_username() {
   
   return username_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline std::string* UserInfo::release_username() {
-  // @@protoc_insertion_point(field_release:UserProtocol.UserInfo.userName)
+inline std::string* UserInfoRequest::release_username() {
+  // @@protoc_insertion_point(field_release:UserProtocol.UserInfoRequest.userName)
   return username_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void UserInfo::set_allocated_username(std::string* username) {
+inline void UserInfoRequest::set_allocated_username(std::string* username) {
   if (username != nullptr) {
     
   } else {
@@ -1474,16 +2429,16 @@ inline void UserInfo::set_allocated_username(std::string* username) {
   }
   username_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), username,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:UserProtocol.UserInfo.userName)
+  // @@protoc_insertion_point(field_set_allocated:UserProtocol.UserInfoRequest.userName)
 }
-inline std::string* UserInfo::unsafe_arena_release_username() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:UserProtocol.UserInfo.userName)
+inline std::string* UserInfoRequest::unsafe_arena_release_username() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:UserProtocol.UserInfoRequest.userName)
   GOOGLE_DCHECK(GetArena() != nullptr);
   
   return username_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       GetArena());
 }
-inline void UserInfo::unsafe_arena_set_allocated_username(
+inline void UserInfoRequest::unsafe_arena_set_allocated_username(
     std::string* username) {
   GOOGLE_DCHECK(GetArena() != nullptr);
   if (username != nullptr) {
@@ -1493,59 +2448,996 @@ inline void UserInfo::unsafe_arena_set_allocated_username(
   }
   username_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       username, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.UserInfo.userName)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.UserInfoRequest.userName)
 }
 
-// repeated int32 pokemonId = 2;
-inline int UserInfo::_internal_pokemonid_size() const {
+// -------------------------------------------------------------------
+
+// UserInfoResponse
+
+// bytes userName = 1;
+inline void UserInfoResponse::clear_username() {
+  username_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& UserInfoResponse::username() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.UserInfoResponse.userName)
+  return _internal_username();
+}
+inline void UserInfoResponse::set_username(const std::string& value) {
+  _internal_set_username(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.UserInfoResponse.userName)
+}
+inline std::string* UserInfoResponse::mutable_username() {
+  // @@protoc_insertion_point(field_mutable:UserProtocol.UserInfoResponse.userName)
+  return _internal_mutable_username();
+}
+inline const std::string& UserInfoResponse::_internal_username() const {
+  return username_.Get();
+}
+inline void UserInfoResponse::_internal_set_username(const std::string& value) {
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void UserInfoResponse::set_username(std::string&& value) {
+  
+  username_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:UserProtocol.UserInfoResponse.userName)
+}
+inline void UserInfoResponse::set_username(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:UserProtocol.UserInfoResponse.userName)
+}
+inline void UserInfoResponse::set_username(const void* value,
+    size_t size) {
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:UserProtocol.UserInfoResponse.userName)
+}
+inline std::string* UserInfoResponse::_internal_mutable_username() {
+  
+  return username_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* UserInfoResponse::release_username() {
+  // @@protoc_insertion_point(field_release:UserProtocol.UserInfoResponse.userName)
+  return username_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void UserInfoResponse::set_allocated_username(std::string* username) {
+  if (username != nullptr) {
+    
+  } else {
+    
+  }
+  username_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), username,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:UserProtocol.UserInfoResponse.userName)
+}
+inline std::string* UserInfoResponse::unsafe_arena_release_username() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:UserProtocol.UserInfoResponse.userName)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return username_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void UserInfoResponse::unsafe_arena_set_allocated_username(
+    std::string* username) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (username != nullptr) {
+    
+  } else {
+    
+  }
+  username_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      username, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.UserInfoResponse.userName)
+}
+
+// int32 timeOfDuel = 2;
+inline void UserInfoResponse::clear_timeofduel() {
+  timeofduel_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfoResponse::_internal_timeofduel() const {
+  return timeofduel_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfoResponse::timeofduel() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.UserInfoResponse.timeOfDuel)
+  return _internal_timeofduel();
+}
+inline void UserInfoResponse::_internal_set_timeofduel(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  timeofduel_ = value;
+}
+inline void UserInfoResponse::set_timeofduel(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_timeofduel(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.UserInfoResponse.timeOfDuel)
+}
+
+// int32 timeOfWins = 3;
+inline void UserInfoResponse::clear_timeofwins() {
+  timeofwins_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfoResponse::_internal_timeofwins() const {
+  return timeofwins_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfoResponse::timeofwins() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.UserInfoResponse.timeOfWins)
+  return _internal_timeofwins();
+}
+inline void UserInfoResponse::_internal_set_timeofwins(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  timeofwins_ = value;
+}
+inline void UserInfoResponse::set_timeofwins(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_timeofwins(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.UserInfoResponse.timeOfWins)
+}
+
+// int32 pkmAmountBadge = 4;
+inline void UserInfoResponse::clear_pkmamountbadge() {
+  pkmamountbadge_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfoResponse::_internal_pkmamountbadge() const {
+  return pkmamountbadge_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfoResponse::pkmamountbadge() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.UserInfoResponse.pkmAmountBadge)
+  return _internal_pkmamountbadge();
+}
+inline void UserInfoResponse::_internal_set_pkmamountbadge(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  pkmamountbadge_ = value;
+}
+inline void UserInfoResponse::set_pkmamountbadge(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_pkmamountbadge(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.UserInfoResponse.pkmAmountBadge)
+}
+
+// int32 highLevelBadge = 5;
+inline void UserInfoResponse::clear_highlevelbadge() {
+  highlevelbadge_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfoResponse::_internal_highlevelbadge() const {
+  return highlevelbadge_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfoResponse::highlevelbadge() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.UserInfoResponse.highLevelBadge)
+  return _internal_highlevelbadge();
+}
+inline void UserInfoResponse::_internal_set_highlevelbadge(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  highlevelbadge_ = value;
+}
+inline void UserInfoResponse::set_highlevelbadge(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_highlevelbadge(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.UserInfoResponse.highLevelBadge)
+}
+
+// repeated int32 pokemonId = 6;
+inline int UserInfoResponse::_internal_pokemonid_size() const {
   return pokemonid_.size();
 }
-inline int UserInfo::pokemonid_size() const {
+inline int UserInfoResponse::pokemonid_size() const {
   return _internal_pokemonid_size();
 }
-inline void UserInfo::clear_pokemonid() {
+inline void UserInfoResponse::clear_pokemonid() {
   pokemonid_.Clear();
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfo::_internal_pokemonid(int index) const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfoResponse::_internal_pokemonid(int index) const {
   return pokemonid_.Get(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfo::pokemonid(int index) const {
-  // @@protoc_insertion_point(field_get:UserProtocol.UserInfo.pokemonId)
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfoResponse::pokemonid(int index) const {
+  // @@protoc_insertion_point(field_get:UserProtocol.UserInfoResponse.pokemonId)
   return _internal_pokemonid(index);
 }
-inline void UserInfo::set_pokemonid(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void UserInfoResponse::set_pokemonid(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
   pokemonid_.Set(index, value);
-  // @@protoc_insertion_point(field_set:UserProtocol.UserInfo.pokemonId)
+  // @@protoc_insertion_point(field_set:UserProtocol.UserInfoResponse.pokemonId)
 }
-inline void UserInfo::_internal_add_pokemonid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void UserInfoResponse::_internal_add_pokemonid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   pokemonid_.Add(value);
 }
-inline void UserInfo::add_pokemonid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void UserInfoResponse::add_pokemonid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_add_pokemonid(value);
-  // @@protoc_insertion_point(field_add:UserProtocol.UserInfo.pokemonId)
+  // @@protoc_insertion_point(field_add:UserProtocol.UserInfoResponse.pokemonId)
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-UserInfo::_internal_pokemonid() const {
+UserInfoResponse::_internal_pokemonid() const {
   return pokemonid_;
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-UserInfo::pokemonid() const {
-  // @@protoc_insertion_point(field_list:UserProtocol.UserInfo.pokemonId)
+UserInfoResponse::pokemonid() const {
+  // @@protoc_insertion_point(field_list:UserProtocol.UserInfoResponse.pokemonId)
   return _internal_pokemonid();
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-UserInfo::_internal_mutable_pokemonid() {
+UserInfoResponse::_internal_mutable_pokemonid() {
   return &pokemonid_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-UserInfo::mutable_pokemonid() {
-  // @@protoc_insertion_point(field_mutable_list:UserProtocol.UserInfo.pokemonId)
+UserInfoResponse::mutable_pokemonid() {
+  // @@protoc_insertion_point(field_mutable_list:UserProtocol.UserInfoResponse.pokemonId)
   return _internal_mutable_pokemonid();
+}
+
+// -------------------------------------------------------------------
+
+// UserPokemonDataRequestInfo
+
+// bytes userName = 1;
+inline void UserPokemonDataRequestInfo::clear_username() {
+  username_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& UserPokemonDataRequestInfo::username() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.UserPokemonDataRequestInfo.userName)
+  return _internal_username();
+}
+inline void UserPokemonDataRequestInfo::set_username(const std::string& value) {
+  _internal_set_username(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.UserPokemonDataRequestInfo.userName)
+}
+inline std::string* UserPokemonDataRequestInfo::mutable_username() {
+  // @@protoc_insertion_point(field_mutable:UserProtocol.UserPokemonDataRequestInfo.userName)
+  return _internal_mutable_username();
+}
+inline const std::string& UserPokemonDataRequestInfo::_internal_username() const {
+  return username_.Get();
+}
+inline void UserPokemonDataRequestInfo::_internal_set_username(const std::string& value) {
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void UserPokemonDataRequestInfo::set_username(std::string&& value) {
+  
+  username_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:UserProtocol.UserPokemonDataRequestInfo.userName)
+}
+inline void UserPokemonDataRequestInfo::set_username(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:UserProtocol.UserPokemonDataRequestInfo.userName)
+}
+inline void UserPokemonDataRequestInfo::set_username(const void* value,
+    size_t size) {
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:UserProtocol.UserPokemonDataRequestInfo.userName)
+}
+inline std::string* UserPokemonDataRequestInfo::_internal_mutable_username() {
+  
+  return username_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* UserPokemonDataRequestInfo::release_username() {
+  // @@protoc_insertion_point(field_release:UserProtocol.UserPokemonDataRequestInfo.userName)
+  return username_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void UserPokemonDataRequestInfo::set_allocated_username(std::string* username) {
+  if (username != nullptr) {
+    
+  } else {
+    
+  }
+  username_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), username,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:UserProtocol.UserPokemonDataRequestInfo.userName)
+}
+inline std::string* UserPokemonDataRequestInfo::unsafe_arena_release_username() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:UserProtocol.UserPokemonDataRequestInfo.userName)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return username_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void UserPokemonDataRequestInfo::unsafe_arena_set_allocated_username(
+    std::string* username) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (username != nullptr) {
+    
+  } else {
+    
+  }
+  username_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      username, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.UserPokemonDataRequestInfo.userName)
+}
+
+// repeated int32 pokemonId = 2;
+inline int UserPokemonDataRequestInfo::_internal_pokemonid_size() const {
+  return pokemonid_.size();
+}
+inline int UserPokemonDataRequestInfo::pokemonid_size() const {
+  return _internal_pokemonid_size();
+}
+inline void UserPokemonDataRequestInfo::clear_pokemonid() {
+  pokemonid_.Clear();
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserPokemonDataRequestInfo::_internal_pokemonid(int index) const {
+  return pokemonid_.Get(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserPokemonDataRequestInfo::pokemonid(int index) const {
+  // @@protoc_insertion_point(field_get:UserProtocol.UserPokemonDataRequestInfo.pokemonId)
+  return _internal_pokemonid(index);
+}
+inline void UserPokemonDataRequestInfo::set_pokemonid(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
+  pokemonid_.Set(index, value);
+  // @@protoc_insertion_point(field_set:UserProtocol.UserPokemonDataRequestInfo.pokemonId)
+}
+inline void UserPokemonDataRequestInfo::_internal_add_pokemonid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  pokemonid_.Add(value);
+}
+inline void UserPokemonDataRequestInfo::add_pokemonid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_add_pokemonid(value);
+  // @@protoc_insertion_point(field_add:UserProtocol.UserPokemonDataRequestInfo.pokemonId)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+UserPokemonDataRequestInfo::_internal_pokemonid() const {
+  return pokemonid_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
+UserPokemonDataRequestInfo::pokemonid() const {
+  // @@protoc_insertion_point(field_list:UserProtocol.UserPokemonDataRequestInfo.pokemonId)
+  return _internal_pokemonid();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+UserPokemonDataRequestInfo::_internal_mutable_pokemonid() {
+  return &pokemonid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
+UserPokemonDataRequestInfo::mutable_pokemonid() {
+  // @@protoc_insertion_point(field_mutable_list:UserProtocol.UserPokemonDataRequestInfo.pokemonId)
+  return _internal_mutable_pokemonid();
+}
+
+// -------------------------------------------------------------------
+
+// PokemonInfo
+
+// int32 id = 1;
+inline void PokemonInfo::clear_id() {
+  id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::_internal_id() const {
+  return id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::id() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.id)
+  return _internal_id();
+}
+inline void PokemonInfo::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  id_ = value;
+}
+inline void PokemonInfo::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.id)
+}
+
+// bytes name = 2;
+inline void PokemonInfo::clear_name() {
+  name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& PokemonInfo::name() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.name)
+  return _internal_name();
+}
+inline void PokemonInfo::set_name(const std::string& value) {
+  _internal_set_name(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.name)
+}
+inline std::string* PokemonInfo::mutable_name() {
+  // @@protoc_insertion_point(field_mutable:UserProtocol.PokemonInfo.name)
+  return _internal_mutable_name();
+}
+inline const std::string& PokemonInfo::_internal_name() const {
+  return name_.Get();
+}
+inline void PokemonInfo::_internal_set_name(const std::string& value) {
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void PokemonInfo::set_name(std::string&& value) {
+  
+  name_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:UserProtocol.PokemonInfo.name)
+}
+inline void PokemonInfo::set_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:UserProtocol.PokemonInfo.name)
+}
+inline void PokemonInfo::set_name(const void* value,
+    size_t size) {
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:UserProtocol.PokemonInfo.name)
+}
+inline std::string* PokemonInfo::_internal_mutable_name() {
+  
+  return name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* PokemonInfo::release_name() {
+  // @@protoc_insertion_point(field_release:UserProtocol.PokemonInfo.name)
+  return name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void PokemonInfo::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), name,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:UserProtocol.PokemonInfo.name)
+}
+inline std::string* PokemonInfo::unsafe_arena_release_name() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:UserProtocol.PokemonInfo.name)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return name_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void PokemonInfo::unsafe_arena_set_allocated_name(
+    std::string* name) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  name_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      name, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.PokemonInfo.name)
+}
+
+// int32 level = 3;
+inline void PokemonInfo::clear_level() {
+  level_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::_internal_level() const {
+  return level_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::level() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.level)
+  return _internal_level();
+}
+inline void PokemonInfo::_internal_set_level(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  level_ = value;
+}
+inline void PokemonInfo::set_level(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_level(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.level)
+}
+
+// int32 type = 4;
+inline void PokemonInfo::clear_type() {
+  type_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::_internal_type() const {
+  return type_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::type() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.type)
+  return _internal_type();
+}
+inline void PokemonInfo::_internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  type_ = value;
+}
+inline void PokemonInfo::set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_type(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.type)
+}
+
+// int32 exp = 5;
+inline void PokemonInfo::clear_exp() {
+  exp_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::_internal_exp() const {
+  return exp_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::exp() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.exp)
+  return _internal_exp();
+}
+inline void PokemonInfo::_internal_set_exp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  exp_ = value;
+}
+inline void PokemonInfo::set_exp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_exp(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.exp)
+}
+
+// int32 attr = 6;
+inline void PokemonInfo::clear_attr() {
+  attr_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::_internal_attr() const {
+  return attr_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::attr() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.attr)
+  return _internal_attr();
+}
+inline void PokemonInfo::_internal_set_attr(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  attr_ = value;
+}
+inline void PokemonInfo::set_attr(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_attr(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.attr)
+}
+
+// int32 atk = 7;
+inline void PokemonInfo::clear_atk() {
+  atk_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::_internal_atk() const {
+  return atk_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::atk() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.atk)
+  return _internal_atk();
+}
+inline void PokemonInfo::_internal_set_atk(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  atk_ = value;
+}
+inline void PokemonInfo::set_atk(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_atk(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.atk)
+}
+
+// int32 def = 8;
+inline void PokemonInfo::clear_def() {
+  def_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::_internal_def() const {
+  return def_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::def() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.def)
+  return _internal_def();
+}
+inline void PokemonInfo::_internal_set_def(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  def_ = value;
+}
+inline void PokemonInfo::set_def(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_def(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.def)
+}
+
+// int32 hp = 9;
+inline void PokemonInfo::clear_hp() {
+  hp_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::_internal_hp() const {
+  return hp_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::hp() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.hp)
+  return _internal_hp();
+}
+inline void PokemonInfo::_internal_set_hp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  hp_ = value;
+}
+inline void PokemonInfo::set_hp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_hp(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.hp)
+}
+
+// int32 spd = 10;
+inline void PokemonInfo::clear_spd() {
+  spd_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::_internal_spd() const {
+  return spd_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PokemonInfo::spd() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.spd)
+  return _internal_spd();
+}
+inline void PokemonInfo::_internal_set_spd(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  spd_ = value;
+}
+inline void PokemonInfo::set_spd(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_spd(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.spd)
+}
+
+// bytes skill_1 = 11;
+inline void PokemonInfo::clear_skill_1() {
+  skill_1_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& PokemonInfo::skill_1() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.skill_1)
+  return _internal_skill_1();
+}
+inline void PokemonInfo::set_skill_1(const std::string& value) {
+  _internal_set_skill_1(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.skill_1)
+}
+inline std::string* PokemonInfo::mutable_skill_1() {
+  // @@protoc_insertion_point(field_mutable:UserProtocol.PokemonInfo.skill_1)
+  return _internal_mutable_skill_1();
+}
+inline const std::string& PokemonInfo::_internal_skill_1() const {
+  return skill_1_.Get();
+}
+inline void PokemonInfo::_internal_set_skill_1(const std::string& value) {
+  
+  skill_1_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void PokemonInfo::set_skill_1(std::string&& value) {
+  
+  skill_1_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:UserProtocol.PokemonInfo.skill_1)
+}
+inline void PokemonInfo::set_skill_1(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  skill_1_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:UserProtocol.PokemonInfo.skill_1)
+}
+inline void PokemonInfo::set_skill_1(const void* value,
+    size_t size) {
+  
+  skill_1_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:UserProtocol.PokemonInfo.skill_1)
+}
+inline std::string* PokemonInfo::_internal_mutable_skill_1() {
+  
+  return skill_1_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* PokemonInfo::release_skill_1() {
+  // @@protoc_insertion_point(field_release:UserProtocol.PokemonInfo.skill_1)
+  return skill_1_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void PokemonInfo::set_allocated_skill_1(std::string* skill_1) {
+  if (skill_1 != nullptr) {
+    
+  } else {
+    
+  }
+  skill_1_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), skill_1,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:UserProtocol.PokemonInfo.skill_1)
+}
+inline std::string* PokemonInfo::unsafe_arena_release_skill_1() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:UserProtocol.PokemonInfo.skill_1)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return skill_1_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void PokemonInfo::unsafe_arena_set_allocated_skill_1(
+    std::string* skill_1) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (skill_1 != nullptr) {
+    
+  } else {
+    
+  }
+  skill_1_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      skill_1, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.PokemonInfo.skill_1)
+}
+
+// bytes skill_2 = 12;
+inline void PokemonInfo::clear_skill_2() {
+  skill_2_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& PokemonInfo::skill_2() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.skill_2)
+  return _internal_skill_2();
+}
+inline void PokemonInfo::set_skill_2(const std::string& value) {
+  _internal_set_skill_2(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.skill_2)
+}
+inline std::string* PokemonInfo::mutable_skill_2() {
+  // @@protoc_insertion_point(field_mutable:UserProtocol.PokemonInfo.skill_2)
+  return _internal_mutable_skill_2();
+}
+inline const std::string& PokemonInfo::_internal_skill_2() const {
+  return skill_2_.Get();
+}
+inline void PokemonInfo::_internal_set_skill_2(const std::string& value) {
+  
+  skill_2_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void PokemonInfo::set_skill_2(std::string&& value) {
+  
+  skill_2_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:UserProtocol.PokemonInfo.skill_2)
+}
+inline void PokemonInfo::set_skill_2(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  skill_2_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:UserProtocol.PokemonInfo.skill_2)
+}
+inline void PokemonInfo::set_skill_2(const void* value,
+    size_t size) {
+  
+  skill_2_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:UserProtocol.PokemonInfo.skill_2)
+}
+inline std::string* PokemonInfo::_internal_mutable_skill_2() {
+  
+  return skill_2_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* PokemonInfo::release_skill_2() {
+  // @@protoc_insertion_point(field_release:UserProtocol.PokemonInfo.skill_2)
+  return skill_2_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void PokemonInfo::set_allocated_skill_2(std::string* skill_2) {
+  if (skill_2 != nullptr) {
+    
+  } else {
+    
+  }
+  skill_2_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), skill_2,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:UserProtocol.PokemonInfo.skill_2)
+}
+inline std::string* PokemonInfo::unsafe_arena_release_skill_2() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:UserProtocol.PokemonInfo.skill_2)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return skill_2_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void PokemonInfo::unsafe_arena_set_allocated_skill_2(
+    std::string* skill_2) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (skill_2 != nullptr) {
+    
+  } else {
+    
+  }
+  skill_2_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      skill_2, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.PokemonInfo.skill_2)
+}
+
+// bytes skill_3 = 13;
+inline void PokemonInfo::clear_skill_3() {
+  skill_3_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& PokemonInfo::skill_3() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.skill_3)
+  return _internal_skill_3();
+}
+inline void PokemonInfo::set_skill_3(const std::string& value) {
+  _internal_set_skill_3(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.skill_3)
+}
+inline std::string* PokemonInfo::mutable_skill_3() {
+  // @@protoc_insertion_point(field_mutable:UserProtocol.PokemonInfo.skill_3)
+  return _internal_mutable_skill_3();
+}
+inline const std::string& PokemonInfo::_internal_skill_3() const {
+  return skill_3_.Get();
+}
+inline void PokemonInfo::_internal_set_skill_3(const std::string& value) {
+  
+  skill_3_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void PokemonInfo::set_skill_3(std::string&& value) {
+  
+  skill_3_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:UserProtocol.PokemonInfo.skill_3)
+}
+inline void PokemonInfo::set_skill_3(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  skill_3_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:UserProtocol.PokemonInfo.skill_3)
+}
+inline void PokemonInfo::set_skill_3(const void* value,
+    size_t size) {
+  
+  skill_3_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:UserProtocol.PokemonInfo.skill_3)
+}
+inline std::string* PokemonInfo::_internal_mutable_skill_3() {
+  
+  return skill_3_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* PokemonInfo::release_skill_3() {
+  // @@protoc_insertion_point(field_release:UserProtocol.PokemonInfo.skill_3)
+  return skill_3_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void PokemonInfo::set_allocated_skill_3(std::string* skill_3) {
+  if (skill_3 != nullptr) {
+    
+  } else {
+    
+  }
+  skill_3_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), skill_3,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:UserProtocol.PokemonInfo.skill_3)
+}
+inline std::string* PokemonInfo::unsafe_arena_release_skill_3() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:UserProtocol.PokemonInfo.skill_3)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return skill_3_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void PokemonInfo::unsafe_arena_set_allocated_skill_3(
+    std::string* skill_3) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (skill_3 != nullptr) {
+    
+  } else {
+    
+  }
+  skill_3_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      skill_3, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.PokemonInfo.skill_3)
+}
+
+// bytes skill_4 = 14;
+inline void PokemonInfo::clear_skill_4() {
+  skill_4_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& PokemonInfo::skill_4() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.PokemonInfo.skill_4)
+  return _internal_skill_4();
+}
+inline void PokemonInfo::set_skill_4(const std::string& value) {
+  _internal_set_skill_4(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.PokemonInfo.skill_4)
+}
+inline std::string* PokemonInfo::mutable_skill_4() {
+  // @@protoc_insertion_point(field_mutable:UserProtocol.PokemonInfo.skill_4)
+  return _internal_mutable_skill_4();
+}
+inline const std::string& PokemonInfo::_internal_skill_4() const {
+  return skill_4_.Get();
+}
+inline void PokemonInfo::_internal_set_skill_4(const std::string& value) {
+  
+  skill_4_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void PokemonInfo::set_skill_4(std::string&& value) {
+  
+  skill_4_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:UserProtocol.PokemonInfo.skill_4)
+}
+inline void PokemonInfo::set_skill_4(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  skill_4_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:UserProtocol.PokemonInfo.skill_4)
+}
+inline void PokemonInfo::set_skill_4(const void* value,
+    size_t size) {
+  
+  skill_4_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:UserProtocol.PokemonInfo.skill_4)
+}
+inline std::string* PokemonInfo::_internal_mutable_skill_4() {
+  
+  return skill_4_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* PokemonInfo::release_skill_4() {
+  // @@protoc_insertion_point(field_release:UserProtocol.PokemonInfo.skill_4)
+  return skill_4_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void PokemonInfo::set_allocated_skill_4(std::string* skill_4) {
+  if (skill_4 != nullptr) {
+    
+  } else {
+    
+  }
+  skill_4_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), skill_4,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:UserProtocol.PokemonInfo.skill_4)
+}
+inline std::string* PokemonInfo::unsafe_arena_release_skill_4() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:UserProtocol.PokemonInfo.skill_4)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return skill_4_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void PokemonInfo::unsafe_arena_set_allocated_skill_4(
+    std::string* skill_4) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (skill_4 != nullptr) {
+    
+  } else {
+    
+  }
+  skill_4_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      skill_4, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.PokemonInfo.skill_4)
+}
+
+// -------------------------------------------------------------------
+
+// UserPokemonDataResponseInfo
+
+// repeated .UserProtocol.PokemonInfo data = 1;
+inline int UserPokemonDataResponseInfo::_internal_data_size() const {
+  return data_.size();
+}
+inline int UserPokemonDataResponseInfo::data_size() const {
+  return _internal_data_size();
+}
+inline void UserPokemonDataResponseInfo::clear_data() {
+  data_.Clear();
+}
+inline ::UserProtocol::PokemonInfo* UserPokemonDataResponseInfo::mutable_data(int index) {
+  // @@protoc_insertion_point(field_mutable:UserProtocol.UserPokemonDataResponseInfo.data)
+  return data_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UserProtocol::PokemonInfo >*
+UserPokemonDataResponseInfo::mutable_data() {
+  // @@protoc_insertion_point(field_mutable_list:UserProtocol.UserPokemonDataResponseInfo.data)
+  return &data_;
+}
+inline const ::UserProtocol::PokemonInfo& UserPokemonDataResponseInfo::_internal_data(int index) const {
+  return data_.Get(index);
+}
+inline const ::UserProtocol::PokemonInfo& UserPokemonDataResponseInfo::data(int index) const {
+  // @@protoc_insertion_point(field_get:UserProtocol.UserPokemonDataResponseInfo.data)
+  return _internal_data(index);
+}
+inline ::UserProtocol::PokemonInfo* UserPokemonDataResponseInfo::_internal_add_data() {
+  return data_.Add();
+}
+inline ::UserProtocol::PokemonInfo* UserPokemonDataResponseInfo::add_data() {
+  // @@protoc_insertion_point(field_add:UserProtocol.UserPokemonDataResponseInfo.data)
+  return _internal_add_data();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UserProtocol::PokemonInfo >&
+UserPokemonDataResponseInfo::data() const {
+  // @@protoc_insertion_point(field_list:UserProtocol.UserPokemonDataResponseInfo.data)
+  return data_;
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -1570,6 +3462,11 @@ template <> struct is_proto_enum< ::UserProtocol::UserLoginResponseInfo_LoginSta
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::UserProtocol::UserLoginResponseInfo_LoginStatus>() {
   return ::UserProtocol::UserLoginResponseInfo_LoginStatus_descriptor();
+}
+template <> struct is_proto_enum< ::UserProtocol::UserInfoResponse_BadgeType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::UserProtocol::UserInfoResponse_BadgeType>() {
+  return ::UserProtocol::UserInfoResponse_BadgeType_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

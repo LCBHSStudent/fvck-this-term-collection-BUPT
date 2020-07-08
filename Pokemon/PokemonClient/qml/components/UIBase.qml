@@ -1,4 +1,4 @@
-import QtQuick 2.14
+﻿import QtQuick 2.14
 
 QtObject {
 
@@ -40,11 +40,11 @@ QtObject {
 
     function dp(number) {
         var px = Math.round(number * (__pixelDensity * 25.4 / 160));
-
-        if(Qt.platform.os === "windows" || Qt.platform.os === "mac")
-            return px * 2;
-        else
-            return px;
+        return px * 2;
+//        if(Qt.platform.os === "windows" || Qt.platform.os === "mac")
+//            return px * 2;
+//        else
+//            return px;
     }
     
     /* provide a list of flat ui color. */

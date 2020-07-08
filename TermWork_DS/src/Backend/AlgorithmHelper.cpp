@@ -1,4 +1,4 @@
-#include "BackendBase.h"
+﻿#include "BackendBase.h"
 #include "Customer/Customer.h"
 
 #include <queue>
@@ -26,6 +26,7 @@ void AlgorithmHelper::runWithAlgorithmDij(
     QString&        fromCity,
     QString&        destCity,
     int             startT,
+    bool            setoff,
     int             timeLmt
 ) {
     using std::vector;
@@ -211,7 +212,8 @@ void AlgorithmHelper::runWithAlgorithmDij(
                     << route.startTime
                     << route.vehicleType
                     << "\n";
-            
+//------------------若选择出发，则给旅客添加任务-----------------------//
+            if(setoff) {
             instance->m_customer->addTask(
                 Task(
                     taskStartTime,
@@ -246,6 +248,7 @@ void AlgorithmHelper::runWithAlgorithmDij(
                 )
             );
             taskStartTime = spendTime[cityId][nextCity];
+            }
             
             index++;
         }

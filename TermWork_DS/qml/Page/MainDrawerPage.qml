@@ -1,4 +1,4 @@
-import QtQuick 2.14
+﻿import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Universal 2.14
 import nsp.DS.Backend 1.14
@@ -195,7 +195,14 @@ Page {
         }
     }     
     
-    
+    CheckBox {
+        id: nowSetOff
+        anchors.horizontalCenter: goBtn.horizontalCenter
+        anchors.bottom: goBtn.top
+        anchors.bottomMargin: utils.dp(5)
+        text: "现在出发"
+    }
+
     Button {
         id: goBtn
         anchors.bottom: timeInputRow.bottom
@@ -223,6 +230,7 @@ Page {
                 startH.text,
                 startM.text,
                 travelTypeBtn.travelType,
+                nowSetOff.checked,
                 timeLmt.text
             )
         }

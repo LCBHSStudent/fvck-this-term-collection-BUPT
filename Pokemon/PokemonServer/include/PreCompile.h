@@ -1,7 +1,9 @@
 ﻿#ifndef PRECOMPILE_H
 #define PRECOMPILE_H
 
-#pragma execution_character_set("utf-8")
+#ifdef _WIN32
+    #pragma execution_character_set("utf-8")
+#endif
 
 #include <map>
 #include <tuple>
@@ -12,7 +14,7 @@
 #include <thread>
 #include <cstdint>
 #include <cstdlib>
-#include <conio.h>
+// #include <conio.h>
 #include <iostream>
 #include <typeinfo>
 #include <functional>

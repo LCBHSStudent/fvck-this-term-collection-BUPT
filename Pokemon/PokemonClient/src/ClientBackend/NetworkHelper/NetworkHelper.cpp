@@ -64,31 +64,33 @@ void NetworkHelper::connected() {
 bool NetworkHelper::getStatus() const {return m_status;}
 
 void NetworkHelper::readyRead() {
-    QDataStream ist(m_socket);
-    while(1) {
-        if(!m_nextBlockSize) {
-            if(
-                m_socket->bytesAvailable() < 
-                static_cast<qint64>(sizeof(quint16))    //求出字节长度
-            ) {
-                ist >> m_nextBlockSize;
-            }
+    QByteArray  data   = m_socket->readAll();
+    emit sigServerMessage(data);
+//    QDataStream ist(m_socket);
+//    while(1) {
+//        if(!m_nextBlockSize) {
+//            if(
+//                m_socket->bytesAvailable() < 
+//                static_cast<qint64>(sizeof(quint16))    //求出字节长度
+//            ) {
+//                ist >> m_nextBlockSize;
+//            }
             
-            if(m_socket->bytesAvailable() < m_nextBlockSize)
-                break;
+//            if(m_socket->bytesAvailable() < m_nextBlockSize)
+//                break;
             
-            QString str;
-            ist >> str;
+//            QString str;
+//            ist >> str;
             
-            if(str == "0") {
-                str = "Connection close";
-                closeConnection();
-            }
+//            if(str == "0") {
+//                str = "Connection close";
+//                closeConnection();
+//            }
             
-            emit hasReadSome(str);
-            m_nextBlockSize = 0;
-        }
-    }
+//            emit hasReadSome(str);
+//            m_nextBlockSize = 0;
+//        }
+//    }
 }
 
 void NetworkHelper::closeConnection() {

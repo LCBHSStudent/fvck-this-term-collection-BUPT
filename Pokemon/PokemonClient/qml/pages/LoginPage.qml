@@ -290,9 +290,48 @@ Page {
         }
     }
     
-    
     // ------------------------HANDLE BACKEND SIGNALS--------------------//
-//    Connections {
-//        target: backend
-//    }
+    Connections {
+        target: backend
+        onSigUserSignUp: {
+            switch(status) {
+            case 0:
+                stack.clear()
+                stack.push("MainPage.qml")
+                break
+            case 1:
+                popup.showPopup("该用户名已经被注册", "重试")
+                break
+            default:
+                popup.showPopup("未知错误", "知道了")
+                break
+            }
+        }
+        onSigUserLogin: {
+            switch(status) {
+            case 0:
+                stack.clear()
+                stack.push("MainPage.qml")
+                break
+            case 1:
+                popup.showPopup("该用户不存在", "重试")
+                break
+            case 2:
+                popup.showPopup("用户密码错误", "重试")
+                break
+            case 3:
+                popup.showPopup("服务器拒绝登录", "返回")
+                break
+            default:
+                popup.showPopup("未知错误", "知道了")
+                break
+            }
+        }
+    }
+    
+    OneBtnToast {
+        id: popup
+        contentH: 300
+        contentW: 350
+    }
 }

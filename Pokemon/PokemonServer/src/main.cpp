@@ -13,7 +13,6 @@ int main(int argc, char *argv[]) {
     // system("chcp 65001");
     // system("cls");
 #endif
-    
     pBackend = new ServerBackend;
     system("cls");
     qDebug() << "new server backend instance was built up";

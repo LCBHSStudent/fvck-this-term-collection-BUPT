@@ -3,8 +3,8 @@ syntax = "proto3";
 package UserProtocol;
 
 message UserSignUpRequestInfo {
-    string userName     = 1;
-    string userPsw      = 2;
+    bytes userName     = 1;
+    bytes userPsw      = 2;
 }
 
 message UserSignUpResponseInfo {
@@ -20,22 +20,61 @@ message UserSignUpResponseInfo {
 }
 
 message UserLoginRequestInfo {
-    string userName     = 1;
-    string userPsw      = 2;
+    bytes userName     = 1;
+    bytes userPsw      = 2;
 }
 
 message UserLoginResponseInfo {
     enum LoginStatus {
         SUCCESS          = 0;
         USER_NOT_EXISTS  = 1;
-        USERPSW_ERROR    = 3;
-        SERVER_REFUSED   = 4;
-        UNKNOWN_FAILURE  = 5;
+        USERPSW_ERROR    = 2;
+        SERVER_REFUSED   = 3;
+        UNKNOWN_FAILURE  = 4;
     }
     LoginStatus status = 1;
 }
 
-message UserInfo {
-    string          userName  = 1;
-    repeated int32  pokemonId = 2;
+message UserInfoRequest {
+    bytes           userName = 1;
+}
+
+message UserInfoResponse {
+    enum BadgeType {
+        BRONZE  = 0;
+        SILVER  = 1;
+        GOLD    = 2;
+    }
+    bytes           userName        = 1;
+    int32           timeOfDuel      = 2;
+    int32           timeOfWins      = 3;
+    int32           pkmAmountBadge  = 4;
+    int32           highLevelBadge  = 5;
+    repeated int32  pokemonId       = 6;
+}
+
+message UserPokemonDataRequestInfo {
+    bytes            userName    = 1;
+    repeated int32   pokemonId   = 2;
+}
+
+message PokemonInfo {
+    int32   id          = 1;
+    bytes   name        = 2;
+    int32   level       = 3;
+    int32   type        = 4;
+    int32   exp         = 5;
+    int32   attr        = 6;
+    int32   atk         = 7;
+    int32   def         = 8;
+    int32   hp          = 9;
+    int32   spd         = 10;
+    bytes   skill_1     = 11;
+    bytes   skill_2     = 12;
+    bytes   skill_3     = 13;
+    bytes   skill_4     = 14;
+}
+
+message UserPokemonDataResponseInfo {
+    repeated PokemonInfo data = 1;
 }

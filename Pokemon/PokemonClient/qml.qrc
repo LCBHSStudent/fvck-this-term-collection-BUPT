@@ -9,5 +9,6 @@
         <file>qml/components/MImgBtn.qml</file>
         <file>qml/components/OneBtnToast.qml</file>
         <file>qml/components/MFlatBtn.qml</file>
+        <file>qml/pages/MainPage.qml</file>
     </qresource>
 </RCC>

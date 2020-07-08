@@ -8,8 +8,8 @@ class NetworkHelper: public QObject {
 public:
     explicit 
         NetworkHelper(
-            const QString hostAddr,
-            QObject *parent = nullptr
+            const QString   hostAddr,
+            QObject*        parent = nullptr
         );
     virtual 
         ~NetworkHelper();
@@ -29,9 +29,9 @@ public slots:
 
 signals:
     void
-        statusChanged(bool);
+        statusChanged(bool status);
     void 
-        hasReadSome(QString msg);
+        sigServerMessage(QByteArray data);
 
     
 public RESOURCE:
@@ -41,11 +41,6 @@ public RESOURCE:
         connectLmt = 3000;
     const  static int 
         heartBeatInterval = 15000;
-    enum DataType {
-        UserSignUpResponseInfo = 0,
-        UserLoginResponseInfo,
-        UserInfo,
-    };
     
 public FUNCTION:
     

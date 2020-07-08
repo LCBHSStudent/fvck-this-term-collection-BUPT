@@ -6,5 +6,6 @@
         <file>qml/Page/OverviewPage.qml</file>
         <file>qml/Page/MainDrawerPage.qml</file>
         <file>qml/Page/DataVisualizationPage.qml</file>
+        <file>qml/Components/OneBtnToast.qml</file>
     </qresource>
 </RCC>
