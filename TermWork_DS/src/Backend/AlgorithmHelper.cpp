@@ -238,7 +238,7 @@ void AlgorithmHelper::runWithAlgorithmDij(
             );
             instance->m_customer->addTask(
                 Task(
-                    0,
+                    spendTime[cityId][nextCity],
                     spendTime[cityId][nextCity],
                     Customer::Arrive,
                     0,
