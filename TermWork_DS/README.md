@@ -110,7 +110,13 @@ class BackendBase : public QQuickItem {
     Q_PROPERTY(
         CityModel*  cityModel
         READ        getCityModel
-        NOTIFY      cityModelChanged)
+        NOTIFY      cityModelChanged)void 
+        sigCustomerStatusChanged(
+            qint64 fromId,
+            qint64 destId,
+            qint64 duration,
+            qint64 status
+        );
     // 与GUI同步的系统时间展示
     Q_PROPERTY(
         QString     sysTime
@@ -177,11 +183,12 @@ public slots:
     
     void
         setRunning(bool flag) {m_running = flag;}
-    void                                    // 提示GUI旅客位置变化的信号
-        slotCustomerPosChanged(
-            QString from,
-            QString dest,
-            qint64  duration
+    void                                // 提示前台旅客状态变化
+        sigCustomerStatusChanged(
+            qint64 fromId,
+            qint64 destId,
+            qint64 duration,
+            qint64 status
         );
     
 signals:    // 信号，字面义
@@ -198,10 +205,11 @@ signals:    // 信号，字面义
     void 
         sigCloseRootWindow();
     void 
-        sigCustomerPosChanged(
+        sigCustomerStatusChanged(
             qint64 fromId,
             qint64 destId,
-            qint64 duration
+            qint64 duration,
+            qint64 status
         );
     void
         sigNewMessage(QString msg);
@@ -283,25 +291,69 @@ void BackendBase::mainLoop() {
 ```c++
 void Customer::updateStatus(QString& log) {
     // 若任务队列不为空，则进入循环
-    if(!m_taskQueue.empty()) {
-        // 由于旅客的systime精度较高，需要取余
-        qDebug() << m_sysTime / 60 << m_taskQueue.front().startTime%(24*60);
-        if(m_sysTime/60 == m_taskQueue.front().startTime%(24*60)) {
+        if(!m_taskQueue.empty()) {
+        while(m_sysTime/60 == m_taskQueue.front().startTime) {
             Task& task  = m_taskQueue.front();
             if(task.behaviorType == Customer::Arrive) {
-                // log
+                log =  "旅客到达【" + task.destCity + "】, ";
+                log += "当前时间" + QString::number(task.endTime/60%24);
+                log += ":";
+                log += QString::number(task.endTime%60);
+                emit statusChanged(
+                    task.fromCity,
+                    task.destCity,
+                    task.endTime - task.startTime,
+                    Arrive
+                );
             } else {
-                // log
+                log = "旅客在【";
+                log += task.fromCity + "】于 ";
+                log += QString::number(task.startTime/60%24);
+                log += ":";
+                log += QString::number(task.startTime%60);
                 switch (task.behaviorType) {
                 case Waiting:
-                    // log
-                    break;
-                case Traveling:
-                    // log
-                    emit posChanged(
+                    log += " 开始等候【";
+                    if(task.vehicleType == 0) {
+                        log += "A";
+                    } else if(task.vehicleType == 1) {
+                        log += "T";
+                    } else {
+                        log += "C";
+                    }
+                    log += QString::number(task.tacNumber);
+                    log += "】发车。发车时间：";
+                    log += QString::number(task.endTime/60%24);
+                    log += ":";
+                    log += QString::number(task.endTime%60);
+                    emit statusChanged(
                         task.fromCity,
                         task.destCity,
-                        ((task.endTime + (24*60)) - task.startTime) % (24*60)
+                        task.endTime - task.startTime,
+                        Waiting
+                    );
+                    break;
+                    
+                case Traveling:
+                    log += " 乘坐【";
+                    if(task.vehicleType == 0) {
+                        log += "A";
+                    } else if(task.vehicleType == 1) {
+                        log += "T";
+                    } else {
+                        log += "C";
+                    }
+                    log += QString::number(task.tacNumber);
+                    log += "】驶向【" + task.destCity;
+                    log += "】。预计到达时间：";
+                    log += QString::number(task.endTime/60%24);
+                    log += ":";
+                    log += QString::number(task.endTime%60);
+                    emit statusChanged(
+                        task.fromCity,
+                        task.destCity,
+                        task.endTime - task.startTime,
+                        Traveling
                     );
                     break;
                     
@@ -312,7 +364,8 @@ void Customer::updateStatus(QString& log) {
             m_taskQueue.pop();
             m_logger->InsertLogInfo(log, eEVENT_LEVEL::LV_EVENT);
         }
-        m_sysTime = (m_sysTime + 36) % (24*60*60);  // 移动旅客时间
+        m_sysTime += 36;
+//        qDebug() << m_sysTime;
     }
 }
 ```
@@ -398,7 +451,7 @@ void Customer::updateStatus(QString& log) {
         }
         visit[curCity]  = true;
 
-        int prevTime = spendTime[temp][curCity];
+        int prevTime = spendTime[prev[curCity]][curCity];
         
         if(curCity == destCityID)
             break;
@@ -433,6 +486,110 @@ void Customer::updateStatus(QString& log) {
                 spendTime[curCity][route.destCity] = prevTime + waitTime + route.costTime;
                 prev[route.destCity] = curCity;
                 qDebug() << risks[route.destCity] << i;
+            }
+        }
+    }
+```
+
+此外，值得一提的是qml中可暂停的粒子系统和动画的设计，原qml中的定时器不支持暂停，这里做了一个较低精度的实现
+```javascript
+ParticleSystem {
+        id: customerSys
+        ImageParticle {
+            source: "qrc:/res/images/blueStar.png"
+            color: utils.colorPeterRiver
+            colorVariation: 0.5
+            alpha: 0
+        }
+        
+        Attractor {
+            width: 1; height: 1
+            system: customerSys
+            pointX: citys[10][0]
+            pointY: citys[10][1]
+            strength: 100000
+        }
+        
+        Emitter {
+            id: customerEmt
+            emitRate: 16
+            width:  1
+            height: 1
+            
+            enabled: false
+            
+            property real destX
+            property real destY
+            property int  duration
+            
+            velocity: PointDirection {
+                x: customerEmt.destX
+                y: customerEmt.destY
+                xVariation: 0.5
+                yVariation: 0.5
+            }
+            
+            size: utils.dp(10)
+            
+            function setEmitInfo(fromId, destId, duration) {
+                customerEmt.x = citys[fromId][0];                
+                customerEmt.y = citys[fromId][1];
+                
+                var tempX = citys[destId][0] - customerEmt.x;
+                var tempY = citys[destId][1] - customerEmt.y;
+                
+                customerEmt.destX = tempX / duration * 1000
+                customerEmt.destY = tempY / duration * 1000
+                
+                customerEmt.duration = duration
+                
+                console.log(x, y, destX, destY, duration)
+                
+                customerEmt.enabled = true
+                customerEmt.lifeSpan = duration * 0.9
+                pathTimer.duration = duration * 0.9
+                pathTimer.start()
+                // pathAnimation.start()
+            }
+        }
+    }
+    // 可暂停计时器
+    Timer {
+        id: pathTimer
+        running: false
+        repeat:  true
+        
+        property int  duration:  0
+        property int  factor:    0
+        property int  recover:   0
+        property bool paused: false
+        interval: 100
+        
+        function pause() {
+            if(pathTimer.running && !paused) {
+                paused = true
+                recover = duration - (interval * factor)
+                factor = 0
+                stop()
+            }
+        }
+        function resume() {
+            if(paused) {
+                duration = recover
+                start()
+                paused = false
+            }
+        }
+        
+        onTriggered: {
+            if(factor < duration/100) {
+                factor++
+            } else {
+                customerSys.reset()
+                customerEmt.lifeSpan = 0
+                customerEmt.enabled = false
+                pathTimer.stop()
+                factor = 0
             }
         }
     }
@@ -653,7 +810,7 @@ private:
 - [ ] 仍有一些地方用户体验做的不够到位：输入限时单位为分钟
 - [ ] 代码注释不够完备
 - [ ] 部分类设计为final，二次开发较为麻烦
-- [ ] 旅客动效不够醒目，并且不能明显从地图界面的体现出旅客等待状态
+- [ ] 旅客动效不够醒目，且动画有一些持续时间问题
 - [ ] GUI中的后台信息界面文字排版不够美观
 - [ ] 为了与GUI部分共享，一部分数据被重复加入内存，提高了内存占用
 - [ ] 数据结构的内存占用仍可优化
@@ -667,7 +824,7 @@ private:
 &emsp;&emsp;4. 通过程序主界面的地图，您可以看到由粒子效果表示的旅客运行状态轨迹  
 &emsp;&emsp;5. 通过程序二级数据界面，您可以察看受支持的城市列表与其危险度信息和交通网信息，并按类型或出发地与到达地进行表筛选  
 
-&emsp;&emsp;运行文件夹内的TermWork_DS.exe，进入程序主界面。动画后您将看到中国地图与用粒子动效标记出的支持城市位置与右下角的系统当前时间。这个时间取决于您启动程序时，计算机的真实时间，并依照每秒前进6分钟的比例尺递增。  
+&emsp;&emsp;运行文件夹内的TermWork_DS.exe，进入程序主界面。动画后您将看到中国地图与用粒子动效标记出的支持城市位置与右下角的系统当前时间。这个时间取决于您启动程序时，计算机的真实时间，并依照每秒前进6分钟的比例尺递增。窗口右上的文本框中显示的是全局旅客状态。  
   
 &emsp;&emsp;**窗体的左上角**是主要控制部件**侧拉窗口的开关**，**点击**这个按钮或者**鼠标从左侧边缘向右拖拽**都能够打开此控制台。控制台最上方一行可供选择出发地与到达地；下面部分从左到右分别是**策略选择复选框**：提供无时间限制的危险度最低策略和有时间限制的危险度最低策略；**出发时间输入框**（小时，秒钟）与**时间限制输入框**（单位：分钟，只在选中时间优先策略时有效且可编辑）；**“现在出发”勾选框**：勾选后，旅客会根据查询结果进入旅行状态直到结束，若取消勾选，则只会将路线信息打印至下方的文本区域中；**“GO!”按钮**：根据上方勾选框的状态执行查询操作或旅客出发操作。此外，若产生了不合法的输入，会弹窗提示您需要重新检查并纠正输入。  
   
