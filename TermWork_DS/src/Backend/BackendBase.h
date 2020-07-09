@@ -101,10 +101,11 @@ public slots:
     void
         setRunning(bool flag) {m_running = flag;}
     void                                    // 提示GUI旅客位置变化的信号
-        slotCustomerPosChanged(
+        slotCustomerStatusChanged(
             QString from,
             QString dest,
-            qint64  duration
+            qint64  duration,
+            qint64  status
         );
     
 signals:    // 信号，字面义
@@ -121,10 +122,11 @@ signals:    // 信号，字面义
     void 
         sigCloseRootWindow();
     void 
-        sigCustomerPosChanged(
+        sigCustomerStatusChanged(
             qint64 fromId,
             qint64 destId,
-            qint64 duration
+            qint64 duration,
+            qint64 status
         );
     void
         sigNewMessage(QString msg);

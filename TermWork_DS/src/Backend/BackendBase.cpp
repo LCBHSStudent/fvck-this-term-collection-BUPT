@@ -39,8 +39,8 @@ BackendBase::BackendBase(QQuickItem *parent):
     emit sysTimeChanged();
 //  connect(this, &BackendBase::sigLoadDataFinished, this, [this]{mainLoop();});
     connect(
-        m_customer, &Customer::posChanged,
-        this,       &BackendBase::slotCustomerPosChanged);
+        m_customer, &Customer::statusChanged,
+        this,       &BackendBase::slotCustomerStatusChanged);
 }
 
 
@@ -216,17 +216,19 @@ void BackendBase::slotStartQuery(
     }
 }
 
-void BackendBase::slotCustomerPosChanged(
+void BackendBase::slotCustomerStatusChanged(
     QString from,
     QString dest,
-    qint64  duration
+    qint64  duration,
+    qint64  status
 ) {
     auto& hash = m_absData->m_cityHash;
     
-    emit sigCustomerPosChanged(
+    emit sigCustomerStatusChanged(
         hash[from].id,
         hash[dest].id,
-        duration / 6 * 1000
+        duration / 6.1f * 1000,
+        status
     );
     
     qDebug() << from << dest << duration;

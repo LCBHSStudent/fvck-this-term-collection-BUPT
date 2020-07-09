@@ -1,4 +1,4 @@
-import QtQuick 2.14
+﻿import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Universal 2.14
 
@@ -271,8 +271,8 @@ Page {
                         
                         if(passTime > sub) {
                             info += " 【" +
-                                    (1 + Math.floor((passTime - sub) / 1440)) +
-                                    "日后到达】"
+                                (1 + Math.floor((passTime - sub) / 1440)) +
+                                "日后到达】"
                         } else {
                             info += " 【当日到达】"
                         }

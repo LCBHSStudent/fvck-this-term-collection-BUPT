@@ -86,6 +86,33 @@ Page {
         color: utils.colorClouds
     }
     
+    TextField {
+        id: statusText
+        width: utils.dp(250)
+        anchors {
+            top: parent.top
+            right: parent.right
+            margins: utils.dp(15)
+        }
+        enabled: false
+        font.pixelSize: utils.dp(12)
+        horizontalAlignment: Text.AlignHCenter
+        placeholderText: "暂无旅客状态消息"
+        placeholderTextColor: utils.colorClouds
+        background: Rectangle {
+            color: utils.colorWetAsphalt
+        }
+        Rectangle {
+            visible: parent.activeFocus
+            anchors.fill: parent
+            color: "transparent"
+            border.color: "#00ABA9"
+            border.width: utils.dp(1)
+        }
+        font.bold: true
+        color: utils.colorClouds
+    }
+    
     ParticleSystem {
         id: particles
         anchors.fill: parent
@@ -229,8 +256,8 @@ Page {
                 console.log(x, y, destX, destY, duration)
                 
                 customerEmt.enabled = true
-                customerEmt.lifeSpan = duration
-                pathTimer.duration = duration
+                customerEmt.lifeSpan = duration * 0.95
+                pathTimer.duration = duration * 0.95
                 pathTimer.start()
                 // pathAnimation.start()
             }
@@ -301,8 +328,24 @@ Page {
     
     Connections {
         target: backend
-        onSigCustomerPosChanged: {
-            customerEmt.setEmitInfo(fromId, destId, duration)
+        onSigCustomerStatusChanged: {
+            switch(status) {
+            case 0:
+                statusText.text =
+                        "旅客在" + citys[fromId][2] + "等候出发"
+                break
+            case 1:
+                customerEmt.setEmitInfo(fromId, destId, duration)
+                statusText.text =
+                        "旅客已从" + citys[fromId][2] + "出发，正前往" + citys[destId][2]
+                break
+            case 2:
+                statusText.text =
+                        "旅客到达" + citys[fromId][2]
+                break
+            default:
+                break
+            }
         }
     }
     Connections {
@@ -322,5 +365,4 @@ Page {
             }
         }
     }
-    
 }

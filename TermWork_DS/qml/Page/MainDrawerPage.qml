@@ -253,7 +253,7 @@ Page {
             id: field
             enabled: false
             color: utils.colorClouds
-            
+            font.pixelSize: utils.dp(12)
             Connections {
                 target: backend
                 onSigNewMessage: {

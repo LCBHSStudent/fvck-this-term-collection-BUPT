@@ -61,10 +61,11 @@ public:
     
 signals:
     void 
-        posChanged(
+        statusChanged(
             QString from,
             QString dest,
-            qint64  duration
+            qint64  duration,
+            qint64  status
         );
     
 public:
@@ -83,7 +84,7 @@ public:
         isTaskEmpty() const {return m_taskQueue.empty();}
     
 private:
-    int
+    size_t
         m_sysTime;
     bool
         m_dayPassed;

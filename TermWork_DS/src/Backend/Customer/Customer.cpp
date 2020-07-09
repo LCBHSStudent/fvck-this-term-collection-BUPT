@@ -10,14 +10,19 @@ void Customer::addTask(const Task& task) {
 
 void Customer::updateStatus(QString& log) {
     if(!m_taskQueue.empty()) {
-        qDebug() << m_sysTime / 60 << m_taskQueue.front().startTime%(24*60);
-        if(m_sysTime/60 == m_taskQueue.front().startTime%(24*60)) {
+        while(m_sysTime/60 == m_taskQueue.front().startTime) {
             Task& task  = m_taskQueue.front();
             if(task.behaviorType == Customer::Arrive) {
                 log =  "旅客到达【" + task.destCity + "】, ";
                 log += "当前时间" + QString::number(task.endTime/60%24);
                 log += ":";
                 log += QString::number(task.endTime%60);
+                emit statusChanged(
+                    task.fromCity,
+                    task.destCity,
+                    task.endTime - task.startTime,
+                    Arrive
+                );
             } else {
                 log = "旅客在【";
                 log += task.fromCity + "】于 ";
@@ -39,6 +44,12 @@ void Customer::updateStatus(QString& log) {
                     log += QString::number(task.endTime/60%24);
                     log += ":";
                     log += QString::number(task.endTime%60);
+                    emit statusChanged(
+                        task.fromCity,
+                        task.destCity,
+                        task.endTime - task.startTime,
+                        Waiting
+                    );
                     break;
                     
                 case Traveling:
@@ -56,10 +67,11 @@ void Customer::updateStatus(QString& log) {
                     log += QString::number(task.endTime/60%24);
                     log += ":";
                     log += QString::number(task.endTime%60);
-                    emit posChanged(
+                    emit statusChanged(
                         task.fromCity,
                         task.destCity,
-                        ((task.endTime + (24*60)) - task.startTime) % (24*60)
+                        task.endTime - task.startTime,
+                        Traveling
                     );
                     break;
                     
@@ -70,7 +82,7 @@ void Customer::updateStatus(QString& log) {
             m_taskQueue.pop();
             m_logger->InsertLogInfo(log, eEVENT_LEVEL::LV_EVENT);
         }
-        m_sysTime = (m_sysTime + 36) % (24*60*60);
+        m_sysTime += 36;
 //        qDebug() << m_sysTime;
     }
 }
