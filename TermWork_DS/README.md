@@ -2,7 +2,7 @@
 ## 目录
 1. 设计任务的描述
 2. 功能需求说明及分析
-3. 总体方案设计说明
+3. 总体方案设计说明 & 开发环境信息
 4. 数据结构说明与数据字典(数据名称 & 用途)
 5. 范例执行结果及测试情况说明
 6. 评价和改进意见
@@ -72,6 +72,11 @@
 |————————AbstractData.cpp & ~.h (实现供后台系统使用的路线信息&城市信息类)  
 |————————CityModel.cpp & ~.h (利用QAbstractModel实现可供前端查询并用Model-View模式显示的城市数据结构类)  
 |————————ScheduleModel.cpp & ~.h (实现与作用铜CityModel的交通工具时刻表数据结构类)  
+
+### 开发环境
+软件环境：Qt5.14.1 使用C++17特性编写，MinGW64 7.3.0编译，sqlite3版数据库驱动  
+其他环境：OS: Windows10 专业工作站版 build-2015  
+CPU：i7-8750H GPU：rtx2070maxq RAM: 32GB
 
 ### 核心Backend类定义，通过QmlRegisterType注册为Qml类后在Qml中创建唯一实例
 ```c++
