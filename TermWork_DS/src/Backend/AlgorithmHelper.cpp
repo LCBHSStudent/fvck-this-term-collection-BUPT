@@ -118,8 +118,7 @@ void AlgorithmHelper::runWithAlgorithmDij(
 //            instance->m_absData->m_routeMap[prev[curCity]]
 //                [routeIndex[prev[curCity]][curCity]].costTime +
 //                prevFinTime[prev[curCity]];
-        int prevTime = spendTime[temp][curCity];
-        
+        int prevTime = spendTime[prev[curCity]][curCity];
         if(curCity == destCityID)
             break;
         
@@ -132,7 +131,7 @@ void AlgorithmHelper::runWithAlgorithmDij(
             }
             int waitTime = 
                 ((route.startTime + (24*60)) -
-                 prevTime) % (24*60);
+                 (prevTime % (24*60))) % (24*60);
             
             if(waitTime + prevTime + route.costTime - startT > timeLmt) {
                 continue;
@@ -183,7 +182,7 @@ void AlgorithmHelper::runWithAlgorithmDij(
         routePass[index] = startCityId;
         
         QString result {};
-        int taskStartTime = startT;
+        int     taskStartTime   = startT;
         while(index < cityNum - 1) {
             int cityId   = routePass[index];
             int nextCity = routePass[index + 1];
@@ -249,9 +248,9 @@ void AlgorithmHelper::runWithAlgorithmDij(
             );
             taskStartTime = spendTime[cityId][nextCity];
             }
-            
             index++;
         }
+        
         
         result += "\n\t总耗时:" +
                     QString::number
