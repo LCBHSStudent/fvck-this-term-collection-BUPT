@@ -199,6 +199,12 @@ void BackendBase::slotStartQuery(
     m_customer->setSysTime(
         m_sysTime.time().hour()*3600 + m_sysTime.time().minute()*60
     );
+    
+    if (startH*60 + startM <
+        m_sysTime.time().hour() * 60 + m_sysTime.time().minute()) {
+        startH += 24;
+    }
+    
     switch (policy) {
     case TimeRefered:
         AlgorithmHelper::runWithAlgorithmDij(

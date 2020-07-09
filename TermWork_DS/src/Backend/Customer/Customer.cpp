@@ -10,6 +10,7 @@ void Customer::addTask(const Task& task) {
 
 void Customer::updateStatus(QString& log) {
     if(!m_taskQueue.empty()) {
+        qDebug() << m_sysTime/60 << m_taskQueue.front().startTime;
         while(m_sysTime/60 == m_taskQueue.front().startTime) {
             Task& task  = m_taskQueue.front();
             if(task.behaviorType == Customer::Arrive) {

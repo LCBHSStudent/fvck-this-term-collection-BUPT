@@ -256,8 +256,8 @@ Page {
                 console.log(x, y, destX, destY, duration)
                 
                 customerEmt.enabled = true
-                customerEmt.lifeSpan = duration * 0.95
-                pathTimer.duration = duration * 0.95
+                customerEmt.lifeSpan = duration * 0.99
+                pathTimer.duration = duration * 0.99
                 pathTimer.start()
                 // pathAnimation.start()
             }

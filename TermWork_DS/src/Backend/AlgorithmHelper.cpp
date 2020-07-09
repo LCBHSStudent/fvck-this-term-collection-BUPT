@@ -69,9 +69,12 @@ void AlgorithmHelper::runWithAlgorithmDij(
             i < size; i++)
         {
             AbstractRoute& route = instance->m_absData->m_routeMap[curCity][i];
-            int waitTime = 
-                ((route.startTime + (24*60)) -
-                 prevTime) % (24*60);
+            
+            int realStartTime = route.startTime;
+            while(realStartTime < prevTime) {
+                realStartTime += 24*60;
+            }
+            int waitTime = realStartTime - prevTime;
             
             if(waitTime + route.costTime > timeLmt) {
                 continue;
@@ -129,9 +132,12 @@ void AlgorithmHelper::runWithAlgorithmDij(
             if(visit[route.destCity]) {
                 continue;
             }
-            int waitTime = 
-                ((route.startTime + (24*60)) -
-                 (prevTime % (24*60))) % (24*60);
+            
+            int realStartTime = route.startTime;
+            while(realStartTime < prevTime) {
+                realStartTime += 24*60;
+            }
+            int waitTime = realStartTime - prevTime;
             
             if(waitTime + prevTime + route.costTime - startT > timeLmt) {
                 continue;
