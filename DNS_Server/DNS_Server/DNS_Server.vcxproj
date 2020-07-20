@@ -154,11 +154,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\hash_table\hash_table.c" />
+    <ClCompile Include="src\ini_handler\ini_handler.c" />
     <ClCompile Include="src\main.c" />
+    <ClCompile Include="src\utils_helper\utils_helper.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\config.h" />
-    <ClInclude Include="include\hash_table.h" />
+    <ClInclude Include="src\hash_table\hash_table.h" />
     <ClInclude Include="include\uv.h" />
     <ClInclude Include="include\uv\aix.h" />
     <ClInclude Include="include\uv\android-ifaddrs.h" />
@@ -175,6 +178,8 @@
     <ClInclude Include="include\uv\unix.h" />
     <ClInclude Include="include\uv\version.h" />
     <ClInclude Include="include\uv\win.h" />
+    <ClInclude Include="src\ini_handler\ini_handler.h" />
+    <ClInclude Include="src\utils_helper\utils_helper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
