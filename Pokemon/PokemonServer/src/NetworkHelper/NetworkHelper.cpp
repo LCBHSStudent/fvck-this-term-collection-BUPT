@@ -1,14 +1,10 @@
 ﻿#include "NetworkHelper.h"
 
-#include <MessageTypeGlobal.h>
 #include <google/protobuf/message.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/descriptor.pb.h>
 #include <google/protobuf/dynamic_message.h>
 #include <google/protobuf/compiler/importer.h>
-
-#define EMIT_SIG(_name) \
-    emit sig##_name(client, QByteArray(data.data()+4, data.size()-4))
 
 NetworkHelper::NetworkHelper(QObject *parent):
     QObject(parent),
@@ -61,18 +57,7 @@ void NetworkHelper::slotReadClient() {
     QTcpSocket* client = reinterpret_cast<QTcpSocket*>(sender());
     QByteArray  data   = client->readAll();
     
-    int type = *reinterpret_cast<int*>(data.data());
-    switch (type) {
-    case MessageType::UserSignUpRequest:
-        EMIT_SIG(UserSignUp);
-        break;
-    case MessageType::UserLoginRequest:
-        EMIT_SIG(UserLogin);
-        break;
-    default:
-        qDebug() << "known message type";
-        break;
-    }
+    emit sigGetMessage(client, data);
 }
 
 void NetworkHelper::slotGotDisconnection() {

@@ -44,7 +44,7 @@ private RESOURCE:
     NetworkHelper*
         m_helper = nullptr;
     QString
-        m_userName = "测试";
+        m_userName = QStringLiteral("测试");
 };
 
 #endif // CLIENTBACKEND_H

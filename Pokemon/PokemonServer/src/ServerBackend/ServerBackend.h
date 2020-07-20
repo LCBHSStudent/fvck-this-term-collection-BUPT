@@ -7,7 +7,7 @@
 #include "../NetworkHelper/NetworkHelper.h"
 
 #define NET_SLOT(_name) \
-    void slot##_name(QTcpSocket* client, const QByteArray data)
+    void slot##_name(QTcpSocket* client, QByteArray data)
 
 class ServerBackend: public QObject {
     Q_OBJECT
@@ -16,18 +16,21 @@ public:
     ~ServerBackend();
      
 public slots:
+    NET_SLOT(GetMessage);
+    
+private FUNCTION:
+    void
+        createUserTable(const QString& username);
+    
+private slots:
     NET_SLOT(UserLogin);
     NET_SLOT(UserSignUp);
     NET_SLOT(RequestUserInfo);
     NET_SLOT(UserLogout);
     NET_SLOT(RequestPkmInfo);
     
-private FUNCTION:
-    void
-        createUserTable(const QString& username);
-    
 private RESOURCE:
-    std::unique_ptr<NetworkHelper>
+    NetworkHelper* 
         m_helper;
     QList<User>
         m_userList = {};

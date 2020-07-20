@@ -10,7 +10,12 @@ Rectangle {
     property alias placeholderText: editField.placeholderText
     property alias echoMode:        editField.echoMode
     // 判断是否为密码输入框
-    property bool isPsw:            placeholderText === "请输入密码"
+    property bool  isPsw:           placeholderText === "请输入密码"
+    property alias borderColor:     editField.color
+    property alias bgColor:         bgRect.color
+    property alias placeTextColor:  editField.placeholderTextColor
+    property alias aligenH:         editField.horizontalAlignment
+    
     Image {
         id: editIco;
         source: ""
@@ -42,7 +47,8 @@ Rectangle {
             family: "微软雅黑"
             // 若是密码框且输入内容不为空
         }
-        background: Rectangle{
+        background: Rectangle {
+            id: bgRect
             color: "transparent"
         }
         maximumLength: 24

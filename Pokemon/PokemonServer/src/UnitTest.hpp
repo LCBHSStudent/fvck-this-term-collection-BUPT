@@ -39,15 +39,15 @@ void TestCompileArglistQuery() {
 }
 
 void TestUserBattle() {
-    User* userA = new User;
-    User* userB = nullptr;
-    (void) userA, (void) userB;
-    HighAtkPkm hatk("攻击", 1, 1, 0, 1, 100, 0, 0, PokemonBase::FIRE);
-    hatk.setSkill(0, "JJJJ");
-    HighDefPkm hdef("守备", 1, 1, 0, 0, 100, 0, 0, PokemonBase::WATER);
-    hdef.setSkill(0, "JJJJ");
-    BattleField bf = BattleField(userA, userB, &hatk, &hdef);
-    bf.turn("JJJJ", "JJJJ");
+//    User* userA = new User;
+//    User* userB = nullptr;
+//    (void) userA, (void) userB;
+//    HighAtkPkm hatk("攻击", 1, 1, 0, 1, 100, 0, 0, PokemonBase::FIRE);
+//    hatk.setSkill(0, "JJJJ");
+//    HighDefPkm hdef("守备", 1, 1, 0, 0, 100, 0, 0, PokemonBase::WATER);
+//    hdef.setSkill(0, "JJJJ");
+//    BattleField bf = BattleField(userA, userB, &hatk, &hdef);
+//    bf.turn("JJJJ", "JJJJ");
 }
 
 void TestMarshalProto() {

@@ -8,8 +8,9 @@ class PokemonBase;
 class User: public QObject {
     Q_OBJECT
 public:
-	User();
-    ~User();
+        User(QString username, QObject* parent = nullptr);
+    virtual 
+        ~User();
 public RESOURCE:
 	enum class BadgeType: uint32 {
 		GOLDEN = 0,
@@ -18,18 +19,27 @@ public RESOURCE:
 	};
 	
 public FUNCTION:
-	GET(double, winRate)
-    GET(std::string, name)
-	GET(BadgeType, countBadge)
-	GET(BadgeType, qualityBadge)
-	GET(QList<uint32>, pokemonList)
+	GET(double,         winRate)
+    GET(QString,        name)
+	GET(BadgeType,      countBadge)
+	GET(BadgeType,      qualityBadge)
+	GET(QList<uint32>,  pokemonList)
 	
-	void createBattlePkm(uint32 pkmId);
+	PokemonBase 
+        requestUserPkmInfo(uint32 pkmId);
+    void
+        battleWon();
+    void
+        battleFailed();
+    
+private FUNCTION:
+    void 
+        updateUserInfo();
     
 private RESOURCE:
-	std::string
+	QString
 		m_name;
-	double 
+	double
 		m_winRate;
 	BadgeType
 		m_countBadge;
@@ -37,8 +47,6 @@ private RESOURCE:
 		m_qualityBadge;
 	QList<uint32>
 		m_pokemonList;
-	PokemonBase*
-		m_selectedPkm = nullptr;
 };
 
 #endif // USER_H

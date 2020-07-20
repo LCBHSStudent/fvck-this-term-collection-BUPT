@@ -57,6 +57,8 @@ REGISTER_SKILL(JJJJ) {
         }
         dest->m_curHP -= damage;
     }
+    
+    return AttackResult();
 }
 
 REGISTER_SKILL(FireBall) {
@@ -74,7 +76,7 @@ REGISTER_SKILL(FireBall) {
     //------生成buff-----//
     //--------效果-------//
     //return x (buff id)//
-    
+    return AttackResult();
 }
 
 REGISTER_SKILL(GreassLeaf) {
@@ -92,6 +94,7 @@ REGISTER_SKILL(GreassLeaf) {
     //------生成buff-----//
     //--------效果-------//
     //return x (buff id)//
+    return AttackResult();
 }
 
 REGISTER_SKILL(WaterBullet) {
@@ -109,6 +112,7 @@ REGISTER_SKILL(WaterBullet) {
     //------生成buff-----//
     //--------效果-------//
     //return x (buff id)//
+    return AttackResult();
 }
 
 REGISTER_SKILL(WindBreath) {
@@ -126,6 +130,7 @@ REGISTER_SKILL(WindBreath) {
     //------生成buff-----//
     //--------效果-------//
     //return x (buff id)//
+    return AttackResult();
 }
 
 // ------------------------------------- //

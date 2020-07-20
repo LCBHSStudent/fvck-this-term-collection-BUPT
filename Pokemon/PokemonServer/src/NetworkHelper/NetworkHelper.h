@@ -5,7 +5,7 @@
 #include "../../protocol/UserProtocol.pb.h"
 
 #define NET_SIG(_name) \
-    void sig##_name(QTcpSocket* client, const QByteArray data);
+    void sig##_name(QTcpSocket* client, QByteArray data)
 
 class NetworkHelper: public QObject {
     Q_OBJECT
@@ -31,13 +31,7 @@ public RESOURCE:
     inline static int port = 1919;
 
 signals:
-    NET_SIG(UserLogin)
-    NET_SIG(UserSignUp)
-    NET_SIG(UserLogout)
-    NET_SIG(RequestPkmInfo)
-    NET_SIG(StartUserBattle)
-    NET_SIG(RequestUserInfo)
-    NET_SIG(StartVirtualBattle)
+    NET_SIG(GetMessage);
 	
 private slots:
     void

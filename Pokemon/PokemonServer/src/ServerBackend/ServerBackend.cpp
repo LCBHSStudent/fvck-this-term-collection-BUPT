@@ -5,14 +5,17 @@
 
 #undef  NET_SLOT
 #define NET_SLOT(_name) \
-    void ServerBackend::slot##_name(QTcpSocket* client, const QByteArray data)
+    void ServerBackend::slot##_name(QTcpSocket* client, QByteArray data)
 
 #define CONNECT_EVENT(_eventName)                           \
     connect(                                                \
-        m_helper.get(), &NetworkHelper::sig##_eventName,    \
-        this,            &ServerBackend::slot##_eventName)  \
+        m_helper, &NetworkHelper::sig##_eventName,    \
+        this,     &ServerBackend::slot##_eventName)  \
 
 #define DEFAULT_FUNC std::function<void(QSqlQuery&)>()
+
+#define CALL_SLOT(_name) \
+    slot##_name(client, QByteArray(data.data()+4, data.size()-4))
 
 // ----------------Progress Before Sending Network Data---------------- //
 #define PROC_PROTODATA(_messageType, _dataBlockName) \
@@ -35,20 +38,14 @@ ServerBackend::ServerBackend():
     // 添加服务器精灵
     // m_serverPkm.append()
     
-    
-    // CONNECT SLOTS AND SIGNALS
-    {
-        CONNECT_EVENT(UserLogin);
-        CONNECT_EVENT(UserSignUp);
-        CONNECT_EVENT(RequestUserInfo);
-        CONNECT_EVENT(UserLogout);
-        CONNECT_EVENT(RequestPkmInfo);
-    }
+    CONNECT_EVENT(GetMessage);
 }
 
 ServerBackend::~ServerBackend() {
     // RELEASE TCP SOCKET SERVER HELPER
-    m_helper.release();
+    if(m_helper) {
+        delete m_helper;
+    }
     for(auto& pData: m_serverPkm) {
         delete pData;
         pData = nullptr;
@@ -59,22 +56,36 @@ ServerBackend::~ServerBackend() {
 void ServerBackend::createUserTable(const QString& username) {
     const QString userTableStat = 
 "CREATE TABLE IF NOT EXISTS `user_" + username + "`(\
-    PKM_ID      INT             NOT NULL PRIMARY KEY,\
+    PKM_ID      INT             NOT NULL PRIMARY KEY AUTO_INCREMENT,\
+    PKM_TYPEID  INT             NOT NULL,\
     PKM_NAME    VARCHAR(128)    NOT NULL,\
     PKM_LEVEL   INT             NOT NULL DEFAULT 1,\
-    PKM_TYPE    INT             NOT NULL DEFAULT 0,\
     PKM_EXP     INT             NOT NULL DEFAULT 0,\
-    PKM_ATTR    INT             NOT NULL DEFAULT 0,\
     PKM_ATK     INT             NOT NULL DEFAULT 0,\
     PKM_DEF     INT             NOT NULL DEFAULT 0,\
     PKM_HP      INT             NOT NULL DEFAULT 0,\
-    PKM_SPD     INT             NOT NULL DEFAULT 0,\
-    PKM_SKILL_1 VARCHAR(64)     NOT NULL,\
-    PKM_SKILL_2 VARCHAR(64)     NOT NULL,\
-    PKM_SKILL_3 VARCHAR(64)     NOT NULL,\
-    PKM_SKILL_4 VARCHAR(64)     NOT NULL\
+    PKM_SPD     INT             NOT NULL DEFAULT 0\
 );";
     StorageHelper::Instance().transaction(userTableStat, DEFAULT_FUNC);
+}
+
+void ServerBackend::slotGetMessage(
+    QTcpSocket*     client,
+    QByteArray      data
+) {
+    const int type = *reinterpret_cast<int*>(data.data());
+    
+    switch (type) {
+    case MessageType::UserSignUpRequest:
+        CALL_SLOT(UserSignUp);
+        break;
+    case MessageType::UserLoginRequest:
+        CALL_SLOT(UserLogin);
+        break;
+    default:
+        qDebug() << "known message type";
+        break;
+    }
 }
 
 // -----------------------NETWORK TRANSACTION-------------------------- //
@@ -92,6 +103,7 @@ NET_SLOT(UserLogin) {
     reqInfo.PrintDebugString();
     
     bool    flag = false;
+    QString userName = QString::fromStdString(reqInfo.username());
     QString userPsw;
     
     StorageHelper::Instance().transaction(
@@ -106,9 +118,21 @@ NET_SLOT(UserLogin) {
     UserProtocol::UserLoginResponseInfo resInfo = {};
     if(flag) {
         if(userPsw == QString::fromStdString(reqInfo.userpsw())) {
+            bool flag = true;
             resInfo.set_status(
                 UserProtocol::UserLoginResponseInfo_LoginStatus_SUCCESS);
+            for(int i = 0; i < m_userList.size(); i++) {
+                if (userName == m_userList.at(i).get_name()) {
+                    resInfo.set_status(
+                        UserProtocol::UserLoginResponseInfo_LoginStatus_SERVER_REFUSED);
+                    flag = false;
+                    break;
+                }
+            }
             // TODO: 将 User 加入 UserList？
+            if(flag) {
+                
+            }
             
         } else {
             resInfo.set_status(

@@ -36,18 +36,32 @@ RESOURCE
     int turnCnt;
 };
 
-struct BuffResult {
+struct PropertyCombo {
+    int     hp  = 0;
+    int     atk = 0;
+    int     def = 0;
+    int     spd = 0;
+};
+
+struct AttackResult {
 FUNCTION
-    BuffResult(): selfBuf(), destBuf(){}
-    BuffResult(
+    AttackResult() = default;
+
+    AttackResult(
         int _selfId, int _selfCnt,
-        int _destId, int _destCnt
+        int _destId, int _destCnt,
+        int _selfDeltaHp,
+        int _destDeltaHp
     ):  selfBuf(_selfId, _selfCnt),
-        destBuf(_destId, _destCnt) {}
+        destBuf(_destId, _destCnt),
+        selfDeltaHp(_selfDeltaHp),
+        destDeltaHp(_destDeltaHp) {}
     
 RESOURCE
-    Buff selfBuf;
-    Buff destBuf;
+    Buff selfBuf = {};
+    Buff destBuf = {};
+    int  selfDeltaHp = 0;
+    int  destDeltaHp = 0;
 };
 
 class PokemonBase {
@@ -92,7 +106,9 @@ public RESOURCE:
 	static const int    
         MAX_LEVEL = 15;
     static int
-        LEVEL_UP_EXP[15];
+        LEVEL_UP_EXP[MAX_LEVEL + 1];
+    static PropertyCombo
+        INITIAL_PROPERTY;
     
 public FUNCTION:
 	void
@@ -115,7 +131,7 @@ public FUNCTION:
     PROPERTY(QString, name)
     
 public FUNCTION:
-	virtual BuffResult
+	virtual AttackResult
 		attack(
                   PokemonBase&    target,
 		    const QString&        skillName

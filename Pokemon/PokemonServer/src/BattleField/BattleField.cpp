@@ -43,16 +43,16 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
         }
         
         if(spdA > spdB) {
-            auto buffA = pkmA.attack(pkmB, actionA);
-            auto buffB = pkmB.attack(pkmA, actionB);
+            auto resA = pkmA.attack(pkmB, actionA);
+            auto resB = pkmB.attack(pkmA, actionB);
             
-            (void)buffA, (void)buffB;
+            (void)resA, (void)resB;
         } 
         else if (spdA < spdB) {
-            auto buffB = pkmB.attack(pkmA, actionB);
-            auto buffA = pkmA.attack(pkmB, actionA);
+            auto resB = pkmB.attack(pkmA, actionB);
+            auto resA = pkmA.attack(pkmB, actionA);
             
-            (void)buffA, (void)buffB;
+            (void)resA, (void)resB;
         }
     }
     

@@ -1,5 +1,13 @@
 ﻿#include "PokemonBase.h"
 
+int PokemonBase::LEVEL_UP_EXP[MAX_LEVEL + 1] = {
+    0, 0, 1, 2, 3, 5, 7 ,11, 17, 25, 31, 39, 48, 61, 76, 83
+};
+
+PropertyCombo PokemonBase::INITIAL_PROPERTY = {
+    12, 6, 6, 6
+};
+
 PokemonBase::PokemonBase(ARGS_LIST):
     m_name(_name),
     m_id(_id),
@@ -12,9 +20,7 @@ PokemonBase::PokemonBase(ARGS_LIST):
     m_pkmType(PokemonType(_type)),
     m_pkmAttr(PokemonAttribute(_attr)) {}
 
-int PokemonBase::LEVEL_UP_EXP[15] = {
-    0
-};
+
 
 void PokemonBase::gainExperience(int exp) {
 	if ((m_exp + exp) <= m_exp)

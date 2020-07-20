@@ -47,4 +47,31 @@ StorageHelper::StorageHelper() {
         "Create user list table succeed":
         createQuery.lastError().text()
     );
+    
+    createQuery.clear();
+        
+    const QString pkmTableStat = 
+"CREATE TABLE IF NOT EXISTS pokemon_info(\
+    PKM_ID      INT             NOT NULL PRIMARY KEY,\
+    PKM_NAME    VARCHAR(128)    NOT NULL,\
+    PKM_TYPE    INT             NOT NULL DEFAULT 0,\
+    PKM_ATTR    INT             NOT NULL DEFAULT 0,\
+    ATK_INC     INT             NOT NULL DEFAULT 0,\
+    DEF_INC     INT             NOT NULL DEFAULT 0,\
+     HP_INC     INT             NOT NULL DEFAULT 0,\
+    SPD_INC     INT             NOT NULL DEFAULT 0,\
+    PKM_SKILL_1 VARCHAR(64)     NOT NULL,\
+    PKM_SKILL_2 VARCHAR(64)     NOT NULL,\
+    PKM_SKILL_3 VARCHAR(64)     NOT NULL,\
+    PKM_SKILL_4 VARCHAR(64)     NOT NULL,\
+    DESCRIPTION VARCHAR(256)    NOT NULL\
+);";
+    createQuery.prepare(pkmTableStat);
+    createQuery.exec();
+    
+    qDebug() << (
+        createQuery.lastError().text().isEmpty()?
+        "Create skill list table succeed":
+        createQuery.lastError().text()
+    );
 }

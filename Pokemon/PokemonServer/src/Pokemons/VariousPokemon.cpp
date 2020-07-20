@@ -4,30 +4,28 @@
 HighAtkPkm::HighAtkPkm(ARGS_LIST): 
     PokemonBase(PKM_INIT_LIST(PokemonType::HIGH_ATTACK)) {}
 
-BuffResult HighAtkPkm::attack(
+AttackResult HighAtkPkm::attack(
     PokemonBase&    target,
     const QString&  skillName
 ) {
-    PokemonSkill::useSkillByName(skillName, this, &target);
-    
-    return BuffResult();
+    return PokemonSkill::useSkillByName(skillName, this, &target);
 }
 
 void HighAtkPkm::levelUp() {
-    
+    while(m_exp < LEVEL_UP_EXP[m_level]) {
+        m_level++;
+    }
 }
 
 //----------------------HP REFERED-------------------------//
 HighHpPkm::HighHpPkm(ARGS_LIST): 
     PokemonBase(PKM_INIT_LIST(PokemonType::HIGH_HITPOINT)) {}
 
-BuffResult HighHpPkm::attack(
+AttackResult HighHpPkm::attack(
     PokemonBase&    target,
     const QString&  skillName
 ) {
-    PokemonSkill::useSkillByName(skillName, this, &target);
-    
-    return BuffResult();
+    return PokemonSkill::useSkillByName(skillName, this, &target);
 }
 
 void HighHpPkm::levelUp() {
@@ -38,13 +36,11 @@ void HighHpPkm::levelUp() {
 HighDefPkm::HighDefPkm(ARGS_LIST): 
     PokemonBase(PKM_INIT_LIST(PokemonType::HIGH_DEFENSE)) {}
 
-BuffResult HighDefPkm::attack(
+AttackResult HighDefPkm::attack(
     PokemonBase&    target,
     const QString&  skillName
 ) {
-    PokemonSkill::useSkillByName(skillName, this, &target);
-    
-    return BuffResult();
+    return PokemonSkill::useSkillByName(skillName, this, &target);
 }
 
 void HighDefPkm::levelUp() {
@@ -56,13 +52,11 @@ void HighDefPkm::levelUp() {
 HighSpdPkm::HighSpdPkm(ARGS_LIST): 
     PokemonBase(PKM_INIT_LIST(PokemonType::HIGH_SPEED)) {}
 
-BuffResult HighSpdPkm::attack(
+AttackResult HighSpdPkm::attack(
     PokemonBase&    target,
     const QString&  skillName
 ) {
-    PokemonSkill::useSkillByName(skillName, this, &target);
-    
-    return BuffResult();
+    return PokemonSkill::useSkillByName(skillName, this, &target);
 }
 
 void HighSpdPkm::levelUp() {

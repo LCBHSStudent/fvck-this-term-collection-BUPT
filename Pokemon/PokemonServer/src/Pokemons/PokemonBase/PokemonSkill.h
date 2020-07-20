@@ -3,11 +3,12 @@
 
 #include <PreCompile.h>
 #include <Reflect.hpp>
+#include "PokemonBase.h"
 
 #define SKILL_FUNC_DEF(_func_) \
-    static void _func_(PokemonBase* user, PokemonBase* dest)
+    static AttackResult _func_(PokemonBase* user, PokemonBase* dest)
 #define SKILL_FUNC(_func_) \
-    void PokemonSkill::_func_(PokemonBase* user, PokemonBase* dest)
+    AttackResult PokemonSkill::_func_(PokemonBase* user, PokemonBase* dest)
 
 #define REGISTER_METHOD(_method_) \
     static FuncReflectHelper<PokemonSkill, QString, PokemonSkill::SkillFunc>    \
@@ -18,12 +19,12 @@ class PokemonBase;
 
 class PokemonSkill {
 public:
-    using SkillFunc = void(/*PokemonSkill::*/*)(PokemonBase*, PokemonBase*);
+    using SkillFunc = AttackResult(/*PokemonSkill::*/*)(PokemonBase*, PokemonBase*);
 public FUNCTION:
     PokemonSkill()  = delete;
     ~PokemonSkill() = default;
     
-    static void 
+    static AttackResult 
         useSkillByName(
             const QString&  name,
             PokemonBase*    user = nullptr,
@@ -31,12 +32,13 @@ public FUNCTION:
         ) {
             if(!user || !dest) {
                 qDebug() << "[PokemonSkill]: 目标或使用者为空";
-                return;
+                return AttackResult();
             }
             if(s_skillMap.count(name)) {
-                s_skillMap[name](user, dest);
+                return s_skillMap[name](user, dest);
             } else {
                 qDebug() << "[PokemonSkill]: 不存在技能" << name;
+                return AttackResult();
             }
         }
     

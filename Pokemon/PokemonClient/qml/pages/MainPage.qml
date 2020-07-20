@@ -9,6 +9,9 @@ import "../components/"
 
 Page {
     id: mainPage_t
+    
+    readonly property color pageColor: "#AAFAFAFA"
+    
     // ------------BACKGROUND -------------- //
     Image {
         source: "qrc:/res/image/bg2.png"
@@ -40,7 +43,7 @@ Page {
     Audio {
         source: "qrc:/res/audio/title_1.mp3"
         loops: Audio.Infinite
-        Component.onCompleted: play()
+        // Component.onCompleted: play()
     }
     
     
@@ -73,10 +76,19 @@ Page {
                 active: SwipeView.isCurrentItem ||
                         SwipeView.isNextItem ||
                         SwipeView.isPreviousItem
-                sourceComponent: Rectangle {
-                    color: Qt.rgba(1, 1, 1, 0.8)
-                    anchors.fill: parent
-                    radius: utils.dp(5)
+                sourceComponent: {
+                    switch(index) {
+                    case 0:
+                        return battle
+                    case 1:
+                        return pkmInfo
+                    case 2:
+                        return onlineInfo
+                    case 3:
+                        return queryUser
+                    default:
+                        return null
+                    }
                 }
             }
         }
@@ -165,7 +177,7 @@ Page {
                 Text {
                     anchors {
                         top: parent.bottom
-                        topMargin: utils.dp(3)
+                        topMargin: utils.dp(2)
                         horizontalCenter: parent.horizontalCenter
                     }
                     font.bold: true
@@ -204,15 +216,61 @@ Page {
         contentH: contentW * 0.7
     }
     
-}
-
-/* free debug drag component
-    Drag.active: true
-    MouseArea {
-        drag.target: parent
-        anchors.fill: parent
-        onPressedChanged: {
-        mask.opacity = pressed? 0.4: 0
+    
+    Component {
+        id: battle
+        Rectangle {
+            anchors.fill: parent
+            radius: utils.dp(5)
+            color: pageColor
+            
+            Column {
+                spacing: utils.dp(10)
+                anchors.centerIn: parent
+                
+                MTextInput {
+                    id: inviteInput
+                    width: utils.dp(180)
+                    height: utils.dp(30)
+                    aligenH: Text.horizontalAlignment
+                    placeholderText: "用户名称"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.horizontalCenterOffset: -utils.dp(17)
+                    bgColor: "#34D0C6"
+                }
+                
+                MFlatBtn {
+                    id: inviteBtn
+                    text: "发出邀请"
+                    pressColor: "#34D0C6"
+                    releaseColor: "#2CC486"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+            }
         }
-    }            
-*/
+    }
+    Component {
+        id: pkmInfo
+        Rectangle {
+            anchors.fill: parent
+            radius: utils.dp(5)
+            color: pageColor
+        }
+    }
+    Component {
+        id: onlineInfo
+        Rectangle {
+            anchors.fill: parent
+            radius: utils.dp(5)
+            color: pageColor
+        }
+    }
+    Component {
+        id: queryUser
+        Rectangle {
+            anchors.fill: parent
+            radius: utils.dp(5)
+            color: pageColor
+        }
+    }
+}

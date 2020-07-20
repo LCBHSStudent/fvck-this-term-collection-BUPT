@@ -15,7 +15,7 @@ public:
 	virtual
 		~HighAtkPkm() = default;
 public FUNCTION:	
-	BuffResult
+	AttackResult
 		attack(
             PokemonBase&    target,
             const QString&  skillName
@@ -33,7 +33,7 @@ public:
 	virtual
 		~HighHpPkm() = default;
 public FUNCTION:	
-	BuffResult
+	AttackResult
         attack(
             PokemonBase&    target,
             const QString&  skillName
@@ -52,7 +52,7 @@ public:
 	virtual
 		~HighDefPkm() = default;
 public FUNCTION:	
-	BuffResult
+	AttackResult
 		attack(
             PokemonBase&    target,
             const QString&  skillName
@@ -70,7 +70,7 @@ public:
 	virtual
 		~HighSpdPkm() = default;
 public FUNCTION:	
-	BuffResult
+	AttackResult
 		attack(
             PokemonBase&    target,
             const QString&  skillName

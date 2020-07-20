@@ -10,5 +10,8 @@
         <file>qml/components/OneBtnToast.qml</file>
         <file>qml/components/MFlatBtn.qml</file>
         <file>qml/pages/MainPage.qml</file>
+        <file>qml/pages/UserInfoPage.qml</file>
+        <file>qml/pages/BattlePage.qml</file>
+        <file>qml/components/TwoBtnToast.qml</file>
     </qresource>
 </RCC>

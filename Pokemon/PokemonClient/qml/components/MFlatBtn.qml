@@ -5,6 +5,8 @@ Rectangle {
     
     radius: utils.dp(5)
     color:  releaseColor
+    height: btnText.font.pixelSize * 1.4
+    width: btnText.width * 1.7
     
     property var    releaseColor
     property var    pressColor
