@@ -43,7 +43,7 @@ BOOL InsertHashItem(HashTable table, char* key, char* value) {
 	size_t index = ELFHash(key, strlen(key)) % table.size;
 	Node* node = &table.data[index];
 
-	if (node->next == NULL) {
+	if (node->key == NULL || node->value == NULL) {
 		table.data[index].key = key;
 		table.data[index].value = value;
 	}
@@ -53,11 +53,11 @@ BOOL InsertHashItem(HashTable table, char* key, char* value) {
 		}
 		Node* temp = (Node*)malloc(sizeof(Node));
 		if (temp != NULL) {
-			temp->key = key;
+			temp->key	= key;
 			temp->value = value;
-			temp->next = NULL;
+			temp->next	= NULL;
 		}
-		node->next = temp;
+		node->next  = temp;
 	}
 
 	return true;
@@ -71,6 +71,9 @@ char* FindItemByKey(HashTable table, char* key) {
 	Node* node = &table.data[index];
 	
 	while (node != NULL) {
+		if (node->key == NULL || node->value == NULL) {
+			return NULL;
+		}
 		if (strcmp(key, node->key) == 0) {
 			return node->value;
 		}

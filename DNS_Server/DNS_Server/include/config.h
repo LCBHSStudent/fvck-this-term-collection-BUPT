@@ -10,7 +10,6 @@
 
 #include <uv.h>
 
-#define NOTFOUND			-1				
 #define ARR_LENGTH			64				// len of char array 
 #define MAX_AMOUNT			300
 #define BUFFER_SIZE			1024
@@ -19,7 +18,7 @@
 
 #define DEBUG_FLAG
 
-#define PRINTERR(MSG) fprintf(stderr, #MSG "\n")
+
 
 typedef unsigned short	byte2;
 typedef unsigned int	byte4;
