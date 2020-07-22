@@ -18,8 +18,6 @@
 
 #define DEBUG_FLAG
 
-
-
 typedef unsigned short	byte2;
 typedef unsigned int	byte4;
 typedef unsigned char	byte;

@@ -8,6 +8,11 @@
 
 #pragma warning(disable:4996)
 
+// TODO: 完成ID表中超时项目的删除？
+//		（FUNC: start another thread or just handle it in ev loop）
+// TODO: 完成从external server response中拿到查询IP的功能
+//		（FUNC: onReadResponse）
+
 // -------NATIVE VARIABLE & FUNCTION SPACE--------- //
 
 static IDTable		idTable  = { 0 };		// Id转换表
@@ -28,7 +33,9 @@ byte2 GetNewID(
 	byte2				oldID,
 	struct sockaddr_in* addr,
 	BOOL				isDone,
-	char* domain
+	int					offset,
+	int					joinTime,
+	char*				domain
 );
 void loadDNSTableData();
 void initConfig();
@@ -172,7 +179,7 @@ void onReadRequest(
 			GetNewID(
 				nhswap_s(pHeader->Id),
 				(struct sockaddr_in*)addr,
-				TRUE, pUrl
+				TRUE, (int)nread, 0, pUrl
 			);
 		DisplayIDTransInfo(&idTable[newID]);
 
@@ -229,9 +236,9 @@ void onReadRequest(
 		uv_buf_t		responseBuf = 
 			uv_buf_init((char*)malloc(1024), (byte4)nread + 16);
 		memcpy(responseBuf.base, buffer->base, nread+16);
-
 		
-		uv_ip4_addr(sender,
+		uv_ip4_addr(
+			sender,
 			nhswap_s(idTable[newID].client.sin_port), &clientEP
 		);
 
@@ -250,7 +257,7 @@ void onReadRequest(
 			GetNewID(
 				nhswap_s(pHeader->Id),
 				(struct sockaddr_in*)addr,
-				FALSE, pUrl
+				FALSE, (int)nread, 0, pUrl
 			)
 		);
 
@@ -276,6 +283,8 @@ void onReadRequest(
 	free(buffer->base);
 }
 
+
+// 收到远程DNS服务器送达的响应报文
 void onReadResponse(
 	uv_udp_t* req,
 	ssize_t					nread,
@@ -283,13 +292,14 @@ void onReadResponse(
 	const struct sockaddr*	addr,
 	unsigned				flags
 ) {
-	if (nread < 0) {
+	if (nread < 0 || nread > 1024) {
 		fprintf(stderr, "Read error %s\n", uv_err_name((int)nread));
 		uv_close((uv_handle_t*)req, NULL);
 		free(buffer->base);
 		return;
 	}
 
+	// 获取发送方IP raw字符串
 	char sender[16] = { 0 };
 	uv_ip4_name((const struct sockaddr_in*)addr, sender, 15);
 
@@ -298,9 +308,34 @@ void onReadResponse(
 	idTable[temp].finished	= true;
 	byte2 prevID			= nhswap_s(idTable[temp].prevID);
 
+	// 如果未加入hashTable，则将key(url) & value(ipaddr)加入hashTable
+	if (!FindItemByKey(dnsHashTable, idTable[temp].url)) {
+		InsertHashItem(dnsHashTable, idTable[temp].url, NULL);
+	}
 
+	byte* pData = buffer->base + sizeof(DNSHeader);
+	void* pIP	= pData + idTable[temp].offset;
+	byte4 integerIP = nhswap_l(*(byte4*)pIP);
+
+	// 获取第一条查询结果
+	char result[17] = { 0 };
+	uv_ip4_name((const struct sockaddr_in*)&integerIP, result, 16);
+	
+	{
+		strcpy(result, dnsTable[dnsRowCount].IP);
+		strcpy(idTable[temp].url, dnsTable[dnsRowCount].Domain);
+		InsertHashItem(dnsHashTable, idTable[temp].url, result);
+
+		dnsRowCount++;
+		if (dnsRowCount <= MAX_AMOUNT) {
+			PRINTERR("[[WARNING]] RECORDS IN DNS_TABLE HAVE REACHED THE LIMIT");
+			exit(-114514);
+		}
+	}
+
+	// 打印操作执行状态信息
 	DisplayTime(&sysTime);
-	printf("\t[get_external_server_response]\n");
+	printf("\t[get_external_server_response] the first result is: %s\n", result);
 	DisplayIDTransInfo(&idTable[temp]);
 
 	pHeader->Id = prevID;
@@ -317,7 +352,7 @@ void onReadResponse(
 	
 	uv_ip4_name(&idTable[temp].client, client, 16);
 
-	printf("**************%s\n", client);
+//	printf("**************%s\n", client);
 
 	uv_ip4_addr(
 		client,
@@ -415,11 +450,15 @@ byte2 GetNewID(
 	byte2				oldID,
 	struct sockaddr_in* addr,
 	BOOL				isDone,
+	int					offset,
+	int					joinTime,
 	char*				url
 ) {
 	idTable[idRowCount].prevID		= oldID;
 	idTable[idRowCount].client		= *addr;
 	idTable[idRowCount].finished	= isDone;
+	idTable[idRowCount].offset		= offset;
+	idTable[idRowCount].joinTime	= joinTime;
 	strcpy(idTable[idRowCount].url, url);
 	
 	idRowCount = (idRowCount+1) % MAX_AMOUNT;
