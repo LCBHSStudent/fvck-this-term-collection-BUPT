@@ -15,6 +15,9 @@ public FUNCTION:
         }
         return *m_instance;
     }
+    
+    static inline auto DEFAULT_FUNC = std::function<void(QSqlQuery&)>();
+    
     // consider to use exception?
     template<typename... Args>
     void transaction(

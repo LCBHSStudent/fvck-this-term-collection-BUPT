@@ -12,8 +12,6 @@
         m_helper, &NetworkHelper::sig##_eventName,    \
         this,     &ServerBackend::slot##_eventName)  \
 
-#define DEFAULT_FUNC std::function<void(QSqlQuery&)>()
-
 #define CALL_SLOT(_name) \
     slot##_name(client, QByteArray(data.data()+4, data.size()-4))
 
@@ -66,7 +64,7 @@ void ServerBackend::createUserTable(const QString& username) {
     PKM_HP      INT             NOT NULL DEFAULT 0,\
     PKM_SPD     INT             NOT NULL DEFAULT 0\
 );";
-    StorageHelper::Instance().transaction(userTableStat, DEFAULT_FUNC);
+    StorageHelper::Instance().transaction(userTableStat, StorageHelper::DEFAULT_FUNC);
 }
 
 void ServerBackend::slotGetMessage(
@@ -173,7 +171,7 @@ NET_SLOT(UserSignUp) {
             "INSERT INTO user_list("
                 "USERNAME, PASSWORD"
             ") VALUES(?, ?)", 
-            DEFAULT_FUNC,
+            StorageHelper::DEFAULT_FUNC,
             QString::fromStdString(reqInfo.username()),
             QString::fromStdString(reqInfo.userpsw())
         );

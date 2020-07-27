@@ -41,22 +41,42 @@ public FUNCTION:
                 return AttackResult();
             }
         }
-    
-    SKILL_FUNC_DEF(JJJJ);
-    SKILL_FUNC_DEF(FireBall);
-    SKILL_FUNC_DEF(GreassLeaf);
-    SKILL_FUNC_DEF(WaterBullet);
-    SKILL_FUNC_DEF(WindBreath);
+    // 高速移动
+    SKILL_FUNC_DEF(Agility);
+    SKILL_FUNC_DEF(AppleAcid);
+    SKILL_FUNC_DEF(BodySlam);
+    SKILL_FUNC_DEF(BulletSeed);
+    SKILL_FUNC_DEF(Counter);
+    SKILL_FUNC_DEF(DoubleEdge);
+    SKILL_FUNC_DEF(DragonPulse);
+    SKILL_FUNC_DEF(FireBlast);
+    SKILL_FUNC_DEF(FlameCharge);
+    SKILL_FUNC_DEF(FlareBlitz);
+    SKILL_FUNC_DEF(GrassyTerrain);
+    SKILL_FUNC_DEF(IcyWind);
+    SKILL_FUNC_DEF(KarateChop);
+    SKILL_FUNC_DEF(LeafStorm);
+    SKILL_FUNC_DEF(LeechLife);
+    SKILL_FUNC_DEF(Liquidation);
+    SKILL_FUNC_DEF(MaxSteelspike);
+    SKILL_FUNC_DEF(MegaDrain);
+    SKILL_FUNC_DEF(MegaPunch);
+    SKILL_FUNC_DEF(Outrage);
+    SKILL_FUNC_DEF(PoisonSting);
+    SKILL_FUNC_DEF(Pound);
+    SKILL_FUNC_DEF(Psybeam);
+    SKILL_FUNC_DEF(QuickAttack);
+    SKILL_FUNC_DEF(QuickGuard);
+    SKILL_FUNC_DEF(Reflect);
+    SKILL_FUNC_DEF(SandAttack);
+    SKILL_FUNC_DEF(SolarBlade);
+    SKILL_FUNC_DEF(Supersonic);
+    SKILL_FUNC_DEF(SurgingStrikes);
+    SKILL_FUNC_DEF(SwordsDance);
     
 public RESOURCE:
     static QHash<QString, SkillFunc>
         s_skillMap;
-    static std::random_device
-        s_rdev;
-    static std::default_random_engine
-        s_engine;
-    static std::uniform_real_distribution<float>
-        s_distr;
     
 };
 

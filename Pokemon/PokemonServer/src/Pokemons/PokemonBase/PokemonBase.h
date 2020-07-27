@@ -26,6 +26,12 @@
     int                 _attr,  \
     int                 _type = UNDEFINED_TYPE \
 
+#define JUDGE_ATTR(_ATTR) \
+    (dest->m_pkmAttr == PokemonBase::PokemonAttribute::_ATTR) \
+
+#define JUDGE_PKM_TYPE(_pkm, _type) \
+    if(_pkm->m_pkmType == PokemonBase::PokemonType::_type) \
+
 struct Buff {
 FUNCTION    
     Buff(): buffId(0), turnCnt(0){}
@@ -86,17 +92,19 @@ public RESOURCE:
         UNDEFINED_ATTR
     };
     enum BuffType {
-        ATK_UP_S = 0,   ATK_UP_L, ATK_UP_M,
-        DEF_UP_S,       DEF_UP_L, DEF_UP_M,
-        SPD_UP_S,       SPD_UP_L, SPD_UP_M,
-        ATK_DOWN_S, ATK_DOWN_L, ATK_DOWN_M,
-        DEF_DOWN_S, DEF_DOWN_L, DEF_DOWN_M,
-        SPD_DOWN_S, SPD_DOWN_L, SPD_DOWN_M,
+        ATK_UP_S = 0,   ATK_UP_M, ATK_UP_L,
+        DEF_UP_S,       DEF_UP_M, DEF_UP_L,
+        SPD_UP_S,       SPD_UP_M, SPD_UP_L,
+        ATK_DOWN_S, ATK_DOWN_M, ATK_DOWN_L,
+        DEF_DOWN_S, DEF_DOWN_M, DEF_DOWN_L,
+        SPD_DOWN_S, SPD_DOWN_M, SPD_DOWN_L,
         
         REVIVE,
         POISONING,
         DAMAGE_HALF,
+        DAMAGE_DOUBLE,
         DAMAGE_INVALID,
+        SKILL_DAMAGE_UP,
         
         SLIENT,
         SLEEPING,
@@ -116,6 +124,8 @@ public FUNCTION:
     
     PROPERTY(int, id)
     PROPERTY(int, exp)
+    PROPERTY(int, level)
+    PROPERTY(int, typeID)
     PROPERTY(int, ATK)
     PROPERTY(int, curATK)
     PROPERTY(int, HP)
@@ -129,6 +139,7 @@ public FUNCTION:
     PROPERTY(PokemonAttribute, pkmAttr)
     
     PROPERTY(QString, name)
+    PROPERTY(QString, curUser)
     
 public FUNCTION:
 	virtual AttackResult
@@ -146,12 +157,17 @@ public FUNCTION:
 protected RESOURCE:
 	QString
 		m_name  = {};
+    QString
+        m_curUser = {};
+    
     int   
         m_id    = 0;
     int   
 		m_level = 0;
 	int   
 		m_exp	= 0;
+    int
+        m_typeID = 0;
 
 	int   
 		m_ATK  = 0, m_curATK  = 0;
