@@ -261,6 +261,6 @@ NET_SLOT(RequestPkmInfo) {
     
     UserProtocol::UserPokemonDataRequestInfo reqInfo = {};
     reqInfo.ParseFromArray(data.data(), data.size());
-    
-    
 }
+
+

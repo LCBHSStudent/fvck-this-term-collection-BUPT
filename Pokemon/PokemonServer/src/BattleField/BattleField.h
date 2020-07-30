@@ -18,11 +18,25 @@ public:
     virtual 
         ~BattleField();
     
+public RESOURCE:
+    enum BalanceType {
+        A_TO_B = 0,
+        B_TO_A
+    };
+        
 public FUNCTION:
-    void turn(const QString& actionA, const QString& actionB);
+    void 
+        turn(const QString& actionA, const QString& actionB);
     
-private:
-    void queryBuffList();
+private FUNCTION:
+    void 
+        queryBuffList();
+    void
+        handleResult(AttackResult& result, BalanceType type);
+    
+signals:
+    void
+        sigBattleFinished(User* wonner, User* loser);
     
 private RESOURCE:
     std::array<User*, 2>

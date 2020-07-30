@@ -102,9 +102,9 @@ public RESOURCE:
         REVIVE,
         POISONING,
         DAMAGE_HALF,
-        DAMAGE_DOUBLE,
         DAMAGE_INVALID,
         SKILL_DAMAGE_UP,
+        SKILL_DAMAGE_DOUBLE,
         
         SLIENT,
         SLEEPING,
@@ -150,8 +150,9 @@ public FUNCTION:
 	virtual void
 		levelUp() = 0;
 	void 
-        setSkill(int    slot, const QString& name) {
-            m_skills[slot] = name;    
+        setSkill(int slot, const QString& name) {
+            if (slot < 4 && slot >= 0)    
+                m_skills[slot] = name;    
         }
 
 protected RESOURCE:

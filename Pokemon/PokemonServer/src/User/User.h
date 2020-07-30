@@ -30,7 +30,7 @@ public FUNCTION:
     void
         battleWon();
     void
-        battleFailed();
+        battleLose();
     
 private FUNCTION:
     void 

@@ -25,9 +25,9 @@ private FUNCTION:
 private slots:
     NET_SLOT(UserLogin);
     NET_SLOT(UserSignUp);
-    NET_SLOT(RequestUserInfo);
     NET_SLOT(UserLogout);
     NET_SLOT(RequestPkmInfo);
+    NET_SLOT(RequestUserInfo);
     
 private RESOURCE:
     NetworkHelper* 

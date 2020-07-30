@@ -1,6 +1,6 @@
 ﻿#include <PreCompile.h>
 
-#include "UnitTest.hpp"
+#include "UnitTest.h"
 
 #include "ServerBackend/ServerBackend.h"
 

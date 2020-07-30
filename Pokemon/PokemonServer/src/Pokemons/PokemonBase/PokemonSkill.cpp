@@ -367,7 +367,7 @@ REGISTER_SKILL(SolarBlade) {
     ATK_DEBUG(日光刃);
     AttackResult result;
     
-    result.selfBuf.buffId   = PokemonBase::BuffType::DAMAGE_DOUBLE;
+    result.selfBuf.buffId   = PokemonBase::BuffType::SKILL_DAMAGE_DOUBLE;
     result.selfBuf.turnCnt  = 2;
     
     return result;

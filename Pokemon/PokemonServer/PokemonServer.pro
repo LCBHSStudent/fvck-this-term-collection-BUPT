@@ -56,6 +56,7 @@ SOURCES += \
 	src/ServerBackend/ServerBackend.cpp \
 	src/NetworkHelper/NetworkHelper.cpp \
 	src/StorageHelper/StorageHelper.cpp \
+	src/UnitTest.cpp \
 	src/User/User.cpp \
 	src/PreCompile.cpp \
 	src/main.cpp
@@ -73,12 +74,11 @@ HEADERS += \
 	src/Pokemons/PokemonBase/PokemonBase.h \
 	src/Pokemons/PokemonBase/PokemonFactory.h \
 	src/Pokemons/PokemonBase/PokemonSkill.h \
-	src/Pokemons/TestPokemonFunction.hpp \
 	src/Pokemons/VariousPokemon.h \
 	src/ServerBackend/ServerBackend.h \
 	src/NetworkHelper/NetworkHelper.h \
 	src/StorageHelper/StorageHelper.h \
-	src/UnitTest.hpp \
+	src/UnitTest.h \
 	src/User/User.h \
 
 win32-msvc* {
