@@ -8,7 +8,11 @@ class PokemonBase;
 class User: public QObject {
     Q_OBJECT
 public:
-        User(QString username, QObject* parent = nullptr);
+        User(
+			QString		username,
+			QTcpSocket* socket
+        );
+		User(const User&);
     virtual 
         ~User();
 public RESOURCE:
@@ -17,13 +21,21 @@ public RESOURCE:
 		SILVER,
 		BRONZE
 	};
+	enum class UserStatus: uint32 {
+		IDLE = 0,
+		BATTLEING,
+		UNDEFINED,
+	};
 	
 public FUNCTION:
-	GET(double,         winRate)
-    GET(QString,        name)
-	GET(BadgeType,      countBadge)
-	GET(BadgeType,      qualityBadge)
-	GET(QList<uint32>,  pokemonList)
+	PROPERTY(double,        winRate)
+    PROPERTY(QString,       name)
+	PROPERTY(BadgeType,     countBadge)
+	PROPERTY(BadgeType,     qualityBadge)
+	PROPERTY(UserStatus,	status)
+	PROPERTY(QList<uint32>, pokemonList)
+	
+	GET(QTcpSocket*,		userSocket)
 	
 	PokemonBase 
         requestUserPkmInfo(uint32 pkmId);
@@ -45,8 +57,12 @@ private RESOURCE:
 		m_countBadge;
 	BadgeType
 		m_qualityBadge;
+	UserStatus
+		m_status;
 	QList<uint32>
 		m_pokemonList;
+	QTcpSocket*
+		m_userSocket;
 };
 
 #endif // USER_H

@@ -4,6 +4,7 @@
 #include <PreCompile.h>
 #include <Reflect.hpp>
 
+#define UNIT_TEST_FLAG
 
 #include "Pokemons/PokemonBase/PokemonBase.h"
 #include "Pokemons/PokemonBase/PokemonSkill.h"

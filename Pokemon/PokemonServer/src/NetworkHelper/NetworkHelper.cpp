@@ -74,6 +74,8 @@ void NetworkHelper::slotGotDisconnection() {
         this, &NetworkHelper::slotGotDisconnection
     );
     
+    emit sigUserDisconnected(client, QByteArray());
+    
     m_clients.removeAt(
         m_clients.indexOf(client)
     );

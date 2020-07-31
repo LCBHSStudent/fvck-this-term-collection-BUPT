@@ -2,11 +2,22 @@
 #include "../Pokemons/PokemonBase/PokemonBase.h"
 #include "../StorageHelper/StorageHelper.h"
 
-User::User(QString username, QObject* parent):
-    QObject(parent),
-    m_name(username)
+User::User(QString username, QTcpSocket* socket):
+    QObject(nullptr),
+    m_name(username),
+    m_status(UserStatus::IDLE),
+    m_userSocket(socket)
 {
     updateUserInfo();
+}
+
+User::User(const User& source) {
+    this->m_name            = source.m_name;
+    this->m_winRate         = source.m_winRate;
+    this->m_countBadge      = source.m_countBadge;
+    this->m_qualityBadge    = source.m_qualityBadge;
+    this->m_pokemonList     = source.m_pokemonList;
+    this->m_userSocket      = source.m_userSocket;
 }
 
 void User::updateUserInfo() {

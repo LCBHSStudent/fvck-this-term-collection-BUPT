@@ -32,11 +32,11 @@ message UserLoginResponseInfo {
         SERVER_REFUSED   = 3;
         UNKNOWN_FAILURE  = 4;
     }
-    LoginStatus status = 1;
+    LoginStatus status  = 1;
 }
 
 message UserInfoRequest {
-    bytes           userName = 1;
+    bytes   userName    = 1;
 }
 
 message UserInfoResponse {
@@ -48,33 +48,53 @@ message UserInfoResponse {
     bytes           userName        = 1;
     int32           timeOfDuel      = 2;
     int32           timeOfWins      = 3;
-    int32           pkmAmountBadge  = 4;
-    int32           highLevelBadge  = 5;
-    repeated int32  pokemonId       = 6;
+    double          winRate         = 4;
+    int32           pkmAmountBadge  = 5;
+    int32           highLevelBadge  = 6;
+    repeated int32  pokemonId       = 7;
 }
 
 message UserPokemonDataRequestInfo {
+    enum PokemonDataRequestType {
+        ALL         = 0;
+        SPECIFIC    = 1;
+    };
     bytes            userName    = 1;
+
     repeated int32   pokemonId   = 2;
 }
 
 message PokemonInfo {
     int32   id          = 1;
-    bytes   name        = 2;
-    int32   level       = 3;
-    int32   type        = 4;
-    int32   exp         = 5;
-    int32   attr        = 6;
-    int32   atk         = 7;
-    int32   def         = 8;
-    int32   hp          = 9;
-    int32   spd         = 10;
-    bytes   skill_1     = 11;
-    bytes   skill_2     = 12;
-    bytes   skill_3     = 13;
-    bytes   skill_4     = 14;
+    int32   typeId      = 2;
+    bytes   name        = 3;
+    int32   level       = 4;
+    int32   type        = 5;
+    int32   exp         = 6;
+    int32   attr        = 7;
+    int32   ATK         = 8;
+    int32   DEF         = 9;
+    int32   HP          = 10;
+    int32   SPD         = 11;
+    bytes   skill_1     = 12;
+    bytes   skill_2     = 13;
+    bytes   skill_3     = 14;
+    bytes   skill_4     = 15;
 }
 
 message UserPokemonDataResponseInfo {
     repeated PokemonInfo data = 1;
+}
+
+message OnlineUserListRequestInfo {
+    bytes           userName    = 1;
+}
+
+message UserStatusInfo {
+    bytes   userName    = 1;
+    int32   userStatus  = 2;
+}
+
+message OnlineUserListResponseInfo {
+    repeated UserStatusInfo userList = 1;
 }

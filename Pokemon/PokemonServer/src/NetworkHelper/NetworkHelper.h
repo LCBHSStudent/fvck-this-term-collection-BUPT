@@ -32,6 +32,7 @@ public RESOURCE:
 
 signals:
     NET_SIG(GetMessage);
+    NET_SIG(UserDisconnected);
 	
 private slots:
     void

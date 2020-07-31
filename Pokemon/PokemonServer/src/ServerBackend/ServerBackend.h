@@ -5,6 +5,7 @@
 #include "../User/User.h"
 #include "../BattleField/BattleField.h"
 #include "../NetworkHelper/NetworkHelper.h"
+#include "../Pokemons/PokemonBase/PokemonFactory.h"
 
 #define NET_SLOT(_name) \
     void slot##_name(QTcpSocket* client, QByteArray data)
@@ -25,15 +26,21 @@ private FUNCTION:
 private slots:
     NET_SLOT(UserLogin);
     NET_SLOT(UserSignUp);
-    NET_SLOT(UserLogout);
+    NET_SLOT(StartBattle);
     NET_SLOT(RequestPkmInfo);
     NET_SLOT(RequestUserInfo);
+    NET_SLOT(UserDisconnected);
+    NET_SLOT(RequestOnlineUserList);
     
 private RESOURCE:
     NetworkHelper* 
         m_helper;
+    QHash<QString, User> 
+        m_userHash;
     QList<User>
         m_userList = {};
+    QList<BattleField>
+        m_battleFieldList = {};
     
     QList<PokemonBase*>
         m_serverPkm = {};

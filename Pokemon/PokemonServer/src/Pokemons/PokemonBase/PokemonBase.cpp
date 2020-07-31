@@ -10,9 +10,11 @@ PropertyCombo PokemonBase::INITIAL_PROPERTY = {
 
 PokemonBase::PokemonBase(ARGS_LIST):
     m_name(_name),
+    m_curUser(_user),
     m_id(_id),
     m_level(_level),
     m_exp(_exp),
+    m_typeID(_typeId),
     m_ATK(_ATK),
     m_HP(_HP),
     m_DEF(_DEF),

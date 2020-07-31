@@ -4,7 +4,7 @@
 #include "PokemonBase/PokemonSkill.h"
 
 #define PKM_INIT_LIST(_TYPE) \
-    _name, _id, _level, _exp, _ATK, _HP, _DEF, _SPD, _attr, _TYPE
+    _name, _user, _id, _typeId, _level, _exp, _ATK, _HP, _DEF, _SPD, _attr, _TYPE
 
 
 

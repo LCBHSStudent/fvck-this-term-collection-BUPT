@@ -24,6 +24,8 @@ signals:
         sigUserSignUp(int status);
     void
         sigUserLogin(int status);
+    void
+        sigGetOnlineUserList(QList<QString> nameList, QList<uint32> statusList);
     
 public slots:
     void
@@ -34,6 +36,8 @@ public FUNCTION:
         sendLoginRequest(QString username, QString password);
     Q_INVOKABLE void
         sendSignUpRequest(QString username, QString password);
+    Q_INVOKABLE void
+        sendOnlineUserListRequest();
     
     QString
         getUserName() const {return m_userName;}

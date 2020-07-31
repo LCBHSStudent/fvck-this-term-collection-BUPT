@@ -2,3 +2,53 @@ syntax = "proto3";
 
 package BattleProtocol;
 
+message BattleTurnInfo {
+    bytes   selfSkillName   = 1;
+    bytes   destSkillName   = 2;
+    int32   selfDeltaHP     = 3;
+    int32   destDeltaHP     = 4;
+    int32   selfBuffID      = 5;
+    int32   destBuffID      = 6;
+    int32   selfBuffLast    = 7;
+    int32   destBuffLast    = 8;
+};
+
+message BattleOperationInfo {
+//  bytes   skillName   = 1;
+    int32   skillIndex  = 1;
+};
+
+message BattleFinishInfo {
+    enum BattleResult {
+        WIN     = 0;
+        LOSE    = 1;
+    }
+    enum FinishMode {
+        NORMAL                  = 0;
+        OPPOSITE_DISCONNECTED   = 1;
+        DRAW                    = 2;
+    }
+    BattleResult    result  = 1;
+    FinishMode      mode    = 2;
+};
+
+message BattleStartRequest {
+    bytes   fromUser    = 1;
+    bytes   destUser    = 2;
+};
+
+message BattleStartResponse {
+    enum BattleStartStatus {
+        SUCCESS         = 0;
+        REFUSED         = 1;
+        ALREADY_START   = 2;
+        DEST_NOT_ONLINE = 3;
+    };
+    BattleStartStatus status    = 1;
+};
+
+message ChooseTrophieRequest {
+    int32   pkmID_1     = 1;
+    int32   pkmID_2     = 2;
+    int32   pkmID_3     = 3;
+};

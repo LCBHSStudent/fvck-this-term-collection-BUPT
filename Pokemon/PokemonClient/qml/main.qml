@@ -24,7 +24,7 @@ ApplicationWindow {
     
     StackView {
         id: stack
-        initialItem: MainPage {id: loginPage}   // 测试更改中
+        initialItem: LoginPage {id: loginPage}   // 测试更改中
         anchors.fill: parent
     }
 }

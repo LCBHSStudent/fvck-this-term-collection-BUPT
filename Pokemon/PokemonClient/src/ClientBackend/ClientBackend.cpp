@@ -42,11 +42,30 @@ void ClientBackend::slotGetServerMessage(QByteArray data) {
         info.ParseFromArray(data.data()+4, data.size()-4);
         emit sigUserSignUp(info.status());
     } break;
+        
     case UserLoginResponse: {
         UserProtocol::UserLoginResponseInfo info = {};
         info.ParseFromArray(data.data()+4, data.size()-4);
         emit sigUserLogin(info.status());
     } break;
+    
+    case OnlineUserListResponse: {
+        UserProtocol::OnlineUserListResponseInfo info = {};
+        info.ParseFromArray(data.data()+4, data.size()-4);
+        
+        QList<QString>  nameList;
+        QList<uint32>   statusList;
+        
+        for (int i = 0; i < info.userlist_size(); i++) {
+            QString name = QString::fromStdString(info.userlist(i).username());
+            nameList.push_back(name);
+            statusList.push_back(info.userlist(i).userstatus());
+        }
+        
+        emit sigGetOnlineUserList(nameList, statusList);
+    } break;
+        
+        
         
     default:
         break;
@@ -91,4 +110,16 @@ void ClientBackend::sendSignUpRequest(
     info.PrintDebugString();
     
     PROC_PROTODATA(UserSignUpRequest, info);
+}
+
+void ClientBackend::sendOnlineUserListRequest() {
+    if(!m_helper->getStatus()) {
+        qDebug() << "client offline";
+        return;
+    }
+    UserProtocol::OnlineUserListRequestInfo info = {};
+    info.set_username(m_userName.toStdString());
+    info.PrintDebugString();
+    
+    PROC_PROTODATA(OnlineUserListRequest, info);
 }

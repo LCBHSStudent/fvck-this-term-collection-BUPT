@@ -1,9 +1,15 @@
 ﻿#include <PreCompile.h>
 
 #include "UnitTest.h"
-
 #include "ServerBackend/ServerBackend.h"
 
+#undef UNIT_TEST_FLAG
+#ifdef UNIT_TEST_FLAG
+int main(int argc, char * argv[]) {
+    UnitTest::TestPokemonProperties();
+}
+
+#else
 int main(int argc, char *argv[]) {
     QCoreApplication app(argc, argv);
     
@@ -19,3 +25,4 @@ int main(int argc, char *argv[]) {
     
     return app.exec();
 }
+#endif

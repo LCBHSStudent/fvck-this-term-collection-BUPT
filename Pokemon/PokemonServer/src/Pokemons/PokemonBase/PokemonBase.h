@@ -4,7 +4,9 @@
 
 #define ARGS_LIST \
     QString             _name,  \
+    QString             _user,  \
     int                 _id,    \
+    int                 _typeId,\
     int                 _level, \
     int                 _exp,   \
     int                 _ATK,   \
@@ -16,7 +18,9 @@
     
 #define DEF_ARGS_LIST \
     QString             _name,  \
+    QString             _user,  \
     int                 _id,    \
+    int                 _typeId,\
     int                 _level, \
     int                 _exp,   \
     int                 _ATK,   \

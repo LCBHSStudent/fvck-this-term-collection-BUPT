@@ -1,7 +1,7 @@
 ﻿import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtGraphicalEffects 1.14
-import QtQuick.LocalStorage 2.14
+import Qt.labs.settings 1.1
 import QtQuick.Shapes 1.14
 
 import "../components/"
@@ -296,6 +296,8 @@ Page {
         onSigUserSignUp: {
             switch(status) {
             case 0:
+                storage.setValue("username", userName.text)
+                storage.setValue("password", userPsw.text)
                 stack.clear()
                 stack.push("MainPage.qml")
                 break
@@ -310,6 +312,8 @@ Page {
         onSigUserLogin: {
             switch(status) {
             case 0:
+                storage.setValue("username", userName.text)
+                storage.setValue("password", userPsw.text)
                 stack.clear()
                 stack.push("MainPage.qml")
                 break
@@ -327,6 +331,17 @@ Page {
                 break
             }
         }
+    }
+    
+    Settings {
+        id: storage
+        property string username: ""
+        property string password: ""
+    }
+    
+    Component.onCompleted: {
+        userName.text = storage.username
+        userPsw.text = storage.password
     }
     
     OneBtnToast {

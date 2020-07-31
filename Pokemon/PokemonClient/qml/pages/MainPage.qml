@@ -1,7 +1,6 @@
 ﻿import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtGraphicalEffects 1.14
-import QtQuick.LocalStorage 2.14
 import QtQuick.Shapes 1.14
 import QtMultimedia 5.14
 
@@ -228,17 +227,6 @@ Page {
                 spacing: utils.dp(10)
                 anchors.centerIn: parent
                 
-                MTextInput {
-                    id: inviteInput
-                    width: utils.dp(180)
-                    height: utils.dp(30)
-                    aligenH: Text.horizontalAlignment
-                    placeholderText: "用户名称"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.horizontalCenterOffset: -utils.dp(17)
-                    bgColor: "#34D0C6"
-                }
-                
                 MFlatBtn {
                     id: inviteBtn
                     text: "发出邀请"
@@ -263,6 +251,46 @@ Page {
             anchors.fill: parent
             radius: utils.dp(5)
             color: pageColor
+            
+            ListView {
+                id: userView
+                clip:  true
+                width: parent.width
+                model: ListModel {
+                    id: userModel
+                }
+                anchors {
+                    top: parent.top
+                    horizontalCenter: parent.horizontalCenter
+                    bottom: refreshBtn.top
+                    margins: utils.dp(4)
+                }
+                
+                delegate: Rectangle {
+                    
+                }
+            }
+            
+            Connections {
+                target: backend
+                onSigGetOnlineUserList: {
+                    console.log("get online user list response")
+                }
+            }
+            
+            MFlatBtn {
+                id: refreshBtn
+                text: "刷新列表"
+                pressColor: "#34D0C6"
+                releaseColor: "#2CC486"
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: utils.dp(4)
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: {
+                    backend.sendOnlineUserListRequest()
+                }
+            }
+            Component.onCompleted: backend.sendOnlineUserListRequest()
         }
     }
     Component {

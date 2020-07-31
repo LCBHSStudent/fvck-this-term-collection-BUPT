@@ -17,5 +17,10 @@
         <file>res/ui/nav_book.png</file>
         <file>res/ui/nav_stick.png</file>
         <file>res/ui/decoration.png</file>
+        <file>res/ui/ic_loading.png</file>
+        <file>res/ui/ic_loding_18.png</file>
+        <file>res/ui/ic_sys_reset.png</file>
+        <file>res/ui/ucrop_ic_rotate.png</file>
+        <file>res/ui/ucrop_ic_scale.png</file>
     </qresource>
 </RCC>
