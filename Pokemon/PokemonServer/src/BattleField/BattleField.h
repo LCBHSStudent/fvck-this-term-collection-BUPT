@@ -25,9 +25,15 @@ public RESOURCE:
     };
         
 public FUNCTION:
+    void
+        setAction(const QString& action, int index);
     void 
         turn(const QString& actionA, const QString& actionB);
-    
+	User*
+		getUserA() const { return m_users[0]; }
+	User*
+		getUserB() const { return m_users[1]; }
+	
 private FUNCTION:
     void 
         queryBuffList();
@@ -46,6 +52,8 @@ private RESOURCE:
     QList<Buff>
         m_buffListA = {},
         m_buffListB = {};
+    std::array<QString, 2>
+        m_actions = {};
 };
 
 #endif // BATTLEFIELD_H

@@ -13,5 +13,6 @@
         <file>qml/pages/UserInfoPage.qml</file>
         <file>qml/pages/BattlePage.qml</file>
         <file>qml/components/TwoBtnToast.qml</file>
+        <file>qml/components/PkmInfoPopup.qml</file>
     </qresource>
 </RCC>

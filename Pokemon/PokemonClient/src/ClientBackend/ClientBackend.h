@@ -25,7 +25,15 @@ signals:
     void
         sigUserLogin(int status);
     void
-        sigGetOnlineUserList(QList<QString> nameList, QList<uint32> statusList);
+        sigGetUserInfo(int status, QVariantMap userInfo);
+    void
+        sigGetOnlineUserList(QList<QString> nameList, QList<int> statusList);
+    void
+        sigGetPokemonDataList(int type, QList<QVariantMap> pkmList);
+    void
+        sigGetBattleInviteRequest(QString fromUser, int battleMode);
+    void
+        sigGetBattleStartResponse();
     
 public slots:
     void
@@ -38,6 +46,16 @@ public FUNCTION:
         sendSignUpRequest(QString username, QString password);
     Q_INVOKABLE void
         sendOnlineUserListRequest();
+    Q_INVOKABLE void
+        sendSelfPokemonInfoRequest();
+    Q_INVOKABLE void
+        sendSelfUserInfoRequest();
+    Q_INVOKABLE void
+        sendUserInfoRequest(QString username);
+    Q_INVOKABLE void
+        sendBattleStartRequest(int mode, QString destName);
+    Q_INVOKABLE void
+        sendBattleInviteResponse(int flag, int battleMode, QString fromUser);    
     
     QString
         getUserName() const {return m_userName;}
@@ -48,7 +66,7 @@ private RESOURCE:
     NetworkHelper*
         m_helper = nullptr;
     QString
-        m_userName = QStringLiteral("测试");
+        m_userName = QStringLiteral("admin");
 };
 
 #endif // CLIENTBACKEND_H

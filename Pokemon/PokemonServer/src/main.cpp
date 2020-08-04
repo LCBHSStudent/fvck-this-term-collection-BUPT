@@ -20,9 +20,16 @@ int main(int argc, char *argv[]) {
     // system("cls");
 #endif
     pBackend = new ServerBackend;
+//    QMetaObject::connect(&app.destroyed,      &QCoreApplication::quit,
+//                     pBackend,  &ServerBackend::~ServerBackend);
+    
     system("cls");
     qDebug() << "new server backend instance was built up";
     
-    return app.exec();
+    int ret = app.exec();
+    delete pBackend;
+    
+    
+    return ret;
 }
 #endif

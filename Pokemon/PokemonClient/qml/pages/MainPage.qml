@@ -72,9 +72,10 @@ Page {
         Repeater {
             model: 4
             Loader {
-                active: SwipeView.isCurrentItem ||
-                        SwipeView.isNextItem ||
-                        SwipeView.isPreviousItem
+                active: true
+//                active: SwipeView.isCurrentItem ||
+//                        SwipeView.isNextItem ||
+//                        SwipeView.isPreviousItem
                 sourceComponent: {
                     switch(index) {
                     case 0:
@@ -110,7 +111,7 @@ Page {
             id: navigationHint
             width: utils.dp(40)
             height: utils.dp(4)
-            color: "red"
+            color: "#00BFFF"
             property var posData: [navigationBtnLayout.x, 0, 0, 0]
             x: posData[moduleView.currentIndex]
             y: parent.height / 2 - height
@@ -215,7 +216,68 @@ Page {
         contentH: contentW * 0.7
     }
     
+    TwoBtnToast {
+        id: invitePopup
+        contentW: parent.width * 0.8
+        contentH: contentW * 0.8
+        
+        property string fromUser: ""
+        property int    battleMode: -1
+        readonly property int accept: 0
+        readonly property int refuse: 1
+        
+        onConfirmed: {
+            backend.sendBattleInviteResponse(accept, battleMode, fromUser)
+        }
+        onCanceled: {
+            backend.sendBattleInviteResponse(refuse, battleMode, fromUser)
+        }
+    }
     
+    PkmInfoPopup {
+        id: pkmInfoPopup
+    }
+    
+    Connections {
+        target: backend
+        onSigGetBattleInviteRequest: {
+            var stat = "邀请者: " + fromUser + "\n对战模式: "
+            if (battleMode === 0) {
+                stat += "升级战"
+            } else if (battleMode === 1) {
+                stat += "决斗战"
+            }
+            invitePopup.fromUser = fromUser
+            invitePopup.battleMode = battleMode
+            invitePopup.showPopup("收到对战请求", stat)
+        }
+        onSigGetBattleStartResponse: {
+            switch (status) {
+            case 0:
+                stack.push("BattlePage.qml")
+                break
+            case 1:
+                popup.showPopup("对方拒绝了您的邀请", "知道了")
+                break
+            case 2:
+                popup.showPopup("对方已经在战斗中", "知道了")
+                break
+            case 3:
+                popup.showPopup("目标用户不存在或不在线", "知道了")
+                break
+            default:
+                break
+            }
+        }
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////---START-----BATTLE---//////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
     Component {
         id: battle
         Rectangle {
@@ -226,25 +288,206 @@ Page {
             Column {
                 spacing: utils.dp(10)
                 anchors.centerIn: parent
-                
+                TextField {
+                    id: destNameInput
+                    width: inviteBtn.width
+                    height: utils.dp(30)
+                    font.pixelSize: utils.dp(18)
+                    color: "#2CC486"
+                    font.family: "微软雅黑"
+                    background: Rectangle {
+                        color: "#00FFFFFF"
+                        border.width: utils.dp(1)
+                        border.color: "#2CC486"
+                    }
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
                 MFlatBtn {
                     id: inviteBtn
-                    text: "发出邀请"
+                    text: "邀请对战"
                     pressColor: "#34D0C6"
                     releaseColor: "#2CC486"
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
+                MFlatBtn {
+                    id: testBattleBtn
+                    text: "模拟对战"
+                    pressColor: "#34D0C6"
+                    releaseColor: "#2CC486"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    onClicked: {
+                        backend.sendBattleStartRequest(
+                            modeCheckGroup.battleMode, "_server")
+                    }
+                }
+                Row {
+                    id: modeCheckGroup
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    property int battleMode: 0
+                    CheckBox {
+                        text: "升级赛"
+                        font.pixelSize: utils.dp(12)
+                        font.family: "微软雅黑"
+                        checked: parent.battleMode === 0
+                        onClicked: {
+                            parent.battleMode = 0
+                        }
+                    }
+                    CheckBox {
+                        text: "决斗赛"
+                        font.pixelSize: utils.dp(13)
+                        font.family: "微软雅黑"
+                        checked: parent.battleMode === 1
+                        onClicked: {
+                            parent.battleMode = 1
+                        }
+                    }
+                }
             }
         }
     }
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////--QUERY---PKMINFO--///////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
     Component {
         id: pkmInfo
         Rectangle {
             anchors.fill: parent
             radius: utils.dp(5)
             color: pageColor
+            
+            MFlatBtn {
+                id: refreshBtn
+                text: "刷新宝可梦列表"
+                pressColor: "#34D0C6"
+                releaseColor: "#2CC486"
+                width: parent.width * 0.8
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: utils.dp(4)
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: {
+                    backend.sendSelfPokemonInfoRequest()
+                }
+            }
+            
+            GridView {
+                id: pkmView
+                clip: true
+                model: pkmDataModel
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    top: parent.top
+                    topMargin: utils.dp(10)
+                }
+
+                width: parent.width * 0.95
+                height: parent.height * 0.8
+                cellWidth: width / 5
+                cellHeight: cellWidth
+                
+                property int spacing: utils.dp(3)
+                
+                delegate: Rectangle {
+                    radius: utils.dp(3.5)
+                    width: pkmView.cellWidth - pkmView.spacing
+                    height: pkmView.cellHeight - pkmView.spacing
+                    color: "#AAFFFFFF"
+                    Behavior on color {
+                        PropertyAnimation { duration: 100 }
+                    }
+                    
+                    Image {
+                        id: pkmIco
+                        anchors.centerIn: parent
+                        anchors.verticalCenterOffset: -utils.dp(5)
+                        source: "qrc:/res/image/character/" + typeId + ".png"
+                    }
+                    Text {
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: utils.dp(2)
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.family: "微软雅黑"
+                        font.pixelSize: utils.dp(9)
+                        text: "No." + _id
+                        color: "#AA1E90FF"
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressedChanged: {
+                            if (pressed) {
+                                parent.color = utils.colorClouds
+                            } else {
+                                parent.color = "#AAFFFFFF"
+                            }
+                        }
+                        onClicked: {
+                            pkmInfoPopup.showPokemonInfo(
+                                _id, typeId, name, level, type,
+                                exp, attr,   atk,  def,   hp, spd,
+                                skill_1, skill_2, skill_3, skill_4,
+                                desc, desc_s1, desc_s2, desc_s3, desc_s4
+                            )
+                        }
+                    }
+                }
+            }
+            
+            ListModel {
+                id: pkmDataModel
+            }
+            
+            Connections {
+                target: backend
+                onSigGetPokemonDataList: {
+                    console.debug("coco")
+                    pkmDataModel.clear()
+                    if (type === 0) {
+                        for (var i = 0; i < pkmList.length; i++) {
+                            pkmDataModel.append({
+                                "_id":      pkmList[i].id,
+                                "typeId":   pkmList[i].typeId,
+                                "name":     pkmList[i].name,
+                                "level":    pkmList[i].level,
+                                "type":     pkmList[i].type,
+                                "exp":      pkmList[i].exp,
+                                "attr":     pkmList[i].attr,
+                                "atk":      pkmList[i].atk,
+                                "def":      pkmList[i].def,
+                                "hp":       pkmList[i].hp,
+                                "spd":      pkmList[i].spd,
+                                "skill_1":  pkmList[i].skill_1,
+                                "skill_2":  pkmList[i].skill_2,
+                                "skill_3":  pkmList[i].skill_3,
+                                "skill_4":  pkmList[i].skill_4,
+                                "desc":     pkmList[i].desc,
+                                "desc_s1":  pkmList[i].desc_s1,
+                                "desc_s2":  pkmList[i].desc_s2,
+                                "desc_s3":  pkmList[i].desc_s3,
+                                "desc_s4":  pkmList[i].desc_s4,
+                            })
+                        }
+                    }
+                }
+            }
+            
+            Component.onCompleted: {
+                backend.sendSelfPokemonInfoRequest()
+            }
         }
     }
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////QUERY--ONLINE--USER--INFO/////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
     Component {
         id: onlineInfo
         Rectangle {
@@ -256,8 +499,22 @@ Page {
                 id: userView
                 clip:  true
                 width: parent.width
+                
+                spacing: utils.dp(1)
+                
+                // readonly property int user_idle: 0
+                // readonly property int user_battling: 1
+                
                 model: ListModel {
                     id: userModel
+                    ListElement {
+                        name: "TestUserSSSSSSSSSSSSSSSSSSSSSSSS"
+                        status: 0
+                    }
+                    ListElement {
+                        name: "Server"
+                        status: 1
+                    }
                 }
                 anchors {
                     top: parent.top
@@ -267,22 +524,65 @@ Page {
                 }
                 
                 delegate: Rectangle {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: parent.width * 0.8
+                    height: utils.dp(30)
+                    radius: utils.dp(5)
+                    color: "#AAFAFAD2"
+                    Text {
+                        font.pixelSize: utils.dp(18)
+                        font.family: "微软雅黑"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.right: statusIco.left
+                        anchors.leftMargin: utils.dp(5)
+                        anchors.rightMargin: utils.dp(5)
+                        
+                        text: name
+                        color: "#CC1E90FF"
+                        elide: Text.ElideRight
+                    }
                     
+                    Rectangle {
+                        id: statusIco
+                        width: utils.dp(8)
+                        height: width
+                        radius: width / 2
+                        color: {
+                            if (status === 0) {
+                                return "#00FF00"
+                            } else {
+                                return "#FF1493"
+                            }
+                        }
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                        anchors.rightMargin: utils.dp(5)
+                    }
                 }
             }
             
             Connections {
                 target: backend
                 onSigGetOnlineUserList: {
-                    console.log("get online user list response")
+                    console.debug("get online user list response")
+                    userModel.clear()
+                    
+                    for (var i = 0; i < nameList.length; i++) {
+                        userModel.append({
+                            "name": nameList[i],
+                            "status": statusList[i]
+                        })
+                    }
                 }
             }
             
             MFlatBtn {
                 id: refreshBtn
-                text: "刷新列表"
+                text: "刷新在线用户列表"
                 pressColor: "#34D0C6"
                 releaseColor: "#2CC486"
+                width: parent.width * 0.8
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: utils.dp(4)
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -290,15 +590,263 @@ Page {
                     backend.sendOnlineUserListRequest()
                 }
             }
-            Component.onCompleted: backend.sendOnlineUserListRequest()
+            Component.onCompleted: {
+                userModel.clear()
+                backend.sendOnlineUserListRequest()
+            }
         }
     }
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////--QUERY--USER--INFO--/////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
     Component {
         id: queryUser
         Rectangle {
             anchors.fill: parent
             radius: utils.dp(5)
             color: pageColor
+            
+            StackView {
+                id: userInfoStack
+                anchors.fill: parent
+                initialItem: selectMode
+                
+                pushEnter: Transition {
+                    PropertyAnimation {
+                        property: "opacity"
+                        from: 0
+                        to:1
+                        duration: 200
+                    }
+                }
+                pushExit: Transition {
+                    PropertyAnimation {
+                        property: "opacity"
+                        from: 1
+                        to:0
+                        duration: 200
+                    }
+                }
+                popEnter: Transition {
+                    PropertyAnimation {
+                        property: "opacity"
+                        from: 0
+                        to:1
+                        duration: 200
+                    }
+                }
+                popExit: Transition {
+                    PropertyAnimation {
+                        property: "opacity"
+                        from: 1
+                        to:0
+                        duration: 200
+                    }
+                }
+            }
+            
+            Component {
+                id: selectMode
+                Item {
+                    Column {
+                        spacing: utils.dp(8)
+                        anchors.centerIn: parent
+                        TextField {
+                            id: othersNameInput
+                            width: otherInfoBtn.width
+                            height: utils.dp(30)
+                            font.pixelSize: utils.dp(18)
+                            color: "#2CC486"
+                            font.family: "微软雅黑"
+                            background: Rectangle {
+                                color: "#00FFFFFF"
+                                border.width: utils.dp(1)
+                                border.color: "#2CC486"
+                            }
+                        }
+                        
+                        MFlatBtn {
+                            id: otherInfoBtn
+                            text: "查询此用户"
+                            pressColor: "#34D0C6"
+                            releaseColor: "#2CC486"
+                            onClicked: {
+                                enabled = false
+                                backend.sendUserInfoRequest(othersNameInput.text)
+                            }
+                        }
+                        MFlatBtn {
+                            id: myInfoBtn
+                            width: otherInfoBtn.width
+                            text: "我的信息"
+                            pressColor: "#34D0C6"
+                            releaseColor: "#2CC486"
+                            onClicked: {
+                                enabled = false
+                                backend.sendSelfUserInfoRequest()
+                            }
+                        }
+                    }
+                    
+                    Connections {
+                        target: backend
+                        onSigGetUserInfo: {
+                            myInfoBtn.enabled = true
+                            otherInfoBtn.enabled = true
+                            if (status == 0) {
+                                console.debug("get user info!")
+                                userInfoStack.push(infoMode)
+                                userInfoStack.currentItem.userInfo = {
+                                    "userName":     userInfo.userName,
+                                    "timeOfDuel":   userInfo.timeOfDuel,
+                                    "timeOfWins":   userInfo.timeOfWins,
+                                    "winRate":      userInfo.winRate,
+                                    "amountBadge":  userInfo.amountBadge,
+                                    "levelBadge":   userInfo.levelBadge,
+                                    "status":       userInfo.status
+                                }
+                                console.debug(userInfoStack.currentItem.userInfo)
+                            } else {
+                                popup.showPopup("用户不存在", "知道了")
+                            }
+                        }
+                    }
+                }
+            }
+            Component {
+                id: infoMode
+                Item {
+                    property var userInfo: ({})
+                    MText {
+                        id: userNameText
+                        anchors {
+                            left: parent.left
+                            top: back.bottom
+                            topMargin: utils.dp(5)
+                            leftMargin: utils.dp(10)
+                        }
+
+                        color: "#000000"
+                        text: {
+                            if (typeof(parent.userInfo["userName"]) === "undefined")
+                                return "null"
+                            else 
+                                return parent.userInfo["userName"]
+                        }
+                    }
+                    MText {
+                        id: winDetail
+                        anchors {
+                            left: userNameText.left
+                            top: userNameText.bottom
+                            topMargin: utils.dp(5)
+                        }
+
+                        color: "#000000"
+                        text: {
+                            if (typeof(parent.userInfo["timeOfDuel"]) ===
+                                    "undefined")
+                                return "null"
+                            else
+                                return  "胜场/总场次: " +
+                                        parent.userInfo["timeOfWins"] + "/" +
+                                        parent.userInfo["timeOfDuel"]
+                        }
+                    }
+                    
+                    MText {
+                        id: winRate
+                        anchors {
+                            left: winDetail.left
+                            top: winDetail.bottom
+                            topMargin: utils.dp(5)
+                        }
+
+                        color: "#000000"
+                        text: {
+                            if (typeof(parent.userInfo["winRate"]) === "undefined")
+                                return "null"
+                            else
+                                return  "胜率: " + 
+                                        parent.userInfo["winRate"] * 100 + "%"
+                        }
+                    }
+                    MText {
+                        id: amountBadgeText
+                        anchors {
+                            left: winRate.left
+                            top: winRate.bottom
+                            topMargin: utils.dp(5)
+                        }
+                        color: "#000000"
+                        text: "精灵数量勋章: "
+                    }
+                    
+                    Image {
+                        anchors.verticalCenter: amountBadgeText.verticalCenter
+                        anchors.left: amountBadgeText.right
+                        anchors.leftMargin: utils.dp(5)
+                        source: {
+                            switch (parent.userInfo["amountBadge"]) {
+                            case 0:
+                                return "qrc:/res/ui/ic_badge_bronze.png"
+                            case 1:
+                                return "qrc:/res/ui/ic_badge_silver.png"
+                            case 2:
+                                return "qrc:/res/ui/ic_badge_golden.png"
+                            default:
+                                return ""
+                            }
+                        }
+                    }
+                    
+                    MText {
+                        id: levelBadgeText
+                        anchors {
+                            left: amountBadgeText.left
+                            top: amountBadgeText.bottom
+                            topMargin: utils.dp(5)
+                        }
+                        color: "#000000"
+                        text: "高级精灵勋章: "
+                    }
+                    Image {
+                        anchors.verticalCenter: levelBadgeText.verticalCenter
+                        anchors.left: levelBadgeText.right
+                        anchors.leftMargin: utils.dp(5)
+                        source: {
+                            switch (parent.userInfo["levelBadge"]) {
+                            case 0:
+                                return "qrc:/res/ui/ic_badge_bronze.png"
+                            case 1:
+                                return "qrc:/res/ui/ic_badge_silver.png"
+                            case 2:
+                                return "qrc:/res/ui/ic_badge_golden.png"
+                            default:
+                                return ""
+                            }
+                        }
+                    }   
+                    MImgBtn {
+                        id: back
+                        visible: true
+                        btnImage: "btn_back_green"
+                        triggerFactor: 4
+                        onClicked: {
+                            userInfoStack.pop()
+                        }
+                    }
+                }
+            }
         }
     }
+    
+    
+    
 }

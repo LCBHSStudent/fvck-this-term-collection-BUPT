@@ -32,19 +32,41 @@ message BattleFinishInfo {
     FinishMode      mode    = 2;
 };
 
+enum BattleModel {
+    EXP_BATTLE  = 0;
+    DUEL_BATTLE = 1;
+};
+
 message BattleStartRequest {
-    bytes   fromUser    = 1;
-    bytes   destUser    = 2;
+    int32   battleMode  = 1; 
+    bytes   fromUser    = 2;
+    bytes   destUser    = 3;
+};
+
+enum BattleStartStatus {
+    SUCCESS         = 0;
+    REFUSED         = 1;
+    ALREADY_START   = 2;
+    DEST_NOT_ONLINE = 3;
 };
 
 message BattleStartResponse {
-    enum BattleStartStatus {
-        SUCCESS         = 0;
-        REFUSED         = 1;
-        ALREADY_START   = 2;
-        DEST_NOT_ONLINE = 3;
-    };
-    BattleStartStatus status    = 1;
+    BattleStartStatus   status  = 1;
+    int32               isUserA = 2;
+    int32               urPkmId = 3;
+    int32               taPkmId = 4;
+};
+
+message BattleInviteRequest {
+    int32   battleMode  = 1; 
+    bytes   fromUser    = 2;
+};
+
+message BattleInviteResponse {
+    int32   battleMode      = 1; 
+    bytes   fromUser        = 2;
+    bytes   destUser        = 3;
+    BattleStartStatus flag  = 4;
 };
 
 message ChooseTrophieRequest {

@@ -22,5 +22,48 @@
         <file>res/ui/ic_sys_reset.png</file>
         <file>res/ui/ucrop_ic_rotate.png</file>
         <file>res/ui/ucrop_ic_scale.png</file>
+        <file>res/image/buff/2f6871be744746f32adbaffb4f49bc68b60d9c.png</file>
+        <file>res/image/buff/3986110663eaa59da6642402811961ce835148.png</file>
+        <file>res/image/buff/3aef91d763ffaa76a74a994d2cbdbe3ef873d8.png</file>
+        <file>res/image/buff/3c0056658095c6b1a96e732243fc6fd819e587.png</file>
+        <file>res/image/buff/4def333a6472bb570549755f7b8d12f1aeebf3.png</file>
+        <file>res/image/buff/4e273595f7621b5ba7396995752dc80cbc2c29.png</file>
+        <file>res/image/buff/4e69d83fa8481960a1c679184570ae7c740bbe.png</file>
+        <file>res/image/buff/55954842bcdaffacc6e231e4c66eac9c78422b.png</file>
+        <file>res/image/buff/64f5cde646ced1f8ffd86a3c139ea39fe8f5dd.png</file>
+        <file>res/image/buff/958550d545214ab9c5dbff9c5192b34d6e58b6.png</file>
+        <file>res/image/buff/9da50e51b9c50e84b34b811964ca67c442c852.png</file>
+        <file>res/image/character/160.gif</file>
+        <file>res/image/character/160.png</file>
+        <file>res/image/character/160_oppo.gif</file>
+        <file>res/image/character/195.gif</file>
+        <file>res/image/character/195.png</file>
+        <file>res/image/character/195_oppo.gif</file>
+        <file>res/image/character/254.gif</file>
+        <file>res/image/character/254.png</file>
+        <file>res/image/character/254_oppo.gif</file>
+        <file>res/image/character/726.gif</file>
+        <file>res/image/character/726.png</file>
+        <file>res/image/character/812.gif</file>
+        <file>res/image/character/812.png</file>
+        <file>res/image/character/812_oppo.gif</file>
+        <file>res/image/character/815.gif</file>
+        <file>res/image/character/815.png</file>
+        <file>res/image/character/815_oppo.gif</file>
+        <file>res/image/character/726_oppo.gif</file>
+        <file>res/ui/btn_back_green.png</file>
+        <file>res/ui/btn_back_green_press.png</file>
+        <file>res/collection/AllBreadCollection.png</file>
+        <file>res/collection/AllFaceCollection.png</file>
+        <file>res/collection/AllSkillCollection.png</file>
+        <file>res/collection/battleUICollection.png</file>
+        <file>res/collection/CommonBattle_opt.png</file>
+        <file>res/collection/CommonCollection_opt.png</file>
+        <file>res/collection/LobbyUICollection.png</file>
+        <file>res/collection/LoginButtonsCollection.png</file>
+        <file>res/ui/ic_target.png</file>
+        <file>res/ui/ic_badge_bronze.png</file>
+        <file>res/ui/ic_badge_golden.png</file>
+        <file>res/ui/ic_badge_silver.png</file>
     </qresource>
 </RCC>

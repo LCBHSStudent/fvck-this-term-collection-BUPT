@@ -8,8 +8,8 @@ Popup {
     width: 0; height: 0
     margins: 0; padding: 0
     modal: true; focus: true
-    visible: false
-    opacity: visible? 1: 0
+    visible: opacity > 0
+    opacity: 0
     
     signal clicked()
     
@@ -23,9 +23,8 @@ Popup {
     property alias contentW: toastRect.width
     property alias contentH: toastRect.height
     
-    property alias btnText:  text.text
-    property alias contentText: content.text
-   
+    signal confirmed()
+    signal canceled()
     
     Rectangle {
         id: toastRect
@@ -33,85 +32,118 @@ Popup {
         radius: utils.dp(5)
         
         MText {
-            id: content
-            width: parent.width * 0.9
-            height: parent.height - btn.height * 1.1
-            anchors {
-                top: parent.top
-                topMargin: utils.dp(5)
-                horizontalCenter: parent.horizontalCenter
-            }
-            font.pixelSize: utils.dp(15)
-            color: "#111111"
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            id: titleText
+            font.pixelSize: utils.dp(22)
+            color: utils.colorAsbestos
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: utils.dp(5)
         }
+        
+        MText {
+            id: contentText
+            horizontalAlignment: Text.AlignHCenter
+            color: utils.colorAsbestos
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: titleText.bottom
+            anchors.topMargin: utils.dp(6)
+        }
+        
         
         Rectangle {
             height: 1
             width: parent.width - 10
             color: "#DDDDDD"
             anchors {
-                bottom: btn.top
-                bottomMargin: btn.height * 0.2
+                bottom: parent.bottom
+                bottomMargin: parent.height * 0.25
+                horizontalCenter: parent.horizontalCenter
+            }
+        }
+        Rectangle {
+            height: parent.height * 0.23
+            width: 1
+            color: "#DDDDDD"
+            anchors {
+                bottom: parent.bottom
+                bottomMargin: parent.height * 0.01
                 horizontalCenter: parent.horizontalCenter
             }
         }
         
-        Rectangle {
-            id: btn
+        Row {
+            spacing: utils.dp(20)
             anchors {
                 bottom: parent.bottom
-                bottomMargin: utils.dp(10)
+                bottomMargin: parent.height * 0.05
                 horizontalCenter: parent.horizontalCenter
             }
-            height: text.contentHeight * 1.4
-            width:  parent.width * 0.6
-            radius: utils.dp(8)
-            color: "#2CC486"
-            border.width: 2
-            border.color: "#34D0C6"
-            
-            Behavior on scale {
-                PropertyAnimation {duration: 50}
-            }
-            Rectangle {
-                id: mask
-                color: "#FFFFFF"
-                anchors.fill: parent
-                opacity: btnArea.pressed? 0.3: 0
-                radius: utils.dp(8)
-                Behavior on opacity {
-                    PropertyAnimation {duration: 50}
-                }
-            }
-            
-            MText {
-                id: text
-                font.pixelSize: utils.dp(16)                
-                anchors.centerIn: parent
-                color: "#EEEEEE"                
-            }
-            MouseArea {
-                id: btnArea
-                anchors.fill: parent
-                onClicked: {
-                    toast_t.clicked()
-                    toast_t.close()
-                }
-                onPressedChanged: {
-                    btn.scale = pressed? 1.1: 1
+            Repeater {
+                model: 2
+                delegate: Rectangle {
+                    id: btn
+                    height: text.contentHeight * 1.4
+                    width:  toastRect.width * 0.35
+                    radius: utils.dp(8)
+                    color: {
+                        if (index === 1)
+                            return "#2CC486"
+                        else
+                            return utils.colorPomegranate
+                    }
+                    border.width: 2
+                    border.color: {
+                        if (index === 1)
+                            return "#34D0C6"
+                        else
+                            return utils.colorAlizarin
+                    }
+                    
+                    Behavior on scale {
+                        PropertyAnimation {duration: 50}
+                    }
+                    Rectangle {
+                        id: mask
+                        color: "#FFFFFF"
+                        anchors.fill: parent
+                        opacity: btnArea.pressed? 0.3: 0
+                        radius: utils.dp(8)
+                        Behavior on opacity {
+                            PropertyAnimation {duration: 50}
+                        }
+                    }
+                    
+                    MText {
+                        id: text
+                        text: index === 0? "取消": "确定"
+                        font.pixelSize: utils.dp(16)                
+                        anchors.centerIn: parent
+                        color: "#EEEEEE"                
+                    }
+                    MouseArea {
+                        id: btnArea
+                        anchors.fill: parent
+                        onClicked: {
+                            if (index === 0) {
+                                
+                            }
+                            else {
+                                
+                            }
+
+                            toast_t.opacity = 0
+                        }
+                        onPressedChanged: {
+                            btn.scale = pressed? 1.1: 1
+                        }
+                    }
                 }
             }
         }
     }
     
-    function showPopup(content, btn) {
-        contentText = content
-        btnText     = btn
-        visible     = true
+    function showPopup(title, content) {
+        titleText.text      = title
+        contentText.text    = content
     }
 }
-
-

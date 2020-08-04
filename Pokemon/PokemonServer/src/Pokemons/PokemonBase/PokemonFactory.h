@@ -11,14 +11,13 @@ public:
     ~PokemonFactory() = default;
 public FUNCTION:
     static PokemonBase* CreatePokemon(QString userName, int id) {
-        auto& instance = StorageHelper::Instance();
-        QString _name;
+        QString _name, _desc;
         QString _skill_1, _skill_2, _skill_3, _skill_4;
         int  _typeId = 0, _level   = 0, _exp    = 0,
              _ATK    = 0, _HP      = 0, _DEF    = 0,
              _SPD    = 0, _attr    = 0, _type   = -1;
         
-        instance.transaction(
+        StorageHelper::Instance().transaction(
             "SELECT * FROM `user_" + userName + "` WHERE PKM_ID=?",
             [&](QSqlQuery& query){
                 _typeId = query.value(1).toInt();
@@ -30,10 +29,11 @@ public FUNCTION:
                 _SPD    = query.value(7).toInt();
             },
         id);
-        instance.transaction(
+        StorageHelper::Instance().transaction(
             "SELECT PKM_NAME, PKM_TYPE, PKM_ATTR,\
              PKM_SKILL_1, PKM_SKILL_2, PKM_SKILL_3,\
-             PKM_SKILL_4 FROM `pokemon_info` WHERE PKM_ID=?",
+             PKM_SKILL_4, DESCRIPTION FROM `pokemon_info`\
+             WHERE PKM_ID=?",
             [&](QSqlQuery query) {
                 _name       = query.value(0).toString();
                 _type       = query.value(1).toInt();
@@ -42,6 +42,7 @@ public FUNCTION:
                 _skill_2    = query.value(4).toString();
                 _skill_3    = query.value(5).toString();
                 _skill_4    = query.value(6).toString();
+                _desc       = query.value(7).toString();
             },
         _typeId);
         
@@ -83,6 +84,8 @@ public FUNCTION:
         default:
             break;
         }
+        
+        newPkm->set_desc(_desc);
         
         if (newPkm != nullptr) {
             newPkm->setSkill(0, _skill_1);

@@ -20,7 +20,10 @@ PokemonBase::PokemonBase(ARGS_LIST):
     m_DEF(_DEF),
     m_SPD(_SPD),
     m_pkmType(PokemonType(_type)),
-    m_pkmAttr(PokemonAttribute(_attr)) {}
+    m_pkmAttr(PokemonAttribute(_attr)
+) {
+    m_skills.resize(4);
+}
 
 
 

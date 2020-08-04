@@ -17,13 +17,14 @@ public:
         ~User();
 public RESOURCE:
 	enum class BadgeType: uint32 {
-		GOLDEN = 0,
+		BRONZE = 0,
 		SILVER,
-		BRONZE
+		GOLDEN
 	};
 	enum class UserStatus: uint32 {
 		IDLE = 0,
-		BATTLEING,
+		BATTLING,
+        NOT_ONLINE,
 		UNDEFINED,
 	};
 	
@@ -33,7 +34,7 @@ public FUNCTION:
 	PROPERTY(BadgeType,     countBadge)
 	PROPERTY(BadgeType,     qualityBadge)
 	PROPERTY(UserStatus,	status)
-	PROPERTY(QList<uint32>, pokemonList)
+	PROPERTY(QList<int>,    pokemonList)
 	
 	GET(QTcpSocket*,		userSocket)
 	
@@ -59,7 +60,7 @@ private RESOURCE:
 		m_qualityBadge;
 	UserStatus
 		m_status;
-	QList<uint32>
+	QList<int>
 		m_pokemonList;
 	QTcpSocket*
 		m_userSocket;

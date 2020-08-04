@@ -11,9 +11,6 @@ enum MessageType: int {
     UserInfoRequest,
     UserInfoResponse,
     
-    UserPokemonDataRequest,
-    UserPokemonDataResponse,
-    
     PokemonDataRequest,
     PokemonDataResponse,
     
@@ -26,6 +23,9 @@ enum MessageType: int {
     
     BattleStartRequest,
     BattleStartResponse,
+    
+    BattleInviteRequest,
+    BattleInviteResponse,
     
     ChooseTrophieRequest,
     ChooseTrophieResponse,

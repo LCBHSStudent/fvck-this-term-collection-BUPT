@@ -8,8 +8,8 @@ Popup {
     width: 0; height: 0
     margins: 0; padding: 0
     modal: true; focus: true
-    visible: false
-    opacity: visible? 1: 0
+    visible: opacity > 0
+    opacity: 0
     
     signal clicked()
     
@@ -98,7 +98,7 @@ Popup {
                 anchors.fill: parent
                 onClicked: {
                     toast_t.clicked()
-                    toast_t.close()
+                    toast_t.opacity = 0
                 }
                 onPressedChanged: {
                     btn.scale = pressed? 1.1: 1
@@ -110,7 +110,7 @@ Popup {
     function showPopup(content, btn) {
         contentText = content
         btnText     = btn
-        visible     = true
+        opacity     = 1
     }
 }
 

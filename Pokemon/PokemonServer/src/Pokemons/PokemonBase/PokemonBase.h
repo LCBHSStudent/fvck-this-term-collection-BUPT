@@ -144,6 +144,7 @@ public FUNCTION:
     
     PROPERTY(QString, name)
     PROPERTY(QString, curUser)
+    PROPERTY(QString, desc)
     
 public FUNCTION:
 	virtual AttackResult
@@ -158,12 +159,22 @@ public FUNCTION:
             if (slot < 4 && slot >= 0)    
                 m_skills[slot] = name;    
         }
+    QString
+        getSkill(int slot) {
+            if (slot < 4 && slot >= 0) { 
+                return m_skills[slot];
+            } else {
+                return QString();
+            }
+        }
 
 protected RESOURCE:
 	QString
 		m_name  = {};
     QString
         m_curUser = {};
+    QString
+        m_desc  = {};
     
     int   
         m_id    = 0;
@@ -187,6 +198,6 @@ protected RESOURCE:
 		m_pkmType  = UNDEFINED_TYPE;
     PokemonAttribute
         m_pkmAttr  = UNDEFINED_ATTR;
-    std::array<QString, 4>
+    QVector<QString>
         m_skills   = {};
 };

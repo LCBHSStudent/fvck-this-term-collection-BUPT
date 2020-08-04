@@ -1,5 +1,6 @@
 ﻿#include "ServerBackend.h"
 #include <UserProtocol.pb.h>
+#include <BattleProtocol.pb.h>
 #include <MessageTypeGlobal.h>
 #include "../StorageHelper/StorageHelper.h"
 
@@ -18,7 +19,7 @@
 // ----------------Progress Before Sending Network Data---------------- //
 #define PROC_PROTODATA(_messageType, _dataBlockName) \
     auto byteLength = _dataBlockName.ByteSizeLong();                    \
-    auto pData      = new char[_dataBlockName.ByteSizeLong() + 4];      \
+    auto pData      = new char[byteLength + 4];                         \
     *reinterpret_cast<int*>(pData) = MessageType::_messageType;         \
                                                                         \
     _dataBlockName.SerializeToArray(pData + 4, byteLength);             \
@@ -26,6 +27,17 @@
     m_helper->sendToClient(client, QByteArray(pData, byteLength + 4));  \
     delete[] pData                                                      \
 // -------------------------------------------------------------------- //
+#define PROC_PROTODATA_WITH_DEST(_messageType, _dataBlockName, _client) \
+    auto byteLength = _dataBlockName.ByteSizeLong();                    \
+    auto pData      = new char[byteLength + 4];                         \
+    *reinterpret_cast<int*>(pData) = MessageType::_messageType;         \
+                                                                        \
+    _dataBlockName.SerializeToArray(pData + 4, byteLength);             \
+                                                                        \
+    m_helper->sendToClient(_client, QByteArray(pData, byteLength + 4)); \
+    delete[] pData                                                      \
+// -------------------------------------------------------------------- //
+
 
 ServerBackend::ServerBackend():
     m_helper(new NetworkHelper)
@@ -87,6 +99,18 @@ void ServerBackend::slotGetMessage(
     case MessageType::OnlineUserListRequest:
         CALL_SLOT(RequestOnlineUserList);
         break;
+    case MessageType::PokemonDataRequest:
+        CALL_SLOT(RequestPkmInfo);
+        break;
+    case MessageType::BattleInviteRequest:
+        CALL_SLOT(BattleInvite);
+        break;        
+    case MessageType::BattleInviteResponse:
+        CALL_SLOT(HandleBattleInviteResponse);
+        break;
+//    case MessageType::BattleStartRequest:
+//        CALL_SLOT(StartBattle);
+//        break;
         
     default:
         qDebug() << "unknown message type";
@@ -235,11 +259,11 @@ NET_SLOT(RequestUserInfo) {
         }
     );
     
-    int totalBattleTime = 0,
-        totalWinnerTime = 0;
+    int totalBattleTime = -1,
+        totalWinnerTime = -1;
     // 获取用户信息(胜场胜率)
     StorageHelper::Instance().transaction(
-        "SELECT TOTAL_BATTLE_TIME, WINNER_TIME FROM `user_list",
+        "SELECT TOTAL_BATTLE_TIME, WINNER_TIME FROM `user_list`",
         [&totalBattleTime, &totalWinnerTime](QSqlQuery& query) {
             totalBattleTime = query.value(0).toInt();
             totalWinnerTime = query.value(1).toInt();
@@ -247,34 +271,47 @@ NET_SLOT(RequestUserInfo) {
     );
     
     UserProtocol::UserInfoResponse resInfo = {};
-    if(pkmCount >= 20) {
-        resInfo.set_pkmamountbadge(
-            UserProtocol::UserInfoResponse_BadgeType_GOLD);
-    } else if(pkmCount >= 10) {
-        resInfo.set_pkmamountbadge(
-            UserProtocol::UserInfoResponse_BadgeType_SILVER);
+    
+    if (totalBattleTime == -1 ||
+        totalWinnerTime == -1 ||
+        pkmIdList.size() == 0
+    ) {
+        resInfo.set_resstatus(
+            UserProtocol::UserInfoResponse_UserInfoResponseStatus_USER_NOT_EXIST);
     } else {
-        resInfo.set_pkmamountbadge(
-            UserProtocol::UserInfoResponse_BadgeType_BRONZE);
+        if (pkmCount >= 20) {
+            resInfo.set_pkmamountbadge(
+                UserProtocol::UserInfoResponse_BadgeType_GOLDEN);
+        } else if(pkmCount >= 10) {
+            resInfo.set_pkmamountbadge(
+                UserProtocol::UserInfoResponse_BadgeType_SILVER);
+        } else {
+            resInfo.set_pkmamountbadge(
+                UserProtocol::UserInfoResponse_BadgeType_BRONZE);
+        }
+        
+        if (highLevelPkmCnt >= 10) {
+            resInfo.set_highlevelbadge(
+                UserProtocol::UserInfoResponse_BadgeType_GOLDEN);
+        } else if (highLevelPkmCnt >= 5) {
+            resInfo.set_highlevelbadge(
+                UserProtocol::UserInfoResponse_BadgeType_SILVER);
+        } else {
+            resInfo.set_highlevelbadge(
+                UserProtocol::UserInfoResponse_BadgeType_BRONZE);
+        }
+        
+        for(auto pkmId: pkmIdList) {
+            resInfo.add_pokemonid(pkmId);
+        }
+        
+        resInfo.set_timeofduel(totalBattleTime);
+        resInfo.set_timeofwins(totalWinnerTime);
+        resInfo.set_username(reqInfo.username());
+        resInfo.set_resstatus(
+            UserProtocol::UserInfoResponse_UserInfoResponseStatus_SUCCESS);
     }
     
-    if(highLevelPkmCnt >= 10) {
-        resInfo.set_highlevelbadge(
-            UserProtocol::UserInfoResponse_BadgeType_GOLD);
-    } else if(highLevelPkmCnt >= 5) {
-        resInfo.set_highlevelbadge(
-            UserProtocol::UserInfoResponse_BadgeType_SILVER);
-    } else {
-        resInfo.set_highlevelbadge(
-            UserProtocol::UserInfoResponse_BadgeType_BRONZE);
-    }
-    
-    for(auto pkmId: pkmIdList) {
-        resInfo.add_pokemonid(pkmId);
-    }
-    
-    resInfo.set_timeofduel(totalBattleTime);
-    resInfo.set_timeofwins(totalWinnerTime);
     
     PROC_PROTODATA(UserInfoResponse, resInfo);
 }
@@ -286,8 +323,34 @@ NET_SLOT(UserDisconnected) {
     for (int i = 0; i < m_userList.size(); i++) {
         if (m_userList[i].get_userSocket() == client) {
             // 查找状态，若为对战中则向对手发送胜利报文
-            
-            
+            for (int i = 0; i < m_battleFieldList.size(); i++) {
+                auto battle = m_battleFieldList.at(i);
+                
+                User* dest = nullptr;
+                if (battle->getUserA()->get_name() == m_userList[i].get_name()) {
+                    dest = battle->getUserB();
+                } else if (battle->getUserB()->get_name() == m_userList[i].get_name()) {
+                    dest = battle->getUserA();
+                }
+                
+                if (dest != nullptr) {
+                    dest->set_status(User::UserStatus::IDLE);
+                    
+                    BattleProtocol::BattleFinishInfo info = {};
+                    info.set_mode(
+                        BattleProtocol::BattleFinishInfo_FinishMode_OPPOSITE_DISCONNECTED
+                    );
+                    info.set_result(
+                        BattleProtocol::BattleFinishInfo_BattleResult_WIN
+                    );
+                    
+                    
+                    PROC_PROTODATA_WITH_DEST(
+                        BattleFinishInfo, info, dest->get_userSocket()
+                    );
+                    break;
+                }
+            }
             
             m_userList.removeAt(i);
         }
@@ -307,10 +370,97 @@ NET_SLOT(RequestPkmInfo) {
         }
     }
 #endif
-    UserProtocol::UserPokemonDataResponseInfo resInfo = {};
-    for (int i = 0; i < reqInfo.pokemonid_size(); i++) {
+    
+    UserProtocol::UserPokemonDataResponseInfo resInfo   = {};
+    UserProtocol::PokemonInfo *pPkmInfo                 = nullptr;
+    
+    // ------ 拿到ID
+    QList<int> pkmIdList = {};
+//    QVector<PokemonBase*> ptrList = {};
+
+    if (reqInfo.reqtype() ==
+        UserProtocol::UserPokemonDataRequestInfo_PokemonDataRequestType_ALL
+    ) {
+        StorageHelper::Instance().transaction(
+            "SELECT PKM_ID FROM `user_" + userName + "`",
+            [&pkmIdList](QSqlQuery& query) {
+                pkmIdList.push_back(query.value(0).toInt());
+            }
+        );
+//        ptrList.resize(pkmIdList.size());
         
+    } else if (reqInfo.reqtype() == 
+        UserProtocol::UserPokemonDataRequestInfo_PokemonDataRequestType_SPECIFIC
+    ) {
+        for (int i = 0; i < reqInfo.pokemonid_size(); i++) {
+            pkmIdList.push_back(reqInfo.pokemonid(i));
+        }
     }
+    
+    QList<QString> aliasList = {};
+    QList<QString> sdescList = {};
+    // ------ 建立对象，转发数据
+    for (int i = 0; i < pkmIdList.size(); i++) {
+        aliasList.clear();
+        sdescList.clear();
+        auto pkm = PokemonFactory::CreatePokemon(userName, pkmIdList[i]);
+        // 写入info
+        pPkmInfo = resInfo.add_pkmdata();
+        
+        pPkmInfo->set_id(pkm->get_id());
+        pPkmInfo->set_hp(pkm->get_HP());
+        pPkmInfo->set_exp(pkm->get_exp());
+        pPkmInfo->set_spd(pkm->get_SPD());
+        pPkmInfo->set_def(pkm->get_DEF());
+        pPkmInfo->set_atk(pkm->get_ATK());
+        pPkmInfo->set_level(pkm->get_level());
+        pPkmInfo->set_attr(pkm->get_pkmAttr());
+        pPkmInfo->set_type(pkm->get_pkmType());
+        pPkmInfo->set_typeid_(pkm->get_typeID());
+        
+        pPkmInfo->set_name(pkm->get_name().toStdString());
+        pPkmInfo->set_desc(pkm->get_desc().toStdString());
+        
+        // 发送中文技能名 & 技能描述
+        for (int i = 0; i < 4; i++) {
+            StorageHelper::Instance().transaction(
+                "SELECT ALIAS, DESCRIPTION FROM `skill_list` WHERE NAME=?",
+                [&aliasList, &sdescList](QSqlQuery& query) {
+                    aliasList.push_back(query.value(0).toString());
+                    sdescList.push_back(query.value(1).toString());
+                },
+                pkm->getSkill(i)
+            );
+        }
+        for (int i = 0; i < 4; i++) {
+            qDebug() << pkm->getSkill(i);
+            qDebug() << aliasList[i] << sdescList[i];            
+        }
+        
+        
+        pPkmInfo->set_skill_1(aliasList[0].toStdString());
+        pPkmInfo->set_skill_2(aliasList[1].toStdString());
+        pPkmInfo->set_skill_3(aliasList[2].toStdString());
+        pPkmInfo->set_skill_4(aliasList[3].toStdString());
+        
+        pPkmInfo->set_skill_1_desc(sdescList[0].toStdString());
+        pPkmInfo->set_skill_2_desc(sdescList[1].toStdString());
+        pPkmInfo->set_skill_3_desc(sdescList[2].toStdString());
+        pPkmInfo->set_skill_4_desc(sdescList[3].toStdString());
+        
+        qDebug() << "BYTE SIZE: " << pPkmInfo->ByteSizeLong();
+        // pPkmInfo->PrintDebugString();
+        
+        delete pkm;
+    }
+    
+    // PRINT DEBUG INFO
+    {
+        qDebug() << "BYTE SIZE: " << resInfo.ByteSizeLong();
+        // resInfo.PrintDebugString();        
+    }
+    
+    PROC_PROTODATA(PokemonDataResponse, resInfo);
 }
 
 // 处理获取在线用户列表请求
@@ -318,14 +468,17 @@ NET_SLOT(RequestOnlineUserList) {
     UserProtocol::OnlineUserListRequestInfo reqInfo = {};
     reqInfo.ParseFromArray(data.data(), data.size());
     
+    reqInfo.PrintDebugString();
+    
     QString requestUser = QString::fromStdString(reqInfo.username());
     
     UserProtocol::OnlineUserListResponseInfo resInfo = {};
     for (auto& user: m_userList) {
+        qDebug() << "ONLINE USER: " << user.get_name();
         if (user.get_name() != requestUser) {
             UserProtocol::UserStatusInfo info = {};
             info.set_username(user.get_name().toStdString());
-            info.set_userstatus((uint32)user.get_status());
+            info.set_userstatus((int32_t)user.get_status());
             
             *resInfo.add_userlist() = info;
         }
@@ -334,6 +487,83 @@ NET_SLOT(RequestOnlineUserList) {
     PROC_PROTODATA(OnlineUserListResponse, resInfo);
 }
 
-NET_SLOT(StartBattle) {
+// 处理收到客户端发送的对战请求信息
+// 记得Debug时走一下客户端的登录流程
+COCO
+NET_SLOT(BattleInvite) {
+    BattleProtocol::BattleStartRequest info = {};
+    info.ParseFromArray(data.data(), data.size());
+#ifdef DEBUG_FLAG
+    qDebug() << "[SERVER BACKEDN]: GET NEW BATTLE INVITE REQUEST";
+    info.PrintDebugString();
+#endif
+    QString fromUser = QString::fromStdString(info.fromuser());
+    QString destUser = QString::fromStdString(info.destuser());
+    
+    User* userA = nullptr;
+    User* userB = nullptr;
+    
+    for (auto& user: m_userList) {
+        if (user.get_name() == fromUser) {
+            userA = &user;
+            break;
+        }
+    }
+    if (userA == nullptr) {
+        return;
+    }
+    
+    if (destUser == "_server") {
+        auto pkmA = PokemonFactory::CreatePokemon(fromUser, 1);
+        auto pkmB = PokemonFactory::CreatePokemon(destUser, 1);
+        m_battleFieldList.push_back(
+            new BattleField(userA, nullptr, pkmA, pkmB)
+        );
+        userA->set_status(User::UserStatus::BATTLING);
+        
+        BattleProtocol::BattleStartResponse resInfo = {};
+        resInfo.set_status(BattleProtocol::BattleStartStatus::SUCCESS);
+        resInfo.set_isusera(1);
+        resInfo.set_tapkmid(1);
+        resInfo.set_urpkmid(1);
+        resInfo.PrintDebugString();
+        
+        PROC_PROTODATA(BattleStartResponse, resInfo);
+    }
+    else {
+        for (auto& user: m_userList) {
+            if (user.get_name() == destUser) {
+                userB = &user;
+                break;
+            }
+        }
+        
+        BattleProtocol::BattleStartResponse resInfo = {};
+        if (userB == nullptr) {
+            resInfo.set_status(BattleProtocol::BattleStartStatus::DEST_NOT_ONLINE);
+        } else {
+            if (userB->get_status() == User::UserStatus::BATTLING) {
+                resInfo.set_status(BattleProtocol::BattleStartStatus::ALREADY_START);
+            } else {
+                BattleProtocol::BattleInviteRequest inviteInfo = {};
+                inviteInfo.set_fromuser(info.fromuser());
+                inviteInfo.set_battlemode(info.battlemode());
+                
+                PROC_PROTODATA_WITH_DEST(
+                    BattleInviteRequest, inviteInfo, userB->get_userSocket());
+                return;
+            }
+        }
+        PROC_PROTODATA(BattleStartResponse, resInfo);
+    }
+}
+
+NET_SLOT(HandleBattleInviteResponse) {
+    BattleProtocol::BattleStartResponse resInfo = {};
+    resInfo.ParseFromArray(data.data(), data.size());
+    
+#ifdef DEBUG_FLAG
+    resInfo.PrintDebugString();
+#endif
     
 }

@@ -24,9 +24,26 @@ BattleField::BattleField(
         pkmB->set_curDEF(pkmB->get_DEF());
         pkmB->set_curSPD(pkmB->get_SPD());
     }
+    qDebug() << "[BATTLE FIELD]: CREATED A NEW BATTLE FIELD";
 }
 
-BattleField::~BattleField() {}
+BattleField::~BattleField() {
+    delete m_pkmList[0];
+    delete m_pkmList[1];
+    m_pkmList = {nullptr, nullptr};
+}
+
+void BattleField::setAction(const QString& action, int index) {
+    if (index > 1 || index < 0) {
+        return;
+    }
+    m_actions[index] = action;
+    if (m_actions[0].length() != 0 &&
+        m_actions[1].length() != 0
+    ) {
+        
+    } 
+}
 
 
 void BattleField::turn(const QString& actionA, const QString& actionB) {

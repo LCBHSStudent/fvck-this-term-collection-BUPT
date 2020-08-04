@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
     
     QGuiApplication app(argc, argv);
     
-    ClientBackend* backend = new ClientBackend("127.0.0.1");
+    ClientBackend* backend = new ClientBackend("192.168.1.101");
     
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("backend", backend);

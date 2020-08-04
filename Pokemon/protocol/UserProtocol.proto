@@ -40,18 +40,31 @@ message UserInfoRequest {
 }
 
 message UserInfoResponse {
+    enum UserInfoResponseStatus {
+        SUCCESS         = 0;
+        USER_NOT_EXIST  = 1;
+        UNKNOWN_FAILURE = 2;
+    };
     enum BadgeType {
         BRONZE  = 0;
         SILVER  = 1;
-        GOLD    = 2;
+        GOLDEN  = 2;
     }
-    bytes           userName        = 1;
-    int32           timeOfDuel      = 2;
-    int32           timeOfWins      = 3;
-    double          winRate         = 4;
-    int32           pkmAmountBadge  = 5;
-    int32           highLevelBadge  = 6;
-    repeated int32  pokemonId       = 7;
+    enum UserStatus {
+        IDLE        = 0;
+		BATTLING    = 1;
+        OFFLINE     = 2;
+		UNDEFINED   = 3;
+    }
+    bytes           userName            = 1;
+    int32           timeOfDuel          = 2;
+    int32           timeOfWins          = 3;
+    double          winRate             = 4;
+    BadgeType       pkmAmountBadge      = 5;
+    BadgeType       highLevelBadge      = 6;
+    UserStatus      status              = 7;
+    repeated int32  pokemonId           = 8;
+    UserInfoResponseStatus resStatus    = 9;
 }
 
 message UserPokemonDataRequestInfo {
@@ -59,31 +72,36 @@ message UserPokemonDataRequestInfo {
         ALL         = 0;
         SPECIFIC    = 1;
     };
-    bytes            userName    = 1;
-
-    repeated int32   pokemonId   = 2;
+    bytes                   userName    = 1;
+    repeated int32          pokemonId   = 2;
+    PokemonDataRequestType  reqType     = 3;
 }
 
 message PokemonInfo {
-    int32   id          = 1;
-    int32   typeId      = 2;
-    bytes   name        = 3;
-    int32   level       = 4;
-    int32   type        = 5;
-    int32   exp         = 6;
-    int32   attr        = 7;
-    int32   ATK         = 8;
-    int32   DEF         = 9;
-    int32   HP          = 10;
-    int32   SPD         = 11;
-    bytes   skill_1     = 12;
-    bytes   skill_2     = 13;
-    bytes   skill_3     = 14;
-    bytes   skill_4     = 15;
+    int32   id              = 1;
+    int32   typeId          = 2;
+    bytes   name            = 3;
+    int32   level           = 4;
+    int32   type            = 5;
+    int32   EXP             = 6;
+    int32   attr            = 7;
+    int32   ATK             = 8;
+    int32   DEF             = 9;
+    int32   HP              = 10;
+    int32   SPD             = 11;
+    bytes   desc            = 12;
+    bytes   skill_1         = 13;
+    bytes   skill_2         = 14;
+    bytes   skill_3         = 15;
+    bytes   skill_4         = 16;
+    bytes   skill_1_desc    = 17;
+    bytes   skill_2_desc    = 18;
+    bytes   skill_3_desc    = 19;
+    bytes   skill_4_desc    = 20;
 }
 
 message UserPokemonDataResponseInfo {
-    repeated PokemonInfo data = 1;
+    repeated PokemonInfo pkmData = 1;
 }
 
 message OnlineUserListRequestInfo {

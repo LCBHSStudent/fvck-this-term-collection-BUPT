@@ -26,11 +26,12 @@ private FUNCTION:
 private slots:
     NET_SLOT(UserLogin);
     NET_SLOT(UserSignUp);
-    NET_SLOT(StartBattle);
     NET_SLOT(RequestPkmInfo);
     NET_SLOT(RequestUserInfo);
     NET_SLOT(UserDisconnected);
     NET_SLOT(RequestOnlineUserList);
+    NET_SLOT(BattleInvite);
+    NET_SLOT(HandleBattleInviteResponse);
     
 private RESOURCE:
     NetworkHelper* 
@@ -39,7 +40,7 @@ private RESOURCE:
         m_userHash;
     QList<User>
         m_userList = {};
-    QList<BattleField>
+    QList<BattleField*>
         m_battleFieldList = {};
     
     QList<PokemonBase*>
