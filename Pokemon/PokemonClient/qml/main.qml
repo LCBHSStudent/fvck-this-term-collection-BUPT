@@ -24,7 +24,44 @@ ApplicationWindow {
     
     StackView {
         id: stack
-        initialItem: MainPage {id: loginPage}   // 测试更改中
+        initialItem: BattlePage {id: loginPage}   // 测试更改中
         anchors.fill: parent
+        
+        pushEnter: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 0
+                to:1
+                duration: 200
+            }
+        }
+        pushExit: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 1
+                to:0
+                duration: 200
+            }
+        }
+        popEnter: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 0
+                to:1
+                duration: 200
+            }
+        }
+        popExit: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 1
+                to:0
+                duration: 200
+            }
+        }
+    }
+    
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
     }
 }

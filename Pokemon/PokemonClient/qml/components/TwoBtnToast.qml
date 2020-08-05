@@ -145,5 +145,6 @@ Popup {
     function showPopup(title, content) {
         titleText.text      = title
         contentText.text    = content
+        toast_t.opacity     = 1
     }
 }

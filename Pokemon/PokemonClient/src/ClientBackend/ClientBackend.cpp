@@ -135,6 +135,14 @@ void ClientBackend::slotGetServerMessage(QByteArray data) {
             QString::fromStdString(info.fromuser()), info.battlemode());
     } break;
         
+    case BattleStartResponse: {
+        BattleProtocol::BattleStartResponse info = {};
+        info.ParseFromArray(data.data()+4, data.size()-4);
+        
+        emit sigGetBattleStartResponse(
+            info.status(), info.isusera(), info.urpkmid(), info.tapkmid());
+    }
+    
     default:
         break;
     }

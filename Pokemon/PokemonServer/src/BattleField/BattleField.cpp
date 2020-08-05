@@ -31,6 +31,8 @@ BattleField::~BattleField() {
     delete m_pkmList[0];
     delete m_pkmList[1];
     m_pkmList = {nullptr, nullptr};
+    
+    qDebug() << "[BATTLE FIELD]: DESTROYED A BATTLE FIELD";
 }
 
 void BattleField::setAction(const QString& action, int index) {
@@ -41,7 +43,7 @@ void BattleField::setAction(const QString& action, int index) {
     if (m_actions[0].length() != 0 &&
         m_actions[1].length() != 0
     ) {
-        
+        turn(m_actions[0], m_actions[1]);
     } 
 }
 

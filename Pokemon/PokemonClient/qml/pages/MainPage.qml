@@ -241,7 +241,8 @@ Page {
     Connections {
         target: backend
         onSigGetBattleInviteRequest: {
-            var stat = "邀请者: " + fromUser + "\n对战模式: "
+            console.debug("onSigGetBattleInviteRequest")
+            var stat = "\n邀请者: " + fromUser + "\n\n对战模式: "
             if (battleMode === 0) {
                 stat += "升级战"
             } else if (battleMode === 1) {
@@ -252,6 +253,7 @@ Page {
             invitePopup.showPopup("收到对战请求", stat)
         }
         onSigGetBattleStartResponse: {
+            console.debug("onSigGetBattleStartResponse")
             switch (status) {
             case 0:
                 stack.push("BattlePage.qml")
@@ -308,6 +310,10 @@ Page {
                     pressColor: "#34D0C6"
                     releaseColor: "#2CC486"
                     anchors.horizontalCenter: parent.horizontalCenter
+                    onClicked: {
+                        backend.sendBattleStartRequest(
+                            modeCheckGroup.battleMode, destNameInput.text)
+                    }
                 }
                 MFlatBtn {
                     id: testBattleBtn

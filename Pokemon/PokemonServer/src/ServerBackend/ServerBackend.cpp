@@ -350,11 +350,21 @@ NET_SLOT(UserDisconnected) {
                     );
                     break;
                 }
+                
+                delete battle;
+                m_battleFieldList.removeAt(i);
             }
             
             m_userList.removeAt(i);
         }
     }
+    
+    qDebug () 
+            << "[SERVER BACKEND] CURRENT BATTLE FIELD COUNT: " 
+            << m_battleFieldList.size();
+    qDebug () 
+            << "[SERVER BACKEND] CURRENT ONLINE USER COUNT: " 
+            << m_userList.size();
 }
 
 // 处理获取宝可梦信息请求
@@ -489,7 +499,6 @@ NET_SLOT(RequestOnlineUserList) {
 
 // 处理收到客户端发送的对战请求信息
 // 记得Debug时走一下客户端的登录流程
-COCO
 NET_SLOT(BattleInvite) {
     BattleProtocol::BattleStartRequest info = {};
     info.ParseFromArray(data.data(), data.size());
@@ -512,6 +521,9 @@ NET_SLOT(BattleInvite) {
     if (userA == nullptr) {
         return;
     }
+    if (userA->get_status() == User::UserStatus::BATTLING) {
+        return;
+    }
     
     if (destUser == "_server") {
         auto pkmA = PokemonFactory::CreatePokemon(fromUser, 1);
@@ -529,11 +541,15 @@ NET_SLOT(BattleInvite) {
         resInfo.PrintDebugString();
         
         PROC_PROTODATA(BattleStartResponse, resInfo);
+        return;
     }
     else {
         for (auto& user: m_userList) {
             if (user.get_name() == destUser) {
                 userB = &user;
+#ifdef DEBUG_FLAG
+                qDebug() << "[BATTLE INVITE] DEST USER FOUND";
+#endif
                 break;
             }
         }
@@ -549,21 +565,71 @@ NET_SLOT(BattleInvite) {
                 inviteInfo.set_fromuser(info.fromuser());
                 inviteInfo.set_battlemode(info.battlemode());
                 
+                inviteInfo.PrintDebugString();
                 PROC_PROTODATA_WITH_DEST(
                     BattleInviteRequest, inviteInfo, userB->get_userSocket());
                 return;
             }
         }
+        resInfo.PrintDebugString();
         PROC_PROTODATA(BattleStartResponse, resInfo);
     }
 }
 
 NET_SLOT(HandleBattleInviteResponse) {
-    BattleProtocol::BattleStartResponse resInfo = {};
+    BattleProtocol::BattleInviteResponse resInfo = {};
     resInfo.ParseFromArray(data.data(), data.size());
     
 #ifdef DEBUG_FLAG
+    qDebug () << "[SERVER BACKEND] GET BATTLE INVITE RESPONSE";
     resInfo.PrintDebugString();
 #endif
     
+    
+    BattleProtocol::BattleStartResponse startInfoA = {};
+    BattleProtocol::BattleStartResponse startInfoB = {};
+    startInfoA.set_status(resInfo.flag());
+    startInfoB.set_status(resInfo.flag());
+    
+    QString userNameA   = QString::fromStdString(resInfo.fromuser());
+    QString userNameB   = QString::fromStdString(resInfo.destuser());
+    User*   pUserA  = nullptr;
+    User*   pUserB  = nullptr;
+    
+    for (auto& user: m_userList) {
+        if (user.get_name() == userNameA) {
+            pUserA  = &user;
+        } else if (user.get_name() == userNameB) {
+            pUserB  = &user;
+        }
+    }
+    
+    if (pUserA == nullptr || pUserB == nullptr) {
+        qDebug() << "[SERVER BACKEND] NULL USER PTR IN HANDLING BATTLE INVITE RESPONSE";
+        return;
+    }
+    
+    startInfoA.set_isusera(1);
+    startInfoB.set_isusera(0);
+    
+    int pkmId_A = 1;
+    int pkmId_B = 2;
+    
+    startInfoA.set_urpkmid(pkmId_A);
+    startInfoB.set_tapkmid(pkmId_A);
+    startInfoA.set_tapkmid(pkmId_B);
+    startInfoB.set_urpkmid(pkmId_B);
+    
+    startInfoA.PrintDebugString();
+    startInfoB.PrintDebugString();
+    
+    // avoid redefination of variables 
+    {
+        PROC_PROTODATA_WITH_DEST(
+            BattleStartResponse, startInfoA, pUserA->get_userSocket());
+    }
+    {
+        PROC_PROTODATA_WITH_DEST(
+            BattleStartResponse, startInfoA, pUserA->get_userSocket());
+    }
 }

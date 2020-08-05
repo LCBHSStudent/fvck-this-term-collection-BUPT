@@ -24,7 +24,7 @@ void User::updateUserInfo() {
     // ----------UPDATE WIN RATE(?)-------------- //
     StorageHelper::Instance().transaction(
 "SELECT TOTAL_BATTLE_TIME, WINNER_TIME \
-    FROM user_list WHERE USERNAME=?\
+    FROM `user_list` WHERE USERNAME=?\
 ",
     [this](QSqlQuery& query) {
         int totalWinnerTime = query.value(1).toInt(),
@@ -51,7 +51,7 @@ void User::updateUserInfo() {
     
     int highLevelCnt = 0;
     StorageHelper::Instance().transaction(
-        "SELECT count(*) FROM user_" + m_name + "WHERE PKM_LEVEL=15",
+        "SELECT count(*) FROM `user_" + m_name + "` WHERE PKM_LEVEL=15",
         [&highLevelCnt](QSqlQuery query) {
             highLevelCnt = query.value(0).toInt();
     });

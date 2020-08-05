@@ -14,5 +14,6 @@
         <file>qml/pages/BattlePage.qml</file>
         <file>qml/components/TwoBtnToast.qml</file>
         <file>qml/components/PkmInfoPopup.qml</file>
+        <file>qml/components/HpBar.qml</file>
     </qresource>
 </RCC>

@@ -33,7 +33,7 @@ signals:
     void
         sigGetBattleInviteRequest(QString fromUser, int battleMode);
     void
-        sigGetBattleStartResponse();
+        sigGetBattleStartResponse(int status, int isUserA, int urPkmId, int taPkmId);
     
 public slots:
     void
