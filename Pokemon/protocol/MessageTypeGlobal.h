@@ -18,6 +18,7 @@ enum MessageType: int {
     OnlineUserListResponse,
     
     BattleTurnInfo,
+    BattleGiveupInfo,
     BattleOperationInfo,
     BattleFinishInfo,
     

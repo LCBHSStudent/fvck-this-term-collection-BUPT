@@ -1,5 +1,18 @@
 ﻿#include "BattleField.h"
 
+#define EMIT_TURN_INFO(_res_, _action_, _type_) \
+{                                                       \
+    TurnInfo turnInfo = {};                             \
+    turnInfo.selfBuff       = _res_.selfBuf;            \
+    turnInfo.destBuff       = _res_.destBuf;            \
+    turnInfo.skillName      = _action_;                 \
+    turnInfo.selfDeltaHP    = _res_.selfDeltaHp;        \
+    turnInfo.destDeltaHP    = _res_.destDeltaHp;        \
+    turnInfo.type           = _type_;                   \
+    emit sigTurnInfoReady(turnInfo);                    \
+}                                                       \
+
+
 BattleField::BattleField(
     User*           userA,
     User*           userB,
@@ -35,11 +48,21 @@ BattleField::~BattleField() {
     qDebug() << "[BATTLE FIELD]: DESTROYED A BATTLE FIELD";
 }
 
-void BattleField::setAction(const QString& action, int index) {
-    if (index > 1 || index < 0) {
+void BattleField::setAction(int skillIndex, int userIndex) {
+#ifdef DEBUG_FLAG    
+    if (userIndex > 1 || userIndex < 0) {
         return;
     }
-    m_actions[index] = action;
+    if (skillIndex < 0 || skillIndex > 3) {
+        return;
+    }
+#endif
+    if (userIndex == 0) {
+        m_actions[0] = getPkmA()->getSkill(skillIndex);
+    } else {
+        m_actions[1] = getPkmB()->getSkill(skillIndex);
+    }
+    
     if (m_actions[0].length() != 0 &&
         m_actions[1].length() != 0
     ) {
@@ -55,9 +78,9 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
     // ------ 暂时不考虑平局
     static const auto chechBattleIsFinished = [&pkmA, &pkmB, this] {
         if (pkmA.get_curHP() <= 0) {
-            emit this->sigBattleFinished(m_users[1], m_users[0]);
+            emit this->sigBattleFinished(m_users[1]);
         } else if (pkmB.get_curHP() <= 0) {
-            emit this->sigBattleFinished(m_users[0], m_users[1]);
+            emit this->sigBattleFinished(m_users[0]);
         }
     };
     
@@ -72,6 +95,7 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
         if(spdA > spdB) {
             auto resA = pkmA.attack(pkmB, actionA);
             handleResult(resA, A_TO_B);
+            EMIT_TURN_INFO(resA, actionA, A_TO_B);
             {
                 pkmA.set_curHP(
                     std::min(pkmA.get_curHP() - resA.selfDeltaHp, pkmA.get_HP()));
@@ -82,6 +106,7 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
             
             auto resB = pkmB.attack(pkmA, actionB);
             handleResult(resB, B_TO_A);
+            EMIT_TURN_INFO(resB, actionB, B_TO_A);
             {
                 pkmA.set_curHP(
                     std::min(pkmA.get_curHP() - resB.destDeltaHp, pkmA.get_HP()));
@@ -93,6 +118,7 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
         else if (spdA < spdB) {
             auto resB = pkmB.attack(pkmA, actionB);
             handleResult(resB, B_TO_A);
+            EMIT_TURN_INFO(resB, actionB, B_TO_A);
             {
                 pkmA.set_curHP(
                     std::min(pkmA.get_curHP() - resB.destDeltaHp, pkmA.get_HP()));
@@ -103,6 +129,7 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
                     
             auto resA = pkmA.attack(pkmB, actionA);
             handleResult(resA, A_TO_B);
+            EMIT_TURN_INFO(resA, actionA, A_TO_B);
             {
                 pkmA.set_curHP(
                     std::min(pkmA.get_curHP() - resA.selfDeltaHp, pkmA.get_HP()));

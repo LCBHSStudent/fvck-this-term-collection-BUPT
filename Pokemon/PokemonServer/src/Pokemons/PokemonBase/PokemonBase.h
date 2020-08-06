@@ -96,7 +96,7 @@ public RESOURCE:
         UNDEFINED_ATTR
     };
     enum BuffType {
-        ATK_UP_S = 0,   ATK_UP_M, ATK_UP_L,
+        ATK_UP_S = 1,   ATK_UP_M, ATK_UP_L,
         DEF_UP_S,       DEF_UP_M, DEF_UP_L,
         SPD_UP_S,       SPD_UP_M, SPD_UP_L,
         ATK_DOWN_S, ATK_DOWN_M, ATK_DOWN_L,

@@ -48,7 +48,7 @@ struct TableStruct_BattleProtocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[8]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[9]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -59,6 +59,9 @@ namespace BattleProtocol {
 class BattleFinishInfo;
 class BattleFinishInfoDefaultTypeInternal;
 extern BattleFinishInfoDefaultTypeInternal _BattleFinishInfo_default_instance_;
+class BattleGiveupInfo;
+class BattleGiveupInfoDefaultTypeInternal;
+extern BattleGiveupInfoDefaultTypeInternal _BattleGiveupInfo_default_instance_;
 class BattleInviteRequest;
 class BattleInviteRequestDefaultTypeInternal;
 extern BattleInviteRequestDefaultTypeInternal _BattleInviteRequest_default_instance_;
@@ -83,6 +86,7 @@ extern ChooseTrophieRequestDefaultTypeInternal _ChooseTrophieRequest_default_ins
 }  // namespace BattleProtocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::BattleProtocol::BattleFinishInfo* Arena::CreateMaybeMessage<::BattleProtocol::BattleFinishInfo>(Arena*);
+template<> ::BattleProtocol::BattleGiveupInfo* Arena::CreateMaybeMessage<::BattleProtocol::BattleGiveupInfo>(Arena*);
 template<> ::BattleProtocol::BattleInviteRequest* Arena::CreateMaybeMessage<::BattleProtocol::BattleInviteRequest>(Arena*);
 template<> ::BattleProtocol::BattleInviteResponse* Arena::CreateMaybeMessage<::BattleProtocol::BattleInviteResponse>(Arena*);
 template<> ::BattleProtocol::BattleOperationInfo* Arena::CreateMaybeMessage<::BattleProtocol::BattleOperationInfo>(Arena*);
@@ -311,63 +315,47 @@ class BattleTurnInfo PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kSelfSkillNameFieldNumber = 1,
-    kDestSkillNameFieldNumber = 2,
+    kSkillNameFieldNumber = 1,
+    kTypeFieldNumber = 2,
     kSelfDeltaHPFieldNumber = 3,
     kDestDeltaHPFieldNumber = 4,
     kSelfBuffIDFieldNumber = 5,
-    kDestBuffIDFieldNumber = 6,
-    kSelfBuffLastFieldNumber = 7,
+    kSelfBuffLastFieldNumber = 6,
+    kDestBuffIDFieldNumber = 7,
     kDestBuffLastFieldNumber = 8,
   };
-  // bytes selfSkillName = 1;
-  void clear_selfskillname();
-  const std::string& selfskillname() const;
-  void set_selfskillname(const std::string& value);
-  void set_selfskillname(std::string&& value);
-  void set_selfskillname(const char* value);
-  void set_selfskillname(const void* value, size_t size);
-  std::string* mutable_selfskillname();
-  std::string* release_selfskillname();
-  void set_allocated_selfskillname(std::string* selfskillname);
+  // bytes skillName = 1;
+  void clear_skillname();
+  const std::string& skillname() const;
+  void set_skillname(const std::string& value);
+  void set_skillname(std::string&& value);
+  void set_skillname(const char* value);
+  void set_skillname(const void* value, size_t size);
+  std::string* mutable_skillname();
+  std::string* release_skillname();
+  void set_allocated_skillname(std::string* skillname);
   GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
   "    string fields are deprecated and will be removed in a"
   "    future release.")
-  std::string* unsafe_arena_release_selfskillname();
+  std::string* unsafe_arena_release_skillname();
   GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
   "    string fields are deprecated and will be removed in a"
   "    future release.")
-  void unsafe_arena_set_allocated_selfskillname(
-      std::string* selfskillname);
+  void unsafe_arena_set_allocated_skillname(
+      std::string* skillname);
   private:
-  const std::string& _internal_selfskillname() const;
-  void _internal_set_selfskillname(const std::string& value);
-  std::string* _internal_mutable_selfskillname();
+  const std::string& _internal_skillname() const;
+  void _internal_set_skillname(const std::string& value);
+  std::string* _internal_mutable_skillname();
   public:
 
-  // bytes destSkillName = 2;
-  void clear_destskillname();
-  const std::string& destskillname() const;
-  void set_destskillname(const std::string& value);
-  void set_destskillname(std::string&& value);
-  void set_destskillname(const char* value);
-  void set_destskillname(const void* value, size_t size);
-  std::string* mutable_destskillname();
-  std::string* release_destskillname();
-  void set_allocated_destskillname(std::string* destskillname);
-  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
-  "    string fields are deprecated and will be removed in a"
-  "    future release.")
-  std::string* unsafe_arena_release_destskillname();
-  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
-  "    string fields are deprecated and will be removed in a"
-  "    future release.")
-  void unsafe_arena_set_allocated_destskillname(
-      std::string* destskillname);
+  // int32 type = 2;
+  void clear_type();
+  ::PROTOBUF_NAMESPACE_ID::int32 type() const;
+  void set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  const std::string& _internal_destskillname() const;
-  void _internal_set_destskillname(const std::string& value);
-  std::string* _internal_mutable_destskillname();
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_type() const;
+  void _internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // int32 selfDeltaHP = 3;
@@ -397,22 +385,22 @@ class BattleTurnInfo PROTOBUF_FINAL :
   void _internal_set_selfbuffid(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 destBuffID = 6;
-  void clear_destbuffid();
-  ::PROTOBUF_NAMESPACE_ID::int32 destbuffid() const;
-  void set_destbuffid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_destbuffid() const;
-  void _internal_set_destbuffid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 selfBuffLast = 7;
+  // int32 selfBuffLast = 6;
   void clear_selfbufflast();
   ::PROTOBUF_NAMESPACE_ID::int32 selfbufflast() const;
   void set_selfbufflast(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
   ::PROTOBUF_NAMESPACE_ID::int32 _internal_selfbufflast() const;
   void _internal_set_selfbufflast(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 destBuffID = 7;
+  void clear_destbuffid();
+  ::PROTOBUF_NAMESPACE_ID::int32 destbuffid() const;
+  void set_destbuffid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_destbuffid() const;
+  void _internal_set_destbuffid(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // int32 destBuffLast = 8;
@@ -431,13 +419,13 @@ class BattleTurnInfo PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr selfskillname_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr destskillname_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr skillname_;
+  ::PROTOBUF_NAMESPACE_ID::int32 type_;
   ::PROTOBUF_NAMESPACE_ID::int32 selfdeltahp_;
   ::PROTOBUF_NAMESPACE_ID::int32 destdeltahp_;
   ::PROTOBUF_NAMESPACE_ID::int32 selfbuffid_;
-  ::PROTOBUF_NAMESPACE_ID::int32 destbuffid_;
   ::PROTOBUF_NAMESPACE_ID::int32 selfbufflast_;
+  ::PROTOBUF_NAMESPACE_ID::int32 destbuffid_;
   ::PROTOBUF_NAMESPACE_ID::int32 destbufflast_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_BattleProtocol_2eproto;
@@ -557,9 +545,45 @@ class BattleOperationInfo PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kSkillIndexFieldNumber = 1,
+    kUserNameFieldNumber = 3,
+    kIsUserAFieldNumber = 1,
+    kSkillIndexFieldNumber = 2,
   };
-  // int32 skillIndex = 1;
+  // bytes userName = 3;
+  void clear_username();
+  const std::string& username() const;
+  void set_username(const std::string& value);
+  void set_username(std::string&& value);
+  void set_username(const char* value);
+  void set_username(const void* value, size_t size);
+  std::string* mutable_username();
+  std::string* release_username();
+  void set_allocated_username(std::string* username);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_username();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_username(
+      std::string* username);
+  private:
+  const std::string& _internal_username() const;
+  void _internal_set_username(const std::string& value);
+  std::string* _internal_mutable_username();
+  public:
+
+  // int32 isUserA = 1;
+  void clear_isusera();
+  ::PROTOBUF_NAMESPACE_ID::int32 isusera() const;
+  void set_isusera(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_isusera() const;
+  void _internal_set_isusera(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 skillIndex = 2;
   void clear_skillindex();
   ::PROTOBUF_NAMESPACE_ID::int32 skillindex() const;
   void set_skillindex(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -575,6 +599,8 @@ class BattleOperationInfo PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr username_;
+  ::PROTOBUF_NAMESPACE_ID::int32 isusera_;
   ::PROTOBUF_NAMESPACE_ID::int32 skillindex_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_BattleProtocol_2eproto;
@@ -1518,6 +1544,159 @@ class BattleInviteResponse PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
+class BattleGiveupInfo PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:BattleProtocol.BattleGiveupInfo) */ {
+ public:
+  inline BattleGiveupInfo() : BattleGiveupInfo(nullptr) {};
+  virtual ~BattleGiveupInfo();
+
+  BattleGiveupInfo(const BattleGiveupInfo& from);
+  BattleGiveupInfo(BattleGiveupInfo&& from) noexcept
+    : BattleGiveupInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline BattleGiveupInfo& operator=(const BattleGiveupInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BattleGiveupInfo& operator=(BattleGiveupInfo&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const BattleGiveupInfo& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const BattleGiveupInfo* internal_default_instance() {
+    return reinterpret_cast<const BattleGiveupInfo*>(
+               &_BattleGiveupInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  friend void swap(BattleGiveupInfo& a, BattleGiveupInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(BattleGiveupInfo* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BattleGiveupInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline BattleGiveupInfo* New() const final {
+    return CreateMaybeMessage<BattleGiveupInfo>(nullptr);
+  }
+
+  BattleGiveupInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<BattleGiveupInfo>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const BattleGiveupInfo& from);
+  void MergeFrom(const BattleGiveupInfo& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(BattleGiveupInfo* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "BattleProtocol.BattleGiveupInfo";
+  }
+  protected:
+  explicit BattleGiveupInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_BattleProtocol_2eproto);
+    return ::descriptor_table_BattleProtocol_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUserNameFieldNumber = 1,
+  };
+  // bytes userName = 1;
+  void clear_username();
+  const std::string& username() const;
+  void set_username(const std::string& value);
+  void set_username(std::string&& value);
+  void set_username(const char* value);
+  void set_username(const void* value, size_t size);
+  std::string* mutable_username();
+  std::string* release_username();
+  void set_allocated_username(std::string* username);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_username();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_username(
+      std::string* username);
+  private:
+  const std::string& _internal_username() const;
+  void _internal_set_username(const std::string& value);
+  std::string* _internal_mutable_username();
+  public:
+
+  // @@protoc_insertion_point(class_scope:BattleProtocol.BattleGiveupInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr username_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_BattleProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
 class ChooseTrophieRequest PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:BattleProtocol.ChooseTrophieRequest) */ {
  public:
@@ -1560,7 +1739,7 @@ class ChooseTrophieRequest PROTOBUF_FINAL :
                &_ChooseTrophieRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   friend void swap(ChooseTrophieRequest& a, ChooseTrophieRequest& b) {
     a.Swap(&b);
@@ -1686,166 +1865,105 @@ class ChooseTrophieRequest PROTOBUF_FINAL :
 #endif  // __GNUC__
 // BattleTurnInfo
 
-// bytes selfSkillName = 1;
-inline void BattleTurnInfo::clear_selfskillname() {
-  selfskillname_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+// bytes skillName = 1;
+inline void BattleTurnInfo::clear_skillname() {
+  skillname_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline const std::string& BattleTurnInfo::selfskillname() const {
-  // @@protoc_insertion_point(field_get:BattleProtocol.BattleTurnInfo.selfSkillName)
-  return _internal_selfskillname();
+inline const std::string& BattleTurnInfo::skillname() const {
+  // @@protoc_insertion_point(field_get:BattleProtocol.BattleTurnInfo.skillName)
+  return _internal_skillname();
 }
-inline void BattleTurnInfo::set_selfskillname(const std::string& value) {
-  _internal_set_selfskillname(value);
-  // @@protoc_insertion_point(field_set:BattleProtocol.BattleTurnInfo.selfSkillName)
+inline void BattleTurnInfo::set_skillname(const std::string& value) {
+  _internal_set_skillname(value);
+  // @@protoc_insertion_point(field_set:BattleProtocol.BattleTurnInfo.skillName)
 }
-inline std::string* BattleTurnInfo::mutable_selfskillname() {
-  // @@protoc_insertion_point(field_mutable:BattleProtocol.BattleTurnInfo.selfSkillName)
-  return _internal_mutable_selfskillname();
+inline std::string* BattleTurnInfo::mutable_skillname() {
+  // @@protoc_insertion_point(field_mutable:BattleProtocol.BattleTurnInfo.skillName)
+  return _internal_mutable_skillname();
 }
-inline const std::string& BattleTurnInfo::_internal_selfskillname() const {
-  return selfskillname_.Get();
+inline const std::string& BattleTurnInfo::_internal_skillname() const {
+  return skillname_.Get();
 }
-inline void BattleTurnInfo::_internal_set_selfskillname(const std::string& value) {
+inline void BattleTurnInfo::_internal_set_skillname(const std::string& value) {
   
-  selfskillname_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+  skillname_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
 }
-inline void BattleTurnInfo::set_selfskillname(std::string&& value) {
+inline void BattleTurnInfo::set_skillname(std::string&& value) {
   
-  selfskillname_.Set(
+  skillname_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:BattleProtocol.BattleTurnInfo.selfSkillName)
+  // @@protoc_insertion_point(field_set_rvalue:BattleProtocol.BattleTurnInfo.skillName)
 }
-inline void BattleTurnInfo::set_selfskillname(const char* value) {
+inline void BattleTurnInfo::set_skillname(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
-  selfskillname_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  skillname_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:BattleProtocol.BattleTurnInfo.selfSkillName)
+  // @@protoc_insertion_point(field_set_char:BattleProtocol.BattleTurnInfo.skillName)
 }
-inline void BattleTurnInfo::set_selfskillname(const void* value,
+inline void BattleTurnInfo::set_skillname(const void* value,
     size_t size) {
   
-  selfskillname_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  skillname_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:BattleProtocol.BattleTurnInfo.selfSkillName)
+  // @@protoc_insertion_point(field_set_pointer:BattleProtocol.BattleTurnInfo.skillName)
 }
-inline std::string* BattleTurnInfo::_internal_mutable_selfskillname() {
+inline std::string* BattleTurnInfo::_internal_mutable_skillname() {
   
-  return selfskillname_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  return skillname_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline std::string* BattleTurnInfo::release_selfskillname() {
-  // @@protoc_insertion_point(field_release:BattleProtocol.BattleTurnInfo.selfSkillName)
-  return selfskillname_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+inline std::string* BattleTurnInfo::release_skillname() {
+  // @@protoc_insertion_point(field_release:BattleProtocol.BattleTurnInfo.skillName)
+  return skillname_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void BattleTurnInfo::set_allocated_selfskillname(std::string* selfskillname) {
-  if (selfskillname != nullptr) {
+inline void BattleTurnInfo::set_allocated_skillname(std::string* skillname) {
+  if (skillname != nullptr) {
     
   } else {
     
   }
-  selfskillname_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), selfskillname,
+  skillname_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), skillname,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:BattleProtocol.BattleTurnInfo.selfSkillName)
+  // @@protoc_insertion_point(field_set_allocated:BattleProtocol.BattleTurnInfo.skillName)
 }
-inline std::string* BattleTurnInfo::unsafe_arena_release_selfskillname() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:BattleProtocol.BattleTurnInfo.selfSkillName)
+inline std::string* BattleTurnInfo::unsafe_arena_release_skillname() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:BattleProtocol.BattleTurnInfo.skillName)
   GOOGLE_DCHECK(GetArena() != nullptr);
   
-  return selfskillname_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+  return skillname_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       GetArena());
 }
-inline void BattleTurnInfo::unsafe_arena_set_allocated_selfskillname(
-    std::string* selfskillname) {
+inline void BattleTurnInfo::unsafe_arena_set_allocated_skillname(
+    std::string* skillname) {
   GOOGLE_DCHECK(GetArena() != nullptr);
-  if (selfskillname != nullptr) {
+  if (skillname != nullptr) {
     
   } else {
     
   }
-  selfskillname_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      selfskillname, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:BattleProtocol.BattleTurnInfo.selfSkillName)
+  skillname_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      skillname, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:BattleProtocol.BattleTurnInfo.skillName)
 }
 
-// bytes destSkillName = 2;
-inline void BattleTurnInfo::clear_destskillname() {
-  destskillname_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+// int32 type = 2;
+inline void BattleTurnInfo::clear_type() {
+  type_ = 0;
 }
-inline const std::string& BattleTurnInfo::destskillname() const {
-  // @@protoc_insertion_point(field_get:BattleProtocol.BattleTurnInfo.destSkillName)
-  return _internal_destskillname();
+inline ::PROTOBUF_NAMESPACE_ID::int32 BattleTurnInfo::_internal_type() const {
+  return type_;
 }
-inline void BattleTurnInfo::set_destskillname(const std::string& value) {
-  _internal_set_destskillname(value);
-  // @@protoc_insertion_point(field_set:BattleProtocol.BattleTurnInfo.destSkillName)
+inline ::PROTOBUF_NAMESPACE_ID::int32 BattleTurnInfo::type() const {
+  // @@protoc_insertion_point(field_get:BattleProtocol.BattleTurnInfo.type)
+  return _internal_type();
 }
-inline std::string* BattleTurnInfo::mutable_destskillname() {
-  // @@protoc_insertion_point(field_mutable:BattleProtocol.BattleTurnInfo.destSkillName)
-  return _internal_mutable_destskillname();
-}
-inline const std::string& BattleTurnInfo::_internal_destskillname() const {
-  return destskillname_.Get();
-}
-inline void BattleTurnInfo::_internal_set_destskillname(const std::string& value) {
+inline void BattleTurnInfo::_internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
-  destskillname_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+  type_ = value;
 }
-inline void BattleTurnInfo::set_destskillname(std::string&& value) {
-  
-  destskillname_.Set(
-    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:BattleProtocol.BattleTurnInfo.destSkillName)
-}
-inline void BattleTurnInfo::set_destskillname(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  destskillname_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
-              GetArena());
-  // @@protoc_insertion_point(field_set_char:BattleProtocol.BattleTurnInfo.destSkillName)
-}
-inline void BattleTurnInfo::set_destskillname(const void* value,
-    size_t size) {
-  
-  destskillname_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
-      reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:BattleProtocol.BattleTurnInfo.destSkillName)
-}
-inline std::string* BattleTurnInfo::_internal_mutable_destskillname() {
-  
-  return destskillname_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline std::string* BattleTurnInfo::release_destskillname() {
-  // @@protoc_insertion_point(field_release:BattleProtocol.BattleTurnInfo.destSkillName)
-  return destskillname_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline void BattleTurnInfo::set_allocated_destskillname(std::string* destskillname) {
-  if (destskillname != nullptr) {
-    
-  } else {
-    
-  }
-  destskillname_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), destskillname,
-      GetArena());
-  // @@protoc_insertion_point(field_set_allocated:BattleProtocol.BattleTurnInfo.destSkillName)
-}
-inline std::string* BattleTurnInfo::unsafe_arena_release_destskillname() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:BattleProtocol.BattleTurnInfo.destSkillName)
-  GOOGLE_DCHECK(GetArena() != nullptr);
-  
-  return destskillname_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      GetArena());
-}
-inline void BattleTurnInfo::unsafe_arena_set_allocated_destskillname(
-    std::string* destskillname) {
-  GOOGLE_DCHECK(GetArena() != nullptr);
-  if (destskillname != nullptr) {
-    
-  } else {
-    
-  }
-  destskillname_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      destskillname, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:BattleProtocol.BattleTurnInfo.destSkillName)
+inline void BattleTurnInfo::set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_type(value);
+  // @@protoc_insertion_point(field_set:BattleProtocol.BattleTurnInfo.type)
 }
 
 // int32 selfDeltaHP = 3;
@@ -1908,27 +2026,7 @@ inline void BattleTurnInfo::set_selfbuffid(::PROTOBUF_NAMESPACE_ID::int32 value)
   // @@protoc_insertion_point(field_set:BattleProtocol.BattleTurnInfo.selfBuffID)
 }
 
-// int32 destBuffID = 6;
-inline void BattleTurnInfo::clear_destbuffid() {
-  destbuffid_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 BattleTurnInfo::_internal_destbuffid() const {
-  return destbuffid_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 BattleTurnInfo::destbuffid() const {
-  // @@protoc_insertion_point(field_get:BattleProtocol.BattleTurnInfo.destBuffID)
-  return _internal_destbuffid();
-}
-inline void BattleTurnInfo::_internal_set_destbuffid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  destbuffid_ = value;
-}
-inline void BattleTurnInfo::set_destbuffid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_destbuffid(value);
-  // @@protoc_insertion_point(field_set:BattleProtocol.BattleTurnInfo.destBuffID)
-}
-
-// int32 selfBuffLast = 7;
+// int32 selfBuffLast = 6;
 inline void BattleTurnInfo::clear_selfbufflast() {
   selfbufflast_ = 0;
 }
@@ -1946,6 +2044,26 @@ inline void BattleTurnInfo::_internal_set_selfbufflast(::PROTOBUF_NAMESPACE_ID::
 inline void BattleTurnInfo::set_selfbufflast(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_selfbufflast(value);
   // @@protoc_insertion_point(field_set:BattleProtocol.BattleTurnInfo.selfBuffLast)
+}
+
+// int32 destBuffID = 7;
+inline void BattleTurnInfo::clear_destbuffid() {
+  destbuffid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 BattleTurnInfo::_internal_destbuffid() const {
+  return destbuffid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 BattleTurnInfo::destbuffid() const {
+  // @@protoc_insertion_point(field_get:BattleProtocol.BattleTurnInfo.destBuffID)
+  return _internal_destbuffid();
+}
+inline void BattleTurnInfo::_internal_set_destbuffid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  destbuffid_ = value;
+}
+inline void BattleTurnInfo::set_destbuffid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_destbuffid(value);
+  // @@protoc_insertion_point(field_set:BattleProtocol.BattleTurnInfo.destBuffID)
 }
 
 // int32 destBuffLast = 8;
@@ -1972,7 +2090,27 @@ inline void BattleTurnInfo::set_destbufflast(::PROTOBUF_NAMESPACE_ID::int32 valu
 
 // BattleOperationInfo
 
-// int32 skillIndex = 1;
+// int32 isUserA = 1;
+inline void BattleOperationInfo::clear_isusera() {
+  isusera_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 BattleOperationInfo::_internal_isusera() const {
+  return isusera_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 BattleOperationInfo::isusera() const {
+  // @@protoc_insertion_point(field_get:BattleProtocol.BattleOperationInfo.isUserA)
+  return _internal_isusera();
+}
+inline void BattleOperationInfo::_internal_set_isusera(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  isusera_ = value;
+}
+inline void BattleOperationInfo::set_isusera(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_isusera(value);
+  // @@protoc_insertion_point(field_set:BattleProtocol.BattleOperationInfo.isUserA)
+}
+
+// int32 skillIndex = 2;
 inline void BattleOperationInfo::clear_skillindex() {
   skillindex_ = 0;
 }
@@ -1990,6 +2128,87 @@ inline void BattleOperationInfo::_internal_set_skillindex(::PROTOBUF_NAMESPACE_I
 inline void BattleOperationInfo::set_skillindex(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_skillindex(value);
   // @@protoc_insertion_point(field_set:BattleProtocol.BattleOperationInfo.skillIndex)
+}
+
+// bytes userName = 3;
+inline void BattleOperationInfo::clear_username() {
+  username_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& BattleOperationInfo::username() const {
+  // @@protoc_insertion_point(field_get:BattleProtocol.BattleOperationInfo.userName)
+  return _internal_username();
+}
+inline void BattleOperationInfo::set_username(const std::string& value) {
+  _internal_set_username(value);
+  // @@protoc_insertion_point(field_set:BattleProtocol.BattleOperationInfo.userName)
+}
+inline std::string* BattleOperationInfo::mutable_username() {
+  // @@protoc_insertion_point(field_mutable:BattleProtocol.BattleOperationInfo.userName)
+  return _internal_mutable_username();
+}
+inline const std::string& BattleOperationInfo::_internal_username() const {
+  return username_.Get();
+}
+inline void BattleOperationInfo::_internal_set_username(const std::string& value) {
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void BattleOperationInfo::set_username(std::string&& value) {
+  
+  username_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:BattleProtocol.BattleOperationInfo.userName)
+}
+inline void BattleOperationInfo::set_username(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:BattleProtocol.BattleOperationInfo.userName)
+}
+inline void BattleOperationInfo::set_username(const void* value,
+    size_t size) {
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:BattleProtocol.BattleOperationInfo.userName)
+}
+inline std::string* BattleOperationInfo::_internal_mutable_username() {
+  
+  return username_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* BattleOperationInfo::release_username() {
+  // @@protoc_insertion_point(field_release:BattleProtocol.BattleOperationInfo.userName)
+  return username_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void BattleOperationInfo::set_allocated_username(std::string* username) {
+  if (username != nullptr) {
+    
+  } else {
+    
+  }
+  username_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), username,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:BattleProtocol.BattleOperationInfo.userName)
+}
+inline std::string* BattleOperationInfo::unsafe_arena_release_username() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:BattleProtocol.BattleOperationInfo.userName)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return username_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void BattleOperationInfo::unsafe_arena_set_allocated_username(
+    std::string* username) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (username != nullptr) {
+    
+  } else {
+    
+  }
+  username_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      username, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:BattleProtocol.BattleOperationInfo.userName)
 }
 
 // -------------------------------------------------------------------
@@ -2619,6 +2838,91 @@ inline void BattleInviteResponse::set_flag(::BattleProtocol::BattleStartStatus v
 
 // -------------------------------------------------------------------
 
+// BattleGiveupInfo
+
+// bytes userName = 1;
+inline void BattleGiveupInfo::clear_username() {
+  username_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& BattleGiveupInfo::username() const {
+  // @@protoc_insertion_point(field_get:BattleProtocol.BattleGiveupInfo.userName)
+  return _internal_username();
+}
+inline void BattleGiveupInfo::set_username(const std::string& value) {
+  _internal_set_username(value);
+  // @@protoc_insertion_point(field_set:BattleProtocol.BattleGiveupInfo.userName)
+}
+inline std::string* BattleGiveupInfo::mutable_username() {
+  // @@protoc_insertion_point(field_mutable:BattleProtocol.BattleGiveupInfo.userName)
+  return _internal_mutable_username();
+}
+inline const std::string& BattleGiveupInfo::_internal_username() const {
+  return username_.Get();
+}
+inline void BattleGiveupInfo::_internal_set_username(const std::string& value) {
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void BattleGiveupInfo::set_username(std::string&& value) {
+  
+  username_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:BattleProtocol.BattleGiveupInfo.userName)
+}
+inline void BattleGiveupInfo::set_username(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:BattleProtocol.BattleGiveupInfo.userName)
+}
+inline void BattleGiveupInfo::set_username(const void* value,
+    size_t size) {
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:BattleProtocol.BattleGiveupInfo.userName)
+}
+inline std::string* BattleGiveupInfo::_internal_mutable_username() {
+  
+  return username_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* BattleGiveupInfo::release_username() {
+  // @@protoc_insertion_point(field_release:BattleProtocol.BattleGiveupInfo.userName)
+  return username_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void BattleGiveupInfo::set_allocated_username(std::string* username) {
+  if (username != nullptr) {
+    
+  } else {
+    
+  }
+  username_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), username,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:BattleProtocol.BattleGiveupInfo.userName)
+}
+inline std::string* BattleGiveupInfo::unsafe_arena_release_username() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:BattleProtocol.BattleGiveupInfo.userName)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return username_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void BattleGiveupInfo::unsafe_arena_set_allocated_username(
+    std::string* username) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (username != nullptr) {
+    
+  } else {
+    
+  }
+  username_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      username, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:BattleProtocol.BattleGiveupInfo.userName)
+}
+
+// -------------------------------------------------------------------
+
 // ChooseTrophieRequest
 
 // int32 pkmID_1 = 1;
@@ -2684,6 +2988,8 @@ inline void ChooseTrophieRequest::set_pkmid_3(::PROTOBUF_NAMESPACE_ID::int32 val
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

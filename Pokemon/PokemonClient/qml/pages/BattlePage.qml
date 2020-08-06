@@ -15,6 +15,7 @@ Page {
         height: parent.height
     }
     
+    property var isUserA: 1
     property var taCurHP: 12
     property var taMaxHP: 12
     property var myCurHP: 12
@@ -25,7 +26,7 @@ Page {
     
     
     Audio {
-        loops: Audio.Infinite
+        loops: 999
         source: "qrc:/res/audio/battle_" + (root.getRandomInt(4)+1) +  ".mp3"
         autoPlay: true
     }
@@ -38,7 +39,7 @@ Page {
         anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom
-            bottomMargin: utils.dp(85)
+            bottomMargin: utils.dp(90)
         }
         scale: 1.3
         source: "qrc:/res/image/character/" + myPkmType + ".gif"
@@ -63,7 +64,7 @@ Page {
         anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom
-            bottomMargin: utils.dp(265)
+            bottomMargin: utils.dp(270)
         }
         scale: 1.2
         source: "qrc:/res/image/character/" + taPkmType + "_oppo.gif"
@@ -86,7 +87,7 @@ Page {
     Column {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: utils.dp(40)
+        anchors.bottomMargin: utils.dp(120)
         spacing: utils.dp(10)
         Repeater {
             model: battlePage_t.skills
@@ -106,6 +107,9 @@ Page {
                                 "qrc:/res/ui/skill_slot_" + (index + 1) + ".png"
                         }
                     }
+                    onClicked: {
+                        backend.sendBattleSkillIndex(isUserA, index)
+                    }
                 }
                 Item {
                     clip: true
@@ -118,7 +122,7 @@ Page {
                     Text {
                         text: modelData
                         anchors.centerIn: parent
-                        font.pixelSize: utils.dp(14)
+                        font.pixelSize: utils.dp(13)
                         font.family: "微软雅黑"
                         font.bold: true
                         color: "#B0000000"
@@ -138,11 +142,17 @@ Page {
         pressColor: utils.colorPomegranate
         releaseColor: utils.colorAlizarin
         onClicked: {
-            stack.pop()
+            popup.showPopup("逃离战斗", "\n\n确定要这样做吗")
         }
     }
     
     // ------------------ battle infomation displayer ------------- //
+    MText {
+        color: "#77000000"
+        text: "Battle Log"
+        anchors.centerIn: messageView
+    }
+    
     ScrollView {
         id: messageView
         clip: true
@@ -172,10 +182,26 @@ Page {
         }
     }
     
+    TwoBtnToast {
+        id: popup
+        contentW: parent.width * 0.8
+        contentH: contentW * 0.8
+        
+        onConfirmed: {
+            backend.sendBattleGiveupInfo()
+        }
+        onCanceled: {
+            console.debug("canceled escaping")
+        }
+    }
+    
     Connections {
         target: backend
-        // onSigGetBattleTurnInfo: {
-        // 
-        // }
+        onSigGetBattleTurnInfo: {
+            console.log("get battle turn info")
+        }
+        onSigGetBattleFinishInfo: {
+            console.log("get battle finish info")
+        }
     }
 }

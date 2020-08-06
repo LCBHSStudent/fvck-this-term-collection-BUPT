@@ -34,6 +34,10 @@ signals:
         sigGetBattleInviteRequest(QString fromUser, int battleMode);
     void
         sigGetBattleStartResponse(int status, int isUserA, int urPkmId, int taPkmId);
+    void
+        sigGetBattleTurnInfo(QVariantMap info);
+    void
+        sigGetBattleFinishInfo(int result, int mode);
     
 public slots:
     void
@@ -56,6 +60,10 @@ public FUNCTION:
         sendBattleStartRequest(int mode, QString destName);
     Q_INVOKABLE void
         sendBattleInviteResponse(int flag, int battleMode, QString fromUser);    
+    Q_INVOKABLE void
+        sendBattleSkillIndex(int isUserA, int index);
+    Q_INVOKABLE void
+        sendBattleGiveupInfo();
     
     QString
         getUserName() const {return m_userName;}

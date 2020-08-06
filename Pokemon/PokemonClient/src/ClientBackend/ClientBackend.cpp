@@ -141,8 +141,37 @@ void ClientBackend::slotGetServerMessage(QByteArray data) {
         
         emit sigGetBattleStartResponse(
             info.status(), info.isusera(), info.urpkmid(), info.tapkmid());
-    }
+    } break;
     
+    case BattleTurnInfo: {
+        BattleProtocol::BattleTurnInfo info = {};
+        info.ParseFromArray(data.data()+4, data.size()-4);
+        
+        info.PrintDebugString();
+        
+        QVariantMap data = {};
+        data["type"]            = info.type();
+        data["skillName"]       = QString::fromStdString(info.skillname());
+        data["selfDeltaHP"]     = info.selfdeltahp();
+        data["destDeltaHP"]     = info.destdeltahp();
+        data["selfBuffID"]      = info.selfbuffid();
+        data["selfBuffLast"]    = info.selfbufflast();
+        data["destBuffID"]      = info.destbuffid();
+        data["destBuffLast"]    = info.destbufflast();
+        
+        emit sigGetBattleTurnInfo(data);
+    } break;
+    
+    case BattleFinishInfo: {
+        BattleProtocol::BattleFinishInfo info = {};
+        info.ParseFromArray(data.data()+4, data.size()-4);
+        
+        info.PrintDebugString();
+        
+        emit sigGetBattleFinishInfo(info.result(), info.mode());
+    } break;
+        
+        
     default:
         break;
     }
@@ -248,6 +277,27 @@ void ClientBackend::sendBattleInviteResponse(
     
     PROC_PROTODATA(BattleInviteResponse, resInfo);
 }
+
+void ClientBackend::sendBattleSkillIndex(int isUserA, int index) {
+    CHECK_SOCKET_STATUS;
+
+    BattleProtocol::BattleOperationInfo info = {};
+    info.set_isusera(isUserA);
+    info.set_skillindex(index);
+    info.set_username(m_userName.toStdString());
+    
+    PROC_PROTODATA(BattleOperationInfo, info);
+}
+
+void ClientBackend::sendBattleGiveupInfo() {
+    CHECK_SOCKET_STATUS;
+    
+    BattleProtocol::BattleGiveupInfo info = {};
+    info.set_username(m_userName.toStdString());
+    
+    PROC_PROTODATA(BattleGiveupInfo, info);
+}
+
 //    QList<QString> nameList = {};
 //    nameList.append("ASD");
 //    nameList.append("ASD");

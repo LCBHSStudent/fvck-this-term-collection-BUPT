@@ -32,6 +32,12 @@ private slots:
     NET_SLOT(RequestOnlineUserList);
     NET_SLOT(BattleInvite);
     NET_SLOT(HandleBattleInviteResponse);
+    NET_SLOT(HandleBattleOperation);
+    
+    void
+        slotGetTurnInfo(BattleField::TurnInfo info);
+    void
+        slotGetBattleResult(User* winner);
     
 private RESOURCE:
     NetworkHelper* 
@@ -42,9 +48,6 @@ private RESOURCE:
         m_userList = {};
     QList<BattleField*>
         m_battleFieldList = {};
-    
-    QList<PokemonBase*>
-        m_serverPkm = {};
 };
 
 #endif // SERVERBACKEND_H

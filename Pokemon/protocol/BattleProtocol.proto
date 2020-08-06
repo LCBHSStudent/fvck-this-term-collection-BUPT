@@ -3,19 +3,20 @@ syntax = "proto3";
 package BattleProtocol;
 
 message BattleTurnInfo {
-    bytes   selfSkillName   = 1;
-    bytes   destSkillName   = 2;
+    bytes   skillName       = 1;
+    int32   type            = 2;
     int32   selfDeltaHP     = 3;
     int32   destDeltaHP     = 4;
     int32   selfBuffID      = 5;
-    int32   destBuffID      = 6;
-    int32   selfBuffLast    = 7;
+    int32   selfBuffLast    = 6;
+    int32   destBuffID      = 7;
     int32   destBuffLast    = 8;
 };
 
 message BattleOperationInfo {
-//  bytes   skillName   = 1;
-    int32   skillIndex  = 1;
+    int32   isUserA     = 1;
+    int32   skillIndex  = 2;
+    bytes   userName    = 3;
 };
 
 message BattleFinishInfo {
@@ -58,15 +59,19 @@ message BattleStartResponse {
 };
 
 message BattleInviteRequest {
-    int32   battleMode  = 1; 
+    int32   battleMode  = 1;
     bytes   fromUser    = 2;
 };
 
 message BattleInviteResponse {
-    int32   battleMode      = 1; 
+    int32   battleMode      = 1;
     bytes   fromUser        = 2;
     bytes   destUser        = 3;
     BattleStartStatus flag  = 4;
+};
+
+message BattleGiveupInfo {
+    bytes   userName = 1;
 };
 
 message ChooseTrophieRequest {

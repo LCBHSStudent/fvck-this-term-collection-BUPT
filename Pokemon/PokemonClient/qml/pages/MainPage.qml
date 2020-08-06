@@ -257,6 +257,7 @@ Page {
             switch (status) {
             case 0:
                 stack.push("BattlePage.qml")
+                stack.currentItem
                 break
             case 1:
                 popup.showPopup("对方拒绝了您的邀请", "知道了")
@@ -564,6 +565,8 @@ Page {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: utils.dp(5)
+                        
+                        Component.onCompleted: console.log(status)
                     }
                 }
             }

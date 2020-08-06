@@ -54,13 +54,13 @@ ServerBackend::ServerBackend():
 }
 
 ServerBackend::~ServerBackend() {
-    // RELEASE TCP SOCKET SERVER HELPER
+    // RELEASE ALL BATTLE FIELD
+    for (auto battle: m_battleFieldList) {
+        delete battle;
+    }
+    // RELEASE TCP SOCKET SERVER HELPER    
     if(m_helper) {
         delete m_helper;
-    }
-    for(auto& pData: m_serverPkm) {
-        delete pData;
-        pData = nullptr;
     }
 }
 
@@ -107,6 +107,9 @@ void ServerBackend::slotGetMessage(
         break;        
     case MessageType::BattleInviteResponse:
         CALL_SLOT(HandleBattleInviteResponse);
+        break;
+    case MessageType::BattleOperationInfo:
+        CALL_SLOT(HandleBattleOperation);
         break;
 //    case MessageType::BattleStartRequest:
 //        CALL_SLOT(StartBattle);
@@ -526,11 +529,21 @@ NET_SLOT(BattleInvite) {
     }
     
     if (destUser == "_server") {
-        auto pkmA = PokemonFactory::CreatePokemon(fromUser, 1);
-        auto pkmB = PokemonFactory::CreatePokemon(destUser, 1);
-        m_battleFieldList.push_back(
-            new BattleField(userA, nullptr, pkmA, pkmB)
-        );
+        {
+            auto pkmA = PokemonFactory::CreatePokemon(fromUser, 1);
+            auto pkmB = PokemonFactory::CreatePokemon(destUser, 1);
+            auto battle = new BattleField(userA, nullptr, pkmA, pkmB);
+            connect(
+                battle, &BattleField::sigTurnInfoReady,
+                this,   &ServerBackend::slotGetTurnInfo
+            );
+            connect(
+                battle, &BattleField::sigBattleFinished,
+                this,   &ServerBackend::slotGetBattleResult
+            );
+            m_battleFieldList.push_back(battle);
+        }
+        
         userA->set_status(User::UserStatus::BATTLING);
         
         BattleProtocol::BattleStartResponse resInfo = {};
@@ -623,7 +636,7 @@ NET_SLOT(HandleBattleInviteResponse) {
     startInfoA.PrintDebugString();
     startInfoB.PrintDebugString();
     
-    // avoid redefination of variables 
+    // avoid redefination of variables
     {
         PROC_PROTODATA_WITH_DEST(
             BattleStartResponse, startInfoA, pUserA->get_userSocket());
@@ -631,5 +644,118 @@ NET_SLOT(HandleBattleInviteResponse) {
     {
         PROC_PROTODATA_WITH_DEST(
             BattleStartResponse, startInfoA, pUserA->get_userSocket());
+    }
+}
+
+NET_SLOT(HandleBattleOperation) {
+    BattleProtocol::BattleOperationInfo info = {};
+    info.ParseFromArray(data.data(), data.size());
+    
+    info.PrintDebugString();
+    
+    int     isUserA     = info.isusera();
+    int     skillIndex  = info.skillindex();
+    QString userName    = QString::fromStdString(info.username());
+    
+    for (int i = 0; i < m_battleFieldList.size(); i++) {
+        auto battle = m_battleFieldList[i];
+        if (isUserA) {
+            if (battle->getUserA()->get_name() == userName) {
+                battle->setAction(skillIndex, 0);
+                if (battle->getUserB() == nullptr) {
+                    battle->setAction(
+                        QRandomGenerator::global()->bounded(4), 1);
+                }
+            }
+        } else {
+            if (battle->getUserB()->get_name() == userName) {
+                battle->setAction(skillIndex, 1);
+            }
+        }
+    }
+}
+
+void ServerBackend::slotGetTurnInfo(BattleField::TurnInfo info) {
+    BattleProtocol::BattleTurnInfo infoA = {};
+    BattleProtocol::BattleTurnInfo infoB = {};
+    
+    if (info.type == BattleField::A_TO_B) {
+        infoA.set_type(BattleField::A_TO_B);
+        infoA.set_skillname(info.skillName.toStdString());
+        infoA.set_selfbuffid(info.selfBuff.buffId);
+        infoA.set_selfbufflast(info.selfBuff.turnCnt);
+        infoA.set_destbuffid(info.destBuff.buffId);
+        infoA.set_destbufflast(info.destBuff.turnCnt);
+        infoA.set_selfdeltahp(info.selfDeltaHP);
+        infoA.set_destdeltahp(info.destDeltaHP);
+        
+        infoB.set_type(BattleField::A_TO_B);
+        infoB.set_skillname(info.skillName.toStdString());
+        infoB.set_selfbuffid(info.destBuff.buffId);
+        infoB.set_selfbufflast(info.destBuff.turnCnt);
+        infoB.set_destbuffid(info.selfBuff.buffId);
+        infoB.set_destbufflast(info.selfBuff.turnCnt);
+        infoB.set_selfdeltahp(info.destDeltaHP);
+        infoB.set_destdeltahp(info.selfDeltaHP);
+    } else {
+        infoB.set_type(BattleField::B_TO_A);
+        infoB.set_skillname(info.skillName.toStdString());
+        infoB.set_selfbuffid(info.selfBuff.buffId);
+        infoB.set_selfbufflast(info.selfBuff.turnCnt);
+        infoB.set_destbuffid(info.destBuff.buffId);
+        infoB.set_destbufflast(info.destBuff.turnCnt);
+        infoB.set_selfdeltahp(info.selfDeltaHP);
+        infoB.set_destdeltahp(info.destDeltaHP);
+        
+        infoA.set_type(BattleField::A_TO_B);
+        infoA.set_skillname(info.skillName.toStdString());
+        infoA.set_selfbuffid(info.destBuff.buffId);
+        infoA.set_selfbufflast(info.destBuff.turnCnt);
+        infoA.set_destbuffid(info.selfBuff.buffId);
+        infoA.set_destbufflast(info.selfBuff.turnCnt);
+        infoA.set_selfdeltahp(info.destDeltaHP);
+        infoA.set_destdeltahp(info.selfDeltaHP);
+    }
+    infoA.PrintDebugString();
+    infoB.PrintDebugString();
+    
+    auto pBattleField = reinterpret_cast<BattleField*>(sender());
+    {
+        PROC_PROTODATA_WITH_DEST(
+            BattleTurnInfo, infoA, pBattleField->getUserA()->get_userSocket());
+    }
+    {
+        PROC_PROTODATA_WITH_DEST(
+            BattleTurnInfo, infoB, pBattleField->getUserB()->get_userSocket());
+    }
+}
+
+void ServerBackend::slotGetBattleResult(User* winner) {
+    BattleProtocol::BattleFinishInfo infoA = {};
+    BattleProtocol::BattleFinishInfo infoB = {};
+    
+    auto pBattleField = reinterpret_cast<BattleField*>(sender());
+    if (winner == pBattleField->getUserA()) {
+        infoA.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
+        infoA.set_result(BattleProtocol::BattleFinishInfo_BattleResult_WIN);
+        
+        infoB.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
+        infoB.set_result(BattleProtocol::BattleFinishInfo_BattleResult_LOSE);
+    } else {
+        infoB.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
+        infoB.set_result(BattleProtocol::BattleFinishInfo_BattleResult_WIN);
+        
+        infoA.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
+        infoA.set_result(BattleProtocol::BattleFinishInfo_BattleResult_LOSE);
+    }
+    infoA.PrintDebugString();
+    infoB.PrintDebugString();
+    {
+        PROC_PROTODATA_WITH_DEST(
+            BattleFinishInfo, infoA, pBattleField->getUserA()->get_userSocket());
+    }
+    {
+        PROC_PROTODATA_WITH_DEST(
+            BattleFinishInfo, infoB, pBattleField->getUserB()->get_userSocket());
     }
 }
