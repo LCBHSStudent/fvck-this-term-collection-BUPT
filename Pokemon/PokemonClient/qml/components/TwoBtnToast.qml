@@ -11,8 +11,6 @@ Popup {
     visible: opacity > 0
     opacity: 0
     
-    signal clicked()
-    
     Behavior on opacity {
         PropertyAnimation {
             duration: 150
@@ -125,10 +123,10 @@ Popup {
                         anchors.fill: parent
                         onClicked: {
                             if (index === 0) {
-                                
+                                toast_t.canceled()
                             }
                             else {
-                                
+                                toast_t.confirmed()
                             }
 
                             toast_t.opacity = 0

@@ -16,27 +16,31 @@
 #define CALL_SLOT(_name) \
     slot##_name(client, QByteArray(data.data()+4, data.size()-4))
 
-// ----------------Progress Before Sending Network Data---------------- //
-#define PROC_PROTODATA(_messageType, _dataBlockName) \
-    auto byteLength = _dataBlockName.ByteSizeLong();                    \
-    auto pData      = new char[byteLength + 4];                         \
-    *reinterpret_cast<int*>(pData) = MessageType::_messageType;         \
-                                                                        \
-    _dataBlockName.SerializeToArray(pData + 4, byteLength);             \
-                                                                        \
-    m_helper->sendToClient(client, QByteArray(pData, byteLength + 4));  \
-    delete[] pData                                                      \
-// -------------------------------------------------------------------- //
-#define PROC_PROTODATA_WITH_DEST(_messageType, _dataBlockName, _client) \
-    auto byteLength = _dataBlockName.ByteSizeLong();                    \
-    auto pData      = new char[byteLength + 4];                         \
-    *reinterpret_cast<int*>(pData) = MessageType::_messageType;         \
-                                                                        \
-    _dataBlockName.SerializeToArray(pData + 4, byteLength);             \
-                                                                        \
-    m_helper->sendToClient(_client, QByteArray(pData, byteLength + 4)); \
-    delete[] pData                                                      \
-// -------------------------------------------------------------------- //
+// -----------------Progress Before Sending Network Data------------------ //
+#define PROC_PROTODATA(_messageType, _dataBlockName)                        \
+    auto byteLength = _dataBlockName.ByteSizeLong();                        \
+    auto pData      = new char[byteLength + 2*sizeof(uint32)];              \
+    *(reinterpret_cast<uint32*>(pData) + 1) = MessageType::_messageType;    \
+    *reinterpret_cast<uint32*>(pData)       = (uint32)byteLength + 4;       \
+                                                                            \
+    _dataBlockName.SerializeToArray(pData + 2*sizeof(uint32), byteLength);  \
+                                                                            \
+    m_helper->sendToClient(                                                 \
+            client, QByteArray(pData, byteLength + 2*sizeof(uint32)));      \
+    delete[] pData                                                          \
+// ----------------------------------------------------------------------- //
+#define PROC_PROTODATA_WITH_DEST(_messageType, _dataBlockName, _client)     \
+    auto byteLength = _dataBlockName.ByteSizeLong();                        \
+    auto pData      = new char[byteLength + 2*sizeof(uint32)];              \
+    *(reinterpret_cast<uint32*>(pData) + 1) = MessageType::_messageType;    \
+    *reinterpret_cast<uint32*>(pData)       = (uint32)byteLength + 4;       \
+                                                                            \
+    _dataBlockName.SerializeToArray(pData + 2*sizeof(uint32), byteLength);  \
+                                                                            \
+    m_helper->sendToClient(                                                 \
+            _client, QByteArray(pData, byteLength + 2*sizeof(uint32)));     \
+    delete[] pData                                                          \
+// ----------------------------------------------------------------------- //
 
 
 ServerBackend::ServerBackend():
@@ -382,10 +386,14 @@ NET_SLOT(RequestPkmInfo) {
             qDebug() << "USER SOCKET FOUND";
         }
     }
+    qDebug() << "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[["+userName+"]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]";
+    qDebug() << "DATA SIZE" << data.size();
 #endif
     
     UserProtocol::UserPokemonDataResponseInfo resInfo   = {};
     UserProtocol::PokemonInfo *pPkmInfo                 = nullptr;
+    resInfo.set_mode(reqInfo.mode());
+    resInfo.set_username(reqInfo.username());
     
     // ------ 拿到ID
     QList<int> pkmIdList = {};

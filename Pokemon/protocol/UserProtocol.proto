@@ -67,6 +67,11 @@ message UserInfoResponse {
     UserInfoResponseStatus resStatus    = 9;
 }
 
+enum PokemonDataRequestMode {
+    BATTLE_START = 0;
+    MAIN_PAGE    = 1;
+}
+
 message UserPokemonDataRequestInfo {
     enum PokemonDataRequestType {
         ALL         = 0;
@@ -75,6 +80,7 @@ message UserPokemonDataRequestInfo {
     bytes                   userName    = 1;
     repeated int32          pokemonId   = 2;
     PokemonDataRequestType  reqType     = 3;
+    PokemonDataRequestMode  mode        = 4;
 }
 
 message PokemonInfo {
@@ -101,7 +107,9 @@ message PokemonInfo {
 }
 
 message UserPokemonDataResponseInfo {
-    repeated PokemonInfo pkmData = 1;
+    bytes                   userName   = 1;
+    PokemonDataRequestMode  mode       = 2;
+    repeated PokemonInfo    pkmData    = 3;
 }
 
 message OnlineUserListRequestInfo {

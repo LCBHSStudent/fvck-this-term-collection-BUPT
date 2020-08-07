@@ -270,6 +270,31 @@ inline bool UserPokemonDataRequestInfo_PokemonDataRequestType_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<UserPokemonDataRequestInfo_PokemonDataRequestType>(
     UserPokemonDataRequestInfo_PokemonDataRequestType_descriptor(), name, value);
 }
+enum PokemonDataRequestMode : int {
+  BATTLE_START = 0,
+  MAIN_PAGE = 1,
+  PokemonDataRequestMode_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  PokemonDataRequestMode_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool PokemonDataRequestMode_IsValid(int value);
+constexpr PokemonDataRequestMode PokemonDataRequestMode_MIN = BATTLE_START;
+constexpr PokemonDataRequestMode PokemonDataRequestMode_MAX = MAIN_PAGE;
+constexpr int PokemonDataRequestMode_ARRAYSIZE = PokemonDataRequestMode_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PokemonDataRequestMode_descriptor();
+template<typename T>
+inline const std::string& PokemonDataRequestMode_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, PokemonDataRequestMode>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function PokemonDataRequestMode_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    PokemonDataRequestMode_descriptor(), enum_t_value);
+}
+inline bool PokemonDataRequestMode_Parse(
+    const std::string& name, PokemonDataRequestMode* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PokemonDataRequestMode>(
+    PokemonDataRequestMode_descriptor(), name, value);
+}
 // ===================================================================
 
 class UserSignUpRequestInfo PROTOBUF_FINAL :
@@ -1632,6 +1657,7 @@ class UserPokemonDataRequestInfo PROTOBUF_FINAL :
     kPokemonIdFieldNumber = 2,
     kUserNameFieldNumber = 1,
     kReqTypeFieldNumber = 3,
+    kModeFieldNumber = 4,
   };
   // repeated int32 pokemonId = 2;
   int pokemonid_size() const;
@@ -1689,6 +1715,15 @@ class UserPokemonDataRequestInfo PROTOBUF_FINAL :
   void _internal_set_reqtype(::UserProtocol::UserPokemonDataRequestInfo_PokemonDataRequestType value);
   public:
 
+  // .UserProtocol.PokemonDataRequestMode mode = 4;
+  void clear_mode();
+  ::UserProtocol::PokemonDataRequestMode mode() const;
+  void set_mode(::UserProtocol::PokemonDataRequestMode value);
+  private:
+  ::UserProtocol::PokemonDataRequestMode _internal_mode() const;
+  void _internal_set_mode(::UserProtocol::PokemonDataRequestMode value);
+  public:
+
   // @@protoc_insertion_point(class_scope:UserProtocol.UserPokemonDataRequestInfo)
  private:
   class _Internal;
@@ -1700,6 +1735,7 @@ class UserPokemonDataRequestInfo PROTOBUF_FINAL :
   mutable std::atomic<int> _pokemonid_cached_byte_size_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr username_;
   int reqtype_;
+  int mode_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_UserProtocol_2eproto;
 };
@@ -2324,9 +2360,11 @@ class UserPokemonDataResponseInfo PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPkmDataFieldNumber = 1,
+    kPkmDataFieldNumber = 3,
+    kUserNameFieldNumber = 1,
+    kModeFieldNumber = 2,
   };
-  // repeated .UserProtocol.PokemonInfo pkmData = 1;
+  // repeated .UserProtocol.PokemonInfo pkmData = 3;
   int pkmdata_size() const;
   private:
   int _internal_pkmdata_size() const;
@@ -2344,6 +2382,40 @@ class UserPokemonDataResponseInfo PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UserProtocol::PokemonInfo >&
       pkmdata() const;
 
+  // bytes userName = 1;
+  void clear_username();
+  const std::string& username() const;
+  void set_username(const std::string& value);
+  void set_username(std::string&& value);
+  void set_username(const char* value);
+  void set_username(const void* value, size_t size);
+  std::string* mutable_username();
+  std::string* release_username();
+  void set_allocated_username(std::string* username);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_username();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_username(
+      std::string* username);
+  private:
+  const std::string& _internal_username() const;
+  void _internal_set_username(const std::string& value);
+  std::string* _internal_mutable_username();
+  public:
+
+  // .UserProtocol.PokemonDataRequestMode mode = 2;
+  void clear_mode();
+  ::UserProtocol::PokemonDataRequestMode mode() const;
+  void set_mode(::UserProtocol::PokemonDataRequestMode value);
+  private:
+  ::UserProtocol::PokemonDataRequestMode _internal_mode() const;
+  void _internal_set_mode(::UserProtocol::PokemonDataRequestMode value);
+  public:
+
   // @@protoc_insertion_point(class_scope:UserProtocol.UserPokemonDataResponseInfo)
  private:
   class _Internal;
@@ -2352,6 +2424,8 @@ class UserPokemonDataResponseInfo PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UserProtocol::PokemonInfo > pkmdata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr username_;
+  int mode_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_UserProtocol_2eproto;
 };
@@ -3714,6 +3788,26 @@ inline void UserPokemonDataRequestInfo::set_reqtype(::UserProtocol::UserPokemonD
   // @@protoc_insertion_point(field_set:UserProtocol.UserPokemonDataRequestInfo.reqType)
 }
 
+// .UserProtocol.PokemonDataRequestMode mode = 4;
+inline void UserPokemonDataRequestInfo::clear_mode() {
+  mode_ = 0;
+}
+inline ::UserProtocol::PokemonDataRequestMode UserPokemonDataRequestInfo::_internal_mode() const {
+  return static_cast< ::UserProtocol::PokemonDataRequestMode >(mode_);
+}
+inline ::UserProtocol::PokemonDataRequestMode UserPokemonDataRequestInfo::mode() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.UserPokemonDataRequestInfo.mode)
+  return _internal_mode();
+}
+inline void UserPokemonDataRequestInfo::_internal_set_mode(::UserProtocol::PokemonDataRequestMode value) {
+  
+  mode_ = value;
+}
+inline void UserPokemonDataRequestInfo::set_mode(::UserProtocol::PokemonDataRequestMode value) {
+  _internal_set_mode(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.UserPokemonDataRequestInfo.mode)
+}
+
 // -------------------------------------------------------------------
 
 // PokemonInfo
@@ -4732,7 +4826,108 @@ inline void PokemonInfo::unsafe_arena_set_allocated_skill_4_desc(
 
 // UserPokemonDataResponseInfo
 
-// repeated .UserProtocol.PokemonInfo pkmData = 1;
+// bytes userName = 1;
+inline void UserPokemonDataResponseInfo::clear_username() {
+  username_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& UserPokemonDataResponseInfo::username() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.UserPokemonDataResponseInfo.userName)
+  return _internal_username();
+}
+inline void UserPokemonDataResponseInfo::set_username(const std::string& value) {
+  _internal_set_username(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.UserPokemonDataResponseInfo.userName)
+}
+inline std::string* UserPokemonDataResponseInfo::mutable_username() {
+  // @@protoc_insertion_point(field_mutable:UserProtocol.UserPokemonDataResponseInfo.userName)
+  return _internal_mutable_username();
+}
+inline const std::string& UserPokemonDataResponseInfo::_internal_username() const {
+  return username_.Get();
+}
+inline void UserPokemonDataResponseInfo::_internal_set_username(const std::string& value) {
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void UserPokemonDataResponseInfo::set_username(std::string&& value) {
+  
+  username_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:UserProtocol.UserPokemonDataResponseInfo.userName)
+}
+inline void UserPokemonDataResponseInfo::set_username(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:UserProtocol.UserPokemonDataResponseInfo.userName)
+}
+inline void UserPokemonDataResponseInfo::set_username(const void* value,
+    size_t size) {
+  
+  username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:UserProtocol.UserPokemonDataResponseInfo.userName)
+}
+inline std::string* UserPokemonDataResponseInfo::_internal_mutable_username() {
+  
+  return username_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* UserPokemonDataResponseInfo::release_username() {
+  // @@protoc_insertion_point(field_release:UserProtocol.UserPokemonDataResponseInfo.userName)
+  return username_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void UserPokemonDataResponseInfo::set_allocated_username(std::string* username) {
+  if (username != nullptr) {
+    
+  } else {
+    
+  }
+  username_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), username,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:UserProtocol.UserPokemonDataResponseInfo.userName)
+}
+inline std::string* UserPokemonDataResponseInfo::unsafe_arena_release_username() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:UserProtocol.UserPokemonDataResponseInfo.userName)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return username_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void UserPokemonDataResponseInfo::unsafe_arena_set_allocated_username(
+    std::string* username) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (username != nullptr) {
+    
+  } else {
+    
+  }
+  username_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      username, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.UserPokemonDataResponseInfo.userName)
+}
+
+// .UserProtocol.PokemonDataRequestMode mode = 2;
+inline void UserPokemonDataResponseInfo::clear_mode() {
+  mode_ = 0;
+}
+inline ::UserProtocol::PokemonDataRequestMode UserPokemonDataResponseInfo::_internal_mode() const {
+  return static_cast< ::UserProtocol::PokemonDataRequestMode >(mode_);
+}
+inline ::UserProtocol::PokemonDataRequestMode UserPokemonDataResponseInfo::mode() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.UserPokemonDataResponseInfo.mode)
+  return _internal_mode();
+}
+inline void UserPokemonDataResponseInfo::_internal_set_mode(::UserProtocol::PokemonDataRequestMode value) {
+  
+  mode_ = value;
+}
+inline void UserPokemonDataResponseInfo::set_mode(::UserProtocol::PokemonDataRequestMode value) {
+  _internal_set_mode(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.UserPokemonDataResponseInfo.mode)
+}
+
+// repeated .UserProtocol.PokemonInfo pkmData = 3;
 inline int UserPokemonDataResponseInfo::_internal_pkmdata_size() const {
   return pkmdata_.size();
 }
@@ -5065,6 +5260,11 @@ template <> struct is_proto_enum< ::UserProtocol::UserPokemonDataRequestInfo_Pok
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::UserProtocol::UserPokemonDataRequestInfo_PokemonDataRequestType>() {
   return ::UserProtocol::UserPokemonDataRequestInfo_PokemonDataRequestType_descriptor();
+}
+template <> struct is_proto_enum< ::UserProtocol::PokemonDataRequestMode> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::UserProtocol::PokemonDataRequestMode>() {
+  return ::UserProtocol::PokemonDataRequestMode_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

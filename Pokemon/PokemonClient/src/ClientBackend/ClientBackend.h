@@ -29,7 +29,7 @@ signals:
     void
         sigGetOnlineUserList(QList<QString> nameList, QList<int> statusList);
     void
-        sigGetPokemonDataList(int type, QList<QVariantMap> pkmList);
+        sigGetPokemonDataList(int mode, QString userName, QList<QVariantMap> pkmList);
     void
         sigGetBattleInviteRequest(QString fromUser, int battleMode);
     void
@@ -52,6 +52,8 @@ public FUNCTION:
         sendOnlineUserListRequest();
     Q_INVOKABLE void
         sendSelfPokemonInfoRequest();
+    Q_INVOKABLE void
+        sendBattlePokemonInfoRequest(QString taUserName, int myPkmId, int taPkmId);
     Q_INVOKABLE void
         sendSelfUserInfoRequest();
     Q_INVOKABLE void

@@ -40,7 +40,7 @@ public RESOURCE:
     const  static int 
         connectLmt = 3000;
     const  static int 
-        heartBeatInterval = 15000;
+        heartBeatInterval = 10000;
     
 public FUNCTION:
     

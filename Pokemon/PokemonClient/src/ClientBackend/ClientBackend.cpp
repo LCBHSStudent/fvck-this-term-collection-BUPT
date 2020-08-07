@@ -5,17 +5,19 @@
 #include <MessageTypeGlobal.h>
 #include "NetworkHelper/NetworkHelper.h"
 
-// ----------------Progress Before Sending Network Data---------------- //
+// ------------------Progress Before Sending Network Data----------------- //
 #define PROC_PROTODATA(_messageType, _dataBlockName) \
-    auto byteLength = _dataBlockName.ByteSizeLong();                    \
-    auto pData      = new char[_dataBlockName.ByteSizeLong() + 4];      \
-    *reinterpret_cast<int*>(pData) = MessageType::_messageType;         \
-                                                                        \
-    _dataBlockName.SerializeToArray(pData + 4, byteLength);             \
-                                                                        \
-    m_helper->sendToServer(QByteArray(pData, byteLength + 4));          \
-    delete[] pData                                                      \
-// -------------------------------------------------------------------- //
+    auto byteLength = _dataBlockName.ByteSizeLong();                        \
+    auto pData      = new char[byteLength + 2*sizeof(uint32)];              \
+    *(reinterpret_cast<uint32*>(pData+sizeof(uint32))) =                    \
+                                            MessageType::_messageType;      \
+    *reinterpret_cast<uint32*>(pData)       = (uint32)byteLength + 4;       \
+                                                                            \
+    _dataBlockName.SerializeToArray(pData + 2*sizeof(uint32), byteLength);  \
+                                                                            \
+    m_helper->sendToServer(QByteArray(pData, byteLength+2*sizeof(uint32))); \
+    delete[] pData                                                          \
+// ----------------------------------------------------------------------- //
 
 #define CHECK_SOCKET_STATUS \
     if(!m_helper->getStatus()) {        \
@@ -105,10 +107,17 @@ void ClientBackend::slotGetServerMessage(QByteArray data) {
             pkmData["desc_s3"]  = QString::fromStdString(data.skill_3_desc());
             pkmData["desc_s4"]  = QString::fromStdString(data.skill_4_desc());
             
+//            qDebug() << pkmData["skill_1"];
+//            qDebug() << pkmData["skill_2"];
+//            qDebug() << pkmData["skill_3"];
+//            qDebug() << pkmData["skill_4"];
+            
             pkmList.push_back(pkmData);
         }
         
-        emit sigGetPokemonDataList(0, pkmList);
+        emit sigGetPokemonDataList(
+            info.mode(), QString::fromStdString(info.username()), pkmList);
+        
     } break;
     
     case UserInfoResponse: {
@@ -230,6 +239,7 @@ void ClientBackend::sendSelfPokemonInfoRequest() {
     info.set_reqtype(
         UserProtocol::UserPokemonDataRequestInfo_PokemonDataRequestType_ALL);
     info.set_username(m_userName.toStdString());
+    info.set_mode(UserProtocol::PokemonDataRequestMode::MAIN_PAGE);
     info.PrintDebugString();
     
     PROC_PROTODATA(PokemonDataRequest, info);
@@ -296,6 +306,40 @@ void ClientBackend::sendBattleGiveupInfo() {
     info.set_username(m_userName.toStdString());
     
     PROC_PROTODATA(BattleGiveupInfo, info);
+}
+
+void ClientBackend::sendBattlePokemonInfoRequest(
+    QString taUserName,
+    int     myPkmId,
+    int     taPkmId
+) {
+    UserProtocol::UserPokemonDataRequestInfo info1 = {};
+    UserProtocol::UserPokemonDataRequestInfo info2 = {};
+    
+    info1.set_username(m_userName.toStdString());
+    if (taUserName.length()) {
+        info2.set_username(taUserName.toStdString());
+    }
+    else {
+        info2.set_username("_server");
+    }
+    info1.set_mode(UserProtocol::PokemonDataRequestMode::BATTLE_START);
+    info2.set_mode(UserProtocol::PokemonDataRequestMode::BATTLE_START);
+    info1.set_reqtype(
+        UserProtocol::UserPokemonDataRequestInfo_PokemonDataRequestType_SPECIFIC);
+    info2.set_reqtype(
+        UserProtocol::UserPokemonDataRequestInfo_PokemonDataRequestType_SPECIFIC);
+    info1.add_pokemonid(myPkmId);
+    info2.add_pokemonid(taPkmId);
+    
+    {
+        info1.PrintDebugString();
+        PROC_PROTODATA(PokemonDataRequest, info1);
+    }
+    {
+        info2.PrintDebugString();
+        PROC_PROTODATA(PokemonDataRequest, info2);
+    }
 }
 
 //    QList<QString> nameList = {};

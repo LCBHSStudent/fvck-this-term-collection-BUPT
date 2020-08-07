@@ -16,13 +16,20 @@ Page {
     }
     
     property var isUserA: 1
-    property var taCurHP: 12
-    property var taMaxHP: 12
-    property var myCurHP: 12
-    property var myMaxHP: 12
-    property var myPkmType: 160
-    property var taPkmType: 195
-    property var skills: ["测试技能", "测试啊啊啊", "测试锟斤拷", "烫烫烫"]
+    property var taUserName: ""
+    property var taCurHP: 1
+    property var taMaxHP: 1
+    property var myCurHP: 1
+    property var myMaxHP: 1
+    property var myPkmId: 1
+    property var taPkmId: 1
+    property var myPkmType: 0
+    property var taPkmType: 0
+    property var skill_1: ""
+    property var skill_2: ""
+    property var skill_3: ""
+    property var skill_4: ""
+    property var skills: [skill_1, skill_2, skill_3, skill_4]
     
     
     Audio {
@@ -42,7 +49,8 @@ Page {
             bottomMargin: utils.dp(90)
         }
         scale: 1.3
-        source: "qrc:/res/image/character/" + myPkmType + ".gif"
+        source: myPkmType? 
+            "qrc:/res/image/character/" + myPkmType + ".gif": ""
     }
     Image {
         id: myPkmRef
@@ -67,7 +75,8 @@ Page {
             bottomMargin: utils.dp(270)
         }
         scale: 1.2
-        source: "qrc:/res/image/character/" + taPkmType + "_oppo.gif"
+        source: taPkmType?
+            "qrc:/res/image/character/" + taPkmType + "_oppo.gif": ""
     }
     Image {
         id: taPkmRef
@@ -195,13 +204,38 @@ Page {
         }
     }
     
+    function getPokemonInfo() {
+        backend.sendBattlePokemonInfoRequest(taUserName, myPkmId, taPkmId)
+    }
+    
     Connections {
         target: backend
         onSigGetBattleTurnInfo: {
-            console.log("get battle turn info")
+            console.debug("get battle turn info")
         }
         onSigGetBattleFinishInfo: {
-            console.log("get battle finish info")
+            console.debug("get battle finish info")
+        }
+        onSigGetPokemonDataList: {
+            if (mode === 0) {
+                console.debug("get battle start pkm info")
+                if (userName === taUserName) {
+                    taPkmType   = pkmList[0].typeId
+                    taMaxHP     = pkmList[0].hp
+                    taCurHP     = taMaxHP
+                    taPkmId     = pkmList[0].id
+                } else {
+                    myPkmType   = pkmList[0].typeId
+                    skill_1     = pkmList[0].skill_1
+                    skill_2     = pkmList[0].skill_2
+                    skill_3     = pkmList[0].skill_3
+                    skill_4     = pkmList[0].skill_4
+                    
+                    myMaxHP     = pkmList[0].hp
+                    myCurHP     = myMaxHP
+                    myPkmId     = pkmList[0].id
+                }
+            }
         }
     }
 }

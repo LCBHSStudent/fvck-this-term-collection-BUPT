@@ -237,7 +237,7 @@ static void InitDefaultsscc_info_UserStatusInfo_UserProtocol_2eproto() {
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_UserStatusInfo_UserProtocol_2eproto}, {}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_UserProtocol_2eproto[12];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_UserProtocol_2eproto[6];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_UserProtocol_2eproto[7];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_UserProtocol_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_UserProtocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -295,6 +295,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_UserProtocol_2eproto::offsets[
   PROTOBUF_FIELD_OFFSET(::UserProtocol::UserPokemonDataRequestInfo, username_),
   PROTOBUF_FIELD_OFFSET(::UserProtocol::UserPokemonDataRequestInfo, pokemonid_),
   PROTOBUF_FIELD_OFFSET(::UserProtocol::UserPokemonDataRequestInfo, reqtype_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserPokemonDataRequestInfo, mode_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::UserProtocol::PokemonInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -325,6 +326,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_UserProtocol_2eproto::offsets[
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserPokemonDataResponseInfo, username_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::UserPokemonDataResponseInfo, mode_),
   PROTOBUF_FIELD_OFFSET(::UserProtocol::UserPokemonDataResponseInfo, pkmdata_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::UserProtocol::OnlineUserListRequestInfo, _internal_metadata_),
@@ -354,11 +357,11 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 26, -1, sizeof(::UserProtocol::UserInfoRequest)},
   { 32, -1, sizeof(::UserProtocol::UserInfoResponse)},
   { 46, -1, sizeof(::UserProtocol::UserPokemonDataRequestInfo)},
-  { 54, -1, sizeof(::UserProtocol::PokemonInfo)},
-  { 79, -1, sizeof(::UserProtocol::UserPokemonDataResponseInfo)},
-  { 85, -1, sizeof(::UserProtocol::OnlineUserListRequestInfo)},
-  { 91, -1, sizeof(::UserProtocol::UserStatusInfo)},
-  { 98, -1, sizeof(::UserProtocol::OnlineUserListResponseInfo)},
+  { 55, -1, sizeof(::UserProtocol::PokemonInfo)},
+  { 80, -1, sizeof(::UserProtocol::UserPokemonDataResponseInfo)},
+  { 88, -1, sizeof(::UserProtocol::OnlineUserListRequestInfo)},
+  { 94, -1, sizeof(::UserProtocol::UserStatusInfo)},
+  { 101, -1, sizeof(::UserProtocol::OnlineUserListResponseInfo)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -407,27 +410,31 @@ const char descriptor_table_protodef_UserProtocol_2eproto[] PROTOBUF_SECTION_VAR
   "OWN_FAILURE\020\002\"/\n\tBadgeType\022\n\n\006BRONZE\020\000\022\n"
   "\n\006SILVER\020\001\022\n\n\006GOLDEN\020\002\"@\n\nUserStatus\022\010\n\004"
   "IDLE\020\000\022\014\n\010BATTLING\020\001\022\013\n\007OFFLINE\020\002\022\r\n\tUND"
-  "EFINED\020\003\"\304\001\n\032UserPokemonDataRequestInfo\022"
+  "EFINED\020\003\"\370\001\n\032UserPokemonDataRequestInfo\022"
   "\020\n\010userName\030\001 \001(\014\022\021\n\tpokemonId\030\002 \003(\005\022P\n\007"
   "reqType\030\003 \001(\0162\?.UserProtocol.UserPokemon"
-  "DataRequestInfo.PokemonDataRequestType\"/"
-  "\n\026PokemonDataRequestType\022\007\n\003ALL\020\000\022\014\n\010SPE"
-  "CIFIC\020\001\"\314\002\n\013PokemonInfo\022\n\n\002id\030\001 \001(\005\022\016\n\006t"
-  "ypeId\030\002 \001(\005\022\014\n\004name\030\003 \001(\014\022\r\n\005level\030\004 \001(\005"
-  "\022\014\n\004type\030\005 \001(\005\022\013\n\003EXP\030\006 \001(\005\022\014\n\004attr\030\007 \001("
-  "\005\022\013\n\003ATK\030\010 \001(\005\022\013\n\003DEF\030\t \001(\005\022\n\n\002HP\030\n \001(\005\022"
-  "\013\n\003SPD\030\013 \001(\005\022\014\n\004desc\030\014 \001(\014\022\017\n\007skill_1\030\r "
-  "\001(\014\022\017\n\007skill_2\030\016 \001(\014\022\017\n\007skill_3\030\017 \001(\014\022\017\n"
-  "\007skill_4\030\020 \001(\014\022\024\n\014skill_1_desc\030\021 \001(\014\022\024\n\014"
-  "skill_2_desc\030\022 \001(\014\022\024\n\014skill_3_desc\030\023 \001(\014"
-  "\022\024\n\014skill_4_desc\030\024 \001(\014\"I\n\033UserPokemonDat"
-  "aResponseInfo\022*\n\007pkmData\030\001 \003(\0132\031.UserPro"
-  "tocol.PokemonInfo\"-\n\031OnlineUserListReque"
-  "stInfo\022\020\n\010userName\030\001 \001(\014\"6\n\016UserStatusIn"
-  "fo\022\020\n\010userName\030\001 \001(\014\022\022\n\nuserStatus\030\002 \001(\005"
-  "\"L\n\032OnlineUserListResponseInfo\022.\n\010userLi"
-  "st\030\001 \003(\0132\034.UserProtocol.UserStatusInfob\006"
-  "proto3"
+  "DataRequestInfo.PokemonDataRequestType\0222"
+  "\n\004mode\030\004 \001(\0162$.UserProtocol.PokemonDataR"
+  "equestMode\"/\n\026PokemonDataRequestType\022\007\n\003"
+  "ALL\020\000\022\014\n\010SPECIFIC\020\001\"\314\002\n\013PokemonInfo\022\n\n\002i"
+  "d\030\001 \001(\005\022\016\n\006typeId\030\002 \001(\005\022\014\n\004name\030\003 \001(\014\022\r\n"
+  "\005level\030\004 \001(\005\022\014\n\004type\030\005 \001(\005\022\013\n\003EXP\030\006 \001(\005\022"
+  "\014\n\004attr\030\007 \001(\005\022\013\n\003ATK\030\010 \001(\005\022\013\n\003DEF\030\t \001(\005\022"
+  "\n\n\002HP\030\n \001(\005\022\013\n\003SPD\030\013 \001(\005\022\014\n\004desc\030\014 \001(\014\022\017"
+  "\n\007skill_1\030\r \001(\014\022\017\n\007skill_2\030\016 \001(\014\022\017\n\007skil"
+  "l_3\030\017 \001(\014\022\017\n\007skill_4\030\020 \001(\014\022\024\n\014skill_1_de"
+  "sc\030\021 \001(\014\022\024\n\014skill_2_desc\030\022 \001(\014\022\024\n\014skill_"
+  "3_desc\030\023 \001(\014\022\024\n\014skill_4_desc\030\024 \001(\014\"\217\001\n\033U"
+  "serPokemonDataResponseInfo\022\020\n\010userName\030\001"
+  " \001(\014\0222\n\004mode\030\002 \001(\0162$.UserProtocol.Pokemo"
+  "nDataRequestMode\022*\n\007pkmData\030\003 \003(\0132\031.User"
+  "Protocol.PokemonInfo\"-\n\031OnlineUserListRe"
+  "questInfo\022\020\n\010userName\030\001 \001(\014\"6\n\016UserStatu"
+  "sInfo\022\020\n\010userName\030\001 \001(\014\022\022\n\nuserStatus\030\002 "
+  "\001(\005\"L\n\032OnlineUserListResponseInfo\022.\n\010use"
+  "rList\030\001 \003(\0132\034.UserProtocol.UserStatusInf"
+  "o*9\n\026PokemonDataRequestMode\022\020\n\014BATTLE_ST"
+  "ART\020\000\022\r\n\tMAIN_PAGE\020\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_UserProtocol_2eproto_deps[1] = {
 };
@@ -447,7 +454,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Use
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_UserProtocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_UserProtocol_2eproto = {
-  false, false, descriptor_table_protodef_UserProtocol_2eproto, "UserProtocol.proto", 2006,
+  false, false, descriptor_table_protodef_UserProtocol_2eproto, "UserProtocol.proto", 2188,
   &descriptor_table_UserProtocol_2eproto_once, descriptor_table_UserProtocol_2eproto_sccs, descriptor_table_UserProtocol_2eproto_deps, 12, 0,
   schemas, file_default_instances, TableStruct_UserProtocol_2eproto::offsets,
   file_level_metadata_UserProtocol_2eproto, 12, file_level_enum_descriptors_UserProtocol_2eproto, file_level_service_descriptors_UserProtocol_2eproto,
@@ -604,6 +611,20 @@ constexpr UserPokemonDataRequestInfo_PokemonDataRequestType UserPokemonDataReque
 constexpr UserPokemonDataRequestInfo_PokemonDataRequestType UserPokemonDataRequestInfo::PokemonDataRequestType_MAX;
 constexpr int UserPokemonDataRequestInfo::PokemonDataRequestType_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PokemonDataRequestMode_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_UserProtocol_2eproto);
+  return file_level_enum_descriptors_UserProtocol_2eproto[6];
+}
+bool PokemonDataRequestMode_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
 
 // ===================================================================
 
@@ -2124,14 +2145,18 @@ UserPokemonDataRequestInfo::UserPokemonDataRequestInfo(const UserPokemonDataRequ
     username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_username(),
       GetArena());
   }
-  reqtype_ = from.reqtype_;
+  ::memcpy(&reqtype_, &from.reqtype_,
+    static_cast<size_t>(reinterpret_cast<char*>(&mode_) -
+    reinterpret_cast<char*>(&reqtype_)) + sizeof(mode_));
   // @@protoc_insertion_point(copy_constructor:UserProtocol.UserPokemonDataRequestInfo)
 }
 
 void UserPokemonDataRequestInfo::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_UserPokemonDataRequestInfo_UserProtocol_2eproto.base);
   username_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  reqtype_ = 0;
+  ::memset(&reqtype_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&mode_) -
+      reinterpret_cast<char*>(&reqtype_)) + sizeof(mode_));
 }
 
 UserPokemonDataRequestInfo::~UserPokemonDataRequestInfo() {
@@ -2168,7 +2193,9 @@ void UserPokemonDataRequestInfo::Clear() {
 
   pokemonid_.Clear();
   username_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  reqtype_ = 0;
+  ::memset(&reqtype_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&mode_) -
+      reinterpret_cast<char*>(&reqtype_)) + sizeof(mode_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2204,6 +2231,14 @@ const char* UserPokemonDataRequestInfo::_InternalParse(const char* ptr, ::PROTOB
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_reqtype(static_cast<::UserProtocol::UserPokemonDataRequestInfo_PokemonDataRequestType>(val));
+        } else goto handle_unusual;
+        continue;
+      // .UserProtocol.PokemonDataRequestMode mode = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_mode(static_cast<::UserProtocol::PokemonDataRequestMode>(val));
         } else goto handle_unusual;
         continue;
       default: {
@@ -2256,6 +2291,13 @@ failure:
       3, this->_internal_reqtype(), target);
   }
 
+  // .UserProtocol.PokemonDataRequestMode mode = 4;
+  if (this->mode() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      4, this->_internal_mode(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2300,6 +2342,12 @@ size_t UserPokemonDataRequestInfo::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_reqtype());
   }
 
+  // .UserProtocol.PokemonDataRequestMode mode = 4;
+  if (this->mode() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_mode());
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
@@ -2338,6 +2386,9 @@ void UserPokemonDataRequestInfo::MergeFrom(const UserPokemonDataRequestInfo& fro
   if (from.reqtype() != 0) {
     _internal_set_reqtype(from._internal_reqtype());
   }
+  if (from.mode() != 0) {
+    _internal_set_mode(from._internal_mode());
+  }
 }
 
 void UserPokemonDataRequestInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -2363,7 +2414,12 @@ void UserPokemonDataRequestInfo::InternalSwap(UserPokemonDataRequestInfo* other)
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   pokemonid_.InternalSwap(&other->pokemonid_);
   username_.Swap(&other->username_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  swap(reqtype_, other->reqtype_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(UserPokemonDataRequestInfo, mode_)
+      + sizeof(UserPokemonDataRequestInfo::mode_)
+      - PROTOBUF_FIELD_OFFSET(UserPokemonDataRequestInfo, reqtype_)>(
+          reinterpret_cast<char*>(&reqtype_),
+          reinterpret_cast<char*>(&other->reqtype_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata UserPokemonDataRequestInfo::GetMetadata() const {
@@ -3136,11 +3192,19 @@ UserPokemonDataResponseInfo::UserPokemonDataResponseInfo(const UserPokemonDataRe
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       pkmdata_(from.pkmdata_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  username_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_username().empty()) {
+    username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_username(),
+      GetArena());
+  }
+  mode_ = from.mode_;
   // @@protoc_insertion_point(copy_constructor:UserProtocol.UserPokemonDataResponseInfo)
 }
 
 void UserPokemonDataResponseInfo::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_UserPokemonDataResponseInfo_UserProtocol_2eproto.base);
+  username_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  mode_ = 0;
 }
 
 UserPokemonDataResponseInfo::~UserPokemonDataResponseInfo() {
@@ -3151,6 +3215,7 @@ UserPokemonDataResponseInfo::~UserPokemonDataResponseInfo() {
 
 void UserPokemonDataResponseInfo::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
+  username_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void UserPokemonDataResponseInfo::ArenaDtor(void* object) {
@@ -3175,6 +3240,8 @@ void UserPokemonDataResponseInfo::Clear() {
   (void) cached_has_bits;
 
   pkmdata_.Clear();
+  username_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  mode_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3186,16 +3253,32 @@ const char* UserPokemonDataResponseInfo::_InternalParse(const char* ptr, ::PROTO
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // repeated .UserProtocol.PokemonInfo pkmData = 1;
+      // bytes userName = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_username();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .UserProtocol.PokemonDataRequestMode mode = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_mode(static_cast<::UserProtocol::PokemonDataRequestMode>(val));
+        } else goto handle_unusual;
+        continue;
+      // repeated .UserProtocol.PokemonInfo pkmData = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_pkmdata(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
         } else goto handle_unusual;
         continue;
       default: {
@@ -3226,12 +3309,25 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .UserProtocol.PokemonInfo pkmData = 1;
+  // bytes userName = 1;
+  if (this->username().size() > 0) {
+    target = stream->WriteBytesMaybeAliased(
+        1, this->_internal_username(), target);
+  }
+
+  // .UserProtocol.PokemonDataRequestMode mode = 2;
+  if (this->mode() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      2, this->_internal_mode(), target);
+  }
+
+  // repeated .UserProtocol.PokemonInfo pkmData = 3;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_pkmdata_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(1, this->_internal_pkmdata(i), target, stream);
+      InternalWriteMessage(3, this->_internal_pkmdata(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3250,11 +3346,24 @@ size_t UserPokemonDataResponseInfo::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .UserProtocol.PokemonInfo pkmData = 1;
+  // repeated .UserProtocol.PokemonInfo pkmData = 3;
   total_size += 1UL * this->_internal_pkmdata_size();
   for (const auto& msg : this->pkmdata_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // bytes userName = 1;
+  if (this->username().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_username());
+  }
+
+  // .UserProtocol.PokemonDataRequestMode mode = 2;
+  if (this->mode() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_mode());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3289,6 +3398,12 @@ void UserPokemonDataResponseInfo::MergeFrom(const UserPokemonDataResponseInfo& f
   (void) cached_has_bits;
 
   pkmdata_.MergeFrom(from.pkmdata_);
+  if (from.username().size() > 0) {
+    _internal_set_username(from._internal_username());
+  }
+  if (from.mode() != 0) {
+    _internal_set_mode(from._internal_mode());
+  }
 }
 
 void UserPokemonDataResponseInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -3313,6 +3428,8 @@ void UserPokemonDataResponseInfo::InternalSwap(UserPokemonDataResponseInfo* othe
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   pkmdata_.InternalSwap(&other->pkmdata_);
+  username_.Swap(&other->username_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  swap(mode_, other->mode_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata UserPokemonDataResponseInfo::GetMetadata() const {

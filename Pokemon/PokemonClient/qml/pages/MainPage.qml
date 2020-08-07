@@ -10,6 +10,7 @@ Page {
     id: mainPage_t
     
     readonly property color pageColor: "#AAFAFAFA"
+    property string destUserName: ""
     
     // ------------BACKGROUND -------------- //
     Image {
@@ -257,7 +258,11 @@ Page {
             switch (status) {
             case 0:
                 stack.push("BattlePage.qml")
-                stack.currentItem
+                stack.currentItem.isUserA = isUserA
+                stack.currentItem.myPkmId = urPkmId
+                stack.currentItem.taPkmId = taPkmId
+                stack.currentItem.taUserName = destUserName
+                stack.currentItem.getPokemonInfo()
                 break
             case 1:
                 popup.showPopup("对方拒绝了您的邀请", "知道了")
@@ -312,6 +317,7 @@ Page {
                     releaseColor: "#2CC486"
                     anchors.horizontalCenter: parent.horizontalCenter
                     onClicked: {
+                        destUserName = destNameInput.text
                         backend.sendBattleStartRequest(
                             modeCheckGroup.battleMode, destNameInput.text)
                     }
@@ -323,6 +329,7 @@ Page {
                     releaseColor: "#2CC486"
                     anchors.horizontalCenter: parent.horizontalCenter
                     onClicked: {
+                        destUserName = "_server"
                         backend.sendBattleStartRequest(
                             modeCheckGroup.battleMode, "_server")
                     }
@@ -450,9 +457,9 @@ Page {
             Connections {
                 target: backend
                 onSigGetPokemonDataList: {
-                    console.debug("coco")
-                    pkmDataModel.clear()
-                    if (type === 0) {
+                    console.debug("onSigGetPokemonDataList")
+                    if (mode === 1) {
+                        pkmDataModel.clear()
                         for (var i = 0; i < pkmList.length; i++) {
                             pkmDataModel.append({
                                 "_id":      pkmList[i].id,
@@ -565,8 +572,6 @@ Page {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: utils.dp(5)
-                        
-                        Component.onCompleted: console.log(status)
                     }
                 }
             }

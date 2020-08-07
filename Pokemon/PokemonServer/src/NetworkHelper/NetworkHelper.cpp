@@ -55,9 +55,20 @@ void NetworkHelper::slotNewConnection() {
 
 void NetworkHelper::slotReadClient() {
     QTcpSocket* client = reinterpret_cast<QTcpSocket*>(sender());
-    QByteArray  data   = client->readAll();
-    
-    emit sigGetMessage(client, data);
+//  TODO: 在此处理TCP粘包问题，修改每个数据包前四位为数据长度，再四位为 protobuf MessageType
+//  先拿到数据包头的大小?
+    while (client->bytesAvailable() >= sizeof(uint32)) {
+        char lengthArr[sizeof(uint32)] = {0};
+        client->read(lengthArr, sizeof(uint32));
+        auto length = *reinterpret_cast<uint32*>(lengthArr);
+        if (length < 0) {
+            client->readAll();
+//            throw std::runtime_error("")
+        } else {
+            QByteArray data = client->read(length);
+            emit sigGetMessage(client, data);
+        }
+    }
 }
 
 void NetworkHelper::slotGotDisconnection() {

@@ -12,9 +12,13 @@ NetworkHelper::NetworkHelper(
     m_keepAliveTimer(new QTimer)
 {
     m_timeoutTimer->setSingleShot(true);
+    
     m_keepAliveTimer->setSingleShot(false);
     m_keepAliveTimer->setInterval(heartBeatInterval);
     m_keepAliveTimer->setTimerType(Qt::TimerType::CoarseTimer);
+    
+    m_socket->setSocketOption(QAbstractSocket::LowDelayOption, 1);
+    m_socket->setSocketOption(QAbstractSocket::KeepAliveOption, 1);
     
     connect(m_timeoutTimer, &QTimer::timeout,
             this, &NetworkHelper::connectionTimeout);
@@ -64,33 +68,30 @@ void NetworkHelper::connected() {
 bool NetworkHelper::getStatus() const {return m_status;}
 
 void NetworkHelper::readyRead() {
-    QByteArray  data   = m_socket->readAll();
-    emit sigServerMessage(data);
-//    QDataStream ist(m_socket);
-//    while(1) {
-//        if(!m_nextBlockSize) {
-//            if(
-//                m_socket->bytesAvailable() < 
-//                static_cast<qint64>(sizeof(quint16))    //求出字节长度
-//            ) {
-//                ist >> m_nextBlockSize;
-//            }
-            
-//            if(m_socket->bytesAvailable() < m_nextBlockSize)
-//                break;
-            
-//            QString str;
-//            ist >> str;
-            
-//            if(str == "0") {
-//                str = "Connection close";
-//                closeConnection();
-//            }
-            
-//            emit hasReadSome(str);
-//            m_nextBlockSize = 0;
-//        }
-//    }
+    while (m_socket->bytesAvailable() >= sizeof(uint32)) {
+        static bool flag = true;
+        static uint32 length = 0;
+        static char lengthArr[sizeof(uint32)] = {0};
+        if (flag) {
+            m_socket->read(lengthArr, sizeof(uint32));
+            length = *reinterpret_cast<uint32*>(lengthArr);
+        }
+        if (length <= 0) {
+            qDebug () << "coco";
+            m_socket->readAll();
+            flag = true;
+//            throw std::runtime_error("")
+        } else {
+            if (length <= m_socket->bytesAvailable()) {
+                flag = true;
+                QByteArray data = m_socket->read(length);
+                emit sigServerMessage(data);
+            } else {
+                flag = false;
+                return;
+            }
+        }
+    }
 }
 
 void NetworkHelper::closeConnection() {
@@ -136,4 +137,6 @@ void NetworkHelper::sendToServer(const QString& msg) {
 
 void NetworkHelper::sendToServer(QByteArray&& data) {
     m_socket->write(data, data.length());
+//    m_socket->flush();
+//    m_socket->waitForBytesWritten();
 }
