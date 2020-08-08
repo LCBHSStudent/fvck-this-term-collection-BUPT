@@ -30,6 +30,7 @@ Page {
     property var skill_3: ""
     property var skill_4: ""
     property var skills: [skill_1, skill_2, skill_3, skill_4]
+    property bool enableOperate: true
     
     
     Audio {
@@ -106,6 +107,7 @@ Page {
                 source: "qrc:/res/ui/skill_slot_" + (index + 1) + ".png"
                 rotation: 20
                 MouseArea {
+                    enabled: enableOperate
                     anchors.fill: parent
                     onPressedChanged: {
                         if (pressed) {
@@ -117,6 +119,7 @@ Page {
                         }
                     }
                     onClicked: {
+                        enableOperate = false
                         backend.sendBattleSkillIndex(isUserA, index)
                     }
                 }
@@ -204,6 +207,17 @@ Page {
         }
     }
     
+    OneBtnToast {
+        id: battleResultPopup
+        
+        contentW: parent.width * 0.8
+        contentH: contentW * 0.8
+        
+        onClicked: {
+            stack.pop()
+        }
+    }
+    
     function getPokemonInfo() {
         backend.sendBattlePokemonInfoRequest(taUserName, myPkmId, taPkmId)
     }
@@ -212,9 +226,44 @@ Page {
         target: backend
         onSigGetBattleTurnInfo: {
             console.debug("get battle turn info")
+            enableOperate = true
+            var log = ""
+            console.log(info.type, isUserA, info.type ^ isUserA)
+            if (info.type ^ isUserA) {
+                log += "你使用了" + info.skillName + ", 你的生命值变化了" + 
+                        (-info.selfDeltaHP) 
+                        + ", 对手的生命值变化了" + (-info.destDeltaHP)
+            } else {
+                log += "对手使用了" + info.skillName + ", 你的生命值变化了" +
+                        (-info.selfDeltaHP)  
+                        + ", 对手的生命值变化了" + (-info.destDeltaHP)
+            }
+            if (info.selfBuffID) {
+                log += "\n你获得了buff[ID: " + info.selfBuffID + "], 持续时间" 
+                        + info.selfBuffLast + "回合"
+            }
+            if (info.destBuffID) {
+                log += "\n你获得了buff[ID: " + info.destBuffID + "], 持续时间" 
+                        + info.destBuffLast + "回合"
+            }
+            field.append(log)
+            
+            myCurHP -= info.selfDeltaHP
+            taCurHP -= info.destDeltaHP
         }
         onSigGetBattleFinishInfo: {
             console.debug("get battle finish info")
+            var log = ""
+            if (mode == NORMAL) {
+                if (result === 0) {
+                    log += "\n恭喜您\n战斗获胜了"
+                } else {
+                    log += "\n很遗憾\n决斗失败了"
+                }
+            } else {
+                log += "\n对方已断开连接"
+            }
+            battleResultPopup.showPopup(log, "知道了")
         }
         onSigGetPokemonDataList: {
             if (mode === 0) {

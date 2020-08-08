@@ -25,6 +25,16 @@ PokemonBase::PokemonBase(ARGS_LIST):
     m_skills.resize(4);
 }
 
+void PokemonBase::printStatus() const {
+    qDebug() << "----------------------DISPLAY POKEMON STATUS----------------------";
+    qDebug() << "|------------------NAME: " << m_name;
+    qDebug() << "|------------------CUR_USER: " << m_curUser;
+    qDebug() << "|------------------ATK: " << m_curATK << " / " << m_ATK;
+    qDebug() << "|------------------DEF: " << m_curDEF << " / " << m_DEF;
+    qDebug() << "|------------------SPD: " << m_curSPD << " / " << m_SPD;
+    qDebug() << "|------------------HP: "  << m_curHP  << " / " << m_HP;
+    qDebug() << "------------------------DISPLAY FINISHED--------------------------";
+}
 
 
 void PokemonBase::gainExperience(int exp) {

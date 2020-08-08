@@ -4,6 +4,8 @@
 #include <MessageTypeGlobal.h>
 #include "../StorageHelper/StorageHelper.h"
 
+// #define AVOID_PROTOBUF_EXCEPTION_FLAG
+
 #undef  NET_SLOT
 #define NET_SLOT(_name) \
     void ServerBackend::slot##_name(QTcpSocket* client, QByteArray data)
@@ -358,6 +360,14 @@ NET_SLOT(UserDisconnected) {
                     break;
                 }
                 
+                disconnect(
+                    battle, &BattleField::sigTurnInfoReady,
+                    this,   &ServerBackend::slotGetTurnInfo
+                );
+                disconnect(
+                    battle, &BattleField::sigBattleFinished,
+                    this,   &ServerBackend::slotGetBattleResult
+                );
                 delete battle;
                 m_battleFieldList.removeAt(i);
             }
@@ -439,9 +449,6 @@ NET_SLOT(RequestPkmInfo) {
         pPkmInfo->set_type(pkm->get_pkmType());
         pPkmInfo->set_typeid_(pkm->get_typeID());
         
-        pPkmInfo->set_name(pkm->get_name().toStdString());
-        pPkmInfo->set_desc(pkm->get_desc().toStdString());
-        
         // 发送中文技能名 & 技能描述
         for (int i = 0; i < 4; i++) {
             StorageHelper::Instance().transaction(
@@ -457,7 +464,9 @@ NET_SLOT(RequestPkmInfo) {
             qDebug() << pkm->getSkill(i);
             qDebug() << aliasList[i] << sdescList[i];            
         }
-        
+#ifndef AVOID_PROTOBUF_EXCEPTION_FLAG
+        pPkmInfo->set_name(pkm->get_name().toStdString());
+        pPkmInfo->set_desc(pkm->get_desc().toStdString());
         
         pPkmInfo->set_skill_1(aliasList[0].toStdString());
         pPkmInfo->set_skill_2(aliasList[1].toStdString());
@@ -468,7 +477,7 @@ NET_SLOT(RequestPkmInfo) {
         pPkmInfo->set_skill_2_desc(sdescList[1].toStdString());
         pPkmInfo->set_skill_3_desc(sdescList[2].toStdString());
         pPkmInfo->set_skill_4_desc(sdescList[3].toStdString());
-        
+#endif
         qDebug() << "BYTE SIZE: " << pPkmInfo->ByteSizeLong();
         // pPkmInfo->PrintDebugString();
         
@@ -688,8 +697,10 @@ void ServerBackend::slotGetTurnInfo(BattleField::TurnInfo info) {
     BattleProtocol::BattleTurnInfo infoB = {};
     
     if (info.type == BattleField::A_TO_B) {
-        infoA.set_type(BattleField::A_TO_B);
+        infoA.set_type(BattleProtocol::BattleTurnInfoType::A_TO_B);
+#ifndef AVOID_PROTOBUF_EXCEPTION_FLAG
         infoA.set_skillname(info.skillName.toStdString());
+#endif
         infoA.set_selfbuffid(info.selfBuff.buffId);
         infoA.set_selfbufflast(info.selfBuff.turnCnt);
         infoA.set_destbuffid(info.destBuff.buffId);
@@ -697,8 +708,10 @@ void ServerBackend::slotGetTurnInfo(BattleField::TurnInfo info) {
         infoA.set_selfdeltahp(info.selfDeltaHP);
         infoA.set_destdeltahp(info.destDeltaHP);
         
-        infoB.set_type(BattleField::A_TO_B);
+        infoB.set_type(BattleProtocol::BattleTurnInfoType::A_TO_B);
+#ifndef AVOID_PROTOBUF_EXCEPTION_FLAG
         infoB.set_skillname(info.skillName.toStdString());
+#endif
         infoB.set_selfbuffid(info.destBuff.buffId);
         infoB.set_selfbufflast(info.destBuff.turnCnt);
         infoB.set_destbuffid(info.selfBuff.buffId);
@@ -706,8 +719,10 @@ void ServerBackend::slotGetTurnInfo(BattleField::TurnInfo info) {
         infoB.set_selfdeltahp(info.destDeltaHP);
         infoB.set_destdeltahp(info.selfDeltaHP);
     } else {
-        infoB.set_type(BattleField::B_TO_A);
+        infoB.set_type(BattleProtocol::BattleTurnInfoType::B_TO_A);
+#ifndef AVOID_PROTOBUF_EXCEPTION_FLAG
         infoB.set_skillname(info.skillName.toStdString());
+#endif
         infoB.set_selfbuffid(info.selfBuff.buffId);
         infoB.set_selfbufflast(info.selfBuff.turnCnt);
         infoB.set_destbuffid(info.destBuff.buffId);
@@ -715,8 +730,10 @@ void ServerBackend::slotGetTurnInfo(BattleField::TurnInfo info) {
         infoB.set_selfdeltahp(info.selfDeltaHP);
         infoB.set_destdeltahp(info.destDeltaHP);
         
-        infoA.set_type(BattleField::A_TO_B);
+        infoA.set_type(BattleProtocol::BattleTurnInfoType::B_TO_A);
+#ifndef AVOID_PROTOBUF_EXCEPTION_FLAG
         infoA.set_skillname(info.skillName.toStdString());
+#endif
         infoA.set_selfbuffid(info.destBuff.buffId);
         infoA.set_selfbufflast(info.destBuff.turnCnt);
         infoA.set_destbuffid(info.selfBuff.buffId);
@@ -729,12 +746,18 @@ void ServerBackend::slotGetTurnInfo(BattleField::TurnInfo info) {
     
     auto pBattleField = reinterpret_cast<BattleField*>(sender());
     {
-        PROC_PROTODATA_WITH_DEST(
-            BattleTurnInfo, infoA, pBattleField->getUserA()->get_userSocket());
+        auto pUserA = pBattleField->getUserA();
+        if (pUserA != nullptr) {
+            PROC_PROTODATA_WITH_DEST(
+                BattleTurnInfo, infoA, pBattleField->getUserA()->get_userSocket());
+        }
     }
     {
-        PROC_PROTODATA_WITH_DEST(
-            BattleTurnInfo, infoB, pBattleField->getUserB()->get_userSocket());
+        auto pUserB = pBattleField->getUserB();
+        if (pUserB != nullptr) {
+            PROC_PROTODATA_WITH_DEST(
+                BattleTurnInfo, infoB, pBattleField->getUserB()->get_userSocket());
+        }
     }
 }
 
@@ -759,11 +782,20 @@ void ServerBackend::slotGetBattleResult(User* winner) {
     infoA.PrintDebugString();
     infoB.PrintDebugString();
     {
-        PROC_PROTODATA_WITH_DEST(
-            BattleFinishInfo, infoA, pBattleField->getUserA()->get_userSocket());
+        auto pUserA = pBattleField->getUserA();
+        if (pUserA != nullptr) {
+            PROC_PROTODATA_WITH_DEST(
+                BattleFinishInfo, infoA, pBattleField->getUserA()->get_userSocket());
+        }
     }
     {
-        PROC_PROTODATA_WITH_DEST(
-            BattleFinishInfo, infoB, pBattleField->getUserB()->get_userSocket());
+        auto pUserB = pBattleField->getUserB();
+        if (pUserB != nullptr) {
+            PROC_PROTODATA_WITH_DEST(
+                BattleFinishInfo, infoB, pBattleField->getUserB()->get_userSocket());
+        }
     }
+    
+    m_battleFieldList.removeOne(pBattleField);
+    delete pBattleField;
 }

@@ -148,6 +148,31 @@ inline bool BattleFinishInfo_FinishMode_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<BattleFinishInfo_FinishMode>(
     BattleFinishInfo_FinishMode_descriptor(), name, value);
 }
+enum BattleTurnInfoType : int {
+  A_TO_B = 0,
+  B_TO_A = 1,
+  BattleTurnInfoType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  BattleTurnInfoType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool BattleTurnInfoType_IsValid(int value);
+constexpr BattleTurnInfoType BattleTurnInfoType_MIN = A_TO_B;
+constexpr BattleTurnInfoType BattleTurnInfoType_MAX = B_TO_A;
+constexpr int BattleTurnInfoType_ARRAYSIZE = BattleTurnInfoType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* BattleTurnInfoType_descriptor();
+template<typename T>
+inline const std::string& BattleTurnInfoType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, BattleTurnInfoType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function BattleTurnInfoType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    BattleTurnInfoType_descriptor(), enum_t_value);
+}
+inline bool BattleTurnInfoType_Parse(
+    const std::string& name, BattleTurnInfoType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<BattleTurnInfoType>(
+    BattleTurnInfoType_descriptor(), name, value);
+}
 enum BattleModel : int {
   EXP_BATTLE = 0,
   DUEL_BATTLE = 1,
@@ -349,13 +374,13 @@ class BattleTurnInfo PROTOBUF_FINAL :
   std::string* _internal_mutable_skillname();
   public:
 
-  // int32 type = 2;
+  // .BattleProtocol.BattleTurnInfoType type = 2;
   void clear_type();
-  ::PROTOBUF_NAMESPACE_ID::int32 type() const;
-  void set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::BattleProtocol::BattleTurnInfoType type() const;
+  void set_type(::BattleProtocol::BattleTurnInfoType value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_type() const;
-  void _internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::BattleProtocol::BattleTurnInfoType _internal_type() const;
+  void _internal_set_type(::BattleProtocol::BattleTurnInfoType value);
   public:
 
   // int32 selfDeltaHP = 3;
@@ -420,7 +445,7 @@ class BattleTurnInfo PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr skillname_;
-  ::PROTOBUF_NAMESPACE_ID::int32 type_;
+  int type_;
   ::PROTOBUF_NAMESPACE_ID::int32 selfdeltahp_;
   ::PROTOBUF_NAMESPACE_ID::int32 destdeltahp_;
   ::PROTOBUF_NAMESPACE_ID::int32 selfbuffid_;
@@ -1946,22 +1971,22 @@ inline void BattleTurnInfo::unsafe_arena_set_allocated_skillname(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:BattleProtocol.BattleTurnInfo.skillName)
 }
 
-// int32 type = 2;
+// .BattleProtocol.BattleTurnInfoType type = 2;
 inline void BattleTurnInfo::clear_type() {
   type_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 BattleTurnInfo::_internal_type() const {
-  return type_;
+inline ::BattleProtocol::BattleTurnInfoType BattleTurnInfo::_internal_type() const {
+  return static_cast< ::BattleProtocol::BattleTurnInfoType >(type_);
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 BattleTurnInfo::type() const {
+inline ::BattleProtocol::BattleTurnInfoType BattleTurnInfo::type() const {
   // @@protoc_insertion_point(field_get:BattleProtocol.BattleTurnInfo.type)
   return _internal_type();
 }
-inline void BattleTurnInfo::_internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void BattleTurnInfo::_internal_set_type(::BattleProtocol::BattleTurnInfoType value) {
   
   type_ = value;
 }
-inline void BattleTurnInfo::set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void BattleTurnInfo::set_type(::BattleProtocol::BattleTurnInfoType value) {
   _internal_set_type(value);
   // @@protoc_insertion_point(field_set:BattleProtocol.BattleTurnInfo.type)
 }
@@ -3020,6 +3045,11 @@ template <> struct is_proto_enum< ::BattleProtocol::BattleFinishInfo_FinishMode>
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::BattleProtocol::BattleFinishInfo_FinishMode>() {
   return ::BattleProtocol::BattleFinishInfo_FinishMode_descriptor();
+}
+template <> struct is_proto_enum< ::BattleProtocol::BattleTurnInfoType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::BattleProtocol::BattleTurnInfoType>() {
+  return ::BattleProtocol::BattleTurnInfoType_descriptor();
 }
 template <> struct is_proto_enum< ::BattleProtocol::BattleModel> : ::std::true_type {};
 template <>

@@ -84,6 +84,10 @@ void NetworkHelper::slotGotDisconnection() {
         client, &QTcpSocket::disconnected,
         this, &NetworkHelper::slotGotDisconnection
     );
+    disconnect(
+        client, &QTcpSocket::disconnected,
+        client, &QTcpSocket::deleteLater
+    );
     
     emit sigUserDisconnected(client, QByteArray());
     

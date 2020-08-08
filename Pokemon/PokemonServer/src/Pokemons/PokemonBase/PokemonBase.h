@@ -160,13 +160,15 @@ public FUNCTION:
                 m_skills[slot] = name;    
         }
     QString
-        getSkill(int slot) {
+        getSkill(int slot) const {
             if (slot < 4 && slot >= 0) { 
                 return m_skills[slot];
             } else {
                 return QString();
             }
         }
+    void
+        printStatus() const ;
 
 protected RESOURCE:
 	QString

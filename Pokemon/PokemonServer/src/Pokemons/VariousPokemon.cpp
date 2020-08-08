@@ -38,8 +38,6 @@
          this->m_id \
     ); \
 
-         
-
 //----------------------ATK REFERED------------------------//
 HighAtkPkm::HighAtkPkm(ARGS_LIST): 
     PokemonBase(PKM_INIT_LIST(PokemonType::HIGH_ATTACK)) {}

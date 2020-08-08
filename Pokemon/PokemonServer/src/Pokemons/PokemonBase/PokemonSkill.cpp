@@ -16,7 +16,7 @@ QHash<QString, PokemonSkill::SkillFunc>
 // ----------------------------------- //
 
 
-// ------伤害公式：[(2 * 等级 + 10) / 250 * (ATK / DEF) * SkillPower + 2] * 倍率
+// ------伤害公式：[(1 * 等级 + 10) / 250 * (ATK / DEF) * SkillPower + 1] * 倍率
 #define DAMAGE(_POWER) \
     calDamage(\
         static_cast<double>(user->m_level),\
@@ -30,9 +30,9 @@ constexpr auto calDamage = [](
     double  destDEF,
     double  skillPower
 ) {
-    double part1 = (2.0f * userLevel + 10) / 250;
+    double part1 = (1.0f * userLevel + 10) / 250;
     double part2 = userATK / destDEF;
-    return static_cast<int>(part1 * part2 * skillPower + 2);
+    return static_cast<int>(part1 * part2 * skillPower + 1);
 };
 
 

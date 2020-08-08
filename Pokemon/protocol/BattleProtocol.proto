@@ -2,15 +2,20 @@ syntax = "proto3";
 
 package BattleProtocol;
 
+enum BattleTurnInfoType {
+    A_TO_B  = 0;
+    B_TO_A  = 1;
+}
+
 message BattleTurnInfo {
-    bytes   skillName       = 1;
-    int32   type            = 2;
-    int32   selfDeltaHP     = 3;
-    int32   destDeltaHP     = 4;
-    int32   selfBuffID      = 5;
-    int32   selfBuffLast    = 6;
-    int32   destBuffID      = 7;
-    int32   destBuffLast    = 8;
+    bytes               skillName       = 1;
+    BattleTurnInfoType  type            = 2;
+    int32               selfDeltaHP     = 3;
+    int32               destDeltaHP     = 4;
+    int32               selfBuffID      = 5;
+    int32               selfBuffLast    = 6;
+    int32               destBuffID      = 7;
+    int32               destBuffLast    = 8;
 };
 
 message BattleOperationInfo {

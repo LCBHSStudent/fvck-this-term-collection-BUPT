@@ -22,8 +22,9 @@ BattleField::BattleField(
 ):  QObject(parent) {
     // 初始化对战环境啊嗯
     {
-        m_users = {userA, userB};
+        m_users   = {userA, userB};
         m_pkmList = {pkmA, pkmB};
+        m_actions = {"", ""};
     }
     // 初始化宝可梦战斗属性
     {
@@ -67,7 +68,9 @@ void BattleField::setAction(int skillIndex, int userIndex) {
         m_actions[1].length() != 0
     ) {
         turn(m_actions[0], m_actions[1]);
-    } 
+        m_actions[0] = "";
+        m_actions[1] = "";
+    }
 }
 
 
@@ -99,9 +102,11 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
             {
                 pkmA.set_curHP(
                     std::min(pkmA.get_curHP() - resA.selfDeltaHp, pkmA.get_HP()));
-                pkmA.set_curHP(
+                pkmB.set_curHP(
                     std::min(pkmB.get_curHP() - resA.destDeltaHp, pkmB.get_HP()));
             }
+            pkmA.printStatus();
+            pkmB.printStatus();
             chechBattleIsFinished();
             
             auto resB = pkmB.attack(pkmA, actionB);
@@ -110,9 +115,11 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
             {
                 pkmA.set_curHP(
                     std::min(pkmA.get_curHP() - resB.destDeltaHp, pkmA.get_HP()));
-                pkmA.set_curHP(
+                pkmB.set_curHP(
                     std::min(pkmB.get_curHP() - resB.selfDeltaHp, pkmB.get_HP()));
             }
+            pkmA.printStatus();
+            pkmB.printStatus();
             chechBattleIsFinished();
         } 
         else if (spdA < spdB) {
@@ -122,9 +129,11 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
             {
                 pkmA.set_curHP(
                     std::min(pkmA.get_curHP() - resB.destDeltaHp, pkmA.get_HP()));
-                pkmA.set_curHP(
+                pkmB.set_curHP(
                     std::min(pkmB.get_curHP() - resB.selfDeltaHp, pkmB.get_HP()));
             }
+            pkmA.printStatus();
+            pkmB.printStatus();
             chechBattleIsFinished();
                     
             auto resA = pkmA.attack(pkmB, actionA);
@@ -133,14 +142,18 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
             {
                 pkmA.set_curHP(
                     std::min(pkmA.get_curHP() - resA.selfDeltaHp, pkmA.get_HP()));
-                pkmA.set_curHP(
+                pkmB.set_curHP(
                     std::min(pkmB.get_curHP() - resA.destDeltaHp, pkmB.get_HP()));
             }
+            pkmA.printStatus();
+            pkmB.printStatus();
             chechBattleIsFinished();
         }
     }
     
     queryBuffList();
+    pkmA.printStatus();
+    pkmB.printStatus();
     chechBattleIsFinished();
 }
 
@@ -163,7 +176,7 @@ void BattleField::queryBuffList() {
     static const auto handleBuffList = [](PokemonBase& pkm, QList<Buff>& buffList) {
         // ------ 采用后序遍历应该能快一点?
         for (int i = buffList.size() - 1; i >= 0; i--) {
-            Buff& buff = buffList[i];
+            Buff& buff = const_cast<Buff&>(buffList.at(i));
             
             switch (buff.buffId) {
             // ------ properties up
@@ -245,6 +258,7 @@ void BattleField::queryBuffList() {
             
             if (--buff.turnCnt <= 0) {
                 buffList.removeAt(i);
+                i--;
             }
         }
     };

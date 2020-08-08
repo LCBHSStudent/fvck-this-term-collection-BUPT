@@ -158,6 +158,8 @@ void ClientBackend::slotGetServerMessage(QByteArray data) {
         
         info.PrintDebugString();
         
+        qDebug() << "aaaaaaaaaaaaaaaaaaaaaaaaa" << info.type();
+        
         QVariantMap data = {};
         data["type"]            = info.type();
         data["skillName"]       = QString::fromStdString(info.skillname());

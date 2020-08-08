@@ -179,7 +179,7 @@ static void InitDefaultsscc_info_ChooseTrophieRequest_BattleProtocol_2eproto() {
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ChooseTrophieRequest_BattleProtocol_2eproto}, {}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_BattleProtocol_2eproto[9];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_BattleProtocol_2eproto[4];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_BattleProtocol_2eproto[5];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_BattleProtocol_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_BattleProtocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -284,36 +284,38 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_BattleProtocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\024BattleProtocol.proto\022\016BattleProtocol\"\257"
-  "\001\n\016BattleTurnInfo\022\021\n\tskillName\030\001 \001(\014\022\014\n\004"
-  "type\030\002 \001(\005\022\023\n\013selfDeltaHP\030\003 \001(\005\022\023\n\013destD"
-  "eltaHP\030\004 \001(\005\022\022\n\nselfBuffID\030\005 \001(\005\022\024\n\014self"
-  "BuffLast\030\006 \001(\005\022\022\n\ndestBuffID\030\007 \001(\005\022\024\n\014de"
-  "stBuffLast\030\010 \001(\005\"L\n\023BattleOperationInfo\022"
-  "\017\n\007isUserA\030\001 \001(\005\022\022\n\nskillIndex\030\002 \001(\005\022\020\n\010"
-  "userName\030\003 \001(\014\"\356\001\n\020BattleFinishInfo\022=\n\006r"
-  "esult\030\001 \001(\0162-.BattleProtocol.BattleFinis"
-  "hInfo.BattleResult\0229\n\004mode\030\002 \001(\0162+.Battl"
-  "eProtocol.BattleFinishInfo.FinishMode\"!\n"
-  "\014BattleResult\022\007\n\003WIN\020\000\022\010\n\004LOSE\020\001\"=\n\nFini"
-  "shMode\022\n\n\006NORMAL\020\000\022\031\n\025OPPOSITE_DISCONNEC"
-  "TED\020\001\022\010\n\004DRAW\020\002\"L\n\022BattleStartRequest\022\022\n"
-  "\nbattleMode\030\001 \001(\005\022\020\n\010fromUser\030\002 \001(\014\022\020\n\010d"
-  "estUser\030\003 \001(\014\"{\n\023BattleStartResponse\0221\n\006"
-  "status\030\001 \001(\0162!.BattleProtocol.BattleStar"
-  "tStatus\022\017\n\007isUserA\030\002 \001(\005\022\017\n\007urPkmId\030\003 \001("
-  "\005\022\017\n\007taPkmId\030\004 \001(\005\";\n\023BattleInviteReques"
-  "t\022\022\n\nbattleMode\030\001 \001(\005\022\020\n\010fromUser\030\002 \001(\014\""
-  "\177\n\024BattleInviteResponse\022\022\n\nbattleMode\030\001 "
-  "\001(\005\022\020\n\010fromUser\030\002 \001(\014\022\020\n\010destUser\030\003 \001(\014\022"
-  "/\n\004flag\030\004 \001(\0162!.BattleProtocol.BattleSta"
-  "rtStatus\"$\n\020BattleGiveupInfo\022\020\n\010userName"
-  "\030\001 \001(\014\"I\n\024ChooseTrophieRequest\022\017\n\007pkmID_"
-  "1\030\001 \001(\005\022\017\n\007pkmID_2\030\002 \001(\005\022\017\n\007pkmID_3\030\003 \001("
-  "\005*.\n\013BattleModel\022\016\n\nEXP_BATTLE\020\000\022\017\n\013DUEL"
-  "_BATTLE\020\001*U\n\021BattleStartStatus\022\013\n\007SUCCES"
-  "S\020\000\022\013\n\007REFUSED\020\001\022\021\n\rALREADY_START\020\002\022\023\n\017D"
-  "EST_NOT_ONLINE\020\003b\006proto3"
+  "\n\024BattleProtocol.proto\022\016BattleProtocol\"\323"
+  "\001\n\016BattleTurnInfo\022\021\n\tskillName\030\001 \001(\014\0220\n\004"
+  "type\030\002 \001(\0162\".BattleProtocol.BattleTurnIn"
+  "foType\022\023\n\013selfDeltaHP\030\003 \001(\005\022\023\n\013destDelta"
+  "HP\030\004 \001(\005\022\022\n\nselfBuffID\030\005 \001(\005\022\024\n\014selfBuff"
+  "Last\030\006 \001(\005\022\022\n\ndestBuffID\030\007 \001(\005\022\024\n\014destBu"
+  "ffLast\030\010 \001(\005\"L\n\023BattleOperationInfo\022\017\n\007i"
+  "sUserA\030\001 \001(\005\022\022\n\nskillIndex\030\002 \001(\005\022\020\n\010user"
+  "Name\030\003 \001(\014\"\356\001\n\020BattleFinishInfo\022=\n\006resul"
+  "t\030\001 \001(\0162-.BattleProtocol.BattleFinishInf"
+  "o.BattleResult\0229\n\004mode\030\002 \001(\0162+.BattlePro"
+  "tocol.BattleFinishInfo.FinishMode\"!\n\014Bat"
+  "tleResult\022\007\n\003WIN\020\000\022\010\n\004LOSE\020\001\"=\n\nFinishMo"
+  "de\022\n\n\006NORMAL\020\000\022\031\n\025OPPOSITE_DISCONNECTED\020"
+  "\001\022\010\n\004DRAW\020\002\"L\n\022BattleStartRequest\022\022\n\nbat"
+  "tleMode\030\001 \001(\005\022\020\n\010fromUser\030\002 \001(\014\022\020\n\010destU"
+  "ser\030\003 \001(\014\"{\n\023BattleStartResponse\0221\n\006stat"
+  "us\030\001 \001(\0162!.BattleProtocol.BattleStartSta"
+  "tus\022\017\n\007isUserA\030\002 \001(\005\022\017\n\007urPkmId\030\003 \001(\005\022\017\n"
+  "\007taPkmId\030\004 \001(\005\";\n\023BattleInviteRequest\022\022\n"
+  "\nbattleMode\030\001 \001(\005\022\020\n\010fromUser\030\002 \001(\014\"\177\n\024B"
+  "attleInviteResponse\022\022\n\nbattleMode\030\001 \001(\005\022"
+  "\020\n\010fromUser\030\002 \001(\014\022\020\n\010destUser\030\003 \001(\014\022/\n\004f"
+  "lag\030\004 \001(\0162!.BattleProtocol.BattleStartSt"
+  "atus\"$\n\020BattleGiveupInfo\022\020\n\010userName\030\001 \001"
+  "(\014\"I\n\024ChooseTrophieRequest\022\017\n\007pkmID_1\030\001 "
+  "\001(\005\022\017\n\007pkmID_2\030\002 \001(\005\022\017\n\007pkmID_3\030\003 \001(\005*,\n"
+  "\022BattleTurnInfoType\022\n\n\006A_TO_B\020\000\022\n\n\006B_TO_"
+  "A\020\001*.\n\013BattleModel\022\016\n\nEXP_BATTLE\020\000\022\017\n\013DU"
+  "EL_BATTLE\020\001*U\n\021BattleStartStatus\022\013\n\007SUCC"
+  "ESS\020\000\022\013\n\007REFUSED\020\001\022\021\n\rALREADY_START\020\002\022\023\n"
+  "\017DEST_NOT_ONLINE\020\003b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_BattleProtocol_2eproto_deps[1] = {
 };
@@ -330,7 +332,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Bat
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_BattleProtocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_BattleProtocol_2eproto = {
-  false, false, descriptor_table_protodef_BattleProtocol_2eproto, "BattleProtocol.proto", 1184,
+  false, false, descriptor_table_protodef_BattleProtocol_2eproto, "BattleProtocol.proto", 1266,
   &descriptor_table_BattleProtocol_2eproto_once, descriptor_table_BattleProtocol_2eproto_sccs, descriptor_table_BattleProtocol_2eproto_deps, 9, 0,
   schemas, file_default_instances, TableStruct_BattleProtocol_2eproto::offsets,
   file_level_metadata_BattleProtocol_2eproto, 9, file_level_enum_descriptors_BattleProtocol_2eproto, file_level_service_descriptors_BattleProtocol_2eproto,
@@ -383,9 +385,23 @@ constexpr BattleFinishInfo_FinishMode BattleFinishInfo::FinishMode_MIN;
 constexpr BattleFinishInfo_FinishMode BattleFinishInfo::FinishMode_MAX;
 constexpr int BattleFinishInfo::FinishMode_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* BattleModel_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* BattleTurnInfoType_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_BattleProtocol_2eproto);
   return file_level_enum_descriptors_BattleProtocol_2eproto[2];
+}
+bool BattleTurnInfoType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* BattleModel_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_BattleProtocol_2eproto);
+  return file_level_enum_descriptors_BattleProtocol_2eproto[3];
 }
 bool BattleModel_IsValid(int value) {
   switch (value) {
@@ -399,7 +415,7 @@ bool BattleModel_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* BattleStartStatus_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_BattleProtocol_2eproto);
-  return file_level_enum_descriptors_BattleProtocol_2eproto[3];
+  return file_level_enum_descriptors_BattleProtocol_2eproto[4];
 }
 bool BattleStartStatus_IsValid(int value) {
   switch (value) {
@@ -505,11 +521,12 @@ const char* BattleTurnInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 type = 2;
+      // .BattleProtocol.BattleTurnInfoType type = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          type_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+          _internal_set_type(static_cast<::BattleProtocol::BattleTurnInfoType>(val));
         } else goto handle_unusual;
         continue;
       // int32 selfDeltaHP = 3;
@@ -588,10 +605,11 @@ failure:
         1, this->_internal_skillname(), target);
   }
 
-  // int32 type = 2;
+  // .BattleProtocol.BattleTurnInfoType type = 2;
   if (this->type() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_type(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      2, this->_internal_type(), target);
   }
 
   // int32 selfDeltaHP = 3;
@@ -653,11 +671,10 @@ size_t BattleTurnInfo::ByteSizeLong() const {
         this->_internal_skillname());
   }
 
-  // int32 type = 2;
+  // .BattleProtocol.BattleTurnInfoType type = 2;
   if (this->type() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_type());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_type());
   }
 
   // int32 selfDeltaHP = 3;
