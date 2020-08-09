@@ -68,8 +68,10 @@ message UserInfoResponse {
 }
 
 enum PokemonDataRequestMode {
-    BATTLE_START = 0;
-    MAIN_PAGE    = 1;
+    BATTLE_START    = 0;
+    MAIN_PAGE       = 1;
+    Trophie         = 2;
+    SERVER_PKM_LIST = 3;
 }
 
 message UserPokemonDataRequestInfo {

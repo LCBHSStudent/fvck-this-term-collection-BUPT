@@ -53,15 +53,17 @@ public FUNCTION:
     Q_INVOKABLE void
         sendSelfPokemonInfoRequest();
     Q_INVOKABLE void
+        sendServerPokemonInfoRequest();
+    Q_INVOKABLE void
         sendBattlePokemonInfoRequest(QString taUserName, int myPkmId, int taPkmId);
     Q_INVOKABLE void
         sendSelfUserInfoRequest();
     Q_INVOKABLE void
         sendUserInfoRequest(QString username);
     Q_INVOKABLE void
-        sendBattleStartRequest(int mode, QString destName);
+        sendBattleStartRequest(int mode, int pkmId, QString destName, int serverPkm = 0);
     Q_INVOKABLE void
-        sendBattleInviteResponse(int flag, int battleMode, QString fromUser);    
+        sendBattleInviteResponse(int flag, int battleMode, int pkmId, QString fromUser);    
     Q_INVOKABLE void
         sendBattleSkillIndex(int isUserA, int index);
     Q_INVOKABLE void

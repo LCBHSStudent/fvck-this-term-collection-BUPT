@@ -119,6 +119,7 @@ Page {
                         }
                     }
                     onClicked: {
+                        loadingPopup.showLoading("等待对方操作...")
                         enableOperate = false
                         backend.sendBattleSkillIndex(isUserA, index)
                     }
@@ -214,9 +215,27 @@ Page {
         contentH: contentW * 0.8
         
         onClicked: {
+            // battleMode
             stack.pop()
         }
     }
+    
+    GridPkmPopup {
+        id: gridPkmPopup
+        contentH: parent.height * 0.25
+        contentW: parent.width * 0.7
+        cellColumnCnt: 3
+        
+        onConfirmed: {
+            var pkmId = getSelectedPkmId()
+            hidePopup()
+            // 宝可梦所有权转移
+            // backend.send
+        }
+        
+//        opacity: 1
+    }
+    
     
     function getPokemonInfo() {
         backend.sendBattlePokemonInfoRequest(taUserName, myPkmId, taPkmId)
@@ -226,6 +245,7 @@ Page {
         target: backend
         onSigGetBattleTurnInfo: {
             console.debug("get battle turn info")
+            loadingPopup.hideLoading()
             enableOperate = true
             var log = ""
             console.log(info.type, isUserA, info.type ^ isUserA)
@@ -253,6 +273,7 @@ Page {
         }
         onSigGetBattleFinishInfo: {
             console.debug("get battle finish info")
+            loadingPopup.hideLoading()
             var log = ""
             if (mode == NORMAL) {
                 if (result === 0) {
@@ -283,6 +304,33 @@ Page {
                     myMaxHP     = pkmList[0].hp
                     myCurHP     = myMaxHP
                     myPkmId     = pkmList[0].id
+                }
+            }
+            if (mode === 2) {
+                gridPkmPopup.pkmDataModel.clear()
+                for (var i = 0; i < pkmList.length; i++) {
+                    gridPkmPopup.pkmDataModel.append({
+                        "_id":      pkmList[i].id,
+                        "typeId":   pkmList[i].typeId,
+                        "name":     pkmList[i].name,
+                        "level":    pkmList[i].level,
+                        "type":     pkmList[i].type,
+                        "exp":      pkmList[i].exp,
+                        "attr":     pkmList[i].attr,
+                        "atk":      pkmList[i].atk,
+                        "def":      pkmList[i].def,
+                        "hp":       pkmList[i].hp,
+                        "spd":      pkmList[i].spd,
+                        "skill_1":  pkmList[i].skill_1,
+                        "skill_2":  pkmList[i].skill_2,
+                        "skill_3":  pkmList[i].skill_3,
+                        "skill_4":  pkmList[i].skill_4,
+                        "desc":     pkmList[i].desc,
+                        "desc_s1":  pkmList[i].desc_s1,
+                        "desc_s2":  pkmList[i].desc_s2,
+                        "desc_s3":  pkmList[i].desc_s3,
+                        "desc_s4":  pkmList[i].desc_s4,
+                    })
                 }
             }
         }

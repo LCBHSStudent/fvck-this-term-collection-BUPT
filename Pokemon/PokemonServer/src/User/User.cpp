@@ -9,6 +9,9 @@ User::User(QString username, QTcpSocket* socket):
     m_userSocket(socket)
 {
     updateUserInfo();
+    if (m_pokemonList.size() > 0) {
+        m_battlePkmId = m_pokemonList[0];
+    }
 }
 
 User::User(const User& source) {
@@ -64,6 +67,28 @@ void User::updateUserInfo() {
     }
     qDebug() << "update user " + m_name + " info finished";
     
+}
+
+void User::battleWon() {
+    StorageHelper::Instance().transaction(
+        "UPDATE `user_list` SET \
+         TOTAL_BATTLE_TIME=TOTAL_BATTLE_TIME+1, WINNER_TIME=WINNER_TIME+1 \
+         WHERE USERNAME=?",
+         StorageHelper::DEFAULT_FUNC,
+         m_name
+    );
+    updateUserInfo();
+}
+
+void User::battleLose() {
+    StorageHelper::Instance().transaction(
+        "UPDATE `user_list` SET \
+         TOTAL_BATTLE_TIME=TOTAL_BATTLE_TIME+1 \
+         WHERE USERNAME=?",
+         StorageHelper::DEFAULT_FUNC,
+         m_name
+    );
+    updateUserInfo();
 }
 
 User::~User() {

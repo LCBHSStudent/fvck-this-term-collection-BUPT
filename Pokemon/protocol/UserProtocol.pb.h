@@ -273,12 +273,14 @@ inline bool UserPokemonDataRequestInfo_PokemonDataRequestType_Parse(
 enum PokemonDataRequestMode : int {
   BATTLE_START = 0,
   MAIN_PAGE = 1,
+  Trophie = 2,
+  SERVER_PKM_LIST = 3,
   PokemonDataRequestMode_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   PokemonDataRequestMode_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool PokemonDataRequestMode_IsValid(int value);
 constexpr PokemonDataRequestMode PokemonDataRequestMode_MIN = BATTLE_START;
-constexpr PokemonDataRequestMode PokemonDataRequestMode_MAX = MAIN_PAGE;
+constexpr PokemonDataRequestMode PokemonDataRequestMode_MAX = SERVER_PKM_LIST;
 constexpr int PokemonDataRequestMode_ARRAYSIZE = PokemonDataRequestMode_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PokemonDataRequestMode_descriptor();

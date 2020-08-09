@@ -1,7 +1,7 @@
 ﻿#include "PokemonBase.h"
 
-int PokemonBase::LEVEL_UP_EXP[MAX_LEVEL + 1] = {
-    0, 0, 1, 2, 3, 5, 7 ,11, 17, 25, 31, 39, 48, 61, 76, 83
+int PokemonBase::LEVEL_UP_EXP[MAX_LEVEL-1] = {
+    1, 2, 3, 5, 7 ,11, 17, 25, 31, 39, 48, 61, 76, 83
 };
 
 PropertyCombo PokemonBase::INITIAL_PROPERTY = {
@@ -36,18 +36,27 @@ void PokemonBase::printStatus() const {
     qDebug() << "------------------------DISPLAY FINISHED--------------------------";
 }
 
+void PokemonBase::save2LocalStorage() const {
+    StorageHelper::Instance().transaction(
+        "UPDATE `user_" + m_curUser + "` SET \
+         PKM_LEVEL=?, PKM_EXP=?, PKM_ATK=?, PKM_DEF=?, PKM_HP=?, PKM_SPD=? \
+         WHERE PKM_ID=?",
+        StorageHelper::DEFAULT_FUNC,
+        m_level, m_exp, m_ATK, m_DEF, m_HP, m_SPD, m_id
+    );
+}
 
 void PokemonBase::gainExperience(int exp) {
-	if ((m_exp + exp) <= m_exp)
+    if ((m_exp + exp) <= m_exp) {
 		return;
+    }
 	m_exp += exp;
-	int levelUpValue =
-		50 * this->m_level * (this->m_level + 1) / 2;
-	while (m_level < MAX_LEVEL) {
-		if (m_exp >= levelUpValue) {
-			this->levelUp();
-			levelUpValue += 50 * m_level;
-		}
+	
+    while (m_level < MAX_LEVEL && m_exp >= LEVEL_UP_EXP[m_level-1]) {
+        this->levelUp();
+		this->m_exp -= LEVEL_UP_EXP[m_level-1];
+        this->m_level++;
 	}
+	this->save2LocalStorage();
 }
 

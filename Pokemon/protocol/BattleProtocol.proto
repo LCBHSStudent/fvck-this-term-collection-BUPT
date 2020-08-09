@@ -38,15 +38,17 @@ message BattleFinishInfo {
     FinishMode      mode    = 2;
 };
 
-enum BattleModel {
+enum BattleMode {
     EXP_BATTLE  = 0;
     DUEL_BATTLE = 1;
 };
 
 message BattleStartRequest {
-    int32   battleMode  = 1; 
-    bytes   fromUser    = 2;
-    bytes   destUser    = 3;
+    BattleMode  battleMode      = 1; 
+    bytes       fromUser        = 2;
+    int32       fromUserPkmId   = 3;
+    bytes       destUser        = 4;
+    int32       serverPkmId     = 5;
 };
 
 enum BattleStartStatus {
@@ -64,22 +66,24 @@ message BattleStartResponse {
 };
 
 message BattleInviteRequest {
-    int32   battleMode  = 1;
-    bytes   fromUser    = 2;
+    int32   battleMode      = 1;
+    bytes   fromUser        = 2;
+    int32   fromUserPkmId   = 3;
 };
 
 message BattleInviteResponse {
-    int32   battleMode      = 1;
-    bytes   fromUser        = 2;
-    bytes   destUser        = 3;
-    BattleStartStatus flag  = 4;
+    BattleMode          battleMode      = 1;
+    bytes               fromUser        = 2;
+    bytes               destUser        = 3;
+    int32               destUserPkmId   = 4;
+    BattleStartStatus   flag            = 5;
 };
 
 message BattleGiveupInfo {
     bytes   userName = 1;
 };
 
-message ChooseTrophieRequest {
+message TrophiePkmIdInfo {
     int32   pkmID_1     = 1;
     int32   pkmID_2     = 2;
     int32   pkmID_3     = 3;

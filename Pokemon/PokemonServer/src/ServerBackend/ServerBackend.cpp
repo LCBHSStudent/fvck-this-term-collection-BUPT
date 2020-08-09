@@ -544,12 +544,24 @@ NET_SLOT(BattleInvite) {
     if (userA->get_status() == User::UserStatus::BATTLING) {
         return;
     }
+    // 设置出战宝可梦
+    userA->set_battlePkmId(info.fromuserpkmid());
     
     if (destUser == "_server") {
         {
-            auto pkmA = PokemonFactory::CreatePokemon(fromUser, 1);
-            auto pkmB = PokemonFactory::CreatePokemon(destUser, 1);
-            auto battle = new BattleField(userA, nullptr, pkmA, pkmB);
+            auto pkmA = PokemonFactory::CreatePokemon(fromUser, userA->get_battlePkmId());
+            auto pkmB = PokemonFactory::CreatePokemon(destUser, info.serverpkmid());
+            BattleField* battle = nullptr;
+            if (info.battlemode() == BattleProtocol::BattleMode::EXP_BATTLE) {
+                battle = new BattleField(
+                    userA, nullptr, pkmA, pkmB, BattleField::EXP_BATTLE
+                );
+            } else {
+                battle = new BattleField(
+                    userA, nullptr, pkmA, pkmB, BattleField::DUEL_BATTLE
+                );
+            }
+            
             connect(
                 battle, &BattleField::sigTurnInfoReady,
                 this,   &ServerBackend::slotGetTurnInfo
@@ -566,8 +578,8 @@ NET_SLOT(BattleInvite) {
         BattleProtocol::BattleStartResponse resInfo = {};
         resInfo.set_status(BattleProtocol::BattleStartStatus::SUCCESS);
         resInfo.set_isusera(1);
-        resInfo.set_tapkmid(1);
-        resInfo.set_urpkmid(1);
+        resInfo.set_tapkmid(info.serverpkmid());
+        resInfo.set_urpkmid(userA->get_battlePkmId());
         resInfo.PrintDebugString();
         
         PROC_PROTODATA(BattleStartResponse, resInfo);
@@ -596,12 +608,14 @@ NET_SLOT(BattleInvite) {
                 inviteInfo.set_battlemode(info.battlemode());
                 
                 inviteInfo.PrintDebugString();
+                // 如果找到对方用户，转发对战请求，结束函数
                 PROC_PROTODATA_WITH_DEST(
                     BattleInviteRequest, inviteInfo, userB->get_userSocket());
                 return;
             }
         }
         resInfo.PrintDebugString();
+        // 若未找到或对方正在对战中，则返回response给请求用户
         PROC_PROTODATA(BattleStartResponse, resInfo);
     }
 }
@@ -614,7 +628,6 @@ NET_SLOT(HandleBattleInviteResponse) {
     qDebug () << "[SERVER BACKEND] GET BATTLE INVITE RESPONSE";
     resInfo.PrintDebugString();
 #endif
-    
     
     BattleProtocol::BattleStartResponse startInfoA = {};
     BattleProtocol::BattleStartResponse startInfoB = {};
@@ -639,11 +652,49 @@ NET_SLOT(HandleBattleInviteResponse) {
         return;
     }
     
+    if (resInfo.flag() != BattleProtocol::BattleStartStatus::SUCCESS) {
+        {
+            PROC_PROTODATA_WITH_DEST(
+                BattleStartResponse, startInfoA, pUserA->get_userSocket());
+        }
+        {
+            PROC_PROTODATA_WITH_DEST(
+                BattleStartResponse, startInfoB, pUserB->get_userSocket());
+        }
+        return;
+    }
+    
+    pUserB->set_battlePkmId(resInfo.destuserpkmid());
+    int pkmId_A = pUserA->get_battlePkmId();
+    int pkmId_B = pUserB->get_battlePkmId();
+    
+    auto pPkmA  = PokemonFactory::CreatePokemon(userNameA, pkmId_A);
+    auto pPkmB  = PokemonFactory::CreatePokemon(userNameB, pkmId_B);
+    
+    BattleField* battle = nullptr;
+    if (resInfo.battlemode() == BattleProtocol::BattleMode::EXP_BATTLE) {
+        battle = 
+            new BattleField(pUserA, pUserB, pPkmA, pPkmB, BattleField::EXP_BATTLE);
+    } else {
+        battle = 
+            new BattleField(pUserA, pUserB, pPkmA, pPkmB, BattleField::DUEL_BATTLE);
+    }
+    connect(
+        battle, &BattleField::sigTurnInfoReady,
+        this,   &ServerBackend::slotGetTurnInfo
+    );
+    connect(
+        battle, &BattleField::sigBattleFinished,
+        this,   &ServerBackend::slotGetBattleResult
+    );
+    m_battleFieldList.push_back(battle);
+    
+    
+    
+    
     startInfoA.set_isusera(1);
     startInfoB.set_isusera(0);
     
-    int pkmId_A = 1;
-    int pkmId_B = 2;
     
     startInfoA.set_urpkmid(pkmId_A);
     startInfoB.set_tapkmid(pkmId_A);
@@ -660,8 +711,11 @@ NET_SLOT(HandleBattleInviteResponse) {
     }
     {
         PROC_PROTODATA_WITH_DEST(
-            BattleStartResponse, startInfoA, pUserA->get_userSocket());
+            BattleStartResponse, startInfoB, pUserB->get_userSocket());
     }
+    
+    pUserA->set_status(User::UserStatus::BATTLING);
+    pUserB->set_status(User::UserStatus::BATTLING);
 }
 
 NET_SLOT(HandleBattleOperation) {
@@ -766,9 +820,22 @@ void ServerBackend::slotGetBattleResult(User* winner) {
     BattleProtocol::BattleFinishInfo infoB = {};
     
     auto pBattleField = reinterpret_cast<BattleField*>(sender());
-    if (winner == pBattleField->getUserA()) {
+    auto pUserA = pBattleField->getUserA();
+    auto pUserB = pBattleField->getUserB();
+    
+    if (winner == pUserA) {
         infoA.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
         infoA.set_result(BattleProtocol::BattleFinishInfo_BattleResult_WIN);
+        
+        pBattleField->getPkmA()->gainExperience(
+            pBattleField->getPkmB()->get_level() * 1.5
+        );
+        pUserA->battleWon();
+        pUserA->set_status(User::UserStatus::IDLE);
+        if (pUserB != nullptr) {
+            pUserB->battleLose();
+            pUserB->set_status(User::UserStatus::IDLE);
+        }
         
         infoB.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
         infoB.set_result(BattleProtocol::BattleFinishInfo_BattleResult_LOSE);
@@ -776,26 +843,42 @@ void ServerBackend::slotGetBattleResult(User* winner) {
         infoB.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
         infoB.set_result(BattleProtocol::BattleFinishInfo_BattleResult_WIN);
         
+        if (pUserB != nullptr) {
+            pBattleField->getPkmB()->gainExperience(
+                pBattleField->getPkmA()->get_level() * 1.5
+            );
+            pUserB->battleWon();
+            pUserB->set_status(User::UserStatus::IDLE);
+        }
+        pUserA->battleLose();
+        pUserA->set_status(User::UserStatus::IDLE);
+        
         infoA.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
         infoA.set_result(BattleProtocol::BattleFinishInfo_BattleResult_LOSE);
     }
     infoA.PrintDebugString();
     infoB.PrintDebugString();
     {
-        auto pUserA = pBattleField->getUserA();
         if (pUserA != nullptr) {
             PROC_PROTODATA_WITH_DEST(
-                BattleFinishInfo, infoA, pBattleField->getUserA()->get_userSocket());
+                BattleFinishInfo, infoA, pUserA->get_userSocket());
         }
     }
     {
-        auto pUserB = pBattleField->getUserB();
         if (pUserB != nullptr) {
             PROC_PROTODATA_WITH_DEST(
-                BattleFinishInfo, infoB, pBattleField->getUserB()->get_userSocket());
+                BattleFinishInfo, infoB, pUserB->get_userSocket());
         }
     }
     
+    disconnect(
+        pBattleField,   &BattleField::sigTurnInfoReady,
+        this,           &ServerBackend::slotGetTurnInfo
+    );
+    disconnect(
+        pBattleField,   &BattleField::sigBattleFinished,
+        this,           &ServerBackend::slotGetBattleResult
+    );
     m_battleFieldList.removeOne(pBattleField);
     delete pBattleField;
 }

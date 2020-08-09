@@ -5,7 +5,7 @@
 // ------------为升级函数的可扩展性
 // ------------使用时在LevelUp函数内
 // ------------声明LEVELUP_PREFIX后操作升级变量
-// ------------使用LEVELUP_POSTFIX将变更写入user对应的宝可梦数据库
+// ------------使用LEVELUP_POSTFIX将变更写入user对应的宝可梦数据库 (废弃，改为调用save2...)
 #define LEVELUP_PREFIX \
     int ATK_INC = 0, \
         DEF_INC = 0, \
@@ -24,19 +24,10 @@
     ); \
 
 #define LEVELUP_POSTFIX \
-    this->m_ATK += ATK_INC; \
-    this->m_DEF += DEF_INC; \
-    this->m_SPD += SPD_INC; \
-    this->m_HP  += HP_INC; \
-    \
-    StorageHelper::Instance().transaction( \
-        "UPDATE `user_" + this->m_curUser + "` \
-         SET PKM_LEVEL=?, PKM_EXP=?, PKM_ATK=?, PKM_DEF=?, PKM_HP=?, PKM_SPD=? \
-         WHERE PKM_ID=?", \
-         StorageHelper::DEFAULT_FUNC, \
-         this->m_level, this->m_exp, this->m_ATK, this->m_DEF, this->m_HP, this->m_SPD, \
-         this->m_id \
-    ); \
+    this->m_ATK += ATK_INC;     \
+    this->m_DEF += DEF_INC;     \
+    this->m_SPD += SPD_INC;     \
+    this->m_HP  += HP_INC;      \
 
 //----------------------ATK REFERED------------------------//
 HighAtkPkm::HighAtkPkm(ARGS_LIST): 

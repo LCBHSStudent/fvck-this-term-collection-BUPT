@@ -16,12 +16,12 @@ public:
     virtual 
         ~User();
 public RESOURCE:
-	enum class BadgeType: uint32 {
+	enum class BadgeType: int {
 		BRONZE = 0,
 		SILVER,
 		GOLDEN
 	};
-	enum class UserStatus: uint32 {
+	enum class UserStatus: int {
 		IDLE = 0,
 		BATTLING,
         NOT_ONLINE,
@@ -30,6 +30,7 @@ public RESOURCE:
 	
 public FUNCTION:
 	PROPERTY(double,        winRate)
+    PROPERTY(int,           battlePkmId)
     PROPERTY(QString,       name)
 	PROPERTY(BadgeType,     countBadge)
 	PROPERTY(BadgeType,     qualityBadge)
@@ -50,6 +51,8 @@ private FUNCTION:
         updateUserInfo();
     
 private RESOURCE:
+    int
+        m_battlePkmId;
 	QString
 		m_name;
 	double

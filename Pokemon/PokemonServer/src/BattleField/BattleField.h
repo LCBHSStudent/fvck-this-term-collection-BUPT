@@ -7,22 +7,16 @@
 
 class BattleField: public QObject {
     Q_OBJECT
-public: 
-        BattleField(
-            User*           userA,
-            User*           userB,
-            PokemonBase*    pkmA,
-            PokemonBase*    pkmB,
-            QObject*        parent = nullptr
-        );
-    virtual 
-        ~BattleField();
-    
 public RESOURCE:
     enum BalanceType {
         A_TO_B = 0,
         B_TO_A
     };
+    enum BattleMode {
+        EXP_BATTLE = 0,
+        DUEL_BATTLE
+    };
+
     struct TurnInfo {
         BalanceType type;
         QString     skillName;
@@ -31,6 +25,18 @@ public RESOURCE:
         Buff        selfBuff;
         Buff        destBuff;
     };
+    
+public:
+        BattleField(
+            User*           userA,
+            User*           userB,
+            PokemonBase*    pkmA,
+            PokemonBase*    pkmB,
+            BattleMode      mode,
+            QObject*        parent = nullptr
+        );
+    virtual 
+        ~BattleField();
     
 public FUNCTION:
     void
@@ -45,7 +51,9 @@ public FUNCTION:
 		getUserB() const { return m_users[1]; }
 	PokemonBase*
 		getPkmB() const  { return m_pkmList[1]; }
-	
+	BattleMode
+        getMode() const  { return m_mode; }
+    
 private FUNCTION:
     void
         queryBuffList();
@@ -59,6 +67,8 @@ signals:
 		sigTurnInfoReady(TurnInfo info);
     
 private RESOURCE:
+    BattleMode
+        m_mode;
     std::array<User*, 2>
         m_users = {};
     std::array<PokemonBase*, 2>

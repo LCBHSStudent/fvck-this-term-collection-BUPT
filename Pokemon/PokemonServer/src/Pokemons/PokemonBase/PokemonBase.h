@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <PreCompile.h>
+#include "../../StorageHelper/StorageHelper.h"
 
 #define ARGS_LIST \
     QString             _name,  \
@@ -118,7 +119,7 @@ public RESOURCE:
 	static const int    
         MAX_LEVEL = 15;
     static int
-        LEVEL_UP_EXP[MAX_LEVEL + 1];
+        LEVEL_UP_EXP[MAX_LEVEL-1];
     static PropertyCombo
         INITIAL_PROPERTY;
     
@@ -168,7 +169,9 @@ public FUNCTION:
             }
         }
     void
-        printStatus() const ;
+        printStatus() const;
+    void
+        save2LocalStorage() const;
 
 protected RESOURCE:
 	QString

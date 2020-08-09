@@ -259,13 +259,23 @@ void ClientBackend::sendUserInfoRequest(QString username) {
     PROC_PROTODATA(UserInfoRequest, info);
 }
 
-void ClientBackend::sendBattleStartRequest(int mode, QString destName) {
+void ClientBackend::sendBattleStartRequest(
+    int     mode,
+    int     pkmId,
+    QString destName,
+    int     serverPkm
+) {
     CHECK_SOCKET_STATUS;
     
     BattleProtocol::BattleStartRequest info = {};
-    info.set_battlemode(mode);
+    if (mode == 0) {
+        info.set_battlemode(BattleProtocol::BattleMode::EXP_BATTLE);
+    } else {
+        info.set_battlemode(BattleProtocol::BattleMode::DUEL_BATTLE);
+    }
     info.set_fromuser(m_userName.toStdString());
     info.set_destuser(destName.toStdString());
+    info.set_fromuserpkmid(pkmId);
     
     PROC_PROTODATA(BattleInviteRequest, info);
 }
@@ -273,6 +283,7 @@ void ClientBackend::sendBattleStartRequest(int mode, QString destName) {
 void ClientBackend::sendBattleInviteResponse(
     int     flag,
     int     battleMode,
+    int     pkmId,
     QString fromUser
 ) {
     CHECK_SOCKET_STATUS;
@@ -283,9 +294,16 @@ void ClientBackend::sendBattleInviteResponse(
     } else if (flag == 1) {
         resInfo.set_flag(BattleProtocol::BattleStartStatus::REFUSED);
     }
+    
     resInfo.set_destuser(m_userName.toStdString());
     resInfo.set_fromuser(fromUser.toStdString());
-    resInfo.set_battlemode(battleMode);
+    resInfo.set_destuserpkmid(pkmId);
+    
+    if (battleMode == 0) {
+        resInfo.set_battlemode(BattleProtocol::BattleMode::EXP_BATTLE);
+    } else {
+        resInfo.set_battlemode(BattleProtocol::BattleMode::DUEL_BATTLE);
+    }
     
     PROC_PROTODATA(BattleInviteResponse, resInfo);
 }
@@ -315,6 +333,8 @@ void ClientBackend::sendBattlePokemonInfoRequest(
     int     myPkmId,
     int     taPkmId
 ) {
+    CHECK_SOCKET_STATUS;
+    
     UserProtocol::UserPokemonDataRequestInfo info1 = {};
     UserProtocol::UserPokemonDataRequestInfo info2 = {};
     
@@ -342,6 +362,19 @@ void ClientBackend::sendBattlePokemonInfoRequest(
         info2.PrintDebugString();
         PROC_PROTODATA(PokemonDataRequest, info2);
     }
+}
+
+void ClientBackend::sendServerPokemonInfoRequest() {
+    CHECK_SOCKET_STATUS;
+    
+    UserProtocol::UserPokemonDataRequestInfo info = {};
+    info.set_reqtype(
+        UserProtocol::UserPokemonDataRequestInfo_PokemonDataRequestType_ALL);
+    info.set_username("_server");
+    info.set_mode(UserProtocol::PokemonDataRequestMode::SERVER_PKM_LIST);
+    info.PrintDebugString();
+    
+    PROC_PROTODATA(PokemonDataRequest, info);
 }
 
 //    QList<QString> nameList = {};

@@ -15,5 +15,7 @@
         <file>qml/components/TwoBtnToast.qml</file>
         <file>qml/components/PkmInfoPopup.qml</file>
         <file>qml/components/HpBar.qml</file>
+        <file>qml/components/GridPkmPopup.qml</file>
+        <file>qml/components/LoadingPopup.qml</file>
     </qresource>
 </RCC>

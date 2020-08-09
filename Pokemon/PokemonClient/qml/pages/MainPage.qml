@@ -11,6 +11,7 @@ Page {
     
     readonly property color pageColor: "#AAFAFAFA"
     property string destUserName: ""
+    property int battleMode: 0
     
     // ------------BACKGROUND -------------- //
     Image {
@@ -228,10 +229,57 @@ Page {
         readonly property int refuse: 1
         
         onConfirmed: {
-            backend.sendBattleInviteResponse(accept, battleMode, fromUser)
+            gridPkmPopup.selectServerPkm = false
+            gridPkmPopup.isInvited = true
+            gridPkmPopup.showPopup()
         }
         onCanceled: {
+            gridPkmPopup.isInvited = false
             backend.sendBattleInviteResponse(refuse, battleMode, fromUser)
+        }
+    }
+    
+    ListModel {
+        id: pkmDataModel_t
+    }
+    ListModel {
+        id: pkmDataModel_server
+    }
+    
+    
+    GridPkmPopup {
+        id: gridPkmPopup
+        contentW: parent.width * 0.8
+        contentH: contentW
+        
+        pkmDataModel: selectServerPkm? pkmDataModel_server: pkmDataModel_t
+        
+        property bool   selectServerPkm: false
+        property bool   isInvited: false
+        property int    serverPkmId: 0
+        
+        onConfirmed: {
+            if (!selectServerPkm) {
+                if (isInvited) {
+                    backend.sendBattleInviteResponse(
+                        invitePopup.accept,
+                        battleMode,
+                        getSelectedPkmId(),
+                        invitePopup.fromUser
+                    )
+                    isInvited = false
+                } else {
+                    backend.sendBattleStartRequest(
+                        battleMode, getSelectedPkmId(), destUserName, serverPkmId
+                    )
+                }
+                hidePopup()
+                loadingPopup.showLoading("等待建立对战...")
+            } else {
+                serverPkmId = getSelectedPkmId()
+                selectServerPkm = false
+                showPopup()
+            }
         }
     }
     
@@ -253,8 +301,12 @@ Page {
             invitePopup.battleMode = battleMode
             invitePopup.showPopup("收到对战请求", stat)
         }
+        
         onSigGetBattleStartResponse: {
             console.debug("onSigGetBattleStartResponse")
+            gridPkmPopup.hidePopup()
+            loadingPopup.hideLoading()
+            
             switch (status) {
             case 0:
                 stack.push("BattlePage.qml")
@@ -277,6 +329,39 @@ Page {
                 break
             }
         }
+        
+        onSigGetPokemonDataList: {
+            if (mode === 3) {
+                pkmDataModel_server.clear()
+                for (var i = 0; i < pkmList.length; i++) {
+                    pkmDataModel_server.append({
+                        "_id":      pkmList[i].id,
+                        "typeId":   pkmList[i].typeId,
+                        "name":     pkmList[i].name,
+                        "level":    pkmList[i].level,
+                        "type":     pkmList[i].type,
+                        "exp":      pkmList[i].exp,
+                        "attr":     pkmList[i].attr,
+                        "atk":      pkmList[i].atk,
+                        "def":      pkmList[i].def,
+                        "hp":       pkmList[i].hp,
+                        "spd":      pkmList[i].spd,
+                        "skill_1":  pkmList[i].skill_1,
+                        "skill_2":  pkmList[i].skill_2,
+                        "skill_3":  pkmList[i].skill_3,
+                        "skill_4":  pkmList[i].skill_4,
+                        "desc":     pkmList[i].desc,
+                        "desc_s1":  pkmList[i].desc_s1,
+                        "desc_s2":  pkmList[i].desc_s2,
+                        "desc_s3":  pkmList[i].desc_s3,
+                        "desc_s4":  pkmList[i].desc_s4,
+                    })
+                }
+            }
+        }
+    }
+    Connections {
+        
     }
     
     ////////////////////////////////////////////////////////////////////////////////
@@ -318,8 +403,15 @@ Page {
                     anchors.horizontalCenter: parent.horizontalCenter
                     onClicked: {
                         destUserName = destNameInput.text
-                        backend.sendBattleStartRequest(
-                            modeCheckGroup.battleMode, destNameInput.text)
+                        battleMode = modeCheckGroup.battleMode
+                        
+                        pkmDataModel_t.clear()
+                        backend.sendSelfPokemonInfoRequest()
+                        gridPkmPopup.showPopup()
+                        loadingPopup.showLoading("等待获取您的宝可梦信息...")
+                        
+//                        backend.sendBattleStartRequest(
+//                            modeCheckGroup.battleMode, destNameInput.text)
                     }
                 }
                 MFlatBtn {
@@ -330,8 +422,16 @@ Page {
                     anchors.horizontalCenter: parent.horizontalCenter
                     onClicked: {
                         destUserName = "_server"
-                        backend.sendBattleStartRequest(
-                            modeCheckGroup.battleMode, "_server")
+                        battleMode = modeCheckGroup.battleMode
+                        
+                        pkmDataModel_t.clear()
+                        backend.sendSelfPokemonInfoRequest()
+                        gridPkmPopup.selectServerPkm = true
+                        gridPkmPopup.showPopup()
+                        loadingPopup.showLoading("等待获取您的宝可梦信息...")
+                        
+//                        backend.sendBattleStartRequest(
+//                            modeCheckGroup.battleMode, "_server")
                     }
                 }
                 Row {
@@ -385,13 +485,14 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     backend.sendSelfPokemonInfoRequest()
+                    loadingPopup.showLoading("正在获取宝可梦信息")
                 }
             }
             
             GridView {
                 id: pkmView
                 clip: true
-                model: pkmDataModel
+                model: pkmDataModel_t
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     top: parent.top
@@ -450,18 +551,16 @@ Page {
                 }
             }
             
-            ListModel {
-                id: pkmDataModel
-            }
+            
             
             Connections {
                 target: backend
                 onSigGetPokemonDataList: {
                     console.debug("onSigGetPokemonDataList")
                     if (mode === 1) {
-                        pkmDataModel.clear()
+                        pkmDataModel_t.clear()
                         for (var i = 0; i < pkmList.length; i++) {
-                            pkmDataModel.append({
+                            pkmDataModel_t.append({
                                 "_id":      pkmList[i].id,
                                 "typeId":   pkmList[i].typeId,
                                 "name":     pkmList[i].name,
@@ -484,6 +583,7 @@ Page {
                                 "desc_s4":  pkmList[i].desc_s4,
                             })
                         }
+                        loadingPopup.hideLoading()
                     }
                 }
             }
@@ -861,6 +961,8 @@ Page {
         }
     }
     
-    
+    Component.onCompleted: {
+        backend.sendServerPokemonInfoRequest()
+    }
     
 }

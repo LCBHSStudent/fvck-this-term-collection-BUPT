@@ -20,6 +20,8 @@ ApplicationWindow {
     
     function w(val) {return val/100.0*root.width}
     
+    property alias loadingPopup: loadingPopup_t
+    
     UIBase {id: utils}
     
     StackView {
@@ -59,6 +61,11 @@ ApplicationWindow {
                 duration: 200
             }
         }
+    }
+    
+    LoadingPopup {
+        id: loadingPopup_t
+        z:  999
     }
     
     function getRandomInt(max) {

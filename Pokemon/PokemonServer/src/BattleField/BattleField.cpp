@@ -18,8 +18,11 @@ BattleField::BattleField(
     User*           userB,
     PokemonBase*    pkmA,
     PokemonBase*    pkmB,
+    BattleMode      mode,
     QObject*        parent
-):  QObject(parent) {
+):  QObject(parent),
+    m_mode(mode)
+{
     // 初始化对战环境啊嗯
     {
         m_users   = {userA, userB};
