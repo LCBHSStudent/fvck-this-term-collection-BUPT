@@ -121,6 +121,7 @@ Page {
                 
                 onClicked: {
                     if(userName.text.length && userPsw.text.length) {
+                        loadingPopup.showLoading("正在登录...")
                         backend.sendLoginRequest(userName.text, userPsw.text)
                     }
                 }
@@ -214,6 +215,7 @@ Page {
                 
                 onClicked: {
                     if(signUpName.text.length && signUpPsw.text.length) {
+                        loadingPopup.showLoading("正在注册...")
                         backend.sendSignUpRequest(signUpName.text, signUpPsw.text)
                     }
                 }
@@ -296,10 +298,12 @@ Page {
         onSigUserSignUp: {
             switch(status) {
             case 0:
-                storage.setValue("username", userName.text)
-                storage.setValue("password", userPsw.text)
-                stack.clear()
-                stack.push("MainPage.qml")
+                loadingPopup.hideLoading()
+                userName.text = signUpName.text
+                userName.text = signUpPsw.text
+                storage.setValue("username", signUpName.text)
+                storage.setValue("password", signUpPsw.text)
+                popup.showPopup("注册成功", "现在登录")
                 break
             case 1:
                 popup.showPopup("该用户名已经被注册", "重试")

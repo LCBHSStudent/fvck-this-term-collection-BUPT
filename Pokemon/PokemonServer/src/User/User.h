@@ -45,10 +45,10 @@ public FUNCTION:
         battleWon();
     void
         battleLose();
-    
-private FUNCTION:
     void 
         updateUserInfo();
+    
+private FUNCTION:
     
 private RESOURCE:
     int

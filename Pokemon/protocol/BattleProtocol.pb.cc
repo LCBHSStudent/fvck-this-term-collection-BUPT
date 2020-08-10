@@ -47,10 +47,6 @@ class BattleGiveupInfoDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<BattleGiveupInfo> _instance;
 } _BattleGiveupInfo_default_instance_;
-class TrophiePkmIdInfoDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TrophiePkmIdInfo> _instance;
-} _TrophiePkmIdInfo_default_instance_;
 }  // namespace BattleProtocol
 static void InitDefaultsscc_info_BattleFinishInfo_BattleProtocol_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -164,21 +160,7 @@ static void InitDefaultsscc_info_BattleTurnInfo_BattleProtocol_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_BattleTurnInfo_BattleProtocol_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_BattleTurnInfo_BattleProtocol_2eproto}, {}};
 
-static void InitDefaultsscc_info_TrophiePkmIdInfo_BattleProtocol_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::BattleProtocol::_TrophiePkmIdInfo_default_instance_;
-    new (ptr) ::BattleProtocol::TrophiePkmIdInfo();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::BattleProtocol::TrophiePkmIdInfo::InitAsDefaultInstance();
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TrophiePkmIdInfo_BattleProtocol_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TrophiePkmIdInfo_BattleProtocol_2eproto}, {}};
-
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_BattleProtocol_2eproto[9];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_BattleProtocol_2eproto[8];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_BattleProtocol_2eproto[5];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_BattleProtocol_2eproto = nullptr;
 
@@ -254,14 +236,6 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_BattleProtocol_2eproto::offset
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::BattleProtocol::BattleGiveupInfo, username_),
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::BattleProtocol::TrophiePkmIdInfo, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::BattleProtocol::TrophiePkmIdInfo, pkmid_1_),
-  PROTOBUF_FIELD_OFFSET(::BattleProtocol::TrophiePkmIdInfo, pkmid_2_),
-  PROTOBUF_FIELD_OFFSET(::BattleProtocol::TrophiePkmIdInfo, pkmid_3_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::BattleProtocol::BattleTurnInfo)},
@@ -272,7 +246,6 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 47, -1, sizeof(::BattleProtocol::BattleInviteRequest)},
   { 55, -1, sizeof(::BattleProtocol::BattleInviteResponse)},
   { 65, -1, sizeof(::BattleProtocol::BattleGiveupInfo)},
-  { 71, -1, sizeof(::BattleProtocol::TrophiePkmIdInfo)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -284,7 +257,6 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::BattleProtocol::_BattleInviteRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::BattleProtocol::_BattleInviteResponse_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::BattleProtocol::_BattleGiveupInfo_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::BattleProtocol::_TrophiePkmIdInfo_default_instance_),
 };
 
 const char descriptor_table_protodef_BattleProtocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -316,18 +288,16 @@ const char descriptor_table_protodef_BattleProtocol_2eproto[] PROTOBUF_SECTION_V
   "Mode\022\020\n\010fromUser\030\002 \001(\014\022\020\n\010destUser\030\003 \001(\014"
   "\022\025\n\rdestUserPkmId\030\004 \001(\005\022/\n\004flag\030\005 \001(\0162!."
   "BattleProtocol.BattleStartStatus\"$\n\020Batt"
-  "leGiveupInfo\022\020\n\010userName\030\001 \001(\014\"E\n\020Trophi"
-  "ePkmIdInfo\022\017\n\007pkmID_1\030\001 \001(\005\022\017\n\007pkmID_2\030\002"
-  " \001(\005\022\017\n\007pkmID_3\030\003 \001(\005*,\n\022BattleTurnInfoT"
-  "ype\022\n\n\006A_TO_B\020\000\022\n\n\006B_TO_A\020\001*-\n\nBattleMod"
-  "e\022\016\n\nEXP_BATTLE\020\000\022\017\n\013DUEL_BATTLE\020\001*U\n\021Ba"
-  "ttleStartStatus\022\013\n\007SUCCESS\020\000\022\013\n\007REFUSED\020"
-  "\001\022\021\n\rALREADY_START\020\002\022\023\n\017DEST_NOT_ONLINE\020"
-  "\003b\006proto3"
+  "leGiveupInfo\022\020\n\010userName\030\001 \001(\014*,\n\022Battle"
+  "TurnInfoType\022\n\n\006A_TO_B\020\000\022\n\n\006B_TO_A\020\001*-\n\n"
+  "BattleMode\022\016\n\nEXP_BATTLE\020\000\022\017\n\013DUEL_BATTL"
+  "E\020\001*U\n\021BattleStartStatus\022\013\n\007SUCCESS\020\000\022\013\n"
+  "\007REFUSED\020\001\022\021\n\rALREADY_START\020\002\022\023\n\017DEST_NO"
+  "T_ONLINE\020\003b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_BattleProtocol_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_BattleProtocol_2eproto_sccs[9] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_BattleProtocol_2eproto_sccs[8] = {
   &scc_info_BattleFinishInfo_BattleProtocol_2eproto.base,
   &scc_info_BattleGiveupInfo_BattleProtocol_2eproto.base,
   &scc_info_BattleInviteRequest_BattleProtocol_2eproto.base,
@@ -336,14 +306,13 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Bat
   &scc_info_BattleStartRequest_BattleProtocol_2eproto.base,
   &scc_info_BattleStartResponse_BattleProtocol_2eproto.base,
   &scc_info_BattleTurnInfo_BattleProtocol_2eproto.base,
-  &scc_info_TrophiePkmIdInfo_BattleProtocol_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_BattleProtocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_BattleProtocol_2eproto = {
-  false, false, descriptor_table_protodef_BattleProtocol_2eproto, "BattleProtocol.proto", 1409,
-  &descriptor_table_BattleProtocol_2eproto_once, descriptor_table_BattleProtocol_2eproto_sccs, descriptor_table_BattleProtocol_2eproto_deps, 9, 0,
+  false, false, descriptor_table_protodef_BattleProtocol_2eproto, "BattleProtocol.proto", 1338,
+  &descriptor_table_BattleProtocol_2eproto_once, descriptor_table_BattleProtocol_2eproto_sccs, descriptor_table_BattleProtocol_2eproto_deps, 8, 0,
   schemas, file_default_instances, TableStruct_BattleProtocol_2eproto::offsets,
-  file_level_metadata_BattleProtocol_2eproto, 9, file_level_enum_descriptors_BattleProtocol_2eproto, file_level_service_descriptors_BattleProtocol_2eproto,
+  file_level_metadata_BattleProtocol_2eproto, 8, file_level_enum_descriptors_BattleProtocol_2eproto, file_level_service_descriptors_BattleProtocol_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -2709,260 +2678,6 @@ void BattleGiveupInfo::InternalSwap(BattleGiveupInfo* other) {
 }
 
 
-// ===================================================================
-
-void TrophiePkmIdInfo::InitAsDefaultInstance() {
-}
-class TrophiePkmIdInfo::_Internal {
- public:
-};
-
-TrophiePkmIdInfo::TrophiePkmIdInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:BattleProtocol.TrophiePkmIdInfo)
-}
-TrophiePkmIdInfo::TrophiePkmIdInfo(const TrophiePkmIdInfo& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&pkmid_1_, &from.pkmid_1_,
-    static_cast<size_t>(reinterpret_cast<char*>(&pkmid_3_) -
-    reinterpret_cast<char*>(&pkmid_1_)) + sizeof(pkmid_3_));
-  // @@protoc_insertion_point(copy_constructor:BattleProtocol.TrophiePkmIdInfo)
-}
-
-void TrophiePkmIdInfo::SharedCtor() {
-  ::memset(&pkmid_1_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&pkmid_3_) -
-      reinterpret_cast<char*>(&pkmid_1_)) + sizeof(pkmid_3_));
-}
-
-TrophiePkmIdInfo::~TrophiePkmIdInfo() {
-  // @@protoc_insertion_point(destructor:BattleProtocol.TrophiePkmIdInfo)
-  SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-void TrophiePkmIdInfo::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
-}
-
-void TrophiePkmIdInfo::ArenaDtor(void* object) {
-  TrophiePkmIdInfo* _this = reinterpret_cast< TrophiePkmIdInfo* >(object);
-  (void)_this;
-}
-void TrophiePkmIdInfo::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
-void TrophiePkmIdInfo::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-const TrophiePkmIdInfo& TrophiePkmIdInfo::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_TrophiePkmIdInfo_BattleProtocol_2eproto.base);
-  return *internal_default_instance();
-}
-
-
-void TrophiePkmIdInfo::Clear() {
-// @@protoc_insertion_point(message_clear_start:BattleProtocol.TrophiePkmIdInfo)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  ::memset(&pkmid_1_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&pkmid_3_) -
-      reinterpret_cast<char*>(&pkmid_1_)) + sizeof(pkmid_3_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* TrophiePkmIdInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
-    switch (tag >> 3) {
-      // int32 pkmID_1 = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          pkmid_1_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // int32 pkmID_2 = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          pkmid_2_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // int32 pkmID_3 = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
-          pkmid_3_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      default: {
-      handle_unusual:
-        if ((tag & 7) == 4 || tag == 0) {
-          ctx->SetLastTag(tag);
-          goto success;
-        }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
-      }
-    }  // switch
-  }  // while
-success:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
-}
-
-::PROTOBUF_NAMESPACE_ID::uint8* TrophiePkmIdInfo::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:BattleProtocol.TrophiePkmIdInfo)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // int32 pkmID_1 = 1;
-  if (this->pkmid_1() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_pkmid_1(), target);
-  }
-
-  // int32 pkmID_2 = 2;
-  if (this->pkmid_2() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_pkmid_2(), target);
-  }
-
-  // int32 pkmID_3 = 3;
-  if (this->pkmid_3() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_pkmid_3(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:BattleProtocol.TrophiePkmIdInfo)
-  return target;
-}
-
-size_t TrophiePkmIdInfo::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:BattleProtocol.TrophiePkmIdInfo)
-  size_t total_size = 0;
-
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // int32 pkmID_1 = 1;
-  if (this->pkmid_1() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_pkmid_1());
-  }
-
-  // int32 pkmID_2 = 2;
-  if (this->pkmid_2() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_pkmid_2());
-  }
-
-  // int32 pkmID_3 = 3;
-  if (this->pkmid_3() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_pkmid_3());
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
-        _internal_metadata_, total_size, &_cached_size_);
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
-  SetCachedSize(cached_size);
-  return total_size;
-}
-
-void TrophiePkmIdInfo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:BattleProtocol.TrophiePkmIdInfo)
-  GOOGLE_DCHECK_NE(&from, this);
-  const TrophiePkmIdInfo* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<TrophiePkmIdInfo>(
-          &from);
-  if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:BattleProtocol.TrophiePkmIdInfo)
-    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:BattleProtocol.TrophiePkmIdInfo)
-    MergeFrom(*source);
-  }
-}
-
-void TrophiePkmIdInfo::MergeFrom(const TrophiePkmIdInfo& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:BattleProtocol.TrophiePkmIdInfo)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.pkmid_1() != 0) {
-    _internal_set_pkmid_1(from._internal_pkmid_1());
-  }
-  if (from.pkmid_2() != 0) {
-    _internal_set_pkmid_2(from._internal_pkmid_2());
-  }
-  if (from.pkmid_3() != 0) {
-    _internal_set_pkmid_3(from._internal_pkmid_3());
-  }
-}
-
-void TrophiePkmIdInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:BattleProtocol.TrophiePkmIdInfo)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void TrophiePkmIdInfo::CopyFrom(const TrophiePkmIdInfo& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:BattleProtocol.TrophiePkmIdInfo)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool TrophiePkmIdInfo::IsInitialized() const {
-  return true;
-}
-
-void TrophiePkmIdInfo::InternalSwap(TrophiePkmIdInfo* other) {
-  using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(TrophiePkmIdInfo, pkmid_3_)
-      + sizeof(TrophiePkmIdInfo::pkmid_3_)
-      - PROTOBUF_FIELD_OFFSET(TrophiePkmIdInfo, pkmid_1_)>(
-          reinterpret_cast<char*>(&pkmid_1_),
-          reinterpret_cast<char*>(&other->pkmid_1_));
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata TrophiePkmIdInfo::GetMetadata() const {
-  return GetMetadataStatic();
-}
-
-
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace BattleProtocol
 PROTOBUF_NAMESPACE_OPEN
@@ -2989,9 +2704,6 @@ template<> PROTOBUF_NOINLINE ::BattleProtocol::BattleInviteResponse* Arena::Crea
 }
 template<> PROTOBUF_NOINLINE ::BattleProtocol::BattleGiveupInfo* Arena::CreateMaybeMessage< ::BattleProtocol::BattleGiveupInfo >(Arena* arena) {
   return Arena::CreateMessageInternal< ::BattleProtocol::BattleGiveupInfo >(arena);
-}
-template<> PROTOBUF_NOINLINE ::BattleProtocol::TrophiePkmIdInfo* Arena::CreateMaybeMessage< ::BattleProtocol::TrophiePkmIdInfo >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::BattleProtocol::TrophiePkmIdInfo >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

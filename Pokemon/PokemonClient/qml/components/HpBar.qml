@@ -35,14 +35,12 @@ Image {
             }
             radius: utils.dp(4)
             
-            
-            Behavior on width {
-                PropertyAnimation {
-                    duration: 400
-                }
+        }
+        
+        Behavior on width {
+            PropertyAnimation {
+                duration: 400
             }
-            
-            
         }
     }
     

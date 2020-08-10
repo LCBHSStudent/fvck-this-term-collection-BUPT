@@ -48,7 +48,7 @@ struct TableStruct_BattleProtocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[9]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[8]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -80,9 +80,6 @@ extern BattleStartResponseDefaultTypeInternal _BattleStartResponse_default_insta
 class BattleTurnInfo;
 class BattleTurnInfoDefaultTypeInternal;
 extern BattleTurnInfoDefaultTypeInternal _BattleTurnInfo_default_instance_;
-class TrophiePkmIdInfo;
-class TrophiePkmIdInfoDefaultTypeInternal;
-extern TrophiePkmIdInfoDefaultTypeInternal _TrophiePkmIdInfo_default_instance_;
 }  // namespace BattleProtocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::BattleProtocol::BattleFinishInfo* Arena::CreateMaybeMessage<::BattleProtocol::BattleFinishInfo>(Arena*);
@@ -93,7 +90,6 @@ template<> ::BattleProtocol::BattleOperationInfo* Arena::CreateMaybeMessage<::Ba
 template<> ::BattleProtocol::BattleStartRequest* Arena::CreateMaybeMessage<::BattleProtocol::BattleStartRequest>(Arena*);
 template<> ::BattleProtocol::BattleStartResponse* Arena::CreateMaybeMessage<::BattleProtocol::BattleStartResponse>(Arena*);
 template<> ::BattleProtocol::BattleTurnInfo* Arena::CreateMaybeMessage<::BattleProtocol::BattleTurnInfo>(Arena*);
-template<> ::BattleProtocol::TrophiePkmIdInfo* Arena::CreateMaybeMessage<::BattleProtocol::TrophiePkmIdInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace BattleProtocol {
 
@@ -1764,165 +1760,6 @@ class BattleGiveupInfo PROTOBUF_FINAL :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_BattleProtocol_2eproto;
 };
-// -------------------------------------------------------------------
-
-class TrophiePkmIdInfo PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:BattleProtocol.TrophiePkmIdInfo) */ {
- public:
-  inline TrophiePkmIdInfo() : TrophiePkmIdInfo(nullptr) {};
-  virtual ~TrophiePkmIdInfo();
-
-  TrophiePkmIdInfo(const TrophiePkmIdInfo& from);
-  TrophiePkmIdInfo(TrophiePkmIdInfo&& from) noexcept
-    : TrophiePkmIdInfo() {
-    *this = ::std::move(from);
-  }
-
-  inline TrophiePkmIdInfo& operator=(const TrophiePkmIdInfo& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline TrophiePkmIdInfo& operator=(TrophiePkmIdInfo&& from) noexcept {
-    if (GetArena() == from.GetArena()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const TrophiePkmIdInfo& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const TrophiePkmIdInfo* internal_default_instance() {
-    return reinterpret_cast<const TrophiePkmIdInfo*>(
-               &_TrophiePkmIdInfo_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    8;
-
-  friend void swap(TrophiePkmIdInfo& a, TrophiePkmIdInfo& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(TrophiePkmIdInfo* other) {
-    if (other == this) return;
-    if (GetArena() == other->GetArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(TrophiePkmIdInfo* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline TrophiePkmIdInfo* New() const final {
-    return CreateMaybeMessage<TrophiePkmIdInfo>(nullptr);
-  }
-
-  TrophiePkmIdInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<TrophiePkmIdInfo>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const TrophiePkmIdInfo& from);
-  void MergeFrom(const TrophiePkmIdInfo& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(TrophiePkmIdInfo* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "BattleProtocol.TrophiePkmIdInfo";
-  }
-  protected:
-  explicit TrophiePkmIdInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_BattleProtocol_2eproto);
-    return ::descriptor_table_BattleProtocol_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kPkmID1FieldNumber = 1,
-    kPkmID2FieldNumber = 2,
-    kPkmID3FieldNumber = 3,
-  };
-  // int32 pkmID_1 = 1;
-  void clear_pkmid_1();
-  ::PROTOBUF_NAMESPACE_ID::int32 pkmid_1() const;
-  void set_pkmid_1(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_pkmid_1() const;
-  void _internal_set_pkmid_1(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 pkmID_2 = 2;
-  void clear_pkmid_2();
-  ::PROTOBUF_NAMESPACE_ID::int32 pkmid_2() const;
-  void set_pkmid_2(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_pkmid_2() const;
-  void _internal_set_pkmid_2(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 pkmID_3 = 3;
-  void clear_pkmid_3();
-  ::PROTOBUF_NAMESPACE_ID::int32 pkmid_3() const;
-  void set_pkmid_3(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_pkmid_3() const;
-  void _internal_set_pkmid_3(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:BattleProtocol.TrophiePkmIdInfo)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::int32 pkmid_1_;
-  ::PROTOBUF_NAMESPACE_ID::int32 pkmid_2_;
-  ::PROTOBUF_NAMESPACE_ID::int32 pkmid_3_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_BattleProtocol_2eproto;
-};
 // ===================================================================
 
 
@@ -3070,75 +2907,9 @@ inline void BattleGiveupInfo::unsafe_arena_set_allocated_username(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:BattleProtocol.BattleGiveupInfo.userName)
 }
 
-// -------------------------------------------------------------------
-
-// TrophiePkmIdInfo
-
-// int32 pkmID_1 = 1;
-inline void TrophiePkmIdInfo::clear_pkmid_1() {
-  pkmid_1_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 TrophiePkmIdInfo::_internal_pkmid_1() const {
-  return pkmid_1_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 TrophiePkmIdInfo::pkmid_1() const {
-  // @@protoc_insertion_point(field_get:BattleProtocol.TrophiePkmIdInfo.pkmID_1)
-  return _internal_pkmid_1();
-}
-inline void TrophiePkmIdInfo::_internal_set_pkmid_1(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  pkmid_1_ = value;
-}
-inline void TrophiePkmIdInfo::set_pkmid_1(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_pkmid_1(value);
-  // @@protoc_insertion_point(field_set:BattleProtocol.TrophiePkmIdInfo.pkmID_1)
-}
-
-// int32 pkmID_2 = 2;
-inline void TrophiePkmIdInfo::clear_pkmid_2() {
-  pkmid_2_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 TrophiePkmIdInfo::_internal_pkmid_2() const {
-  return pkmid_2_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 TrophiePkmIdInfo::pkmid_2() const {
-  // @@protoc_insertion_point(field_get:BattleProtocol.TrophiePkmIdInfo.pkmID_2)
-  return _internal_pkmid_2();
-}
-inline void TrophiePkmIdInfo::_internal_set_pkmid_2(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  pkmid_2_ = value;
-}
-inline void TrophiePkmIdInfo::set_pkmid_2(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_pkmid_2(value);
-  // @@protoc_insertion_point(field_set:BattleProtocol.TrophiePkmIdInfo.pkmID_2)
-}
-
-// int32 pkmID_3 = 3;
-inline void TrophiePkmIdInfo::clear_pkmid_3() {
-  pkmid_3_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 TrophiePkmIdInfo::_internal_pkmid_3() const {
-  return pkmid_3_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 TrophiePkmIdInfo::pkmid_3() const {
-  // @@protoc_insertion_point(field_get:BattleProtocol.TrophiePkmIdInfo.pkmID_3)
-  return _internal_pkmid_3();
-}
-inline void TrophiePkmIdInfo::_internal_set_pkmid_3(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  pkmid_3_ = value;
-}
-inline void TrophiePkmIdInfo::set_pkmid_3(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_pkmid_3(value);
-  // @@protoc_insertion_point(field_set:BattleProtocol.TrophiePkmIdInfo.pkmID_3)
-}
-
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

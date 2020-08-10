@@ -181,7 +181,15 @@ void ClientBackend::slotGetServerMessage(QByteArray data) {
         
         emit sigGetBattleFinishInfo(info.result(), info.mode());
     } break;
+    
+    case TransferPokemonResponse: {
+        UserProtocol::TransferPokemonResponse info = {};
+        info.ParseFromArray(data.data()+4, data.size()-4);
         
+        info.PrintDebugString();
+        
+        emit sigTransferPokemonFinished(info.status());
+    } break;
         
     default:
         break;
@@ -276,6 +284,7 @@ void ClientBackend::sendBattleStartRequest(
     info.set_fromuser(m_userName.toStdString());
     info.set_destuser(destName.toStdString());
     info.set_fromuserpkmid(pkmId);
+    info.set_serverpkmid(serverPkm);
     
     PROC_PROTODATA(BattleInviteRequest, info);
 }
@@ -375,6 +384,17 @@ void ClientBackend::sendServerPokemonInfoRequest() {
     info.PrintDebugString();
     
     PROC_PROTODATA(PokemonDataRequest, info);
+}
+
+void ClientBackend::sendTransferPokemonRequest(QString fromUser, int pkmId) {
+    CHECK_SOCKET_STATUS;
+    
+    UserProtocol::TransferPokemonRequest info = {};
+    info.set_pkmid(pkmId);
+    info.set_destuser(m_userName.toStdString());
+    info.set_fromuser(fromUser.toStdString());
+    
+    PROC_PROTODATA(TransferPokemonRequest, info);
 }
 
 //    QList<QString> nameList = {};

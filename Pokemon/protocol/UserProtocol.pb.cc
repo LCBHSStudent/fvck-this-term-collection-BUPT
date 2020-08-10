@@ -65,6 +65,14 @@ class OnlineUserListResponseInfoDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<OnlineUserListResponseInfo> _instance;
 } _OnlineUserListResponseInfo_default_instance_;
+class TransferPokemonRequestDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TransferPokemonRequest> _instance;
+} _TransferPokemonRequest_default_instance_;
+class TransferPokemonResponseDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TransferPokemonResponse> _instance;
+} _TransferPokemonResponse_default_instance_;
 }  // namespace UserProtocol
 static void InitDefaultsscc_info_OnlineUserListRequestInfo_UserProtocol_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -108,6 +116,34 @@ static void InitDefaultsscc_info_PokemonInfo_UserProtocol_2eproto() {
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PokemonInfo_UserProtocol_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_PokemonInfo_UserProtocol_2eproto}, {}};
+
+static void InitDefaultsscc_info_TransferPokemonRequest_UserProtocol_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::UserProtocol::_TransferPokemonRequest_default_instance_;
+    new (ptr) ::UserProtocol::TransferPokemonRequest();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::UserProtocol::TransferPokemonRequest::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TransferPokemonRequest_UserProtocol_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TransferPokemonRequest_UserProtocol_2eproto}, {}};
+
+static void InitDefaultsscc_info_TransferPokemonResponse_UserProtocol_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::UserProtocol::_TransferPokemonResponse_default_instance_;
+    new (ptr) ::UserProtocol::TransferPokemonResponse();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::UserProtocol::TransferPokemonResponse::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TransferPokemonResponse_UserProtocol_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TransferPokemonResponse_UserProtocol_2eproto}, {}};
 
 static void InitDefaultsscc_info_UserInfoRequest_UserProtocol_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -236,8 +272,8 @@ static void InitDefaultsscc_info_UserStatusInfo_UserProtocol_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_UserStatusInfo_UserProtocol_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_UserStatusInfo_UserProtocol_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_UserProtocol_2eproto[12];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_UserProtocol_2eproto[7];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_UserProtocol_2eproto[14];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_UserProtocol_2eproto[8];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_UserProtocol_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_UserProtocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -348,6 +384,20 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_UserProtocol_2eproto::offsets[
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::UserProtocol::OnlineUserListResponseInfo, userlist_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::TransferPokemonRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::TransferPokemonRequest, fromuser_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::TransferPokemonRequest, destuser_),
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::TransferPokemonRequest, pkmid_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::TransferPokemonResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::UserProtocol::TransferPokemonResponse, status_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::UserProtocol::UserSignUpRequestInfo)},
@@ -362,6 +412,8 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 88, -1, sizeof(::UserProtocol::OnlineUserListRequestInfo)},
   { 94, -1, sizeof(::UserProtocol::UserStatusInfo)},
   { 101, -1, sizeof(::UserProtocol::OnlineUserListResponseInfo)},
+  { 107, -1, sizeof(::UserProtocol::TransferPokemonRequest)},
+  { 115, -1, sizeof(::UserProtocol::TransferPokemonResponse)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -377,6 +429,8 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_OnlineUserListRequestInfo_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_UserStatusInfo_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_OnlineUserListResponseInfo_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_TransferPokemonRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::UserProtocol::_TransferPokemonResponse_default_instance_),
 };
 
 const char descriptor_table_protodef_UserProtocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -433,16 +487,24 @@ const char descriptor_table_protodef_UserProtocol_2eproto[] PROTOBUF_SECTION_VAR
   "sInfo\022\020\n\010userName\030\001 \001(\014\022\022\n\nuserStatus\030\002 "
   "\001(\005\"L\n\032OnlineUserListResponseInfo\022.\n\010use"
   "rList\030\001 \003(\0132\034.UserProtocol.UserStatusInf"
-  "o*[\n\026PokemonDataRequestMode\022\020\n\014BATTLE_ST"
-  "ART\020\000\022\r\n\tMAIN_PAGE\020\001\022\013\n\007Trophie\020\002\022\023\n\017SER"
-  "VER_PKM_LIST\020\003b\006proto3"
+  "o\"K\n\026TransferPokemonRequest\022\020\n\010fromUser\030"
+  "\001 \001(\014\022\020\n\010destUser\030\002 \001(\014\022\r\n\005pkmId\030\003 \001(\005\"\247"
+  "\001\n\027TransferPokemonResponse\022K\n\006status\030\001 \001"
+  "(\0162;.UserProtocol.TransferPokemonRespons"
+  "e.TransferPokemonStatus\"\?\n\025TransferPokem"
+  "onStatus\022\013\n\007SUCCESS\020\000\022\n\n\006FAILED\020\001\022\r\n\tUND"
+  "EFINED\020\002*[\n\026PokemonDataRequestMode\022\020\n\014BA"
+  "TTLE_START\020\000\022\r\n\tMAIN_PAGE\020\001\022\013\n\007TROPHIE\020\002"
+  "\022\023\n\017SERVER_PKM_LIST\020\003b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_UserProtocol_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_UserProtocol_2eproto_sccs[12] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_UserProtocol_2eproto_sccs[14] = {
   &scc_info_OnlineUserListRequestInfo_UserProtocol_2eproto.base,
   &scc_info_OnlineUserListResponseInfo_UserProtocol_2eproto.base,
   &scc_info_PokemonInfo_UserProtocol_2eproto.base,
+  &scc_info_TransferPokemonRequest_UserProtocol_2eproto.base,
+  &scc_info_TransferPokemonResponse_UserProtocol_2eproto.base,
   &scc_info_UserInfoRequest_UserProtocol_2eproto.base,
   &scc_info_UserInfoResponse_UserProtocol_2eproto.base,
   &scc_info_UserLoginRequestInfo_UserProtocol_2eproto.base,
@@ -455,10 +517,10 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Use
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_UserProtocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_UserProtocol_2eproto = {
-  false, false, descriptor_table_protodef_UserProtocol_2eproto, "UserProtocol.proto", 2222,
-  &descriptor_table_UserProtocol_2eproto_once, descriptor_table_UserProtocol_2eproto_sccs, descriptor_table_UserProtocol_2eproto_deps, 12, 0,
+  false, false, descriptor_table_protodef_UserProtocol_2eproto, "UserProtocol.proto", 2469,
+  &descriptor_table_UserProtocol_2eproto_once, descriptor_table_UserProtocol_2eproto_sccs, descriptor_table_UserProtocol_2eproto_deps, 14, 0,
   schemas, file_default_instances, TableStruct_UserProtocol_2eproto::offsets,
-  file_level_metadata_UserProtocol_2eproto, 12, file_level_enum_descriptors_UserProtocol_2eproto, file_level_service_descriptors_UserProtocol_2eproto,
+  file_level_metadata_UserProtocol_2eproto, 14, file_level_enum_descriptors_UserProtocol_2eproto, file_level_service_descriptors_UserProtocol_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -612,9 +674,32 @@ constexpr UserPokemonDataRequestInfo_PokemonDataRequestType UserPokemonDataReque
 constexpr UserPokemonDataRequestInfo_PokemonDataRequestType UserPokemonDataRequestInfo::PokemonDataRequestType_MAX;
 constexpr int UserPokemonDataRequestInfo::PokemonDataRequestType_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PokemonDataRequestMode_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TransferPokemonResponse_TransferPokemonStatus_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_UserProtocol_2eproto);
   return file_level_enum_descriptors_UserProtocol_2eproto[6];
+}
+bool TransferPokemonResponse_TransferPokemonStatus_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr TransferPokemonResponse_TransferPokemonStatus TransferPokemonResponse::SUCCESS;
+constexpr TransferPokemonResponse_TransferPokemonStatus TransferPokemonResponse::FAILED;
+constexpr TransferPokemonResponse_TransferPokemonStatus TransferPokemonResponse::UNDEFINED;
+constexpr TransferPokemonResponse_TransferPokemonStatus TransferPokemonResponse::TransferPokemonStatus_MIN;
+constexpr TransferPokemonResponse_TransferPokemonStatus TransferPokemonResponse::TransferPokemonStatus_MAX;
+constexpr int TransferPokemonResponse::TransferPokemonStatus_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PokemonDataRequestMode_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_UserProtocol_2eproto);
+  return file_level_enum_descriptors_UserProtocol_2eproto[7];
 }
 bool PokemonDataRequestMode_IsValid(int value) {
   switch (value) {
@@ -4078,6 +4163,468 @@ void OnlineUserListResponseInfo::InternalSwap(OnlineUserListResponseInfo* other)
 }
 
 
+// ===================================================================
+
+void TransferPokemonRequest::InitAsDefaultInstance() {
+}
+class TransferPokemonRequest::_Internal {
+ public:
+};
+
+TransferPokemonRequest::TransferPokemonRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:UserProtocol.TransferPokemonRequest)
+}
+TransferPokemonRequest::TransferPokemonRequest(const TransferPokemonRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  fromuser_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_fromuser().empty()) {
+    fromuser_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_fromuser(),
+      GetArena());
+  }
+  destuser_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_destuser().empty()) {
+    destuser_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_destuser(),
+      GetArena());
+  }
+  pkmid_ = from.pkmid_;
+  // @@protoc_insertion_point(copy_constructor:UserProtocol.TransferPokemonRequest)
+}
+
+void TransferPokemonRequest::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_TransferPokemonRequest_UserProtocol_2eproto.base);
+  fromuser_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  destuser_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  pkmid_ = 0;
+}
+
+TransferPokemonRequest::~TransferPokemonRequest() {
+  // @@protoc_insertion_point(destructor:UserProtocol.TransferPokemonRequest)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void TransferPokemonRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  fromuser_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  destuser_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void TransferPokemonRequest::ArenaDtor(void* object) {
+  TransferPokemonRequest* _this = reinterpret_cast< TransferPokemonRequest* >(object);
+  (void)_this;
+}
+void TransferPokemonRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void TransferPokemonRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const TransferPokemonRequest& TransferPokemonRequest::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_TransferPokemonRequest_UserProtocol_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void TransferPokemonRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:UserProtocol.TransferPokemonRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  fromuser_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  destuser_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  pkmid_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TransferPokemonRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // bytes fromUser = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_fromuser();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bytes destUser = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          auto str = _internal_mutable_destuser();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 pkmId = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          pkmid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* TransferPokemonRequest::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:UserProtocol.TransferPokemonRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bytes fromUser = 1;
+  if (this->fromuser().size() > 0) {
+    target = stream->WriteBytesMaybeAliased(
+        1, this->_internal_fromuser(), target);
+  }
+
+  // bytes destUser = 2;
+  if (this->destuser().size() > 0) {
+    target = stream->WriteBytesMaybeAliased(
+        2, this->_internal_destuser(), target);
+  }
+
+  // int32 pkmId = 3;
+  if (this->pkmid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_pkmid(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:UserProtocol.TransferPokemonRequest)
+  return target;
+}
+
+size_t TransferPokemonRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:UserProtocol.TransferPokemonRequest)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // bytes fromUser = 1;
+  if (this->fromuser().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_fromuser());
+  }
+
+  // bytes destUser = 2;
+  if (this->destuser().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_destuser());
+  }
+
+  // int32 pkmId = 3;
+  if (this->pkmid() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_pkmid());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void TransferPokemonRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:UserProtocol.TransferPokemonRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  const TransferPokemonRequest* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<TransferPokemonRequest>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:UserProtocol.TransferPokemonRequest)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:UserProtocol.TransferPokemonRequest)
+    MergeFrom(*source);
+  }
+}
+
+void TransferPokemonRequest::MergeFrom(const TransferPokemonRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:UserProtocol.TransferPokemonRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.fromuser().size() > 0) {
+    _internal_set_fromuser(from._internal_fromuser());
+  }
+  if (from.destuser().size() > 0) {
+    _internal_set_destuser(from._internal_destuser());
+  }
+  if (from.pkmid() != 0) {
+    _internal_set_pkmid(from._internal_pkmid());
+  }
+}
+
+void TransferPokemonRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:UserProtocol.TransferPokemonRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void TransferPokemonRequest::CopyFrom(const TransferPokemonRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:UserProtocol.TransferPokemonRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TransferPokemonRequest::IsInitialized() const {
+  return true;
+}
+
+void TransferPokemonRequest::InternalSwap(TransferPokemonRequest* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  fromuser_.Swap(&other->fromuser_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  destuser_.Swap(&other->destuser_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  swap(pkmid_, other->pkmid_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TransferPokemonRequest::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void TransferPokemonResponse::InitAsDefaultInstance() {
+}
+class TransferPokemonResponse::_Internal {
+ public:
+};
+
+TransferPokemonResponse::TransferPokemonResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:UserProtocol.TransferPokemonResponse)
+}
+TransferPokemonResponse::TransferPokemonResponse(const TransferPokemonResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  status_ = from.status_;
+  // @@protoc_insertion_point(copy_constructor:UserProtocol.TransferPokemonResponse)
+}
+
+void TransferPokemonResponse::SharedCtor() {
+  status_ = 0;
+}
+
+TransferPokemonResponse::~TransferPokemonResponse() {
+  // @@protoc_insertion_point(destructor:UserProtocol.TransferPokemonResponse)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void TransferPokemonResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void TransferPokemonResponse::ArenaDtor(void* object) {
+  TransferPokemonResponse* _this = reinterpret_cast< TransferPokemonResponse* >(object);
+  (void)_this;
+}
+void TransferPokemonResponse::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void TransferPokemonResponse::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const TransferPokemonResponse& TransferPokemonResponse::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_TransferPokemonResponse_UserProtocol_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void TransferPokemonResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:UserProtocol.TransferPokemonResponse)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  status_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TransferPokemonResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // .UserProtocol.TransferPokemonResponse.TransferPokemonStatus status = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_status(static_cast<::UserProtocol::TransferPokemonResponse_TransferPokemonStatus>(val));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* TransferPokemonResponse::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:UserProtocol.TransferPokemonResponse)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .UserProtocol.TransferPokemonResponse.TransferPokemonStatus status = 1;
+  if (this->status() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_status(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:UserProtocol.TransferPokemonResponse)
+  return target;
+}
+
+size_t TransferPokemonResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:UserProtocol.TransferPokemonResponse)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .UserProtocol.TransferPokemonResponse.TransferPokemonStatus status = 1;
+  if (this->status() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_status());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void TransferPokemonResponse::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:UserProtocol.TransferPokemonResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  const TransferPokemonResponse* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<TransferPokemonResponse>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:UserProtocol.TransferPokemonResponse)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:UserProtocol.TransferPokemonResponse)
+    MergeFrom(*source);
+  }
+}
+
+void TransferPokemonResponse::MergeFrom(const TransferPokemonResponse& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:UserProtocol.TransferPokemonResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.status() != 0) {
+    _internal_set_status(from._internal_status());
+  }
+}
+
+void TransferPokemonResponse::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:UserProtocol.TransferPokemonResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void TransferPokemonResponse::CopyFrom(const TransferPokemonResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:UserProtocol.TransferPokemonResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TransferPokemonResponse::IsInitialized() const {
+  return true;
+}
+
+void TransferPokemonResponse::InternalSwap(TransferPokemonResponse* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  swap(status_, other->status_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TransferPokemonResponse::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace UserProtocol
 PROTOBUF_NAMESPACE_OPEN
@@ -4116,6 +4663,12 @@ template<> PROTOBUF_NOINLINE ::UserProtocol::UserStatusInfo* Arena::CreateMaybeM
 }
 template<> PROTOBUF_NOINLINE ::UserProtocol::OnlineUserListResponseInfo* Arena::CreateMaybeMessage< ::UserProtocol::OnlineUserListResponseInfo >(Arena* arena) {
   return Arena::CreateMessageInternal< ::UserProtocol::OnlineUserListResponseInfo >(arena);
+}
+template<> PROTOBUF_NOINLINE ::UserProtocol::TransferPokemonRequest* Arena::CreateMaybeMessage< ::UserProtocol::TransferPokemonRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::UserProtocol::TransferPokemonRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::UserProtocol::TransferPokemonResponse* Arena::CreateMaybeMessage< ::UserProtocol::TransferPokemonResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::UserProtocol::TransferPokemonResponse >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

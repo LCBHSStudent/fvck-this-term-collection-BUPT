@@ -71,24 +71,23 @@ void BattleField::setAction(int skillIndex, int userIndex) {
         m_actions[1].length() != 0
     ) {
         turn(m_actions[0], m_actions[1]);
-        m_actions[0] = "";
-        m_actions[1] = "";
     }
 }
 
+bool BattleField::checkBattleIsFinished() {
+    if (m_pkmList[0]->get_curHP() <= 0) {
+        emit sigBattleFinished(m_users[1]);
+        return true;
+    } else if (m_pkmList[1]->get_curHP() <= 0) {
+        emit sigBattleFinished(m_users[0]);
+        return true;
+    }
+    return false;
+}
 
 void BattleField::turn(const QString& actionA, const QString& actionB) {
     PokemonBase& pkmA = *m_pkmList[0];
     PokemonBase& pkmB = *m_pkmList[1];
-    
-    // ------ 暂时不考虑平局
-    static const auto chechBattleIsFinished = [&pkmA, &pkmB, this] {
-        if (pkmA.get_curHP() <= 0) {
-            emit this->sigBattleFinished(m_users[1]);
-        } else if (pkmB.get_curHP() <= 0) {
-            emit this->sigBattleFinished(m_users[0]);
-        }
-    };
     
     // ------ main logic 
     {
@@ -110,7 +109,9 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
             }
             pkmA.printStatus();
             pkmB.printStatus();
-            chechBattleIsFinished();
+            if (checkBattleIsFinished()) {
+                return;
+            }
             
             auto resB = pkmB.attack(pkmA, actionB);
             handleResult(resB, B_TO_A);
@@ -123,8 +124,10 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
             }
             pkmA.printStatus();
             pkmB.printStatus();
-            chechBattleIsFinished();
-        } 
+            if (checkBattleIsFinished()) {
+                return;
+            }
+        }
         else if (spdA < spdB) {
             auto resB = pkmB.attack(pkmA, actionB);
             handleResult(resB, B_TO_A);
@@ -137,7 +140,9 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
             }
             pkmA.printStatus();
             pkmB.printStatus();
-            chechBattleIsFinished();
+            if (checkBattleIsFinished()) {                
+                return;
+            }
                     
             auto resA = pkmA.attack(pkmB, actionA);
             handleResult(resA, A_TO_B);
@@ -150,14 +155,19 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
             }
             pkmA.printStatus();
             pkmB.printStatus();
-            chechBattleIsFinished();
+            if (checkBattleIsFinished()) {                
+                return;
+            }
         }
     }
+    
+    m_actions[0] = "";
+    m_actions[1] = "";
     
     queryBuffList();
     pkmA.printStatus();
     pkmB.printStatus();
-    chechBattleIsFinished();
+    checkBattleIsFinished();
 }
 
 
@@ -280,7 +290,8 @@ void BattleField::handleResult(
     PokemonBase& pkmB = *m_pkmList[1];
     
     // ------------ lambda for convenience 
-    static const auto handleDest = [&result](
+    static const auto handleDest = [](
+        AttackResult&   result,
         PokemonBase&    from,
         QList<Buff>&    fromBuf,
         PokemonBase&    dest,
@@ -450,13 +461,13 @@ void BattleField::handleResult(
         m_buffListA.push_back(result.selfBuf);
         m_buffListB.push_back(result.destBuf);
         
-        handleDest(pkmA, m_buffListA, pkmB, m_buffListB);
+        handleDest(result, pkmA, m_buffListA, pkmB, m_buffListB);
         
     } else if(type == B_TO_A) {
         m_buffListB.push_back(result.selfBuf);
         m_buffListA.push_back(result.destBuf);
         
-        handleDest(pkmB, m_buffListB, pkmA, m_buffListA);
+        handleDest(result, pkmB, m_buffListB, pkmA, m_buffListA);
         
     }
     

@@ -28,8 +28,8 @@ enum MessageType: int {
     BattleInviteRequest,
     BattleInviteResponse,
     
-    ChooseTrophieRequest,
-    ChooseTrophieResponse,
+    TransferPokemonRequest,
+    TransferPokemonResponse,
 };
 
 #endif // MESSAGETYPEGLOBAL_H

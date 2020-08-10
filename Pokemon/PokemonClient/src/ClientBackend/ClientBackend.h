@@ -38,6 +38,8 @@ signals:
         sigGetBattleTurnInfo(QVariantMap info);
     void
         sigGetBattleFinishInfo(int result, int mode);
+    void
+        sigTransferPokemonFinished(int result);
     
 public slots:
     void
@@ -68,6 +70,8 @@ public FUNCTION:
         sendBattleSkillIndex(int isUserA, int index);
     Q_INVOKABLE void
         sendBattleGiveupInfo();
+    Q_INVOKABLE void
+        sendTransferPokemonRequest(QString fromUser, int pkmId);
     
     QString
         getUserName() const {return m_userName;}

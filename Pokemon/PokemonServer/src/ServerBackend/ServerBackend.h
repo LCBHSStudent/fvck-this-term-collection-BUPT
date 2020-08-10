@@ -22,6 +22,12 @@ public slots:
 private FUNCTION:
     void
         createUserTable(const QString& username);
+    void
+        transferPokemon(
+            const QString&  fromUser,
+            const QString&  destUser,
+            int             pkmId
+        );
     
 private slots:
     NET_SLOT(UserLogin);
@@ -33,6 +39,7 @@ private slots:
     NET_SLOT(BattleInvite);
     NET_SLOT(HandleBattleInviteResponse);
     NET_SLOT(HandleBattleOperation);
+    NET_SLOT(TransferPokemon);
     
     void
         slotGetTurnInfo(BattleField::TurnInfo info);

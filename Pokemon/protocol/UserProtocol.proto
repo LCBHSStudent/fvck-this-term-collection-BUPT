@@ -70,7 +70,7 @@ message UserInfoResponse {
 enum PokemonDataRequestMode {
     BATTLE_START    = 0;
     MAIN_PAGE       = 1;
-    Trophie         = 2;
+    TROPHIE         = 2;
     SERVER_PKM_LIST = 3;
 }
 
@@ -126,3 +126,18 @@ message UserStatusInfo {
 message OnlineUserListResponseInfo {
     repeated UserStatusInfo userList = 1;
 }
+
+message TransferPokemonRequest {
+    bytes   fromUser = 1;
+    bytes   destUser = 2;
+    int32   pkmId    = 3;
+};
+
+message TransferPokemonResponse {
+    enum TransferPokemonStatus {
+        SUCCESS     = 0;
+        FAILED      = 1;
+        UNDEFINED   = 2;
+    }
+    TransferPokemonStatus status = 1;
+};

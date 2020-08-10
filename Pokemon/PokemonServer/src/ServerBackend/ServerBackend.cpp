@@ -5,6 +5,7 @@
 #include "../StorageHelper/StorageHelper.h"
 
 // #define AVOID_PROTOBUF_EXCEPTION_FLAG
+// #undef DEBUG_FLAG
 
 #undef  NET_SLOT
 #define NET_SLOT(_name) \
@@ -86,6 +87,57 @@ void ServerBackend::createUserTable(const QString& username) {
     StorageHelper::Instance().transaction(userTableStat, StorageHelper::DEFAULT_FUNC);
 }
 
+void ServerBackend::transferPokemon(
+    const QString&  fromUser,
+    const QString&  destUser,
+    int             pkmId
+) {
+    StorageHelper::Instance().transaction(
+        "INSERT INTO user_" + destUser + "(" +
+        "PKM_TYPEID,PKM_LEVEL,PKM_EXP,PKM_ATK,PKM_DEF,PKM_HP,PKM_SPD) " +
+        "SELECT PKM_TYPEID,PKM_LEVEL,PKM_EXP,PKM_ATK,PKM_DEF,PKM_HP,PKM_SPD " +
+        "FROM `user_" + fromUser + "` WHERE PKM_ID=?",
+        StorageHelper::DEFAULT_FUNC,
+        pkmId
+    );
+    if (fromUser != "_server") {
+        StorageHelper::Instance().transaction(
+            "DELETE FROM `user_" + fromUser + "` WHERE PKM_ID=?",
+            StorageHelper::DEFAULT_FUNC,
+            pkmId
+        );
+        
+        int pokemonCnt = 0;
+        StorageHelper::Instance().transaction(
+            "SELECT count(*) FROM `user_" + fromUser +"`",
+            [&pokemonCnt](QSqlQuery& query) {
+                pokemonCnt = query.value(0).toInt();
+            }
+        );
+        if (pokemonCnt < 1) {
+            
+            QList<int> typeIdList = {};
+            StorageHelper::Instance().transaction(
+                "SELECT PKM_ID FROM `pokemon_info`", 
+                [&typeIdList](QSqlQuery& query) {
+                    typeIdList.push_back(query.value(0).toInt());
+                }
+            );
+            
+            int randIndex = 
+                QRandomGenerator::global()->bounded(typeIdList.size());
+            
+            StorageHelper::Instance().transaction(
+                "INSERT INTO `user_" +  fromUser + "`(\
+                 PKM_TYPEID) VALUES(?)",
+                 StorageHelper::DEFAULT_FUNC,
+                 typeIdList[randIndex]
+            );
+        }
+        
+    }
+}
+
 void ServerBackend::slotGetMessage(
     QTcpSocket*     client,
     QByteArray      data
@@ -117,9 +169,9 @@ void ServerBackend::slotGetMessage(
     case MessageType::BattleOperationInfo:
         CALL_SLOT(HandleBattleOperation);
         break;
-//    case MessageType::BattleStartRequest:
-//        CALL_SLOT(StartBattle);
-//        break;
+    case MessageType::TransferPokemonRequest:
+        CALL_SLOT(TransferPokemon);
+        break;
         
     default:
         qDebug() << "unknown message type";
@@ -251,13 +303,14 @@ NET_SLOT(RequestUserInfo) {
     UserProtocol::UserInfoRequest reqInfo = {};
     reqInfo.ParseFromArray(data.data(), data.size());
     
+    QString userName = QString::fromStdString(reqInfo.username());
+    
     // 获取用户宝可梦信息
     std::vector<int> pkmIdList;
     int pkmCount = 0,
         highLevelPkmCnt = 0;
     StorageHelper::Instance().transaction(
-        "SELECT PKM_ID, PKM_LEVEL FROM `user_" + 
-        QString::fromStdString(reqInfo.username()) + "`",
+        "SELECT PKM_ID, PKM_LEVEL FROM `user_" + userName + "`",
         [&pkmIdList, &pkmCount, &highLevelPkmCnt](QSqlQuery& query) {
             pkmIdList.push_back(query.value(0).toInt());
             int level = query.value(1).toInt();
@@ -272,12 +325,14 @@ NET_SLOT(RequestUserInfo) {
         totalWinnerTime = -1;
     // 获取用户信息(胜场胜率)
     StorageHelper::Instance().transaction(
-        "SELECT TOTAL_BATTLE_TIME, WINNER_TIME FROM `user_list`",
+        "SELECT TOTAL_BATTLE_TIME, WINNER_TIME FROM `user_list` WHERE USERNAME=?",
         [&totalBattleTime, &totalWinnerTime](QSqlQuery& query) {
             totalBattleTime = query.value(0).toInt();
             totalWinnerTime = query.value(1).toInt();
-        }
+        },
+        userName
     );
+    qDebug() << totalBattleTime << totalWinnerTime;
     
     UserProtocol::UserInfoResponse resInfo = {};
     
@@ -316,12 +371,25 @@ NET_SLOT(RequestUserInfo) {
         
         resInfo.set_timeofduel(totalBattleTime);
         resInfo.set_timeofwins(totalWinnerTime);
+        if (totalBattleTime == 0) {
+            resInfo.set_winrate(0.0f);
+        } else {
+            resInfo.set_winrate(
+                std::floor(10000.f*
+                    static_cast<double>(totalWinnerTime) / 
+                    static_cast<double>(totalBattleTime) + 0.5
+                ) / 10000.f
+            );
+        }
+        
+        
         resInfo.set_username(reqInfo.username());
         resInfo.set_resstatus(
             UserProtocol::UserInfoResponse_UserInfoResponseStatus_SUCCESS);
     }
-    
-    
+#ifdef DEBUG_FLAG
+    resInfo.PrintDebugString();
+#endif
     PROC_PROTODATA(UserInfoResponse, resInfo);
 }
 
@@ -689,12 +757,8 @@ NET_SLOT(HandleBattleInviteResponse) {
     );
     m_battleFieldList.push_back(battle);
     
-    
-    
-    
     startInfoA.set_isusera(1);
     startInfoB.set_isusera(0);
-    
     
     startInfoA.set_urpkmid(pkmId_A);
     startInfoB.set_tapkmid(pkmId_A);
@@ -744,6 +808,23 @@ NET_SLOT(HandleBattleOperation) {
             }
         }
     }
+}
+
+NET_SLOT(TransferPokemon) {
+    UserProtocol::TransferPokemonRequest reqInfo = {};
+    reqInfo.ParseFromArray(data.data(), data.size());
+    
+    
+    QString fromUser = QString::fromStdString(reqInfo.fromuser());
+    QString destUser = QString::fromStdString(reqInfo.destuser());
+    transferPokemon(fromUser, destUser, reqInfo.pkmid());
+    
+    UserProtocol::TransferPokemonResponse resInfo = {};
+    resInfo.set_status(
+        UserProtocol::TransferPokemonResponse_TransferPokemonStatus_SUCCESS
+    );
+    
+    PROC_PROTODATA(TransferPokemonResponse, resInfo);
 }
 
 void ServerBackend::slotGetTurnInfo(BattleField::TurnInfo info) {
@@ -816,60 +897,155 @@ void ServerBackend::slotGetTurnInfo(BattleField::TurnInfo info) {
 }
 
 void ServerBackend::slotGetBattleResult(User* winner) {
-    BattleProtocol::BattleFinishInfo infoA = {};
-    BattleProtocol::BattleFinishInfo infoB = {};
+    BattleProtocol::BattleFinishInfo infoWinner = {};
+    BattleProtocol::BattleFinishInfo infoLoser  = {};
     
     auto pBattleField = reinterpret_cast<BattleField*>(sender());
     auto pUserA = pBattleField->getUserA();
     auto pUserB = pBattleField->getUserB();
     
+    
+    User* loser = nullptr;
     if (winner == pUserA) {
-        infoA.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
-        infoA.set_result(BattleProtocol::BattleFinishInfo_BattleResult_WIN);
-        
-        pBattleField->getPkmA()->gainExperience(
-            pBattleField->getPkmB()->get_level() * 1.5
-        );
-        pUserA->battleWon();
-        pUserA->set_status(User::UserStatus::IDLE);
-        if (pUserB != nullptr) {
-            pUserB->battleLose();
-            pUserB->set_status(User::UserStatus::IDLE);
-        }
-        
-        infoB.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
-        infoB.set_result(BattleProtocol::BattleFinishInfo_BattleResult_LOSE);
+        loser = pUserB;
     } else {
-        infoB.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
-        infoB.set_result(BattleProtocol::BattleFinishInfo_BattleResult_WIN);
-        
-        if (pUserB != nullptr) {
+        loser = pUserA;
+    }
+    
+    infoWinner.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
+    infoWinner.set_result(BattleProtocol::BattleFinishInfo_BattleResult_WIN);
+    
+    infoLoser.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
+    infoLoser.set_result(BattleProtocol::BattleFinishInfo_BattleResult_LOSE);
+    
+    if (loser != nullptr) {
+        loser->set_status(User::UserStatus::IDLE);
+        PROC_PROTODATA_WITH_DEST(
+            BattleFinishInfo, infoLoser, loser->get_userSocket());
+    }
+    if (winner != nullptr) {
+        winner->set_status(User::UserStatus::IDLE);
+        // 不论对战模式，胜利方都将获取经验
+        if (winner == pUserA) {
+            pBattleField->getPkmA()->gainExperience(
+                pBattleField->getPkmB()->get_level() * 1.5
+            );
+        } else {
             pBattleField->getPkmB()->gainExperience(
                 pBattleField->getPkmA()->get_level() * 1.5
             );
-            pUserB->battleWon();
-            pUserB->set_status(User::UserStatus::IDLE);
         }
-        pUserA->battleLose();
-        pUserA->set_status(User::UserStatus::IDLE);
-        
-        infoA.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
-        infoA.set_result(BattleProtocol::BattleFinishInfo_BattleResult_LOSE);
+        PROC_PROTODATA_WITH_DEST(
+            BattleFinishInfo, infoWinner, winner->get_userSocket());
     }
-    infoA.PrintDebugString();
-    infoB.PrintDebugString();
-    {
-        if (pUserA != nullptr) {
-            PROC_PROTODATA_WITH_DEST(
-                BattleFinishInfo, infoA, pUserA->get_userSocket());
+    
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    
+    if (pBattleField->getMode() == BattleField::BattleMode::DUEL_BATTLE) {
+        if (winner != nullptr) {
+            winner->battleWon();
+            winner->updateUserInfo();
+            
+            if (loser != nullptr) {
+                loser->battleLose();
+                loser->updateUserInfo();
+                
+                QString loserName = loser->get_name();
+                auto    pkmIdList = loser->get_pokemonList();
+                while (pkmIdList.length() > 3) {
+                    int randIndex = 
+                        QRandomGenerator::global()->bounded(pkmIdList.length());
+                    pkmIdList.removeAt(randIndex);
+                }
+                
+                UserProtocol::UserPokemonDataResponseInfo resInfo = {};
+                UserProtocol::PokemonInfo *pPkmInfo               = nullptr;
+                
+                // -----------------------PROCESS RES INFO---------------------- //
+                resInfo.set_mode(UserProtocol::PokemonDataRequestMode::TROPHIE);
+                resInfo.set_username(loser->get_name().toStdString());
+                
+                QList<QString> aliasList = {};
+                QList<QString> sdescList = {};
+                // ------ 建立对象，转发数据
+                for (int i = 0; i < pkmIdList.size(); i++) {
+                    aliasList.clear();
+                    sdescList.clear();
+                    auto pkm = PokemonFactory::CreatePokemon(loserName, pkmIdList[i]);
+                    // 写入info
+                    pPkmInfo = resInfo.add_pkmdata();
+                    
+                    pPkmInfo->set_id(pkm->get_id());
+                    pPkmInfo->set_hp(pkm->get_HP());
+                    pPkmInfo->set_exp(pkm->get_exp());
+                    pPkmInfo->set_spd(pkm->get_SPD());
+                    pPkmInfo->set_def(pkm->get_DEF());
+                    pPkmInfo->set_atk(pkm->get_ATK());
+                    pPkmInfo->set_level(pkm->get_level());
+                    pPkmInfo->set_attr(pkm->get_pkmAttr());
+                    pPkmInfo->set_type(pkm->get_pkmType());
+                    pPkmInfo->set_typeid_(pkm->get_typeID());
+                    
+                    // 发送中文技能名 & 技能描述
+                    for (int i = 0; i < 4; i++) {
+                        StorageHelper::Instance().transaction(
+                            "SELECT ALIAS, DESCRIPTION FROM `skill_list` WHERE NAME=?",
+                            [&aliasList, &sdescList](QSqlQuery& query) {
+                                aliasList.push_back(query.value(0).toString());
+                                sdescList.push_back(query.value(1).toString());
+                            },
+                            pkm->getSkill(i)
+                        );
+                    }
+                    for (int i = 0; i < 4; i++) {
+                        qDebug() << pkm->getSkill(i);
+                        qDebug() << aliasList[i] << sdescList[i];            
+                    }
+#ifndef AVOID_PROTOBUF_EXCEPTION_FLAG
+                    pPkmInfo->set_name(pkm->get_name().toStdString());
+                    pPkmInfo->set_desc(pkm->get_desc().toStdString());
+                    
+                    pPkmInfo->set_skill_1(aliasList[0].toStdString());
+                    pPkmInfo->set_skill_2(aliasList[1].toStdString());
+                    pPkmInfo->set_skill_3(aliasList[2].toStdString());
+                    pPkmInfo->set_skill_4(aliasList[3].toStdString());
+                    
+                    pPkmInfo->set_skill_1_desc(sdescList[0].toStdString());
+                    pPkmInfo->set_skill_2_desc(sdescList[1].toStdString());
+                    pPkmInfo->set_skill_3_desc(sdescList[2].toStdString());
+                    pPkmInfo->set_skill_4_desc(sdescList[3].toStdString());
+#endif
+#ifdef DEBUG_FLAG
+                    qDebug() << "BYTE SIZE: " << pPkmInfo->ByteSizeLong();
+                    // pPkmInfo->PrintDebugString();
+#endif                    
+                    delete pkm;
+                }
+                
+                PROC_PROTODATA_WITH_DEST(
+                    PokemonDataResponse, resInfo, winner->get_userSocket());
+// --------------------------------------------------------------------------------- //                
+                
+            } else {
+                transferPokemon(
+                    "_server",
+                    winner->get_name(),
+                    pBattleField->getPkmB()->get_id()
+                );
+            }
+        } else {
+            if (loser != nullptr) {
+                loser->battleLose();
+                loser->updateUserInfo();
+            }
+#ifdef DEBUG_FLAG
+            else {
+                qDebug() << "?";
+            }
+#endif
         }
     }
-    {
-        if (pUserB != nullptr) {
-            PROC_PROTODATA_WITH_DEST(
-                BattleFinishInfo, infoB, pUserB->get_userSocket());
-        }
-    }
+    
     
     disconnect(
         pBattleField,   &BattleField::sigTurnInfoReady,

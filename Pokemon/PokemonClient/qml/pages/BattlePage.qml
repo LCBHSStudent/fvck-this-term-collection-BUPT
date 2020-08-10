@@ -15,6 +15,7 @@ Page {
         height: parent.height
     }
     
+    property var battleMode: -1
     property var isUserA: 1
     property var taUserName: ""
     property var taCurHP: 1
@@ -202,6 +203,7 @@ Page {
         
         onConfirmed: {
             backend.sendBattleGiveupInfo()
+            stack.pop()
         }
         onCanceled: {
             console.debug("canceled escaping")
@@ -215,8 +217,9 @@ Page {
         contentH: contentW * 0.8
         
         onClicked: {
-            // battleMode
-            stack.pop()
+            if (battleMode == 0 || taUserName == "_server") {
+                stack.pop()
+            }
         }
     }
     
@@ -228,12 +231,10 @@ Page {
         
         onConfirmed: {
             var pkmId = getSelectedPkmId()
+            backend.sendTransferPokemonRequest(taUserName, pkmId)
             hidePopup()
-            // 宝可梦所有权转移
-            // backend.send
+            loadingPopup.showLoading("正在获取选择的精灵...")
         }
-        
-//        opacity: 1
     }
     
     
@@ -275,14 +276,14 @@ Page {
             console.debug("get battle finish info")
             loadingPopup.hideLoading()
             var log = ""
-            if (mode == NORMAL) {
+            if (mode == 0) {
                 if (result === 0) {
-                    log += "\n恭喜您\n战斗获胜了"
+                    log += "恭喜您\n战斗获胜了"
                 } else {
-                    log += "\n很遗憾\n决斗失败了"
+                    log += "很遗憾\n决斗失败了"
                 }
             } else {
-                log += "\n对方已断开连接"
+                log += "对方已断开连接"
             }
             battleResultPopup.showPopup(log, "知道了")
         }
@@ -332,6 +333,16 @@ Page {
                         "desc_s4":  pkmList[i].desc_s4,
                     })
                 }
+                gridPkmPopup.showPopup()
+            }
+        }
+        onSigTransferPokemonFinished: {
+            loadingPopup.hideLoading()
+            if (result === 0) {
+                stack.pop()
+            }
+            else {
+                console.debug("获取选择的宝可梦失败!")
             }
         }
     }

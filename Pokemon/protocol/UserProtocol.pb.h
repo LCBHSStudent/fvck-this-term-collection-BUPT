@@ -48,7 +48,7 @@ struct TableStruct_UserProtocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[12]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[14]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -65,6 +65,12 @@ extern OnlineUserListResponseInfoDefaultTypeInternal _OnlineUserListResponseInfo
 class PokemonInfo;
 class PokemonInfoDefaultTypeInternal;
 extern PokemonInfoDefaultTypeInternal _PokemonInfo_default_instance_;
+class TransferPokemonRequest;
+class TransferPokemonRequestDefaultTypeInternal;
+extern TransferPokemonRequestDefaultTypeInternal _TransferPokemonRequest_default_instance_;
+class TransferPokemonResponse;
+class TransferPokemonResponseDefaultTypeInternal;
+extern TransferPokemonResponseDefaultTypeInternal _TransferPokemonResponse_default_instance_;
 class UserInfoRequest;
 class UserInfoRequestDefaultTypeInternal;
 extern UserInfoRequestDefaultTypeInternal _UserInfoRequest_default_instance_;
@@ -97,6 +103,8 @@ PROTOBUF_NAMESPACE_OPEN
 template<> ::UserProtocol::OnlineUserListRequestInfo* Arena::CreateMaybeMessage<::UserProtocol::OnlineUserListRequestInfo>(Arena*);
 template<> ::UserProtocol::OnlineUserListResponseInfo* Arena::CreateMaybeMessage<::UserProtocol::OnlineUserListResponseInfo>(Arena*);
 template<> ::UserProtocol::PokemonInfo* Arena::CreateMaybeMessage<::UserProtocol::PokemonInfo>(Arena*);
+template<> ::UserProtocol::TransferPokemonRequest* Arena::CreateMaybeMessage<::UserProtocol::TransferPokemonRequest>(Arena*);
+template<> ::UserProtocol::TransferPokemonResponse* Arena::CreateMaybeMessage<::UserProtocol::TransferPokemonResponse>(Arena*);
 template<> ::UserProtocol::UserInfoRequest* Arena::CreateMaybeMessage<::UserProtocol::UserInfoRequest>(Arena*);
 template<> ::UserProtocol::UserInfoResponse* Arena::CreateMaybeMessage<::UserProtocol::UserInfoResponse>(Arena*);
 template<> ::UserProtocol::UserLoginRequestInfo* Arena::CreateMaybeMessage<::UserProtocol::UserLoginRequestInfo>(Arena*);
@@ -270,10 +278,36 @@ inline bool UserPokemonDataRequestInfo_PokemonDataRequestType_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<UserPokemonDataRequestInfo_PokemonDataRequestType>(
     UserPokemonDataRequestInfo_PokemonDataRequestType_descriptor(), name, value);
 }
+enum TransferPokemonResponse_TransferPokemonStatus : int {
+  TransferPokemonResponse_TransferPokemonStatus_SUCCESS = 0,
+  TransferPokemonResponse_TransferPokemonStatus_FAILED = 1,
+  TransferPokemonResponse_TransferPokemonStatus_UNDEFINED = 2,
+  TransferPokemonResponse_TransferPokemonStatus_TransferPokemonResponse_TransferPokemonStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  TransferPokemonResponse_TransferPokemonStatus_TransferPokemonResponse_TransferPokemonStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool TransferPokemonResponse_TransferPokemonStatus_IsValid(int value);
+constexpr TransferPokemonResponse_TransferPokemonStatus TransferPokemonResponse_TransferPokemonStatus_TransferPokemonStatus_MIN = TransferPokemonResponse_TransferPokemonStatus_SUCCESS;
+constexpr TransferPokemonResponse_TransferPokemonStatus TransferPokemonResponse_TransferPokemonStatus_TransferPokemonStatus_MAX = TransferPokemonResponse_TransferPokemonStatus_UNDEFINED;
+constexpr int TransferPokemonResponse_TransferPokemonStatus_TransferPokemonStatus_ARRAYSIZE = TransferPokemonResponse_TransferPokemonStatus_TransferPokemonStatus_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TransferPokemonResponse_TransferPokemonStatus_descriptor();
+template<typename T>
+inline const std::string& TransferPokemonResponse_TransferPokemonStatus_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, TransferPokemonResponse_TransferPokemonStatus>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function TransferPokemonResponse_TransferPokemonStatus_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    TransferPokemonResponse_TransferPokemonStatus_descriptor(), enum_t_value);
+}
+inline bool TransferPokemonResponse_TransferPokemonStatus_Parse(
+    const std::string& name, TransferPokemonResponse_TransferPokemonStatus* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<TransferPokemonResponse_TransferPokemonStatus>(
+    TransferPokemonResponse_TransferPokemonStatus_descriptor(), name, value);
+}
 enum PokemonDataRequestMode : int {
   BATTLE_START = 0,
   MAIN_PAGE = 1,
-  Trophie = 2,
+  TROPHIE = 2,
   SERVER_PKM_LIST = 3,
   PokemonDataRequestMode_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   PokemonDataRequestMode_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
@@ -2894,6 +2928,366 @@ class OnlineUserListResponseInfo PROTOBUF_FINAL :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_UserProtocol_2eproto;
 };
+// -------------------------------------------------------------------
+
+class TransferPokemonRequest PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UserProtocol.TransferPokemonRequest) */ {
+ public:
+  inline TransferPokemonRequest() : TransferPokemonRequest(nullptr) {};
+  virtual ~TransferPokemonRequest();
+
+  TransferPokemonRequest(const TransferPokemonRequest& from);
+  TransferPokemonRequest(TransferPokemonRequest&& from) noexcept
+    : TransferPokemonRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline TransferPokemonRequest& operator=(const TransferPokemonRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TransferPokemonRequest& operator=(TransferPokemonRequest&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const TransferPokemonRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const TransferPokemonRequest* internal_default_instance() {
+    return reinterpret_cast<const TransferPokemonRequest*>(
+               &_TransferPokemonRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    12;
+
+  friend void swap(TransferPokemonRequest& a, TransferPokemonRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TransferPokemonRequest* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TransferPokemonRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline TransferPokemonRequest* New() const final {
+    return CreateMaybeMessage<TransferPokemonRequest>(nullptr);
+  }
+
+  TransferPokemonRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<TransferPokemonRequest>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const TransferPokemonRequest& from);
+  void MergeFrom(const TransferPokemonRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TransferPokemonRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "UserProtocol.TransferPokemonRequest";
+  }
+  protected:
+  explicit TransferPokemonRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_UserProtocol_2eproto);
+    return ::descriptor_table_UserProtocol_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kFromUserFieldNumber = 1,
+    kDestUserFieldNumber = 2,
+    kPkmIdFieldNumber = 3,
+  };
+  // bytes fromUser = 1;
+  void clear_fromuser();
+  const std::string& fromuser() const;
+  void set_fromuser(const std::string& value);
+  void set_fromuser(std::string&& value);
+  void set_fromuser(const char* value);
+  void set_fromuser(const void* value, size_t size);
+  std::string* mutable_fromuser();
+  std::string* release_fromuser();
+  void set_allocated_fromuser(std::string* fromuser);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_fromuser();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_fromuser(
+      std::string* fromuser);
+  private:
+  const std::string& _internal_fromuser() const;
+  void _internal_set_fromuser(const std::string& value);
+  std::string* _internal_mutable_fromuser();
+  public:
+
+  // bytes destUser = 2;
+  void clear_destuser();
+  const std::string& destuser() const;
+  void set_destuser(const std::string& value);
+  void set_destuser(std::string&& value);
+  void set_destuser(const char* value);
+  void set_destuser(const void* value, size_t size);
+  std::string* mutable_destuser();
+  std::string* release_destuser();
+  void set_allocated_destuser(std::string* destuser);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_destuser();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_destuser(
+      std::string* destuser);
+  private:
+  const std::string& _internal_destuser() const;
+  void _internal_set_destuser(const std::string& value);
+  std::string* _internal_mutable_destuser();
+  public:
+
+  // int32 pkmId = 3;
+  void clear_pkmid();
+  ::PROTOBUF_NAMESPACE_ID::int32 pkmid() const;
+  void set_pkmid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_pkmid() const;
+  void _internal_set_pkmid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:UserProtocol.TransferPokemonRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr fromuser_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr destuser_;
+  ::PROTOBUF_NAMESPACE_ID::int32 pkmid_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_UserProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TransferPokemonResponse PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UserProtocol.TransferPokemonResponse) */ {
+ public:
+  inline TransferPokemonResponse() : TransferPokemonResponse(nullptr) {};
+  virtual ~TransferPokemonResponse();
+
+  TransferPokemonResponse(const TransferPokemonResponse& from);
+  TransferPokemonResponse(TransferPokemonResponse&& from) noexcept
+    : TransferPokemonResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline TransferPokemonResponse& operator=(const TransferPokemonResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TransferPokemonResponse& operator=(TransferPokemonResponse&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const TransferPokemonResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const TransferPokemonResponse* internal_default_instance() {
+    return reinterpret_cast<const TransferPokemonResponse*>(
+               &_TransferPokemonResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    13;
+
+  friend void swap(TransferPokemonResponse& a, TransferPokemonResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TransferPokemonResponse* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TransferPokemonResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline TransferPokemonResponse* New() const final {
+    return CreateMaybeMessage<TransferPokemonResponse>(nullptr);
+  }
+
+  TransferPokemonResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<TransferPokemonResponse>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const TransferPokemonResponse& from);
+  void MergeFrom(const TransferPokemonResponse& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TransferPokemonResponse* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "UserProtocol.TransferPokemonResponse";
+  }
+  protected:
+  explicit TransferPokemonResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_UserProtocol_2eproto);
+    return ::descriptor_table_UserProtocol_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  typedef TransferPokemonResponse_TransferPokemonStatus TransferPokemonStatus;
+  static constexpr TransferPokemonStatus SUCCESS =
+    TransferPokemonResponse_TransferPokemonStatus_SUCCESS;
+  static constexpr TransferPokemonStatus FAILED =
+    TransferPokemonResponse_TransferPokemonStatus_FAILED;
+  static constexpr TransferPokemonStatus UNDEFINED =
+    TransferPokemonResponse_TransferPokemonStatus_UNDEFINED;
+  static inline bool TransferPokemonStatus_IsValid(int value) {
+    return TransferPokemonResponse_TransferPokemonStatus_IsValid(value);
+  }
+  static constexpr TransferPokemonStatus TransferPokemonStatus_MIN =
+    TransferPokemonResponse_TransferPokemonStatus_TransferPokemonStatus_MIN;
+  static constexpr TransferPokemonStatus TransferPokemonStatus_MAX =
+    TransferPokemonResponse_TransferPokemonStatus_TransferPokemonStatus_MAX;
+  static constexpr int TransferPokemonStatus_ARRAYSIZE =
+    TransferPokemonResponse_TransferPokemonStatus_TransferPokemonStatus_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  TransferPokemonStatus_descriptor() {
+    return TransferPokemonResponse_TransferPokemonStatus_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& TransferPokemonStatus_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, TransferPokemonStatus>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function TransferPokemonStatus_Name.");
+    return TransferPokemonResponse_TransferPokemonStatus_Name(enum_t_value);
+  }
+  static inline bool TransferPokemonStatus_Parse(const std::string& name,
+      TransferPokemonStatus* value) {
+    return TransferPokemonResponse_TransferPokemonStatus_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kStatusFieldNumber = 1,
+  };
+  // .UserProtocol.TransferPokemonResponse.TransferPokemonStatus status = 1;
+  void clear_status();
+  ::UserProtocol::TransferPokemonResponse_TransferPokemonStatus status() const;
+  void set_status(::UserProtocol::TransferPokemonResponse_TransferPokemonStatus value);
+  private:
+  ::UserProtocol::TransferPokemonResponse_TransferPokemonStatus _internal_status() const;
+  void _internal_set_status(::UserProtocol::TransferPokemonResponse_TransferPokemonStatus value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:UserProtocol.TransferPokemonResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  int status_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_UserProtocol_2eproto;
+};
 // ===================================================================
 
 
@@ -5201,9 +5595,223 @@ OnlineUserListResponseInfo::userlist() const {
   return userlist_;
 }
 
+// -------------------------------------------------------------------
+
+// TransferPokemonRequest
+
+// bytes fromUser = 1;
+inline void TransferPokemonRequest::clear_fromuser() {
+  fromuser_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& TransferPokemonRequest::fromuser() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.TransferPokemonRequest.fromUser)
+  return _internal_fromuser();
+}
+inline void TransferPokemonRequest::set_fromuser(const std::string& value) {
+  _internal_set_fromuser(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.TransferPokemonRequest.fromUser)
+}
+inline std::string* TransferPokemonRequest::mutable_fromuser() {
+  // @@protoc_insertion_point(field_mutable:UserProtocol.TransferPokemonRequest.fromUser)
+  return _internal_mutable_fromuser();
+}
+inline const std::string& TransferPokemonRequest::_internal_fromuser() const {
+  return fromuser_.Get();
+}
+inline void TransferPokemonRequest::_internal_set_fromuser(const std::string& value) {
+  
+  fromuser_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void TransferPokemonRequest::set_fromuser(std::string&& value) {
+  
+  fromuser_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:UserProtocol.TransferPokemonRequest.fromUser)
+}
+inline void TransferPokemonRequest::set_fromuser(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  fromuser_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:UserProtocol.TransferPokemonRequest.fromUser)
+}
+inline void TransferPokemonRequest::set_fromuser(const void* value,
+    size_t size) {
+  
+  fromuser_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:UserProtocol.TransferPokemonRequest.fromUser)
+}
+inline std::string* TransferPokemonRequest::_internal_mutable_fromuser() {
+  
+  return fromuser_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* TransferPokemonRequest::release_fromuser() {
+  // @@protoc_insertion_point(field_release:UserProtocol.TransferPokemonRequest.fromUser)
+  return fromuser_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void TransferPokemonRequest::set_allocated_fromuser(std::string* fromuser) {
+  if (fromuser != nullptr) {
+    
+  } else {
+    
+  }
+  fromuser_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), fromuser,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:UserProtocol.TransferPokemonRequest.fromUser)
+}
+inline std::string* TransferPokemonRequest::unsafe_arena_release_fromuser() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:UserProtocol.TransferPokemonRequest.fromUser)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return fromuser_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void TransferPokemonRequest::unsafe_arena_set_allocated_fromuser(
+    std::string* fromuser) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (fromuser != nullptr) {
+    
+  } else {
+    
+  }
+  fromuser_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      fromuser, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.TransferPokemonRequest.fromUser)
+}
+
+// bytes destUser = 2;
+inline void TransferPokemonRequest::clear_destuser() {
+  destuser_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& TransferPokemonRequest::destuser() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.TransferPokemonRequest.destUser)
+  return _internal_destuser();
+}
+inline void TransferPokemonRequest::set_destuser(const std::string& value) {
+  _internal_set_destuser(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.TransferPokemonRequest.destUser)
+}
+inline std::string* TransferPokemonRequest::mutable_destuser() {
+  // @@protoc_insertion_point(field_mutable:UserProtocol.TransferPokemonRequest.destUser)
+  return _internal_mutable_destuser();
+}
+inline const std::string& TransferPokemonRequest::_internal_destuser() const {
+  return destuser_.Get();
+}
+inline void TransferPokemonRequest::_internal_set_destuser(const std::string& value) {
+  
+  destuser_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void TransferPokemonRequest::set_destuser(std::string&& value) {
+  
+  destuser_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:UserProtocol.TransferPokemonRequest.destUser)
+}
+inline void TransferPokemonRequest::set_destuser(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  destuser_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:UserProtocol.TransferPokemonRequest.destUser)
+}
+inline void TransferPokemonRequest::set_destuser(const void* value,
+    size_t size) {
+  
+  destuser_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:UserProtocol.TransferPokemonRequest.destUser)
+}
+inline std::string* TransferPokemonRequest::_internal_mutable_destuser() {
+  
+  return destuser_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* TransferPokemonRequest::release_destuser() {
+  // @@protoc_insertion_point(field_release:UserProtocol.TransferPokemonRequest.destUser)
+  return destuser_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void TransferPokemonRequest::set_allocated_destuser(std::string* destuser) {
+  if (destuser != nullptr) {
+    
+  } else {
+    
+  }
+  destuser_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), destuser,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:UserProtocol.TransferPokemonRequest.destUser)
+}
+inline std::string* TransferPokemonRequest::unsafe_arena_release_destuser() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:UserProtocol.TransferPokemonRequest.destUser)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return destuser_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void TransferPokemonRequest::unsafe_arena_set_allocated_destuser(
+    std::string* destuser) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (destuser != nullptr) {
+    
+  } else {
+    
+  }
+  destuser_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      destuser, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UserProtocol.TransferPokemonRequest.destUser)
+}
+
+// int32 pkmId = 3;
+inline void TransferPokemonRequest::clear_pkmid() {
+  pkmid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 TransferPokemonRequest::_internal_pkmid() const {
+  return pkmid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 TransferPokemonRequest::pkmid() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.TransferPokemonRequest.pkmId)
+  return _internal_pkmid();
+}
+inline void TransferPokemonRequest::_internal_set_pkmid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  pkmid_ = value;
+}
+inline void TransferPokemonRequest::set_pkmid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_pkmid(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.TransferPokemonRequest.pkmId)
+}
+
+// -------------------------------------------------------------------
+
+// TransferPokemonResponse
+
+// .UserProtocol.TransferPokemonResponse.TransferPokemonStatus status = 1;
+inline void TransferPokemonResponse::clear_status() {
+  status_ = 0;
+}
+inline ::UserProtocol::TransferPokemonResponse_TransferPokemonStatus TransferPokemonResponse::_internal_status() const {
+  return static_cast< ::UserProtocol::TransferPokemonResponse_TransferPokemonStatus >(status_);
+}
+inline ::UserProtocol::TransferPokemonResponse_TransferPokemonStatus TransferPokemonResponse::status() const {
+  // @@protoc_insertion_point(field_get:UserProtocol.TransferPokemonResponse.status)
+  return _internal_status();
+}
+inline void TransferPokemonResponse::_internal_set_status(::UserProtocol::TransferPokemonResponse_TransferPokemonStatus value) {
+  
+  status_ = value;
+}
+inline void TransferPokemonResponse::set_status(::UserProtocol::TransferPokemonResponse_TransferPokemonStatus value) {
+  _internal_set_status(value);
+  // @@protoc_insertion_point(field_set:UserProtocol.TransferPokemonResponse.status)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -5262,6 +5870,11 @@ template <> struct is_proto_enum< ::UserProtocol::UserPokemonDataRequestInfo_Pok
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::UserProtocol::UserPokemonDataRequestInfo_PokemonDataRequestType>() {
   return ::UserProtocol::UserPokemonDataRequestInfo_PokemonDataRequestType_descriptor();
+}
+template <> struct is_proto_enum< ::UserProtocol::TransferPokemonResponse_TransferPokemonStatus> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::UserProtocol::TransferPokemonResponse_TransferPokemonStatus>() {
+  return ::UserProtocol::TransferPokemonResponse_TransferPokemonStatus_descriptor();
 }
 template <> struct is_proto_enum< ::UserProtocol::PokemonDataRequestMode> : ::std::true_type {};
 template <>

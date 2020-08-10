@@ -57,6 +57,8 @@ public FUNCTION:
 private FUNCTION:
     void
         queryBuffList();
+    bool
+        checkBattleIsFinished();
     void
         handleResult(AttackResult& result, BalanceType type);
     

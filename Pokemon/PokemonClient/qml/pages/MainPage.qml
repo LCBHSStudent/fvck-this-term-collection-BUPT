@@ -224,7 +224,6 @@ Page {
         contentH: contentW * 0.8
         
         property string fromUser: ""
-        property int    battleMode: -1
         readonly property int accept: 0
         readonly property int refuse: 1
         
@@ -277,6 +276,7 @@ Page {
                 loadingPopup.showLoading("等待建立对战...")
             } else {
                 serverPkmId = getSelectedPkmId()
+                console.debug("serverPkmId: ", serverPkmId)
                 selectServerPkm = false
                 showPopup()
             }
@@ -298,7 +298,7 @@ Page {
                 stat += "决斗战"
             }
             invitePopup.fromUser = fromUser
-            invitePopup.battleMode = battleMode
+            mainPage_t.battleMode  = battleMode
             invitePopup.showPopup("收到对战请求", stat)
         }
         
@@ -314,6 +314,7 @@ Page {
                 stack.currentItem.myPkmId = urPkmId
                 stack.currentItem.taPkmId = taPkmId
                 stack.currentItem.taUserName = destUserName
+                stack.currentItem.battleMode = battleMode
                 stack.currentItem.getPokemonInfo()
                 break
             case 1:
@@ -359,9 +360,6 @@ Page {
                 }
             }
         }
-    }
-    Connections {
-        
     }
     
     ////////////////////////////////////////////////////////////////////////////////
@@ -793,6 +791,7 @@ Page {
                             onClicked: {
                                 enabled = false
                                 backend.sendUserInfoRequest(othersNameInput.text)
+                                loadingPopup.showLoading("正在查询用户信息...")
                             }
                         }
                         MFlatBtn {
@@ -804,6 +803,7 @@ Page {
                             onClicked: {
                                 enabled = false
                                 backend.sendSelfUserInfoRequest()
+                                loadingPopup.showLoading("正在查询用户信息...")
                             }
                         }
                     }
@@ -813,6 +813,7 @@ Page {
                         onSigGetUserInfo: {
                             myInfoBtn.enabled = true
                             otherInfoBtn.enabled = true
+                            loadingPopup.hideLoading()
                             if (status == 0) {
                                 console.debug("get user info!")
                                 userInfoStack.push(infoMode)
@@ -843,7 +844,7 @@ Page {
                             left: parent.left
                             top: back.bottom
                             topMargin: utils.dp(5)
-                            leftMargin: utils.dp(10)
+                            leftMargin: utils.dp(20)
                         }
 
                         color: "#000000"
@@ -962,6 +963,7 @@ Page {
     }
     
     Component.onCompleted: {
+        loadingPopup.hideLoading()
         backend.sendServerPokemonInfoRequest()
     }
     

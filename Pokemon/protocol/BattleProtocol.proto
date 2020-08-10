@@ -82,9 +82,3 @@ message BattleInviteResponse {
 message BattleGiveupInfo {
     bytes   userName = 1;
 };
-
-message TrophiePkmIdInfo {
-    int32   pkmID_1     = 1;
-    int32   pkmID_2     = 2;
-    int32   pkmID_3     = 3;
-};
