@@ -327,7 +327,7 @@ void onReadResponse(
 		InsertHashItem(dnsHashTable, idTable[temp].url, result);
 
 		dnsRowCount++;
-		if (dnsRowCount <= MAX_AMOUNT) {
+		if (dnsRowCount >= MAX_AMOUNT) {
 			PRINTERR("[[WARNING]] RECORDS IN DNS_TABLE HAVE REACHED THE LIMIT");
 			exit(-114514);
 		}
