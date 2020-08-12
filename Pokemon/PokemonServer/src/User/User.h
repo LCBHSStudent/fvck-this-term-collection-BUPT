@@ -8,19 +8,26 @@ class PokemonBase;
 class User: public QObject {
     Q_OBJECT
 public:
-        User(
+        User(                   /*User构造函数*/
 			QString		username,
 			QTcpSocket* socket
         );
-		User(const User&);
-    virtual 
-        ~User();
+		User(const User&);      /*User拷贝构造函数数*/
+    virtual                     /*User析构函数*/
+        ~User();                
 public RESOURCE:
+    /**
+     * @brief The BadgeType enum
+     */
 	enum class BadgeType: int {
 		BRONZE = 0,
 		SILVER,
 		GOLDEN
 	};
+    
+    /**
+     * @brief The UserStatus enum
+     */
 	enum class UserStatus: int {
 		IDLE = 0,
 		BATTLING,
@@ -29,6 +36,7 @@ public RESOURCE:
 	};
 	
 public FUNCTION:
+    // ------ Property属性组
 	PROPERTY(double,        winRate)
     PROPERTY(int,           battlePkmId)
     PROPERTY(QString,       name)
@@ -37,35 +45,36 @@ public FUNCTION:
 	PROPERTY(UserStatus,	status)
 	PROPERTY(QList<int>,    pokemonList)
 	
+    // 获取用户socket
 	GET(QTcpSocket*,		userSocket)
 	
-	PokemonBase 
+	PokemonBase     /*获取用户信息*/
         requestUserPkmInfo(uint32 pkmId);
-    void
+    void            /*战斗胜利*/
         battleWon();
-    void
+    void            /*战斗失败*/
         battleLose();
-    void 
+    void            /*更新用户信息*/
         updateUserInfo();
     
 private FUNCTION:
     
 private RESOURCE:
-    int
+    int             /*出战宝可梦ID*/
         m_battlePkmId;
-	QString
+	QString         /*用户名*/
 		m_name;
-	double
+	double          /*胜率*/
 		m_winRate;
-	BadgeType
+	BadgeType       /*宝可梦数量勋章类型*/
 		m_countBadge;
-	BadgeType
+	BadgeType       /*宝可梦质量勋章类型*/
 		m_qualityBadge;
-	UserStatus
+	UserStatus      /*用户状态*/
 		m_status;
-	QList<int>
+	QList<int>      /*用户宝可梦列表*/
 		m_pokemonList;
-	QTcpSocket*
+	QTcpSocket*     /*用户对应的tcp socket*/
 		m_userSocket;
 };
 

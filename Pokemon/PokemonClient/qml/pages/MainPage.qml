@@ -313,7 +313,12 @@ Page {
                 stack.currentItem.isUserA = isUserA
                 stack.currentItem.myPkmId = urPkmId
                 stack.currentItem.taPkmId = taPkmId
-                stack.currentItem.taUserName = destUserName
+                if (isUserA) {
+                    stack.currentItem.taUserName = destUserName
+                } else {
+                    stack.currentItem.taUserName = invitePopup.fromUser
+                }
+                
                 stack.currentItem.battleMode = battleMode
                 stack.currentItem.getPokemonInfo()
                 break

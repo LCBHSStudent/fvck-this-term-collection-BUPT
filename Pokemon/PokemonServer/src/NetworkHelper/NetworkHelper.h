@@ -10,15 +10,17 @@
 class NetworkHelper: public QObject {
     Q_OBJECT
 public:
-    explicit NetworkHelper(QObject *parent = nullptr);
-    virtual ~NetworkHelper();
+    explicit    /*构造网络辅助类*/
+        NetworkHelper(QObject *parent = nullptr);
+    virtual     /*析构网络辅助类*/
+        ~NetworkHelper();
     
 public FUNCTION:
-    size_t
+    size_t          /*发送QString封装的数据到Client socket*/
         sendToClient(QTcpSocket*, const QString&);
-    size_t
+    size_t          /*发送QByteArray封装的数据到Client socket*/
         sendToClient(QTcpSocket*, QByteArray&&);
-    static int 
+    static int      /*利用反射parse protobuf message*/
         DynamicParseFromPBFile(
             const QString&  filename,
             const QString&  classname,
@@ -28,24 +30,27 @@ public FUNCTION:
         );
     
 public RESOURCE:
+    // 指定端口号
     inline static int port = 1919;
 
 signals:
+    // 读取到客户端消息报文
     NET_SIG(GetMessage);
+    // 客户端断开连接
     NET_SIG(UserDisconnected);
 	
 private slots:
-    void
+    void    /*处理新加入的客户端连接*/
         slotNewConnection();
-    void 
+    void    /*读取client socket送来的数据*/
         slotReadClient();
-    void
+    void    /*client断开连接时调用的处理函数*/
         slotGotDisconnection();
     
 private RESOURCE:
-    QList<QTcpSocket*>
+    QList<QTcpSocket*>      /*存储所有client socket*/
         m_clients {};
-    QTcpServer*
+    QTcpServer*             /*Qt封装的TcpServer类*/
         m_server = nullptr;
 };
 

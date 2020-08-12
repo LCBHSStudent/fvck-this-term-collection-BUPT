@@ -6,6 +6,7 @@
 #include "NetworkHelper/NetworkHelper.h"
 
 // ------------------Progress Before Sending Network Data----------------- //
+// -------------------组装头部（length & type） -->填充内容------------------ //
 #define PROC_PROTODATA(_messageType, _dataBlockName) \
     auto byteLength = _dataBlockName.ByteSizeLong();                        \
     auto pData      = new char[byteLength + 2*sizeof(uint32)];              \
@@ -19,13 +20,18 @@
     delete[] pData                                                          \
 // ----------------------------------------------------------------------- //
 
+// 用于检测socket连接状态的宏，不是非成员函数！
 #define CHECK_SOCKET_STATUS \
     if(!m_helper->getStatus()) {        \
         qDebug() << "client offline";   \
         return;                         \
     }                                   \
 
-
+/**
+ * @brief ClientBackend::ClientBackend
+ *        构造后台类
+ * @param {QString}hostAddr 服务端IPV4-addr字符串
+ */
 ClientBackend::ClientBackend(QString hostAddr):
     QQuickItem(),
     m_host(hostAddr),
@@ -38,14 +44,26 @@ ClientBackend::ClientBackend(QString hostAddr):
     m_helper->connect2host();
 }
 
+/**
+ * @brief ClientBackend::~ClientBackend
+ *        后台类析构函数
+ */
 ClientBackend::~ClientBackend() {
     if(m_helper) {
         delete m_helper;
     }
 }
 
+
+/**
+ * @brief ClientBackend::slotGetServerMessage
+ *        接收到server信息时调用
+ * @param {QByteArray} data 由网络辅助类送来的封装数据
+ */
 void ClientBackend::slotGetServerMessage(QByteArray data) {
+    // 拿到开头的messageType
     auto messageType = *reinterpret_cast<int*>(data.data());
+    // 根据MessageType进行处理
     switch (messageType) {
     case UserSignUpResponse: {
         UserProtocol::UserSignUpResponseInfo info = {};
@@ -196,6 +214,12 @@ void ClientBackend::slotGetServerMessage(QByteArray data) {
     }
 }
 
+/**
+ * @brief ClientBackend::sendLoginRequest
+ *        发送登录请求
+ * @param username 用户名
+ * @param password 密码
+ */
 void ClientBackend::sendLoginRequest(
     QString     username,
     QString     password
@@ -214,6 +238,12 @@ void ClientBackend::sendLoginRequest(
     PROC_PROTODATA(UserLoginRequest, info);
 }
 
+/**
+ * @brief ClientBackend::sendSignUpRequest
+ *        发送注册请求
+ * @param username 用户名
+ * @param password 密码
+ */
 void ClientBackend::sendSignUpRequest(
     QString     username,
     QString     password
@@ -232,6 +262,10 @@ void ClientBackend::sendSignUpRequest(
     PROC_PROTODATA(UserSignUpRequest, info);
 }
 
+/**
+ * @brief ClientBackend::sendOnlineUserListRequest
+ *        发送在线用户列表获取请求
+ */
 void ClientBackend::sendOnlineUserListRequest() {
     CHECK_SOCKET_STATUS;
     
@@ -242,6 +276,10 @@ void ClientBackend::sendOnlineUserListRequest() {
     PROC_PROTODATA(OnlineUserListRequest, info);
 }
 
+/**
+ * @brief ClientBackend::sendSelfPokemonInfoRequest
+ *        发送获取自身宝可梦信息请求
+ */
 void ClientBackend::sendSelfPokemonInfoRequest() {
     CHECK_SOCKET_STATUS;
     
@@ -255,10 +293,19 @@ void ClientBackend::sendSelfPokemonInfoRequest() {
     PROC_PROTODATA(PokemonDataRequest, info);
 }
 
+/**
+ * @brief ClientBackend::sendSelfUserInfoRequest
+ *        获取自身用户信息请求
+ */
 void ClientBackend::sendSelfUserInfoRequest() {
     sendUserInfoRequest(m_userName);
 }
 
+/**
+ * @brief ClientBackend::sendUserInfoRequest
+ *        获取指定用户信息请求
+ * @param username 用户名
+ */
 void ClientBackend::sendUserInfoRequest(QString username) {
     CHECK_SOCKET_STATUS;
     
@@ -267,6 +314,14 @@ void ClientBackend::sendUserInfoRequest(QString username) {
     PROC_PROTODATA(UserInfoRequest, info);
 }
 
+/**
+ * @brief ClientBackend::sendBattleStartRequest
+ *        发送对战开始请求
+ * @param mode      对战模式
+ * @param pkmId     自身选择的宝可梦id
+ * @param destName  对手用户名
+ * @param serverPkm 如果是与server对战，则为指定的server宝可梦id
+ */
 void ClientBackend::sendBattleStartRequest(
     int     mode,
     int     pkmId,
@@ -289,6 +344,14 @@ void ClientBackend::sendBattleStartRequest(
     PROC_PROTODATA(BattleInviteRequest, info);
 }
 
+/**
+ * @brief ClientBackend::sendBattleInviteResponse
+ *        发送对战邀请的回应
+ * @param flag          接受 & 拒绝 &其他错误处理码
+ * @param battleMode    对战模式
+ * @param pkmId         自身选择的出战宝可梦id
+ * @param fromUser      是来自哪个用户的邀请
+ */
 void ClientBackend::sendBattleInviteResponse(
     int     flag,
     int     battleMode,
@@ -317,6 +380,12 @@ void ClientBackend::sendBattleInviteResponse(
     PROC_PROTODATA(BattleInviteResponse, resInfo);
 }
 
+/**
+ * @brief ClientBackend::sendBattleSkillIndex
+ *        发送指定技能槽的index
+ * @param isUserA   是UserA吗
+ * @param index     skill槽的下标  
+ */
 void ClientBackend::sendBattleSkillIndex(int isUserA, int index) {
     CHECK_SOCKET_STATUS;
 
@@ -328,6 +397,10 @@ void ClientBackend::sendBattleSkillIndex(int isUserA, int index) {
     PROC_PROTODATA(BattleOperationInfo, info);
 }
 
+/**
+ * @brief ClientBackend::sendBattleGiveupInfo
+ *        发送对战放弃请求
+ */
 void ClientBackend::sendBattleGiveupInfo() {
     CHECK_SOCKET_STATUS;
     
@@ -337,6 +410,13 @@ void ClientBackend::sendBattleGiveupInfo() {
     PROC_PROTODATA(BattleGiveupInfo, info);
 }
 
+/**
+ * @brief ClientBackend::sendBattlePokemonInfoRequest
+ *        获取对战用宝可梦信息
+ * @param taUserName    对方用户名
+ * @param myPkmId       我的宝可梦id
+ * @param taPkmId       对方宝可梦id
+ */
 void ClientBackend::sendBattlePokemonInfoRequest(
     QString taUserName,
     int     myPkmId,
@@ -373,6 +453,10 @@ void ClientBackend::sendBattlePokemonInfoRequest(
     }
 }
 
+/**
+ * @brief ClientBackend::sendServerPokemonInfoRequest
+ *        请求获取服务器宝可梦信息
+ */
 void ClientBackend::sendServerPokemonInfoRequest() {
     CHECK_SOCKET_STATUS;
     
@@ -386,6 +470,12 @@ void ClientBackend::sendServerPokemonInfoRequest() {
     PROC_PROTODATA(PokemonDataRequest, info);
 }
 
+/**
+ * @brief ClientBackend::sendTransferPokemonRequest
+ *        发送宝可梦所有权转移请求
+ * @param fromUser  从谁那里
+ * @param pkmId     转移哪一个
+ */
 void ClientBackend::sendTransferPokemonRequest(QString fromUser, int pkmId) {
     CHECK_SOCKET_STATUS;
     

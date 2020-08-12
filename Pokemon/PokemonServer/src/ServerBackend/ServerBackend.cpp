@@ -4,7 +4,10 @@
 #include <MessageTypeGlobal.h>
 #include "../StorageHelper/StorageHelper.h"
 
+// ------防止debug下parse bytes类型时包含中文后出现的内存读写bug
 // #define AVOID_PROTOBUF_EXCEPTION_FLAG
+
+// ------控制部分debug信息打印
 // #undef DEBUG_FLAG
 
 #undef  NET_SLOT
@@ -45,7 +48,10 @@
     delete[] pData                                                          \
 // ----------------------------------------------------------------------- //
 
-
+/**
+ * @brief ServerBackend::ServerBackend
+ *        server主要逻辑类构造
+ */
 ServerBackend::ServerBackend():
     m_helper(new NetworkHelper)
 {
@@ -60,6 +66,10 @@ ServerBackend::ServerBackend():
     CONNECT_EVENT(UserDisconnected);
 }
 
+/**
+ * @brief ServerBackend::~ServerBackend
+ *        server类析构
+ */
 ServerBackend::~ServerBackend() {
     // RELEASE ALL BATTLE FIELD
     for (auto battle: m_battleFieldList) {
@@ -71,7 +81,11 @@ ServerBackend::~ServerBackend() {
     }
 }
 
-// 创建用户表，记录其拥有的宝可梦信息
+/**
+ * @brief ServerBackend::createUserTable
+ *        创建用户表，记录其拥有的宝可梦信息
+ * @param username  {QString} 用户名
+ */
 void ServerBackend::createUserTable(const QString& username) {
     const QString userTableStat = 
 "CREATE TABLE IF NOT EXISTS `user_" + username + "`(\
@@ -87,6 +101,13 @@ void ServerBackend::createUserTable(const QString& username) {
     StorageHelper::Instance().transaction(userTableStat, StorageHelper::DEFAULT_FUNC);
 }
 
+/**
+ * @brief ServerBackend::transferPokemon
+ *        宝可梦所有权转移
+ * @param fromUser  从谁那里拿
+ * @param destUser  放到谁那里
+ * @param pkmId     宝可梦id
+ */
 void ServerBackend::transferPokemon(
     const QString&  fromUser,
     const QString&  destUser,
@@ -138,6 +159,12 @@ void ServerBackend::transferPokemon(
     }
 }
 
+/**
+ * @brief ServerBackend::slotGetMessage
+ *        根据Global Message Type调用对应的处理槽函数
+ * @param client    客户端TCP SCOKET
+ * @param data      QByteArray封装的数据
+ */
 void ServerBackend::slotGetMessage(
     QTcpSocket*     client,
     QByteArray      data
@@ -688,6 +715,7 @@ NET_SLOT(BattleInvite) {
     }
 }
 
+// 处理对战邀请应答
 NET_SLOT(HandleBattleInviteResponse) {
     BattleProtocol::BattleInviteResponse resInfo = {};
     resInfo.ParseFromArray(data.data(), data.size());
@@ -782,6 +810,7 @@ NET_SLOT(HandleBattleInviteResponse) {
     pUserB->set_status(User::UserStatus::BATTLING);
 }
 
+// 处理对战操作
 NET_SLOT(HandleBattleOperation) {
     BattleProtocol::BattleOperationInfo info = {};
     info.ParseFromArray(data.data(), data.size());
@@ -810,6 +839,7 @@ NET_SLOT(HandleBattleOperation) {
     }
 }
 
+// 处理宝可梦所有权转移
 NET_SLOT(TransferPokemon) {
     UserProtocol::TransferPokemonRequest reqInfo = {};
     reqInfo.ParseFromArray(data.data(), data.size());
@@ -827,6 +857,11 @@ NET_SLOT(TransferPokemon) {
     PROC_PROTODATA(TransferPokemonResponse, resInfo);
 }
 
+/**
+ * @brief ServerBackend::slotGetTurnInfo
+ *        得到某个BattleField中的对战回合信息
+ * @param info {BattleField::TurnInfo} 回合内Hp变化 buff信息
+ */
 void ServerBackend::slotGetTurnInfo(BattleField::TurnInfo info) {
     BattleProtocol::BattleTurnInfo infoA = {};
     BattleProtocol::BattleTurnInfo infoB = {};
@@ -896,6 +931,11 @@ void ServerBackend::slotGetTurnInfo(BattleField::TurnInfo info) {
     }
 }
 
+/**
+ * @brief ServerBackend::slotGetBattleResult
+ *        处理对战结果，析构并移除对应BattleField & 发送战利品信息 & 获得战利品 & 更新用户信息
+ * @param winner {User*} 对战胜者
+ */
 void ServerBackend::slotGetBattleResult(User* winner) {
     BattleProtocol::BattleFinishInfo infoWinner = {};
     BattleProtocol::BattleFinishInfo infoLoser  = {};

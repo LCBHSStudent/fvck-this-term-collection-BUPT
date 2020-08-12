@@ -17,12 +17,13 @@ public:
     ~ServerBackend();
      
 public slots:
+    // 读取到某个客户端消息并处理
     NET_SLOT(GetMessage);
     
 private FUNCTION:
-    void
+    void    // 创建用户表
         createUserTable(const QString& username);
-    void
+    void    // 转移宝可梦所有权
         transferPokemon(
             const QString&  fromUser,
             const QString&  destUser,
@@ -30,6 +31,7 @@ private FUNCTION:
         );
     
 private slots:
+    // 网络消息槽组   参数皆为 {QTcpSocket*} client 与 {QByteArray} data
     NET_SLOT(UserLogin);
     NET_SLOT(UserSignUp);
     NET_SLOT(RequestPkmInfo);
@@ -41,19 +43,19 @@ private slots:
     NET_SLOT(HandleBattleOperation);
     NET_SLOT(TransferPokemon);
     
-    void
+    void    /*获取到BattleField内的回合信息*/
         slotGetTurnInfo(BattleField::TurnInfo info);
-    void
+    void    /*获取到battlefield内的对战结果信息*/
         slotGetBattleResult(User* winner);
     
 private RESOURCE:
-    NetworkHelper* 
+    NetworkHelper*          /*网络辅助类*/
         m_helper;
-    QHash<QString, User> 
+    QHash<QString, User>    /*用户名到User*的Hash（暂未启用）*/ 
         m_userHash;
-    QList<User>
+    QList<User>             /*用户列表*/
         m_userList = {};
-    QList<BattleField*>
+    QList<BattleField*>     /*对战组件列表*/
         m_battleFieldList = {};
 };
 

@@ -5,11 +5,22 @@
 #include "../VariousPokemon.h"
 #include "../../StorageHelper/StorageHelper.h"
 
+/**
+ * @brief The PokemonFactory class
+ *        宝可梦工厂，利用内建的static函数返回生成的宝可梦基类型指针
+ * @test  接口类
+ */
 class PokemonFactory {
 public:
     PokemonFactory()  = delete;
     ~PokemonFactory() = default;
 public FUNCTION:
+    /**
+     * @brief CreatePokemon
+     * @param userName
+     * @param id
+     * @return 
+     */
     static PokemonBase* CreatePokemon(QString userName, int id) {
         QString _name, _desc;
         QString _skill_1, _skill_2, _skill_3, _skill_4;

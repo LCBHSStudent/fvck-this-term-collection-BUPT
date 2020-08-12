@@ -3,6 +3,7 @@
 #include <PreCompile.h>
 #include "../../StorageHelper/StorageHelper.h"
 
+// 初始化列表宏
 #define ARGS_LIST \
     QString             _name,  \
     QString             _user,  \
@@ -17,6 +18,7 @@
     int                 _attr,  \
     int                 _type   \
     
+// 定义类用到的初始化列表宏
 #define DEF_ARGS_LIST \
     QString             _name,  \
     QString             _user,  \
@@ -31,22 +33,30 @@
     int                 _attr,  \
     int                 _type = UNDEFINED_TYPE \
 
+// 判断宝可梦属性
 #define JUDGE_ATTR(_ATTR) \
     (dest->m_pkmAttr == PokemonBase::PokemonAttribute::_ATTR) \
 
+// 判断宝可梦类型
 #define JUDGE_PKM_TYPE(_pkm, _type) \
     if(_pkm->m_pkmType == PokemonBase::PokemonType::_type) \
 
+/**
+ * @brief The Buff struct
+ */
 struct Buff {
 FUNCTION    
     Buff(): buffId(0), turnCnt(0){}
     Buff(int id, int cnt): buffId(id), turnCnt(cnt){}
     
 RESOURCE
-    int buffId;
-    int turnCnt;
+    int buffId;     // buff id
+    int turnCnt;    // 回合限制
 };
 
+/**
+ * @brief The PropertyCombo struct
+ */
 struct PropertyCombo {
     int     hp  = 0;
     int     atk = 0;
@@ -54,6 +64,9 @@ struct PropertyCombo {
     int     spd = 0;
 };
 
+/**
+ * @brief The AttackResult struct
+ */
 struct AttackResult {
 FUNCTION
     AttackResult() = default;
@@ -75,14 +88,20 @@ RESOURCE
     int  destDeltaHp = 0;
 };
 
+/**
+ * @brief The PokemonBase class
+ */
 class PokemonBase {
     friend class PokemonSkill;
-public:
+public:     // 构造宝可梦类
 		 PokemonBase(DEF_ARGS_LIST);
-	virtual
+	virtual // 析构宝可梦类
 		~PokemonBase() = default;
 
 public RESOURCE:
+    /**
+     * @brief The PokemonType enum
+     */
 	enum PokemonType {
 		HIGH_ATTACK = 0,
 		HIGH_HITPOINT,
@@ -90,12 +109,20 @@ public RESOURCE:
 		HIGH_SPEED,
 		UNDEFINED_TYPE
 	};
+    
+    /**
+     * @brief The PokemonAttribute enum
+     */
     enum PokemonAttribute {
         FIRE = 0,
         WATER,
         GRASS,
         UNDEFINED_ATTR
     };
+    
+    /**
+     * @brief The BuffType enum
+     */
     enum BuffType {
         ATK_UP_S = 1,   ATK_UP_M, ATK_UP_L,
         DEF_UP_S,       DEF_UP_M, DEF_UP_L,
@@ -116,17 +143,18 @@ public RESOURCE:
         PALSYING,
     };
     
-	static const int    
+	static const int        /*最大等级*/    
         MAX_LEVEL = 15;
-    static int
+    static int              /*升级经验*/
         LEVEL_UP_EXP[MAX_LEVEL-1];
-    static PropertyCombo
+    static PropertyCombo    /*初始属性值（废弃）*/
         INITIAL_PROPERTY;
     
 public FUNCTION:
-	void
+	void   /*经验值变化*/
 		gainExperience(int exp);
     
+    // ------ property属性组
     PROPERTY(int, id)
     PROPERTY(int, exp)
     PROPERTY(int, level)
@@ -148,19 +176,19 @@ public FUNCTION:
     PROPERTY(QString, desc)
     
 public FUNCTION:
-	virtual AttackResult
+	virtual AttackResult    /*返回AttackResult的攻击函数*/
 		attack(
-                  PokemonBase&    target,
-		    const QString&        skillName
+                  PokemonBase&    target,   // 对方宝可梦引用
+		    const QString&        skillName // 技能名
 		) = 0;
-	virtual void
+	virtual void            /*升级时调用*/
 		levelUp() = 0;
-	void 
+	void                    /*为技能槽设置技能*/
         setSkill(int slot, const QString& name) {
             if (slot < 4 && slot >= 0)    
                 m_skills[slot] = name;    
         }
-    QString
+    QString                 /*获取技能槽内技能*/
         getSkill(int slot) const {
             if (slot < 4 && slot >= 0) { 
                 return m_skills[slot];
@@ -168,41 +196,41 @@ public FUNCTION:
                 return QString();
             }
         }
-    void
-        printStatus() const;
-    void
+    void                    /*打印宝可梦状态信息*/
+        printStatus() const;    
+    void                    /*存储宝可梦信息到数据库*/
         save2LocalStorage() const;
 
 protected RESOURCE:
-	QString
+	QString     /*宝可梦名称*/
 		m_name  = {};
-    QString
+    QString     /*当前所有者用户名*/
         m_curUser = {};
-    QString
+    QString     /*宝可梦描述*/
         m_desc  = {};
     
-    int   
+    int         /*宝可梦持有ID*/
         m_id    = 0;
-    int   
+    int         /*宝可梦等级*/
 		m_level = 0;
-	int   
+	int         /*宝可梦当前经验值*/
 		m_exp	= 0;
-    int
+    int         /*宝可梦种族id*/
         m_typeID = 0;
 
-	int   
+	int         /*宝可梦攻击力 & 当前攻击力*/
 		m_ATK  = 0, m_curATK  = 0;
-	int   
+	int         /*宝可梦HP & 当前HP*/
 		m_HP   = 0, m_curHP   = 0;
-	int   
+	int         /*宝可梦防御力 & 当前防御力*/
 		m_DEF  = 0, m_curDEF  = 0;
-	int   
+	int         /*宝可梦速度 & 当前速度*/
 		m_SPD = 0, m_curSPD = 0;
     
-	PokemonType
+	PokemonType         /*宝可梦类型*/
 		m_pkmType  = UNDEFINED_TYPE;
-    PokemonAttribute
+    PokemonAttribute    /*宝可梦属性*/
         m_pkmAttr  = UNDEFINED_ATTR;
-    QVector<QString>
+    QVector<QString>    /*宝可梦技能槽*/
         m_skills   = {};
 };

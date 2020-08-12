@@ -1,7 +1,7 @@
 # 基于QtTcpSocket protobuf c++17 实现的C/S模式宝可梦在线对战游戏系统
 ## 目录
 1. 实现效果预览
-
+2. 开发环境及配置说明
 ## 1. 实现效果预览
 ### SERVER
 #### WIN10_DESKTOP

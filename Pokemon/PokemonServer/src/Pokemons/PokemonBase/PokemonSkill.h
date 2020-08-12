@@ -5,11 +5,14 @@
 #include <Reflect.hpp>
 #include "PokemonBase.h"
 
+// .cxx内的函数定义
 #define SKILL_FUNC_DEF(_func_) \
     static AttackResult _func_(PokemonBase* user, PokemonBase* dest)
+// .h内的函数声明
 #define SKILL_FUNC(_func_) \
     AttackResult PokemonSkill::_func_(PokemonBase* user, PokemonBase* dest)
 
+// 利用构造函数插入反射函数到Reflect helper中
 #define REGISTER_METHOD(_method_) \
     static FuncReflectHelper<PokemonSkill, QString, PokemonSkill::SkillFunc>    \
         _##_method_(PokemonSkill::s_skillMap, #_method_, &PokemonSkill::_method_); \
@@ -17,6 +20,9 @@
 
 class PokemonBase;
 
+/**
+ * @brief The PokemonSkill class
+ */
 class PokemonSkill {
 public:
     using SkillFunc = AttackResult(/*PokemonSkill::*/*)(PokemonBase*, PokemonBase*);
@@ -24,6 +30,14 @@ public FUNCTION:
     PokemonSkill()  = delete;
     ~PokemonSkill() = default;
     
+    /**
+     * @brief useSkillByName
+     *        利用字符串调用函数
+     * @param name  QString 技能名
+     * @param user  PokemonBase* 使用者指针
+     * @param dest  PokemonBase* 目标指针
+     * @return result {AttackResult} 技能结果
+     */
     static AttackResult 
         useSkillByName(
             const QString&  name,
@@ -74,7 +88,7 @@ public FUNCTION:
     SKILL_FUNC_DEF(SurgingStrikes);
     SKILL_FUNC_DEF(SwordsDance);
     
-public RESOURCE:
+public RESOURCE:    // 反射容器类型
     static QHash<QString, SkillFunc>
         s_skillMap;
     

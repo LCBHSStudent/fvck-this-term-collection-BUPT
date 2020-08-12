@@ -1,5 +1,6 @@
 ﻿#include "BattleField.h"
 
+// ----------------生成回合信息并emit-------------------- //
 #define EMIT_TURN_INFO(_res_, _action_, _type_) \
 {                                                       \
     TurnInfo turnInfo = {};                             \
@@ -12,7 +13,15 @@
     emit sigTurnInfoReady(turnInfo);                    \
 }                                                       \
 
-
+/**
+ * @brief BattleField::BattleField
+ * @param userA 用户A指针，从userList里拿
+ * @param userB 用户B指针
+ * @param pkmA  用PokemonFactory生成的用户A宝可梦
+ * @param pkmB  用户B宝可梦
+ * @param mode  对战模式
+ * @param parent    
+ */
 BattleField::BattleField(
     User*           userA,
     User*           userB,
@@ -44,6 +53,10 @@ BattleField::BattleField(
     qDebug() << "[BATTLE FIELD]: CREATED A NEW BATTLE FIELD";
 }
 
+/**
+ * @brief BattleField::~BattleField
+ *        析构BattleField
+ */
 BattleField::~BattleField() {
     delete m_pkmList[0];
     delete m_pkmList[1];
@@ -52,6 +65,12 @@ BattleField::~BattleField() {
     qDebug() << "[BATTLE FIELD]: DESTROYED A BATTLE FIELD";
 }
 
+/**
+ * @brief BattleField::setAction
+ *        设置对战回合行为（进行对战操作）
+ * @param skillIndex 技能槽index
+ * @param userIndex  用户A & B标识
+ */
 void BattleField::setAction(int skillIndex, int userIndex) {
 #ifdef DEBUG_FLAG    
     if (userIndex > 1 || userIndex < 0) {
@@ -74,6 +93,11 @@ void BattleField::setAction(int skillIndex, int userIndex) {
     }
 }
 
+/**
+ * @brief BattleField::checkBattleIsFinished
+ *        检测对战是否结束
+ * @return {bool} 若结束则返回true，反之返回false
+ */
 bool BattleField::checkBattleIsFinished() {
     if (m_pkmList[0]->get_curHP() <= 0) {
         emit sigBattleFinished(m_users[1]);
@@ -85,6 +109,12 @@ bool BattleField::checkBattleIsFinished() {
     return false;
 }
 
+/**
+ * @brief BattleField::turn
+ *        进行一回合对战
+ * @param actionA   用户A操作
+ * @param actionB   用户B操作
+ */
 void BattleField::turn(const QString& actionA, const QString& actionB) {
     PokemonBase& pkmA = *m_pkmList[0];
     PokemonBase& pkmB = *m_pkmList[1];
@@ -171,7 +201,12 @@ void BattleField::turn(const QString& actionA, const QString& actionB) {
 }
 
 
+
 // TODO: 增加LOG
+/**
+ * @brief BattleField::queryBuffList
+ *        回合内处理buffList
+ */
 void BattleField::queryBuffList() {
     PokemonBase& pkmA = *m_pkmList[0];
     PokemonBase& pkmB = *m_pkmList[1];
@@ -282,6 +317,11 @@ void BattleField::queryBuffList() {
     
 }
 
+/**
+ * @brief BattleField::handleResult
+ * @param result    attack返回的AttackResult
+ * @param type      A对B || B对A
+ */
 void BattleField::handleResult(
     AttackResult&   result,
     BalanceType     type

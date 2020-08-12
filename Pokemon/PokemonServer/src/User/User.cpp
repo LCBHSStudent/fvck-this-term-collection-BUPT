@@ -2,6 +2,12 @@
 #include "../Pokemons/PokemonBase/PokemonBase.h"
 #include "../StorageHelper/StorageHelper.h"
 
+/**
+ * @brief User::User
+ *        用户类构造函数
+ * @param username  用户名
+ * @param socket    对应的tcp socket
+ */
 User::User(QString username, QTcpSocket* socket):
     QObject(nullptr),
     m_name(username),
@@ -14,6 +20,11 @@ User::User(QString username, QTcpSocket* socket):
     }
 }
 
+/**
+ * @brief User::User
+ *        用户类拷贝构造函数
+ * @param source {User} 拷贝源 
+ */
 User::User(const User& source) {
     this->m_name            = source.m_name;
     this->m_winRate         = source.m_winRate;
@@ -23,6 +34,10 @@ User::User(const User& source) {
     this->m_userSocket      = source.m_userSocket;
 }
 
+/**
+ * @brief User::updateUserInfo
+ *        更新用户信息
+ */
 void User::updateUserInfo() {
     // ----------UPDATE WIN RATE(?)-------------- //
     StorageHelper::Instance().transaction(
@@ -69,6 +84,10 @@ void User::updateUserInfo() {
     
 }
 
+/**
+ * @brief User::battleWon
+ *        对战获胜，更新用户信息
+ */
 void User::battleWon() {
     StorageHelper::Instance().transaction(
         "UPDATE `user_list` SET \
@@ -80,6 +99,10 @@ void User::battleWon() {
     updateUserInfo();
 }
 
+/**
+ * @brief User::battleLose
+ *        对战失败，更新用户信息
+ */
 void User::battleLose() {
     StorageHelper::Instance().transaction(
         "UPDATE `user_list` SET \
@@ -91,6 +114,10 @@ void User::battleLose() {
     updateUserInfo();
 }
 
+/**
+ * @brief User::~User
+ *        空析构
+ */
 User::~User() {
     
 }

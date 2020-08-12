@@ -1,5 +1,10 @@
 ﻿#include "NetworkHelper.h"
 
+/**
+ * @method  构造网络辅助类
+ * @param   {QString} hostAddr 服务器IP地址字符串 {QObject*} 父Object指针，默认为nullptr
+ * @return  {void}
+ */
 NetworkHelper::NetworkHelper(
     const QString   hostAddr,
     QObject         *parent
@@ -36,11 +41,21 @@ NetworkHelper::NetworkHelper(
     m_keepAliveTimer->start();
 }
 
+/**
+ * @method  连接服务端
+ * @param   {void}
+ * @return  {void}
+ */
 void NetworkHelper::connect2host() {
     m_timeoutTimer->start(connectLmt);
     m_socket->connectToHost(m_host, port);
 }
 
+/**
+ * @method  连接超时时触发的槽函数
+ * @param   {void}
+ * @return  {void}
+ */
 void NetworkHelper::connectionTimeout() {
     qDebug() << "connection timeout";
     if(m_socket->state() == QAbstractSocket::ConnectingState) {
@@ -49,6 +64,11 @@ void NetworkHelper::connectionTimeout() {
     }
 }
 
+/**
+ * @method  检查socket状态，尝试重新连接服务端
+ * @param   {void}
+ * @return  {void}
+ */
 void NetworkHelper::checkAndReconnect() {
     qDebug() << "check socket status";
     qDebug() << m_socket->state();
@@ -58,6 +78,11 @@ void NetworkHelper::checkAndReconnect() {
     }
 }
 
+/**
+ * @method  连接服务端成功后触发的槽函数
+ * @param   {void}
+ * @return  {void}
+ */
 void NetworkHelper::connected() {
     m_status = true;
     m_timeoutTimer->stop();
@@ -65,9 +90,24 @@ void NetworkHelper::connected() {
     emit statusChanged(true);
 }
 
+/**
+ * @method  获取socket状态
+ * @param   {void}
+ * @return  {bool} socket状态
+ */
 bool NetworkHelper::getStatus() const {return m_status;}
 
+/**
+ * @method  socket有数据可读
+ * @param   {void}
+ * @return  {void}
+ */
 void NetworkHelper::readyRead() {
+    // --------------数据报格式说明-----------------//
+    // --length(4bytes)--type(4bytes)--content-- //
+    // ----------------------------------------- //
+    // --------其中length是为了分包&防止拼包-------- //
+    
     while (m_socket->bytesAvailable() >= sizeof(uint32)) {
         static bool flag = true;
         static uint32 length = 0;
@@ -94,6 +134,11 @@ void NetworkHelper::readyRead() {
     }
 }
 
+/**
+ * @method  连接断开时触发的槽函数
+ * @param   {void}
+ * @return  {void}
+ */
 void NetworkHelper::closeConnection() {
     qDebug() << "disconnect from server";
     m_timeoutTimer->stop();
@@ -123,6 +168,11 @@ void NetworkHelper::closeConnection() {
     }
 }
 
+/**
+ * @method  析构网络辅助类
+ * @param   {void}
+ * @return  {void}
+ */
 NetworkHelper::~NetworkHelper() {
     if(m_status) {
         m_socket->disconnectFromHost();
@@ -131,10 +181,20 @@ NetworkHelper::~NetworkHelper() {
     delete m_timeoutTimer;
 }
 
+/**
+ * @method  发送QString封装的数据到服务端（废弃）
+ * @param   {const QString&} QString数据引用
+ * @return  {void}
+ */
 void NetworkHelper::sendToServer(const QString& msg) {
     
 }
 
+/**
+ * @method  发送QByteArray封装的数据到服务端
+ * @param   {QByteArray&&} QByteArray的右值引用 & 折叠后的一般引用
+ * @return  {void}
+ */
 void NetworkHelper::sendToServer(QByteArray&& data) {
     m_socket->write(data, data.length());
 //    m_socket->flush();

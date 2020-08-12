@@ -5,6 +5,10 @@ QMutex StorageHelper::
 StorageHelper* StorageHelper::
     m_instance = nullptr;
 
+/**
+ * @brief StorageHelper::StorageHelper
+ *        存储辅助类构造
+ */
 StorageHelper::StorageHelper() {
     m_db = QSqlDatabase::addDatabase("QMYSQL");
     m_db.setDatabaseName ("pokemon");

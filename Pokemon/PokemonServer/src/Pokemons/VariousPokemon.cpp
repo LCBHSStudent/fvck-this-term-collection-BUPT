@@ -1,7 +1,7 @@
 ﻿#include "VariousPokemon.h"
 #include "../StorageHelper/StorageHelper.h"
 
-// ------升级函数扩展域
+// ------升级函数扩展域 (代码重用)
 // ------------为升级函数的可扩展性
 // ------------使用时在LevelUp函数内
 // ------------声明LEVELUP_PREFIX后操作升级变量
@@ -35,6 +35,12 @@ HighAtkPkm::HighAtkPkm(ARGS_LIST):
 
 // ------重写攻击型宝可梦的attack函数
 // ------主要特性为有概率增幅伤害，并且无视防御型宝可梦的判定效果
+/**
+ * @brief HighAtkPkm::attack
+ * @param target
+ * @param skillName
+ * @return {AttackResult} 攻击结果
+ */
 AttackResult HighAtkPkm::attack(
     PokemonBase&    target,
     const QString&  skillName
@@ -51,6 +57,9 @@ AttackResult HighAtkPkm::attack(
 
 // ------重写攻击型宝可梦的升级函数
 // ------主要特性为升级时概率性额外增加1点ATK
+/**
+ * @brief HighAtkPkm::levelUp
+ */
 void HighAtkPkm::levelUp() {
     LEVELUP_PREFIX
     JUDGE_OZ(20) {
@@ -65,6 +74,12 @@ HighHpPkm::HighHpPkm(ARGS_LIST):
 
 // ------重写耐久型宝可梦的attack函数
 // ------主要特性为有概率增幅Buff效果和Buff持续时间
+/**
+ * @brief HighHpPkm::attack
+ * @param target
+ * @param skillName
+ * @return {AttackResult} 攻击结果
+ */
 AttackResult HighHpPkm::attack(
     PokemonBase&    target,
     const QString&  skillName
@@ -89,6 +104,9 @@ AttackResult HighHpPkm::attack(
 
 // ------重写攻击型宝可梦的升级函数
 // ------主要特性为升级时概率性额外增加2点HP
+/**
+ * @brief HighHpPkm::levelUp
+ */
 void HighHpPkm::levelUp() {
     LEVELUP_PREFIX
     JUDGE_OZ(25) {
@@ -103,6 +121,12 @@ HighDefPkm::HighDefPkm(ARGS_LIST):
 
 // ------重写防御型宝可梦的attack函数
 // ------主要特性为有概率为对方附加Debuff
+/**
+ * @brief HighDefPkm::attack
+ * @param target
+ * @param skillName
+ * @return {AttackResult} 攻击结果
+ */
 AttackResult HighDefPkm::attack(
     PokemonBase&    target,
     const QString&  skillName
@@ -134,6 +158,9 @@ AttackResult HighDefPkm::attack(
 
 // ------重写攻击型宝可梦的升级函数
 // ------主要特性为升级时概率性额外增加1点DEF
+/**
+ * @brief HighDefPkm::levelUp
+ */
 void HighDefPkm::levelUp() {
     LEVELUP_PREFIX
     JUDGE_OZ(20) {
@@ -149,6 +176,12 @@ HighSpdPkm::HighSpdPkm(ARGS_LIST):
 
 // ------重写速度型宝可梦的attack函数
 // ------主要特性为有概率获得免伤buff
+/**
+ * @brief HighSpdPkm::attack
+ * @param target
+ * @param skillName
+ * @return {AttackResult} 攻击结果
+ */
 AttackResult HighSpdPkm::attack(
     PokemonBase&    target,
     const QString&  skillName
@@ -166,6 +199,9 @@ AttackResult HighSpdPkm::attack(
 
 // ------重写攻击型宝可梦的升级函数
 // ------主要特性为升级时小概率额外增加1点SPD
+/**
+ * @brief HighSpdPkm::levelUp
+ */
 void HighSpdPkm::levelUp() {
     LEVELUP_PREFIX
     JUDGE_OZ(20) {

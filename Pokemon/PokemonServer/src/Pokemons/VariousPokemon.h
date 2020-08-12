@@ -3,11 +3,13 @@
 #include "PokemonBase/PokemonBase.h"
 #include "PokemonBase/PokemonSkill.h"
 
+// 宝可梦初始化列表宏
 #define PKM_INIT_LIST(_TYPE) \
     _name, _user, _id, _typeId, _level, _exp, _ATK, _HP, _DEF, _SPD, _attr, _TYPE
 
-
-
+/**
+ * @brief The HighAtkPkm class
+ */
 class HighAtkPkm: public PokemonBase {
     friend class PokemonSkill;
 public:	
@@ -24,7 +26,9 @@ public FUNCTION:
 		levelUp() override;
 };
 
-
+/**
+ * @brief The HighHpPkm class
+ */
 class HighHpPkm: public PokemonBase {
     friend class PokemonSkill;
 public:	
@@ -43,7 +47,9 @@ public FUNCTION:
 };
 
 
-
+/**
+ * @brief The HighDefPkm class
+ */
 class HighDefPkm: public PokemonBase {
     friend class PokemonSkill;
 public:	
@@ -61,7 +67,9 @@ public FUNCTION:
 		levelUp() override;
 };
 
-
+/**
+ * @brief The HighSpdPkm class
+ */
 class HighSpdPkm: public PokemonBase {
     friend class PokemonSkill;
 public:	

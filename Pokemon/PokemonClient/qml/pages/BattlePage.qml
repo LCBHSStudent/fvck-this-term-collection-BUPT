@@ -33,6 +33,7 @@ Page {
     property var skills: [skill_1, skill_2, skill_3, skill_4]
     property bool enableOperate: true
     
+    property var battleResult: 0
     
     Audio {
         loops: 999
@@ -156,7 +157,7 @@ Page {
         pressColor: utils.colorPomegranate
         releaseColor: utils.colorAlizarin
         onClicked: {
-            popup.showPopup("逃离战斗", "\n\n确定要这样做吗")
+            popup.showPopup("逃离战斗", "确定要这样做吗")
         }
     }
     
@@ -217,10 +218,16 @@ Page {
         contentH: contentW * 0.8
         
         onClicked: {
-            if (battleMode == 0 || taUserName == "_server") {
+            if (battleMode == 0 || taUserName == "_server" || battleResult === 1) {
                 stack.pop()
+            } else {
+                gridPkmPopup.showPopup()
             }
         }
+    }
+    
+    ListModel {
+        id: taPkmDataModel_t
     }
     
     GridPkmPopup {
@@ -228,6 +235,8 @@ Page {
         contentH: parent.height * 0.25
         contentW: parent.width * 0.7
         cellColumnCnt: 3
+        
+        pkmDataModel: taPkmDataModel_t
         
         onConfirmed: {
             var pkmId = getSelectedPkmId()
@@ -278,9 +287,11 @@ Page {
             var log = ""
             if (mode == 0) {
                 if (result === 0) {
+                    battleResult = 0
                     log += "恭喜您\n战斗获胜了"
                 } else {
-                    log += "很遗憾\n决斗失败了"
+                    battleResult = 1
+                    log += "很遗憾\n战斗失败了"
                 }
             } else {
                 log += "对方已断开连接"
@@ -308,9 +319,9 @@ Page {
                 }
             }
             if (mode === 2) {
-                gridPkmPopup.pkmDataModel.clear()
+                taPkmDataModel_t.clear()
                 for (var i = 0; i < pkmList.length; i++) {
-                    gridPkmPopup.pkmDataModel.append({
+                    taPkmDataModel_t.append({
                         "_id":      pkmList[i].id,
                         "typeId":   pkmList[i].typeId,
                         "name":     pkmList[i].name,
@@ -333,7 +344,6 @@ Page {
                         "desc_s4":  pkmList[i].desc_s4,
                     })
                 }
-                gridPkmPopup.showPopup()
             }
         }
         onSigTransferPokemonFinished: {

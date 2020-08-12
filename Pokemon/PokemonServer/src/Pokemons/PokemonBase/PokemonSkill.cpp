@@ -37,7 +37,6 @@ constexpr auto calDamage = [](
 
 
 // ------------DEFINATION OF SKILLS------------ //
-
 REGISTER_SKILL(Agility) {
     ATK_DEBUG(高速移动);
     AttackResult result;
