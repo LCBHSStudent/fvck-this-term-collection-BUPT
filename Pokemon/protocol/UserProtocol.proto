@@ -72,6 +72,7 @@ enum PokemonDataRequestMode {
     MAIN_PAGE       = 1;
     TROPHIE         = 2;
     SERVER_PKM_LIST = 3;
+    USER_INFO_PAGE  = 4;
 }
 
 message UserPokemonDataRequestInfo {

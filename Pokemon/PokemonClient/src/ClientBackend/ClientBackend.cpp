@@ -302,6 +302,25 @@ void ClientBackend::sendSelfUserInfoRequest() {
 }
 
 /**
+ * @brief ClientBackend::sendUserAllPkmDataRequest
+ *        向服务器请求特定用户的所有宝可梦信息
+ * @param username {QString} 用户名
+ */
+void ClientBackend::sendUserAllPkmDataRequest(QString username) {
+    CHECK_SOCKET_STATUS;
+    
+    UserProtocol::UserPokemonDataRequestInfo info = {};
+    info.set_reqtype(
+        UserProtocol::UserPokemonDataRequestInfo_PokemonDataRequestType_ALL);
+    info.set_username(username.toStdString());
+    info.set_mode(UserProtocol::PokemonDataRequestMode::USER_INFO_PAGE);
+    info.PrintDebugString();
+    
+    PROC_PROTODATA(PokemonDataRequest, info);
+}
+
+
+/**
  * @brief ClientBackend::sendUserInfoRequest
  *        获取指定用户信息请求
  * @param username 用户名
@@ -481,8 +500,8 @@ void ClientBackend::sendTransferPokemonRequest(QString fromUser, int pkmId) {
     
     UserProtocol::TransferPokemonRequest info = {};
     info.set_pkmid(pkmId);
-    info.set_destuser(m_userName.toStdString());
-    info.set_fromuser(fromUser.toStdString());
+    info.set_destuser(fromUser.toStdString());
+    info.set_fromuser(m_userName.toStdString());
     
     PROC_PROTODATA(TransferPokemonRequest, info);
 }

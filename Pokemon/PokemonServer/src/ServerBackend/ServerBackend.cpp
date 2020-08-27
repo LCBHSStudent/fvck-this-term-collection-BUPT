@@ -1,6 +1,5 @@
 ﻿#include "ServerBackend.h"
-#include <UserProtocol.pb.h>
-#include <BattleProtocol.pb.h>
+
 #include <MessageTypeGlobal.h>
 #include "../StorageHelper/StorageHelper.h"
 
@@ -159,10 +158,100 @@ void ServerBackend::transferPokemon(
     }
 }
 
+void ServerBackend::removeUserPokemon(
+    const QString&  userName,
+    int             pkmId
+) {
+    try {
+        StorageHelper::Instance().transaction(
+            "DELETE FROM `user_" + userName + "` WHERE PKM_ID=?",
+            StorageHelper::DEFAULT_FUNC,
+            pkmId
+        );
+    } catch(...) {
+
+    }
+    
+}
+
+void ServerBackend::procAndSendPkmData(
+    const QList<int>&                       pkmIdList,
+    const QString&                          userName,
+    QTcpSocket*                             destSocket,
+    UserProtocol::PokemonDataRequestMode    mode
+) {
+    UserProtocol::UserPokemonDataResponseInfo resInfo = {};
+    UserProtocol::PokemonInfo *pPkmInfo               = nullptr;
+                
+    // -----------------------PROCESS RES INFO---------------------- //
+    resInfo.set_mode(mode);
+    resInfo.set_username(userName.toStdString());
+                
+    QList<QString> aliasList = {};
+    QList<QString> sdescList = {};
+    // ------ 建立对象，转发数据
+    for (int i = 0; i < pkmIdList.length(); i++) {
+        aliasList.clear();
+        sdescList.clear();
+        auto pkm = PokemonFactory::CreatePokemon(userName, pkmIdList[i]);
+        // 写入info
+        pPkmInfo = resInfo.add_pkmdata();
+                    
+        pPkmInfo->set_id(pkm->get_id());
+        pPkmInfo->set_hp(pkm->get_HP());
+        pPkmInfo->set_exp(pkm->get_exp());
+        pPkmInfo->set_spd(pkm->get_SPD());
+        pPkmInfo->set_def(pkm->get_DEF());
+        pPkmInfo->set_atk(pkm->get_ATK());
+        pPkmInfo->set_level(pkm->get_level());
+        pPkmInfo->set_attr(pkm->get_pkmAttr());
+        pPkmInfo->set_type(pkm->get_pkmType());
+        pPkmInfo->set_typeid_(pkm->get_typeID());
+                    
+        // 发送中文技能名 & 技能描述
+        for (int i = 0; i < 4; i++) {
+            StorageHelper::Instance().transaction(
+                "SELECT ALIAS, DESCRIPTION FROM `skill_list` WHERE NAME=?",
+                [&aliasList, &sdescList](QSqlQuery& query) {
+                    aliasList.push_back(query.value(0).toString());
+                    sdescList.push_back(query.value(1).toString());
+                },
+                pkm->getSkill(i)
+            );
+        }
+        for (int i = 0; i < 4; i++) {
+            qDebug() << pkm->getSkill(i);
+            qDebug() << aliasList[i] << sdescList[i];            
+        }
+#ifndef AVOID_PROTOBUF_EXCEPTION_FLAG
+        pPkmInfo->set_name(pkm->get_name().toStdString());
+        pPkmInfo->set_desc(pkm->get_desc().toStdString());
+                    
+        pPkmInfo->set_skill_1(aliasList[0].toStdString());
+        pPkmInfo->set_skill_2(aliasList[1].toStdString());
+        pPkmInfo->set_skill_3(aliasList[2].toStdString());
+        pPkmInfo->set_skill_4(aliasList[3].toStdString());
+                    
+        pPkmInfo->set_skill_1_desc(sdescList[0].toStdString());
+        pPkmInfo->set_skill_2_desc(sdescList[1].toStdString());
+        pPkmInfo->set_skill_3_desc(sdescList[2].toStdString());
+        pPkmInfo->set_skill_4_desc(sdescList[3].toStdString());
+#endif
+#ifdef DEBUG_FLAG
+        qDebug() << "BYTE SIZE: " << pPkmInfo->ByteSizeLong();
+        // pPkmInfo->PrintDebugString();
+#endif                    
+        delete pkm;
+    }
+                
+    PROC_PROTODATA_WITH_DEST(
+        PokemonDataResponse, resInfo, destSocket);
+}
+
 /**
  * @brief ServerBackend::slotGetMessage
  *        根据Global Message Type调用对应的处理槽函数
- * @param client    客户端TCP SCOKET
+ * @param client    客户端TCP SOCKET
  * @param data      QByteArray封装的数据
  */
 void ServerBackend::slotGetMessage(
@@ -979,91 +1068,34 @@ void ServerBackend::slotGetBattleResult(User* winner) {
             BattleFinishInfo, infoWinner, winner->get_userSocket());
     }
     
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(500));
     
     if (pBattleField->getMode() == BattleField::BattleMode::DUEL_BATTLE) {
         if (winner != nullptr) {
             winner->battleWon();
-            winner->updateUserInfo();
             
             if (loser != nullptr) {
                 loser->battleLose();
-                loser->updateUserInfo();
                 
                 QString loserName = loser->get_name();
                 auto    pkmIdList = loser->get_pokemonList();
-                while (pkmIdList.length() > 3) {
+                QList<int> selectIdList;
+                
+                for (int i = 0; i < 3 && pkmIdList.length() > 0; i++) {
                     int randIndex = 
                         QRandomGenerator::global()->bounded(pkmIdList.length());
+                    selectIdList.push_back(pkmIdList[randIndex]);
                     pkmIdList.removeAt(randIndex);
                 }
                 
-                UserProtocol::UserPokemonDataResponseInfo resInfo = {};
-                UserProtocol::PokemonInfo *pPkmInfo               = nullptr;
+                // 处理并发送战利品宝可梦信息
+                procAndSendPkmData(
+                    selectIdList,
+                    loserName,
+                    loser->get_userSocket(),
+                    UserProtocol::PokemonDataRequestMode::TROPHIE
+                );
                 
-                // -----------------------PROCESS RES INFO---------------------- //
-                resInfo.set_mode(UserProtocol::PokemonDataRequestMode::TROPHIE);
-                resInfo.set_username(loser->get_name().toStdString());
-                
-                QList<QString> aliasList = {};
-                QList<QString> sdescList = {};
-                // ------ 建立对象，转发数据
-                for (int i = 0; i < pkmIdList.size(); i++) {
-                    aliasList.clear();
-                    sdescList.clear();
-                    auto pkm = PokemonFactory::CreatePokemon(loserName, pkmIdList[i]);
-                    // 写入info
-                    pPkmInfo = resInfo.add_pkmdata();
-                    
-                    pPkmInfo->set_id(pkm->get_id());
-                    pPkmInfo->set_hp(pkm->get_HP());
-                    pPkmInfo->set_exp(pkm->get_exp());
-                    pPkmInfo->set_spd(pkm->get_SPD());
-                    pPkmInfo->set_def(pkm->get_DEF());
-                    pPkmInfo->set_atk(pkm->get_ATK());
-                    pPkmInfo->set_level(pkm->get_level());
-                    pPkmInfo->set_attr(pkm->get_pkmAttr());
-                    pPkmInfo->set_type(pkm->get_pkmType());
-                    pPkmInfo->set_typeid_(pkm->get_typeID());
-                    
-                    // 发送中文技能名 & 技能描述
-                    for (int i = 0; i < 4; i++) {
-                        StorageHelper::Instance().transaction(
-                            "SELECT ALIAS, DESCRIPTION FROM `skill_list` WHERE NAME=?",
-                            [&aliasList, &sdescList](QSqlQuery& query) {
-                                aliasList.push_back(query.value(0).toString());
-                                sdescList.push_back(query.value(1).toString());
-                            },
-                            pkm->getSkill(i)
-                        );
-                    }
-                    for (int i = 0; i < 4; i++) {
-                        qDebug() << pkm->getSkill(i);
-                        qDebug() << aliasList[i] << sdescList[i];            
-                    }
-#ifndef AVOID_PROTOBUF_EXCEPTION_FLAG
-                    pPkmInfo->set_name(pkm->get_name().toStdString());
-                    pPkmInfo->set_desc(pkm->get_desc().toStdString());
-                    
-                    pPkmInfo->set_skill_1(aliasList[0].toStdString());
-                    pPkmInfo->set_skill_2(aliasList[1].toStdString());
-                    pPkmInfo->set_skill_3(aliasList[2].toStdString());
-                    pPkmInfo->set_skill_4(aliasList[3].toStdString());
-                    
-                    pPkmInfo->set_skill_1_desc(sdescList[0].toStdString());
-                    pPkmInfo->set_skill_2_desc(sdescList[1].toStdString());
-                    pPkmInfo->set_skill_3_desc(sdescList[2].toStdString());
-                    pPkmInfo->set_skill_4_desc(sdescList[3].toStdString());
-#endif
-#ifdef DEBUG_FLAG
-                    qDebug() << "BYTE SIZE: " << pPkmInfo->ByteSizeLong();
-                    // pPkmInfo->PrintDebugString();
-#endif                    
-                    delete pkm;
-                }
-                
-                PROC_PROTODATA_WITH_DEST(
-                    PokemonDataResponse, resInfo, winner->get_userSocket());
 // --------------------------------------------------------------------------------- //                
                 
             } else {
@@ -1076,7 +1108,27 @@ void ServerBackend::slotGetBattleResult(User* winner) {
         } else {
             if (loser != nullptr) {
                 loser->battleLose();
-                loser->updateUserInfo();
+
+                QString loserName = loser->get_name();
+                auto    pkmIdList = loser->get_pokemonList();
+                QList<int> selectIdList;
+                
+                for (int i = 0; i < 3 && pkmIdList.length() > 0; i++) {
+                    int randIndex = 
+                        QRandomGenerator::global()->bounded(pkmIdList.length());
+                    selectIdList.push_back(pkmIdList[randIndex]);
+                    pkmIdList.removeAt(randIndex);
+                }
+                
+                // 处理并发送战利品宝可梦信息
+                procAndSendPkmData(
+                    selectIdList,
+                    loserName,
+                    loser->get_userSocket(),
+                    UserProtocol::PokemonDataRequestMode::TROPHIE
+                );
+
+
             }
 #ifdef DEBUG_FLAG
             else {

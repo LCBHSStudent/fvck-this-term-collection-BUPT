@@ -157,7 +157,7 @@ Page {
         pressColor: utils.colorPomegranate
         releaseColor: utils.colorAlizarin
         onClicked: {
-            popup.showPopup("逃离战斗", "确定要这样做吗")
+            popup.showPopup("逃离战斗", "\n\n确定要这样做吗")
         }
     }
     
@@ -218,7 +218,7 @@ Page {
         contentH: contentW * 0.8
         
         onClicked: {
-            if (battleMode == 0 || taUserName == "_server" || battleResult === 1) {
+            if (battleMode == 0 || battleResult === 0) {
                 stack.pop()
             } else {
                 gridPkmPopup.showPopup()
@@ -227,7 +227,7 @@ Page {
     }
     
     ListModel {
-        id: taPkmDataModel_t
+        id: myPkmDataModel_t
     }
     
     GridPkmPopup {
@@ -236,13 +236,15 @@ Page {
         contentW: parent.width * 0.7
         cellColumnCnt: 3
         
-        pkmDataModel: taPkmDataModel_t
+        btnText: "送别精灵"
+        
+        pkmDataModel: myPkmDataModel_t
         
         onConfirmed: {
             var pkmId = getSelectedPkmId()
             backend.sendTransferPokemonRequest(taUserName, pkmId)
             hidePopup()
-            loadingPopup.showLoading("正在获取选择的精灵...")
+            loadingPopup.showLoading("正在送出选择的精灵...")
         }
     }
     
@@ -319,9 +321,9 @@ Page {
                 }
             }
             if (mode === 2) {
-                taPkmDataModel_t.clear()
+                myPkmDataModel_t.clear()
                 for (var i = 0; i < pkmList.length; i++) {
-                    taPkmDataModel_t.append({
+                    myPkmDataModel_t.append({
                         "_id":      pkmList[i].id,
                         "typeId":   pkmList[i].typeId,
                         "name":     pkmList[i].name,

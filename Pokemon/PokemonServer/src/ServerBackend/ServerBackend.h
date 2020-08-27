@@ -2,6 +2,8 @@
 #define SERVERBACKEND_H
 
 #include <PreCompile.h>
+#include <UserProtocol.pb.h>
+#include <BattleProtocol.pb.h>
 #include "../User/User.h"
 #include "../BattleField/BattleField.h"
 #include "../NetworkHelper/NetworkHelper.h"
@@ -29,6 +31,19 @@ private FUNCTION:
             const QString&  destUser,
             int             pkmId
         );
+    void    // 删除用户宝可梦
+        removeUserPokemon(
+            const QString&  userName,
+            int             pkmId
+        );
+    void    // 发送List内的宝可梦信息到目的socket
+        procAndSendPkmData(
+            const QList<int>&                      pkmIdList,
+            const QString&                         userName,
+            QTcpSocket*                            destSocket,
+            UserProtocol::PokemonDataRequestMode   mode
+        );
+
     
 private slots:
     // 网络消息槽组   参数皆为 {QTcpSocket*} client 与 {QByteArray} data

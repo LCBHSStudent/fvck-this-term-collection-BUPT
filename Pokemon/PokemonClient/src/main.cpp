@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
     
     QGuiApplication app(argc, argv);
     // 建立客户端backend，指定服务器ip
-    ClientBackend* backend = new ClientBackend("192.168.199.208");
+    ClientBackend* backend = new ClientBackend("39.106.219.180");
     // 建立qml引擎实例
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("backend", backend);

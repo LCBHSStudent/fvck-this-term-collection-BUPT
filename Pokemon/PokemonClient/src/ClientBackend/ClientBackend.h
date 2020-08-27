@@ -61,7 +61,9 @@ public FUNCTION:
         sendBattlePokemonInfoRequest(QString taUserName, int myPkmId, int taPkmId);
     Q_INVOKABLE void    /*向服务器发送自身用户信息请求报文*/
         sendSelfUserInfoRequest();
-    Q_INVOKABLE void    /*向服务器发送特顶用户信息请求的报文*/
+    Q_INVOKABLE void    /*向服务器请求特定用户的所有宝可梦信息*/
+        sendUserAllPkmDataRequest(QString username);
+    Q_INVOKABLE void    /*向服务器发送特定用户信息请求的报文*/
         sendUserInfoRequest(QString username);
     Q_INVOKABLE void    /*向服务器发送请求对战开始的报文*/
         sendBattleStartRequest(int mode, int pkmId, QString destName, int serverPkm = 0);

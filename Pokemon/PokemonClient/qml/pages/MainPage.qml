@@ -42,11 +42,23 @@ Page {
         }
     }
     Audio {
+        id: bgm
         source: "qrc:/res/audio/title_1.mp3"
-        loops: Audio.Infinite
+        loops: 999
+
         // Component.onCompleted: play()
     }
     
+    Connections {
+        target: stack
+        onDepthChanged: {
+            if (depth == 1) {
+                bgm.play()
+            } else {
+                bgm.pause()
+            }
+        }
+    }
     
     // -----------------USER INTERFACE-------------- //
     Image {
@@ -244,7 +256,37 @@ Page {
     ListModel {
         id: pkmDataModel_server
     }
+    ListModel {
+        id: pkmDataModel_other
+    }
     
+    function appendPokemonData(pkmDataModel, pkmList) {
+        pkmDataModel.clear()
+        for (var i = 0; i < pkmList.length; i++) {
+            pkmDataModel.append({
+                "_id":      pkmList[i].id,
+                "typeId":   pkmList[i].typeId,
+                "name":     pkmList[i].name,
+                "level":    pkmList[i].level,
+                "type":     pkmList[i].type,
+                "exp":      pkmList[i].exp,
+                "attr":     pkmList[i].attr,
+                "atk":      pkmList[i].atk,
+                "def":      pkmList[i].def,
+                "hp":       pkmList[i].hp,
+                "spd":      pkmList[i].spd,
+                "skill_1":  pkmList[i].skill_1,
+                "skill_2":  pkmList[i].skill_2,
+                "skill_3":  pkmList[i].skill_3,
+                "skill_4":  pkmList[i].skill_4,
+                "desc":     pkmList[i].desc,
+                "desc_s1":  pkmList[i].desc_s1,
+                "desc_s2":  pkmList[i].desc_s2,
+                "desc_s3":  pkmList[i].desc_s3,
+                "desc_s4":  pkmList[i].desc_s4,
+            })
+        }
+    }
     
     GridPkmPopup {
         id: gridPkmPopup
@@ -280,6 +322,20 @@ Page {
                 selectServerPkm = false
                 showPopup()
             }
+        }
+    }
+    
+    GridPkmPopup {
+        id: othersPkmPopup
+        contentW: parent.width * 0.8
+        contentH: contentW
+        
+        pkmDataModel: pkmDataModel_other
+        
+        btnText: "确定"
+        
+        onConfirmed: {
+            hidePopup()
         }
     }
     
@@ -338,31 +394,7 @@ Page {
         
         onSigGetPokemonDataList: {
             if (mode === 3) {
-                pkmDataModel_server.clear()
-                for (var i = 0; i < pkmList.length; i++) {
-                    pkmDataModel_server.append({
-                        "_id":      pkmList[i].id,
-                        "typeId":   pkmList[i].typeId,
-                        "name":     pkmList[i].name,
-                        "level":    pkmList[i].level,
-                        "type":     pkmList[i].type,
-                        "exp":      pkmList[i].exp,
-                        "attr":     pkmList[i].attr,
-                        "atk":      pkmList[i].atk,
-                        "def":      pkmList[i].def,
-                        "hp":       pkmList[i].hp,
-                        "spd":      pkmList[i].spd,
-                        "skill_1":  pkmList[i].skill_1,
-                        "skill_2":  pkmList[i].skill_2,
-                        "skill_3":  pkmList[i].skill_3,
-                        "skill_4":  pkmList[i].skill_4,
-                        "desc":     pkmList[i].desc,
-                        "desc_s1":  pkmList[i].desc_s1,
-                        "desc_s2":  pkmList[i].desc_s2,
-                        "desc_s3":  pkmList[i].desc_s3,
-                        "desc_s4":  pkmList[i].desc_s4,
-                    })
-                }
+                appendPokemonData(pkmDataModel_server, pkmList)
             }
         }
     }
@@ -561,31 +593,7 @@ Page {
                 onSigGetPokemonDataList: {
                     console.debug("onSigGetPokemonDataList")
                     if (mode === 1) {
-                        pkmDataModel_t.clear()
-                        for (var i = 0; i < pkmList.length; i++) {
-                            pkmDataModel_t.append({
-                                "_id":      pkmList[i].id,
-                                "typeId":   pkmList[i].typeId,
-                                "name":     pkmList[i].name,
-                                "level":    pkmList[i].level,
-                                "type":     pkmList[i].type,
-                                "exp":      pkmList[i].exp,
-                                "attr":     pkmList[i].attr,
-                                "atk":      pkmList[i].atk,
-                                "def":      pkmList[i].def,
-                                "hp":       pkmList[i].hp,
-                                "spd":      pkmList[i].spd,
-                                "skill_1":  pkmList[i].skill_1,
-                                "skill_2":  pkmList[i].skill_2,
-                                "skill_3":  pkmList[i].skill_3,
-                                "skill_4":  pkmList[i].skill_4,
-                                "desc":     pkmList[i].desc,
-                                "desc_s1":  pkmList[i].desc_s1,
-                                "desc_s2":  pkmList[i].desc_s2,
-                                "desc_s3":  pkmList[i].desc_s3,
-                                "desc_s4":  pkmList[i].desc_s4,
-                            })
-                        }
+                        appendPokemonData(pkmDataModel_t, pkmList)
                         loadingPopup.hideLoading()
                     }
                 }
@@ -960,6 +968,29 @@ Page {
                         triggerFactor: 4
                         onClicked: {
                             userInfoStack.pop()
+                        }
+                    }
+                    MFlatBtn {
+                        anchors.bottom: parent.bottom
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.bottomMargin: utils.dp(10)
+                        width: parent.width * 0.85
+                        text: "看看Ta的P(okemon)"
+                        pressColor: "#34D0C6"
+                        releaseColor: "#2CC486"
+                        onClicked: {
+                            backend.sendUserAllPkmDataRequest(userNameText.text)
+                            loadingPopup.showLoading("正在请求宝可梦信息...")
+                        }
+                    }
+                    Connections {
+                        target: backend
+                        onSigGetPokemonDataList: {
+                            if (mode === 4) {
+                                loadingPopup.hideLoading()
+                                appendPokemonData(pkmDataModel_other, pkmList)
+                                othersPkmPopup.showPopup()
+                            }
                         }
                     }
                 }

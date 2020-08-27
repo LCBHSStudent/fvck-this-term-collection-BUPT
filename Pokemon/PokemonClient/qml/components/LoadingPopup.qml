@@ -53,11 +53,32 @@ Popup {
             font.family: "微软雅黑"
         }
     }
+    
+    OneBtnToast {
+        id: timeOutHint
+        contentH: 300
+        contentW: 350
+    }
+    
+    Timer {
+        id: timeOutTimer
+        interval:   6000
+        repeat:     false
+        running:    false
+        onTriggered: {
+            hideLoading()
+            timeOutHint.showPopup("请求超时", "知道了")
+        }
+    }
+    
+    
     function showLoading(contentText) {
         content.text = contentText
         popup_t.opacity = 1
+        timeOutTimer.start()
     }
     function hideLoading() {
         popup_t.opacity = 0
+        timeOutTimer.stop()
     }
 }

@@ -493,9 +493,10 @@ const char descriptor_table_protodef_UserProtocol_2eproto[] PROTOBUF_SECTION_VAR
   "(\0162;.UserProtocol.TransferPokemonRespons"
   "e.TransferPokemonStatus\"\?\n\025TransferPokem"
   "onStatus\022\013\n\007SUCCESS\020\000\022\n\n\006FAILED\020\001\022\r\n\tUND"
-  "EFINED\020\002*[\n\026PokemonDataRequestMode\022\020\n\014BA"
+  "EFINED\020\002*o\n\026PokemonDataRequestMode\022\020\n\014BA"
   "TTLE_START\020\000\022\r\n\tMAIN_PAGE\020\001\022\013\n\007TROPHIE\020\002"
-  "\022\023\n\017SERVER_PKM_LIST\020\003b\006proto3"
+  "\022\023\n\017SERVER_PKM_LIST\020\003\022\022\n\016USER_INFO_PAGE\020"
+  "\004b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_UserProtocol_2eproto_deps[1] = {
 };
@@ -517,7 +518,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Use
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_UserProtocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_UserProtocol_2eproto = {
-  false, false, descriptor_table_protodef_UserProtocol_2eproto, "UserProtocol.proto", 2469,
+  false, false, descriptor_table_protodef_UserProtocol_2eproto, "UserProtocol.proto", 2489,
   &descriptor_table_UserProtocol_2eproto_once, descriptor_table_UserProtocol_2eproto_sccs, descriptor_table_UserProtocol_2eproto_deps, 14, 0,
   schemas, file_default_instances, TableStruct_UserProtocol_2eproto::offsets,
   file_level_metadata_UserProtocol_2eproto, 14, file_level_enum_descriptors_UserProtocol_2eproto, file_level_service_descriptors_UserProtocol_2eproto,
@@ -707,6 +708,7 @@ bool PokemonDataRequestMode_IsValid(int value) {
     case 1:
     case 2:
     case 3:
+    case 4:
       return true;
     default:
       return false;
