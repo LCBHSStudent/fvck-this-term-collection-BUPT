@@ -5,8 +5,21 @@
 
 #undef UNIT_TEST_FLAG
 #ifdef UNIT_TEST_FLAG
+
+#define TEST_STAGE_1
+
 int main(int argc, char * argv[]) {
-    UnitTest::TestPokemonProperties();
+#ifdef TEST_STAGE_1
+    
+#endif
+#ifdef TEST_STAGE_2
+    
+#endif
+#ifdef TEST_STAGE_3
+    
+#endif
+    (void)(argc);
+    (void)(argv);
 }
 
 #else

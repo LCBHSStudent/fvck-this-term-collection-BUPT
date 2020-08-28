@@ -18,10 +18,14 @@
 
 class UnitTest {
 public:
-    static void
-        TestPokemonBattle();
+    // TEST FUNCTION FOR STAGE 1
     static void
         TestPokemonProperties();
+    static void
+        TestPokemonLevelUp();
+    static void
+        TestPokemonBattle();
+    
     
 };
 

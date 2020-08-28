@@ -72,6 +72,16 @@ StorageHelper::StorageHelper() {
 );";
     createQuery.prepare(pkmTableStat);
     createQuery.exec();
+    createQuery.clear();
+    
+    const QString updateConfigStat1 = "set  global  interactive_timeout=31536000";
+    createQuery.prepare(updateConfigStat1);
+    createQuery.exec();
+    createQuery.clear();
+    
+    const QString updateConfigStat2 = "set  global  wait_timeout=31536000";
+    createQuery.prepare(updateConfigStat2);
+    createQuery.exec();
     
     qDebug() << (
         createQuery.lastError().text().isEmpty()?

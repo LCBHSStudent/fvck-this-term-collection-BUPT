@@ -57,6 +57,7 @@ private slots:
     NET_SLOT(HandleBattleInviteResponse);
     NET_SLOT(HandleBattleOperation);
     NET_SLOT(TransferPokemon);
+    NET_SLOT(BattleGiveUp);
     
     void    /*获取到BattleField内的回合信息*/
         slotGetTurnInfo(BattleField::TurnInfo info);

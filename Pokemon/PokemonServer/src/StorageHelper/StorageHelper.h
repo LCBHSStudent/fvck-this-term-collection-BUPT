@@ -34,6 +34,7 @@ public FUNCTION:
         std::function<void(QSqlQuery&)> process,
         Args&&... args
     ) const {
+        
         QSqlQuery query(m_db);
         query.prepare(queryStat);
         

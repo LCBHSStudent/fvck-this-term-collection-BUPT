@@ -288,6 +288,9 @@ void ServerBackend::slotGetMessage(
     case MessageType::TransferPokemonRequest:
         CALL_SLOT(TransferPokemon);
         break;
+    case MessageType::BattleGiveupInfo:
+        CALL_SLOT(BattleGiveUp);
+        break;
         
     default:
         qDebug() << "unknown message type";
@@ -516,46 +519,53 @@ NET_SLOT(UserDisconnected) {
     for (int i = 0; i < m_userList.size(); i++) {
         if (m_userList[i].get_userSocket() == client) {
             // 查找状态，若为对战中则向对手发送胜利报文
-            for (int i = 0; i < m_battleFieldList.size(); i++) {
-                auto battle = m_battleFieldList.at(i);
-                
-                User* dest = nullptr;
-                if (battle->getUserA()->get_name() == m_userList[i].get_name()) {
-                    dest = battle->getUserB();
-                } else if (battle->getUserB()->get_name() == m_userList[i].get_name()) {
-                    dest = battle->getUserA();
+            if (m_userList[i].get_status() == User::UserStatus::BATTLING) {
+                for (int i = 0; i < m_battleFieldList.size(); i++) {
+                    auto battle = m_battleFieldList.at(i);
+                    
+                    User* dest  = nullptr;
+                    bool flag   = false;
+                    if (battle->getUserA()->get_name() == m_userList[i].get_name()) {
+                        dest = battle->getUserB();
+                        flag = true;
+                    } else if (battle->getUserB()->get_name() == m_userList[i].get_name()) {
+                        dest = battle->getUserA();
+                        flag = true;
+                    }
+                    
+                    if (flag) {
+                        
+                        if (dest != nullptr) {
+                            dest->set_status(User::UserStatus::IDLE);
+                            
+                            BattleProtocol::BattleFinishInfo info = {};
+                            info.set_mode(
+                                BattleProtocol::BattleFinishInfo_FinishMode_OPPOSITE_DISCONNECTED
+                            );
+                            info.set_result(
+                                BattleProtocol::BattleFinishInfo_BattleResult_WIN
+                            );
+                            
+                            PROC_PROTODATA_WITH_DEST(
+                                BattleFinishInfo, info, dest->get_userSocket()
+                            );
+                        }
+                        
+                        disconnect(
+                            battle, &BattleField::sigTurnInfoReady,
+                            this,   &ServerBackend::slotGetTurnInfo
+                        );
+                        disconnect(
+                            battle, &BattleField::sigBattleFinished,
+                            this,   &ServerBackend::slotGetBattleResult
+                        );
+                        delete battle;
+                        m_battleFieldList.removeAt(i);
+                        
+                        break;
+                    }
                 }
-                
-                if (dest != nullptr) {
-                    dest->set_status(User::UserStatus::IDLE);
-                    
-                    BattleProtocol::BattleFinishInfo info = {};
-                    info.set_mode(
-                        BattleProtocol::BattleFinishInfo_FinishMode_OPPOSITE_DISCONNECTED
-                    );
-                    info.set_result(
-                        BattleProtocol::BattleFinishInfo_BattleResult_WIN
-                    );
-                    
-                    
-                    PROC_PROTODATA_WITH_DEST(
-                        BattleFinishInfo, info, dest->get_userSocket()
-                    );
-                    break;
-                }
-                
-                disconnect(
-                    battle, &BattleField::sigTurnInfoReady,
-                    this,   &ServerBackend::slotGetTurnInfo
-                );
-                disconnect(
-                    battle, &BattleField::sigBattleFinished,
-                    this,   &ServerBackend::slotGetBattleResult
-                );
-                delete battle;
-                m_battleFieldList.removeAt(i);
             }
-            
             m_userList.removeAt(i);
         }
     }
@@ -842,10 +852,10 @@ NET_SLOT(HandleBattleInviteResponse) {
             PROC_PROTODATA_WITH_DEST(
                 BattleStartResponse, startInfoA, pUserA->get_userSocket());
         }
-        {
-            PROC_PROTODATA_WITH_DEST(
-                BattleStartResponse, startInfoB, pUserB->get_userSocket());
-        }
+//        {
+//            PROC_PROTODATA_WITH_DEST(
+//                BattleStartResponse, startInfoB, pUserB->get_userSocket());
+//        }
         return;
     }
     
@@ -1149,4 +1159,61 @@ void ServerBackend::slotGetBattleResult(User* winner) {
     );
     m_battleFieldList.removeOne(pBattleField);
     delete pBattleField;
+}
+
+NET_SLOT(BattleGiveUp) {
+    BattleProtocol::BattleGiveupInfo giveUpInfo = {};
+    giveUpInfo.ParseFromArray(data.data(), data.size());
+    
+    QString giveUpUser = QString::fromStdString(giveUpInfo.username());
+    // 遍历对战列表
+    for (int i = 0; i < m_battleFieldList.size(); i++) {
+        auto battle = m_battleFieldList.at(i);
+        
+        User* dest = nullptr;
+        bool flag  = false;
+        if (battle->getUserA()->get_name() == giveUpUser) {
+            battle->getUserA()->set_status(User::UserStatus::IDLE);
+            dest = battle->getUserB();
+            flag = true;
+        } else if (battle->getUserB()->get_name() == giveUpUser) {
+            battle->getUserB()->set_status(User::UserStatus::IDLE);
+            dest = battle->getUserA();
+            flag = true;
+        }
+        
+        if (flag) {
+            if (dest != nullptr) {
+                dest->set_status(User::UserStatus::IDLE);
+                
+                BattleProtocol::BattleFinishInfo info = {};
+                info.set_mode(
+                    BattleProtocol::BattleFinishInfo_FinishMode_OPPOSITE_DISCONNECTED
+                );
+                info.set_result(
+                    BattleProtocol::BattleFinishInfo_BattleResult_WIN
+                );
+                
+                
+                PROC_PROTODATA_WITH_DEST(
+                    BattleFinishInfo, info, dest->get_userSocket()
+                );
+            }
+            
+            
+            
+            disconnect(
+                battle, &BattleField::sigTurnInfoReady,
+                this,   &ServerBackend::slotGetTurnInfo
+            );
+            disconnect(
+                battle, &BattleField::sigBattleFinished,
+                this,   &ServerBackend::slotGetBattleResult
+            );
+            delete battle;
+            m_battleFieldList.removeAt(i);
+            
+            break;
+        }
+    }     
 }

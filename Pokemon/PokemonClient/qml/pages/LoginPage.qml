@@ -296,9 +296,9 @@ Page {
     Connections {
         target: backend
         onSigUserSignUp: {
+            loadingPopup.hideLoading()
             switch(status) {
             case 0:
-                loadingPopup.hideLoading()
                 userName.text = signUpName.text
                 userName.text = signUpPsw.text
                 storage.setValue("username", signUpName.text)
@@ -314,6 +314,7 @@ Page {
             }
         }
         onSigUserLogin: {
+            loadingPopup.hideLoading()
             switch(status) {
             case 0:
                 storage.setValue("username", userName.text)

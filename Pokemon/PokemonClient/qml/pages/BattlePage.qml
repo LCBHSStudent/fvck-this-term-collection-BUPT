@@ -121,7 +121,7 @@ Page {
                         }
                     }
                     onClicked: {
-                        loadingPopup.showLoading("等待对方操作...")
+                        loadingPopup.showLoading("等待对方操作...", false)
                         enableOperate = false
                         backend.sendBattleSkillIndex(isUserA, index)
                     }

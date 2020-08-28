@@ -246,7 +246,7 @@ Page {
         }
         onCanceled: {
             gridPkmPopup.isInvited = false
-            backend.sendBattleInviteResponse(refuse, battleMode, fromUser)
+            backend.sendBattleInviteResponse(refuse, battleMode, 0, fromUser)
         }
     }
     
@@ -315,7 +315,7 @@ Page {
                     )
                 }
                 hidePopup()
-                loadingPopup.showLoading("等待建立对战...")
+                loadingPopup.showLoading("等待建立对战...", false)
             } else {
                 serverPkmId = getSelectedPkmId()
                 console.debug("serverPkmId: ", serverPkmId)
@@ -520,7 +520,7 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     backend.sendSelfPokemonInfoRequest()
-                    loadingPopup.showLoading("正在获取宝可梦信息")
+                    loadingPopup.showLoading("正在获取宝可梦信息...")
                 }
             }
             
@@ -632,14 +632,6 @@ Page {
                 
                 model: ListModel {
                     id: userModel
-                    ListElement {
-                        name: "TestUserSSSSSSSSSSSSSSSSSSSSSSSS"
-                        status: 0
-                    }
-                    ListElement {
-                        name: "Server"
-                        status: 1
-                    }
                 }
                 anchors {
                     top: parent.top

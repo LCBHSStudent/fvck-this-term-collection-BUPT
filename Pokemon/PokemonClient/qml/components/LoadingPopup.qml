@@ -72,10 +72,13 @@ Popup {
     }
     
     
-    function showLoading(contentText) {
+    function showLoading(contentText, timeout = true) {
         content.text = contentText
         popup_t.opacity = 1
-        timeOutTimer.start()
+        console.log(timeout)
+        if (timeout) {
+            timeOutTimer.start()
+        }
     }
     function hideLoading() {
         popup_t.opacity = 0
