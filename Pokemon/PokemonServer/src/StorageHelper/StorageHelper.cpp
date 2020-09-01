@@ -29,12 +29,13 @@ StorageHelper::StorageHelper() {
 );";
     createQuery.prepare(skillTableStat);
     createQuery.exec();
+#ifdef DEBUG_FLAG
     qDebug() << (
         createQuery.lastError().text().isEmpty()?
         "Create skill list table succeed":
         createQuery.lastError().text()
     );
-    
+#endif
     createQuery.clear();
     
     const QString userTableStat = 
@@ -46,12 +47,13 @@ StorageHelper::StorageHelper() {
 );";
     createQuery.prepare(userTableStat);
     createQuery.exec();
+#ifdef DEBUG_FLAG
     qDebug() << (
         createQuery.lastError().text().isEmpty()?
         "Create user list table succeed":
         createQuery.lastError().text()
     );
-    
+#endif
     createQuery.clear();
         
     const QString pkmTableStat = 
@@ -82,10 +84,11 @@ StorageHelper::StorageHelper() {
     const QString updateConfigStat2 = "set  global  wait_timeout=31536000";
     createQuery.prepare(updateConfigStat2);
     createQuery.exec();
-    
+#ifdef DEBUG_FLAG
     qDebug() << (
         createQuery.lastError().text().isEmpty()?
         "Create skill list table succeed":
         createQuery.lastError().text()
     );
+#endif
 }

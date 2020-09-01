@@ -219,10 +219,12 @@ void ServerBackend::procAndSendPkmData(
                 pkm->getSkill(i)
             );
         }
+#ifdef DEBUG_FLAG
         for (int i = 0; i < 4; i++) {
             qDebug() << pkm->getSkill(i);
             qDebug() << aliasList[i] << sdescList[i];            
         }
+#endif
 #ifndef AVOID_PROTOBUF_EXCEPTION_FLAG
         pPkmInfo->set_name(pkm->get_name().toStdString());
         pPkmInfo->set_desc(pkm->get_desc().toStdString());
@@ -258,6 +260,7 @@ void ServerBackend::slotGetMessage(
     QTcpSocket*     client,
     QByteArray      data
 ) {
+    // 拿到报文中的MessageType枚举
     const int type = *reinterpret_cast<int*>(data.data());
     
     switch (type) {
@@ -293,7 +296,7 @@ void ServerBackend::slotGetMessage(
         break;
         
     default:
-        qDebug() << "unknown message type";
+        qDebug() << "[SERVER BACKEND] unknown message type";
         break;
     }
 }
@@ -309,7 +312,7 @@ NET_SLOT(UserLogin) {
     UserProtocol::UserLoginRequestInfo reqInfo = {};
     reqInfo.ParseFromArray(data.data(), data.size());
     
-    qDebug() << "[ServerBackend] :UserLogin";
+    qDebug() << "[ServerBackend] UserLogin";
     reqInfo.PrintDebugString();
     
     bool    flag = false;
@@ -360,12 +363,14 @@ NET_SLOT(UserSignUp) {
     UserProtocol::UserSignUpRequestInfo reqInfo = {};
     reqInfo.ParseFromArray(data.data(), data.size());
     
-    qDebug() << "[ServerBackend]: UserSignUp"; 
+    qDebug() << "[ServerBackend] UserSignUp"; 
+#ifdef DEBUG_FLAG
     reqInfo.PrintDebugString();
-    
+#endif
     int     count = 0;
     QString userName = QString::fromStdString(reqInfo.username());
     
+    // 检测用户名是否已经被占用
     StorageHelper::Instance().transaction(
         "SELECT count(*) FROM `user_list` WHERE USERNAME=?",
         [&count](QSqlQuery& query){
@@ -374,9 +379,13 @@ NET_SLOT(UserSignUp) {
         userName
     );
     
+    // 构造发给客户端的response信息
     UserProtocol::UserSignUpResponseInfo resInfo = {};
     if(count > 0) {
-        qDebug() << "user already exist";
+#ifdef DEBUG_FLAG
+        qDebug() << "[SERVER BACKEND-SIGN UP] user already exist";
+#endif
+        // 若count不为0，说明用户已注册，返回状态码USER_ALREADY_EXISTS
         resInfo.set_status(
             UserProtocol::UserSignUpResponseInfo_SignUpStatus_USER_ALREADY_EXISTS);
     } else {
@@ -388,6 +397,7 @@ NET_SLOT(UserSignUp) {
             userName,
             QString::fromStdString(reqInfo.userpsw())
         );
+        // 创建用户精灵表
         createUserTable(userName);
         
         QList<int> typeIdList = {};
@@ -398,6 +408,7 @@ NET_SLOT(UserSignUp) {
             }
         );
         
+        // 随机插入三个精灵
         for (auto i = 0; i < 3; i++) {
             int randIndex = 
                 QRandomGenerator::global()->bounded(typeIdList.size());
@@ -451,7 +462,7 @@ NET_SLOT(RequestUserInfo) {
         },
         userName
     );
-    qDebug() << totalBattleTime << totalWinnerTime;
+    // qDebug() << totalBattleTime << totalWinnerTime;
     
     UserProtocol::UserInfoResponse resInfo = {};
     
@@ -571,10 +582,10 @@ NET_SLOT(UserDisconnected) {
     }
     
     qDebug () 
-            << "[SERVER BACKEND] CURRENT BATTLE FIELD COUNT: " 
+            << "[SERVER BACKEND-DESTROY BATTLE FILED] CURRENT BATTLE FIELD COUNT: " 
             << m_battleFieldList.size();
     qDebug () 
-            << "[SERVER BACKEND] CURRENT ONLINE USER COUNT: " 
+            << "[SERVER BACKEND-REMOVE USER] CURRENT ONLINE USER COUNT: " 
             << m_userList.size();
 }
 
@@ -654,10 +665,12 @@ NET_SLOT(RequestPkmInfo) {
                 pkm->getSkill(i)
             );
         }
+#ifdef DEBUG_FLAG
         for (int i = 0; i < 4; i++) {
             qDebug() << pkm->getSkill(i);
             qDebug() << aliasList[i] << sdescList[i];            
         }
+#endif
 #ifndef AVOID_PROTOBUF_EXCEPTION_FLAG
         pPkmInfo->set_name(pkm->get_name().toStdString());
         pPkmInfo->set_desc(pkm->get_desc().toStdString());
@@ -698,7 +711,7 @@ NET_SLOT(RequestOnlineUserList) {
     
     UserProtocol::OnlineUserListResponseInfo resInfo = {};
     for (auto& user: m_userList) {
-        qDebug() << "ONLINE USER: " << user.get_name();
+        qDebug() << "[ONLINE USER] " << user.get_name();
         if (user.get_name() != requestUser) {
             UserProtocol::UserStatusInfo info = {};
             info.set_username(user.get_name().toStdString());
@@ -717,7 +730,7 @@ NET_SLOT(BattleInvite) {
     BattleProtocol::BattleStartRequest info = {};
     info.ParseFromArray(data.data(), data.size());
 #ifdef DEBUG_FLAG
-    qDebug() << "[SERVER BACKEDN]: GET NEW BATTLE INVITE REQUEST";
+    qDebug() << "[SERVER BACKEDN] GET NEW BATTLE INVITE REQUEST";
     info.PrintDebugString();
 #endif
     QString fromUser = QString::fromStdString(info.fromuser());
@@ -816,6 +829,7 @@ NET_SLOT(BattleInvite) {
 
 // 处理对战邀请应答
 NET_SLOT(HandleBattleInviteResponse) {
+    (void)client;
     BattleProtocol::BattleInviteResponse resInfo = {};
     resInfo.ParseFromArray(data.data(), data.size());
     
@@ -911,6 +925,7 @@ NET_SLOT(HandleBattleInviteResponse) {
 
 // 处理对战操作
 NET_SLOT(HandleBattleOperation) {
+    (void)client;
     BattleProtocol::BattleOperationInfo info = {};
     info.ParseFromArray(data.data(), data.size());
     
@@ -1039,11 +1054,13 @@ void ServerBackend::slotGetBattleResult(User* winner) {
     BattleProtocol::BattleFinishInfo infoWinner = {};
     BattleProtocol::BattleFinishInfo infoLoser  = {};
     
+    // 拿到发送方BattleField指针
     auto pBattleField = reinterpret_cast<BattleField*>(sender());
+    // 获取用户指针
     auto pUserA = pBattleField->getUserA();
     auto pUserB = pBattleField->getUserB();
     
-    
+    // 生成胜利者与失败者
     User* loser = nullptr;
     if (winner == pUserA) {
         loser = pUserB;
@@ -1057,6 +1074,8 @@ void ServerBackend::slotGetBattleResult(User* winner) {
     infoLoser.set_mode(BattleProtocol::BattleFinishInfo_FinishMode_NORMAL);
     infoLoser.set_result(BattleProtocol::BattleFinishInfo_BattleResult_LOSE);
     
+    // 如果是与server对战，则pUserB必定为nullptr
+    // 更改用户状态
     if (loser != nullptr) {
         loser->set_status(User::UserStatus::IDLE);
         PROC_PROTODATA_WITH_DEST(
@@ -1080,6 +1099,7 @@ void ServerBackend::slotGetBattleResult(User* winner) {
     
     // std::this_thread::sleep_for(std::chrono::milliseconds(500));
     
+    // 如果为决斗战
     if (pBattleField->getMode() == BattleField::BattleMode::DUEL_BATTLE) {
         if (winner != nullptr) {
             winner->battleWon();
@@ -1091,6 +1111,7 @@ void ServerBackend::slotGetBattleResult(User* winner) {
                 auto    pkmIdList = loser->get_pokemonList();
                 QList<int> selectIdList;
                 
+                // 生成要送出的精灵列表
                 for (int i = 0; i < 3 && pkmIdList.length() > 0; i++) {
                     int randIndex = 
                         QRandomGenerator::global()->bounded(pkmIdList.length());
@@ -1109,6 +1130,7 @@ void ServerBackend::slotGetBattleResult(User* winner) {
 // --------------------------------------------------------------------------------- //                
                 
             } else {
+                // 直接拿到对战精灵
                 transferPokemon(
                     "_server",
                     winner->get_name(),
@@ -1148,7 +1170,7 @@ void ServerBackend::slotGetBattleResult(User* winner) {
         }
     }
     
-    
+    // 断链信号并做清理
     disconnect(
         pBattleField,   &BattleField::sigTurnInfoReady,
         this,           &ServerBackend::slotGetTurnInfo
@@ -1162,6 +1184,7 @@ void ServerBackend::slotGetBattleResult(User* winner) {
 }
 
 NET_SLOT(BattleGiveUp) {
+    (void)client;
     BattleProtocol::BattleGiveupInfo giveUpInfo = {};
     giveUpInfo.ParseFromArray(data.data(), data.size());
     

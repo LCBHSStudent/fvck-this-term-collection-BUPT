@@ -50,13 +50,15 @@ public FUNCTION:
 //            query.lastError().text()
 //        );
         if(query.lastError().text().isEmpty()) {
+#ifdef DEBUG_FLAG
             qDebug() << "[SQL TRANSACTION] " + queryStat + " succeed";
+#endif
             while(query.next()) {
                 process(query); // query.value(index).toAnyDataFormat
             }
             return;
         } else {
-            qDebug() << query.lastError().text();
+            qDebug() << "[SQL TRANSACTION ERROR] " << query.lastError().text();
             return;
         }
     }

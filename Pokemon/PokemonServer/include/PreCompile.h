@@ -76,6 +76,7 @@ constexpr auto get_percent = [](int percentVal) {
 // ------end of random variables & func space
 
 #define DEBUG_FLAG
+#undef  DEBUG_FLAG
 
 #define FUNCTION 
 #define RESOURCE 
