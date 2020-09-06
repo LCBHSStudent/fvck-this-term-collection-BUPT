@@ -36,19 +36,76 @@ BOOL DeleteHashTable(HashTable table) {
 	}
 }
 
+BOOL RemoveHashItem(HashTable table, char* key) {
+	Node* node = FindNodeByKey(table, key);
+
+	if (node == NULL) {
+		return false;
+	}
+
+	if (node->key != NULL && node->value != NULL) {
+		if (strcmp(node->key, key) == 0) {
+			if (node->next != NULL) {
+
+			}
+		}
+	}
+
+	return true;
+}
+
+BOOL RemoveHashItemByNode(HashTable table, Node* node) {
+	if (node == NULL) {
+		return false;
+	}
+	
+	if (node->prev == NULL) {
+		if (node->next != NULL) {
+			Node* temp = node->next;
+
+			node->key	= temp->key;
+			node->value = temp->value;
+			if (temp->next != NULL) {
+				temp->next->prev = node;
+			}
+			node->next	= temp->next;
+			free(temp);
+		}
+		else {
+			node->key = NULL;
+			node->value = NULL;
+		}
+	}
+	else {
+		Node* prev = node->prev;
+		prev->next = node->next;
+		if (node->next != NULL) {
+			node->next->prev = prev;
+		}
+
+		free(node);
+	}
+	return true;
+}
+
 BOOL InsertHashItem(HashTable table, char* key, void* value) {
 	if (table.size == 0)
 		return false;
 
 	size_t index	= ELFHash(key, strlen(key)) % table.size;
 	Node* node		= &table.data[index];
+	Node* prev		= NULL;
 
 	if (node->key == NULL || node->value == NULL) {
-		table.data[index].key = key;
+		table.data[index].key	= key;
 		table.data[index].value = value;
+		node->prev				= NULL;
+		node->next				= NULL;
+
 	}
 	else {
 		while (node->next != NULL) {
+			prev = node;
 			node = node->next;
 		}
 		Node* temp = (Node*)malloc(sizeof(Node));
@@ -56,6 +113,7 @@ BOOL InsertHashItem(HashTable table, char* key, void* value) {
 			temp->key	= key;
 			temp->value = value;
 			temp->next	= NULL;
+			temp->prev	= prev;
 		}
 		node->next  = temp;
 	}
@@ -63,19 +121,29 @@ BOOL InsertHashItem(HashTable table, char* key, void* value) {
 	return true;
 }
 
-void* FindItemByKey(HashTable table, char* key) {
+void* FindValueByKey(HashTable table, char* key) {
+	Node* result = FindNodeByKey(table, key);
+	if (result == NULL) {
+		return NULL;
+	}
+	else {
+		return result->value;
+	}
+}
+
+Node* FindNodeByKey(HashTable table, char* key) {
 	if (table.size == 0 || key == NULL)
 		return NULL;
 
-	size_t index = ELFHash(key, strlen(key)) % table.size;
-	Node* node = &table.data[index];
-	
+	size_t index	= ELFHash(key, strlen(key)) % table.size;
+	Node* node		= &table.data[index];
+
 	while (node != NULL) {
 		if (node->key == NULL || node->value == NULL) {
 			return NULL;
 		}
 		if (strcmp(key, node->key) == 0) {
-			return node->value;
+			return node;
 		}
 		else {
 			node = node->next;

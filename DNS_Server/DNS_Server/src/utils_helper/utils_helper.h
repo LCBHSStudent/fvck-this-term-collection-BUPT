@@ -11,8 +11,10 @@ int
 	Len2RespDataEnd(char* pData);
 void* 
 	FindAnswerStart(byte* pData);
-bool
-	isIPv4Str(const char* pData);
+int32_t 
+	GetTimeSubValue(TIME* pFormer, TIME* pLater);
+byte4
+	ToSecond(TIME* pTime);
 
 void 
 	DisplayTime(SYSTEMTIME* sysTime);

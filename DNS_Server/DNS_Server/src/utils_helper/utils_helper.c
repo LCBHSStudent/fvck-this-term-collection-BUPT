@@ -10,7 +10,7 @@ void SyncTime(SYSTEMTIME* sysTime, TIME* sysTimeLocal) {
 	sysTimeLocal->Milliseconds	= (byte)sysTime->wMilliseconds;
 }
 
-int32_t GetTimeSubValue(TIME *pFormer, TIME *pLater) {
+int32_t GetTimeSubValue(TIME* pFormer, TIME* pLater) {
 	return (int32_t) (
 		(
 			(
@@ -18,6 +18,15 @@ int32_t GetTimeSubValue(TIME *pFormer, TIME *pLater) {
 				+ pLater->Hour - pFormer->Hour) * 60
 			+ pLater->Minute - pFormer->Minute) * 60
 		+ pLater->Second - pFormer->Second
+	);
+}
+
+byte4 ToSecond(TIME* pTime) {
+	return (byte4)(
+		pTime->Day * 24 * 60 * 60
+		+ pTime->Hour * 60 * 60
+		+ pTime->Minute * 60
+		+ pTime->Second
 	);
 }
 
@@ -160,36 +169,4 @@ int Len2RespDataEnd(char* pData) {
 		pData++;
 	}
 	return len;
-}
-
-bool isIPv4Str(const char* pData) {
-	if (!pData || !pData[0]) {
-		return false;
-	}
-
-	size_t len = strlen(pData);
-	if (len < 7 || len > 15) {
-		return false;
-	}
-
-	int num[4] = { 0 };
-	char c = 0;
-
-	if (sscanf_s(
-			pData,
-			"%d.%d.%d.%d%c",
-			num, num + 1, num + 2, num + 3, &c, sizeof(char)
-		) != 4
-	) {
-		return false;
-	}
-
-	int i = 0;
-	for (; i < 4; i++) {
-		if (num[i] < 0 || num[i] > 255) {
-			return false;
-		}
-	}
-
-	return true;
 }

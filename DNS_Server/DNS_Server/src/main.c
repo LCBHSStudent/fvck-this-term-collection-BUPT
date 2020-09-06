@@ -160,8 +160,16 @@ void onReadRequest(
 	uv_ip4_name((const struct sockaddr_in*)addr, sender, 15);
 	
 	DNSHeader* pHeader = (DNSHeader*)buffer->base;
-	void* pData = buffer->base + sizeof(DNSHeader);
-	char* pUrl	= ParseUrlFromData(buffer->base, pData, (int)(nread - 16));
+	void* pData		= buffer->base + sizeof(DNSHeader);
+	char* pUrl		= ParseUrlFromData(
+		buffer->base, pData, (int)(nread - 16)
+	);
+	byte2 reqType	= nhswap_s(
+		*(byte2*)(buffer->base + nread - 4)
+	);
+	byte2 reqClass = nhswap_s(
+		*(byte2*)(buffer->base + nread - 2)
+	);
 
 	if (pUrl == NULL) {
 		free(buffer->base);
@@ -170,13 +178,130 @@ void onReadRequest(
 	DisplayTime(&sysTime);
 	printf("\t[client's request url] %s\n", pUrl);
 
-	if (isIPv4Str(pUrl)) {
+	if (reqType == PTR) {
+		printf("\t\t*client's request type is PTR(12)\n");
+		printf("\t\t*prepare raw IPv4 addr as response...\n");
+
+		char result[16]		= { 0 };
+		int  reqUrlSize		= (int)strlen(pUrl);
+		int  dotCnt			= 0;
+		int	 dotIndex[4]	= { 0 };
+
+		for (int i = 0; i < reqUrlSize; i++) {
+			if (pUrl[i] == '.') {
+				dotIndex[dotCnt] = i;
+				dotCnt++;
+			}
+			if (dotCnt == 4) {
+				break;
+			}
+		}
+		int resIndex = 0;
+		for (int i = 3; i > 0; i--) {
+			memcpy(
+				resIndex + &result[0],
+				pUrl + dotIndex[i-1] + 1,
+				(size_t)dotIndex[i] - dotIndex[i - 1] - 1
+			);
+			resIndex += (size_t)dotIndex[i] - dotIndex[i - 1] - 1;
+			result[resIndex++] = '.';
+			
+		}
+		memcpy(resIndex + &result[0], pUrl, dotIndex[0]);
+
+		// 取得IP后，返回客户端
+		byte2 newID =
+			GetNewID(
+				nhswap_s(pHeader->Id),
+				(struct sockaddr_in*)addr,
+				TRUE, (int)nread, 0, pUrl
+			);
+		DisplayIDTransInfo(&idTable[newID]);
+
+		byte2 temp = nhswap_s(0x8180);
+		pHeader->Flags = temp;
+
+		pHeader->AnswerNum = temp;
+
+		// 构造DNS报文响应部分
+		byte answer[16] = { 0 };
+		byte2* pNum = (byte2*)(&answer[0]);
+		{
+			byte2 Name = nhswap_s(0xc00c);
+			memcpy(pNum, &Name, sizeof(byte2));
+			pNum += 1;
+
+			byte2 TypeA = nhswap_s(0x0001);
+			memcpy(pNum, &TypeA, sizeof(byte2));
+			pNum += 1;
+
+			byte2 ClassA = nhswap_s(0x0001);
+			memcpy(pNum, &ClassA, sizeof(byte2));
+			pNum += 1;
+
+			byte4 timeLive = nhswap_l(0x7b);
+			memcpy(pNum, &timeLive, sizeof(byte4));
+			pNum += 2;
+
+			byte2 IPLen = nhswap_s(0x0004);
+			memcpy(pNum, &IPLen, sizeof(byte2));
+			pNum += 1;
+
+			byte4 IP = inet_addr_t(result);
+			memcpy(pNum, &IP, sizeof(byte4));
+
+			memcpy(buffer->base + nread, answer, 16);
+		}
+
+		// 回送request报文
+		uv_udp_send_t* sendResponse =
+			malloc(sizeof(uv_udp_send_t));
+		uv_buf_t		responseBuf =
+			uv_buf_init((char*)malloc(1024), (byte4)nread + 16);
+		memcpy(responseBuf.base, buffer->base, nread + 16);
+
+		uv_ip4_addr(
+			sender,
+			nhswap_s(idTable[newID].client.sin_port), &clientEP
+		);
+
+		uv_udp_send(
+			sendResponse,
+			&localSocket,
+			&responseBuf, 1,
+			(const struct sockaddr*)&clientEP,
+			onSend2Client
+		);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 	}
 	else {
-		TransDNSRow* result = FindItemByKey(dnsHashTable, pUrl);
+		Node* resultNode	= FindNodeByKey(dnsHashTable, pUrl);
+		TransDNSRow* result = NULL;
+		if (resultNode != NULL) {
+			result = resultNode->value;
+		}
+		
+		SyncTime(&sysTime, &sysTimeLocal);
 
-		if (result) {
+		if (result && result->TTL > ToSecond(&sysTimeLocal)) {
 			// 本地缓存中找到要查找的dns地址且TTL未过期，构建报文返回客户端
 
 			byte2 newID =
@@ -196,12 +321,12 @@ void onReadRequest(
 				/*result->Type == A &&*/
 				strcmp(result->Data, "0.0.0.0") == 0
 				) {
-				printf("\t[notification] domain was found in the local cache, but it is banned\n");
+				printf("\t*[notification] domain was found in the local cache, but it is banned\n");
 				// 回答数为0，即屏蔽
 				temp = nhswap_s(0x0000);
 			}
 			else {
-				printf("\t[result found] destnation result is: %s\n", result->Data);
+				printf("\t*[result found] destnation result is: %s\n", result->Data);
 				// 服务器响应，回答数为1
 				temp = nhswap_s(0x0001);
 			}
@@ -258,8 +383,15 @@ void onReadRequest(
 			);
 		}
 		else {
-			// 本地缓存中缺失，构建请求报文送往外部dns服务器
-			PRINTERR("\t[notification] local cache missed, sending request to external server");
+			if (result) {
+				RemoveHashItemByNode(dnsHashTable, resultNode);
+				PRINTERR("\t*[notification] TTL over limit, removing cache data...");
+				PRINTERR("\t\t\t\tre-sending request to external server...");
+			}
+			else {
+				// 本地缓存中缺失，构建请求报文送往外部dns服务器
+				PRINTERR("\t*[notification] local cache missed, sending request to external server");
+			}
 			pHeader->Id = nhswap_s(
 				GetNewID(
 					nhswap_s(pHeader->Id),
@@ -333,7 +465,8 @@ void onReadResponse(
 
 	// ------------------ USE 2\t FORMATING -------------------- //
 
-	size_t ptrOffset = 0;
+	size_t	ptrOffset	= 0;
+	byte4	maxTTL		= 0;
 	for (int i = 1; i <= answerNum; i++) {
 		DNSAnswerHeader ansHeader = { 0, 0, 0, 0, 0 };
 		ansHeader.Name = nhswap_s(
@@ -372,20 +505,25 @@ void onReadResponse(
 			printf("\t\t\tQuery result:\t%s\n", result);
 			
 			{
-				strcpy(result, dnsTable[dnsRowCount].Data);
-				strcpy(idTable[temp].url, dnsTable[dnsRowCount].Domain);
-				InsertHashItem(dnsHashTable, idTable[temp].url, result);
-
 				// 如果未加入hashTable，则将key(url) & value(ipaddr)加入hashTable
-				TransDNSRow* pDnsCache = FindItemByKey(dnsHashTable, idTable[temp].url);
+				TransDNSRow* pDnsCache = FindValueByKey(dnsHashTable, idTable[temp].url);
 				if (!pDnsCache) {
-					InsertHashItem(dnsHashTable, idTable[temp].url, NULL);
-				}
+					SyncTime(&sysTime, &sysTimeLocal);
+					byte4 TTL = ToSecond(&sysTimeLocal) + ansHeader.TTL;
 
-				dnsRowCount++;
-				if (dnsRowCount >= MAX_AMOUNT) {
-					PRINTERR("[[WARNING]] RECORDS IN DNS_TABLE HAVE REACHED THE LIMIT");
-					exit(-114514);
+					// 修改为添加TTL最长的? 
+
+
+					strcpy(dnsTable[dnsRowCount].Data, result);
+					strcpy(dnsTable[dnsRowCount].Domain, idTable[temp].url);
+					
+					dnsTable[dnsRowCount].Type = A;
+					dnsTable[dnsRowCount].TTL  = TTL;
+					
+					InsertHashItem(dnsHashTable, idTable[temp].url, &dnsTable[dnsRowCount]);
+					
+					dnsRowCount++;
+					dnsRowCount %= MAX_AMOUNT;
 				}
 			}
 		} break;
@@ -436,7 +574,11 @@ void onReadResponse(
 
 		ptrOffset += ansHeader.DataLength;
 		printf("\t\t}\n\n");
-		/*DisplayIDTransInfo(&idTable[temp]);*/
+		
+		if (ansHeader.Type == A) {
+			DisplayIDTransInfo(&idTable[temp]);
+			putchar('\n');
+		}
 	}
 
 	pHeader->Id = prevID;
