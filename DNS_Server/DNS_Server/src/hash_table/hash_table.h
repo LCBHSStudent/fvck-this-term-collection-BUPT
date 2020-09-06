@@ -12,7 +12,7 @@ size_t ELFHash(void* pData, size_t size);
 // 在此处仅引用内存
 typedef struct Node_t {
 	char*			key;
-	char*			value;
+	void*			value;
 	struct Node_t*	next;
 } Node;
 
@@ -21,14 +21,14 @@ typedef struct HashTable_t {
 	Node*	data;
 } HashTable;
 
-// ------------MEMBER FUNTIONS------------ //
+// ------------MEMBER FUNCTIONS------------ //
 
 HashTable NewHashTable(size_t size);
 
 BOOL DeleteHashTable(HashTable table);
 
-BOOL InsertHashItem(HashTable table, char* key, char* value);
+BOOL InsertHashItem(HashTable table, char* key, void* value);
 
-char* FindItemByKey(HashTable table, char* key);
+void* FindItemByKey(HashTable table, char* key);
 
 #endif

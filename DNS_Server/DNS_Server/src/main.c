@@ -1,4 +1,4 @@
-#include <config.h>
+Ôªø#include <config.h>
 
 #include "hash_table/hash_table.h"
 #include "ini_handler/ini_handler.h"
@@ -8,22 +8,22 @@
 
 #pragma warning(disable:4996)
 
-// TODO: ÕÍ≥…ID±Ì÷–≥¨ ±œÓƒøµƒ…æ≥˝£ø
-//		£®FUNC: start another thread or just handle it in ev loop£©
-// TODO: ÕÍ≥…¥”external server response÷–ƒ√µΩ≤È—ØIPµƒπ¶ƒ‹
-//		£®FUNC: onReadResponse£©
+// TODO: ÂÆåÊàêTTLÊ≥®ÂÖ•ÔºåÂØπÂ§±ÊïàÂØπË±°ËøõË°åÂà†Èô§Âπ∂ÈáçÊñ∞ÂèëÈÄÅËØ∑Ê±ÇÔºü
+//		ÔºàFUNC: start another thread or just handle it in ev loopÔºâ
+// TODO: ÂÆåÊàê‰ªéexternal server response‰∏≠ÊãøÂà∞Êü•ËØ¢IPÁöÑÂäüËÉΩ
+//		ÔºàFUNC: onReadResponseÔºâ
 
 // -------NATIVE VARIABLE & FUNCTION SPACE--------- //
 
-static IDTable		idTable  = { 0 };		// Id◊™ªª±Ì
-static DNSTable		dnsTable = { 0 };		// DNS”Ú√˚◊™ªª±Ì
-static HashTable	dnsHashTable;	// DNS”Ú√˚hash
+static IDTable		idTable  = { 0 };		// IdËΩ¨Êç¢Ë°®
+static DNSTable		dnsTable = { 0 };		// DNSÂüüÂêçËΩ¨Êç¢Ë°®
+static HashTable	dnsHashTable;			// DNSÂüüÂêçhash
 
-static size_t		idRowCount  = 0;	// Id◊™ªª±Ì–– ˝
-static size_t		dnsRowCount = 0;	// DNS◊™ªª±Ì–– ˝
+static size_t		idRowCount  = 0;		// IdËΩ¨Êç¢Ë°®Ë°åÊï∞
+static size_t		dnsRowCount = 0;		// DNSËΩ¨Êç¢Ë°®Ë°åÊï∞
 
-static SYSTEMTIME	sysTime;		// œµÕ≥ ±º‰
-static TIME			sysTimeLocal;	// ±£¥ÊœµÕ≥ ±º‰µƒ∂¿¡¢±‰¡ø
+static SYSTEMTIME	sysTime;				// Á≥ªÁªüÊó∂Èó¥
+static TIME			sysTimeLocal;			// ‰øùÂ≠òÁ≥ªÁªüÊó∂Èó¥ÁöÑÁã¨Á´ãÂèòÈáè
 
 static char EXTERN_SERVER_HOST[16];
 static char LOCAL_SERVER_HOST[16];
@@ -86,14 +86,14 @@ void onSend2Server(
 // ---------Main----------- //
 
 int main(int argc, char* argv[]) {
-	// º”‘ÿ≈‰÷√Œƒº˛
+	// Âä†ËΩΩÈÖçÁΩÆÊñá‰ª∂
 	initConfig();
-	// ∂¡»°DNS±æµÿΩ‚ŒˆŒƒº˛”Î…˙≥…hash±Ì
+	// ËØªÂèñDNSÊú¨Âú∞Ëß£ÊûêÊñá‰ª∂‰∏éÁîüÊàêhashË°®
 	loadDNSTableData();
 
 	loop = uv_default_loop();
 
-	// ≥ı ºªØ±æµÿDNSÕ®–≈socket
+	// ÂàùÂßãÂåñÊú¨Âú∞DNSÈÄö‰ø°socket
 	{
 		uv_udp_init(loop, &localSocket);
 		uv_ip4_addr(ANY_HOST, DNS_SERVER_PORT, &localEP);
@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	// ≥ı ºªØ‘∂≥ÃDNSÕ®–≈socket
+	// ÂàùÂßãÂåñËøúÁ®ãDNSÈÄö‰ø°socket
 	{
 		uv_udp_init(loop, &serverSocket);
 		uv_ip4_addr(EXTERN_SERVER_HOST, DNS_SERVER_PORT, &serverEP);
@@ -123,15 +123,15 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	// Õ¨≤ΩœµÕ≥ ±º‰
+	// ÂêåÊ≠•Á≥ªÁªüÊó∂Èó¥
 	{
 		SyncTime(&sysTime, &sysTimeLocal);
 		DisplayTime(&sysTime);
 	}
 
-	// ‘À–– ¬º˛—≠ª∑
+	// ËøêË°å‰∫ã‰ª∂Âæ™ÁéØ
 	int ret = uv_run(loop, UV_RUN_DEFAULT);
-	// ÕÀ≥ˆ∫Û◊ˆ«Â¿Ìπ§◊˜
+	// ÈÄÄÂá∫ÂêéÂÅöÊ∏ÖÁêÜÂ∑•‰Ωú
 	{
 		cleanup();
 	}
@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
 	return ret;
 }
 
-
+// TODO: Â¢ûÂä†Ë∂ÖÊó∂Ê£ÄÊµã
 void onReadRequest(
 	uv_udp_t*				req,
 	ssize_t					nread,
@@ -152,7 +152,7 @@ void onReadRequest(
 		uv_close((uv_handle_t*)req, NULL);
 		free(buffer->base);
 		return;
-	} if (nread > 1000) {
+	} if (nread > 1024) {
 		return;
 	}
 
@@ -161,7 +161,7 @@ void onReadRequest(
 	
 	DNSHeader* pHeader = (DNSHeader*)buffer->base;
 	void* pData = buffer->base + sizeof(DNSHeader);
-	char* pUrl	= ParseUrlFromData(pData, (int)(nread - 16));
+	char* pUrl	= ParseUrlFromData(buffer->base, pData, (int)(nread - 16));
 
 	if (pUrl == NULL) {
 		free(buffer->base);
@@ -170,121 +170,128 @@ void onReadRequest(
 	DisplayTime(&sysTime);
 	printf("\t[client's request url] %s\n", pUrl);
 
-	char* result = FindItemByKey(dnsHashTable, pUrl);
-	
-	if (result) {
-		// ±æµÿª∫¥Ê÷–’“µΩ“™≤È’“µƒdnsµÿ÷∑£¨ππΩ®±®Œƒ∑µªÿøÕªß∂À
+	if (isIPv4Str(pUrl)) {
 		
-		byte2 newID =
-			GetNewID(
-				nhswap_s(pHeader->Id),
-				(struct sockaddr_in*)addr,
-				TRUE, (int)nread, 0, pUrl
-			);
-		DisplayIDTransInfo(&idTable[newID]);
-
-
-		byte2 temp = nhswap_s(0x8180);
-		pHeader->Flags = temp;
-
-		// ≤ª¡ºÕ¯’æ¿πΩÿ∞°‡≈
-		if (strcmp(result, "0.0.0.0") == 0) {
-			printf("\t[notification] domain was found in the local cache, but it is banned\n");
-			// ªÿ¥ ˝Œ™0£¨º¥∆¡±Œ
-			temp = nhswap_s(0x0000);
-		}
-		else {
-			printf("\t[result found] destnation ipv4 address is: %s\n", result);
-			// ∑˛ŒÒ∆˜œÏ”¶£¨ªÿ¥ ˝Œ™1
-			temp = nhswap_s(0x0001);
-		}
-		pHeader->AnswerNum = temp;
-
-		// ππ‘ÏDNS±®ŒƒœÏ”¶≤ø∑÷
-		byte answer[16] = { 0 };
-		byte2* pNum = (byte2*)(&answer[0]);
-		{
-			byte2 Name = nhswap_s(0xc00c);
-			memcpy(pNum, &Name, sizeof(byte2));
-			pNum += 1;
-
-			byte2 TypeA = nhswap_s(0x0001);
-			memcpy(pNum, &TypeA, sizeof(byte2));
-			pNum += 1;
-
-			byte2 ClassA = nhswap_s(0x0001);
-			memcpy(pNum, &ClassA, sizeof(byte2));
-			pNum += 1;
-
-			byte4 timeLive = nhswap_l(0x7b);
-			memcpy(pNum, &timeLive, sizeof(byte4));
-			pNum += 2;
-
-			byte2 IPLen = nhswap_s(0x0004);
-			memcpy(pNum, &IPLen, sizeof(byte2));
-			pNum += 1;
-
-			byte4 IP = inet_addr_t(result);
-			memcpy(pNum, &IP, sizeof(byte4));
-
-			memcpy(buffer->base + nread, answer, 16);
-		}
-		
-		// ªÿÀÕrequest±®Œƒ
-		uv_udp_send_t* sendResponse =
-			malloc(sizeof(uv_udp_send_t));
-		uv_buf_t		responseBuf = 
-			uv_buf_init((char*)malloc(1024), (byte4)nread + 16);
-		memcpy(responseBuf.base, buffer->base, nread+16);
-		
-		uv_ip4_addr(
-			sender,
-			nhswap_s(idTable[newID].client.sin_port), &clientEP
-		);
-
-		uv_udp_send(
-			sendResponse,
-			&localSocket,
-			&responseBuf, 1,
-			(const struct sockaddr*)&clientEP,
-			onSend2Client
-		);
 	}
 	else {
-		// ±æµÿª∫¥Ê÷–»± ß£¨ππΩ®«Î«Û±®ŒƒÀÕÕ˘Õ‚≤ødns∑˛ŒÒ∆˜
-		PRINTERR("\t[notification] local cache missed, sending request to external server");
-		pHeader->Id = nhswap_s(
-			GetNewID(
-				nhswap_s(pHeader->Id),
-				(struct sockaddr_in*)addr,
-				FALSE, (int)nread, 0, pUrl
-			)
-		);
+		TransDNSRow* result = FindItemByKey(dnsHashTable, pUrl);
 
-		DisplayIDTransInfo(&idTable[nhswap_s(pHeader->Id)]);
+		if (result) {
+			// Êú¨Âú∞ÁºìÂ≠ò‰∏≠ÊâæÂà∞Ë¶ÅÊü•ÊâæÁöÑdnsÂú∞ÂùÄ‰∏îTTLÊú™ËøáÊúüÔºåÊûÑÂª∫Êä•ÊñáËøîÂõûÂÆ¢Êà∑Á´Ø
 
-		// ◊™∑¢request±®Œƒ
-		uv_udp_send_t*	sendRequest =
-			malloc(sizeof(uv_udp_send_t));
-		uv_buf_t		requestBuf =
-			uv_buf_init((char*)malloc(1024), (byte4)nread);
+			byte2 newID =
+				GetNewID(
+					nhswap_s(pHeader->Id),
+					(struct sockaddr_in*)addr,
+					TRUE, (int)nread, 0, pUrl
+				);
+			DisplayIDTransInfo(&idTable[newID]);
 
-		memcpy(requestBuf.base, buffer->base, nread);
-		uv_udp_send(
-			sendRequest,
-			&serverSocket,
-			&requestBuf, 1,
-			(const struct sockaddr*)&serverEP,
-			onSend2Server
-		);
+
+			byte2 temp = nhswap_s(0x8180);
+			pHeader->Flags = temp;
+
+			// ‰∏çËâØÁΩëÁ´ôÊã¶Êà™ÂïäÂóØ
+			if (
+				/*result->Type == A &&*/
+				strcmp(result->Data, "0.0.0.0") == 0
+				) {
+				printf("\t[notification] domain was found in the local cache, but it is banned\n");
+				// ÂõûÁ≠îÊï∞‰∏∫0ÔºåÂç≥Â±èËîΩ
+				temp = nhswap_s(0x0000);
+			}
+			else {
+				printf("\t[result found] destnation result is: %s\n", result->Data);
+				// ÊúçÂä°Âô®ÂìçÂ∫îÔºåÂõûÁ≠îÊï∞‰∏∫1
+				temp = nhswap_s(0x0001);
+			}
+			pHeader->AnswerNum = temp;
+
+			// ÊûÑÈÄ†DNSÊä•ÊñáÂìçÂ∫îÈÉ®ÂàÜ
+			byte answer[16] = { 0 };
+			byte2* pNum = (byte2*)(&answer[0]);
+			{
+				byte2 Name = nhswap_s(0xc00c);
+				memcpy(pNum, &Name, sizeof(byte2));
+				pNum += 1;
+
+				byte2 TypeA = nhswap_s(0x0001);
+				memcpy(pNum, &TypeA, sizeof(byte2));
+				pNum += 1;
+
+				byte2 ClassA = nhswap_s(0x0001);
+				memcpy(pNum, &ClassA, sizeof(byte2));
+				pNum += 1;
+
+				byte4 timeLive = nhswap_l(0x7b);
+				memcpy(pNum, &timeLive, sizeof(byte4));
+				pNum += 2;
+
+				byte2 IPLen = nhswap_s(0x0004);
+				memcpy(pNum, &IPLen, sizeof(byte2));
+				pNum += 1;
+
+				byte4 IP = inet_addr_t(result->Data);
+				memcpy(pNum, &IP, sizeof(byte4));
+
+				memcpy(buffer->base + nread, answer, 16);
+			}
+
+			// ÂõûÈÄÅrequestÊä•Êñá
+			uv_udp_send_t* sendResponse =
+				malloc(sizeof(uv_udp_send_t));
+			uv_buf_t		responseBuf =
+				uv_buf_init((char*)malloc(1024), (byte4)nread + 16);
+			memcpy(responseBuf.base, buffer->base, nread + 16);
+
+			uv_ip4_addr(
+				sender,
+				nhswap_s(idTable[newID].client.sin_port), &clientEP
+			);
+
+			uv_udp_send(
+				sendResponse,
+				&localSocket,
+				&responseBuf, 1,
+				(const struct sockaddr*)&clientEP,
+				onSend2Client
+			);
+		}
+		else {
+			// Êú¨Âú∞ÁºìÂ≠ò‰∏≠Áº∫Â§±ÔºåÊûÑÂª∫ËØ∑Ê±ÇÊä•ÊñáÈÄÅÂæÄÂ§ñÈÉ®dnsÊúçÂä°Âô®
+			PRINTERR("\t[notification] local cache missed, sending request to external server");
+			pHeader->Id = nhswap_s(
+				GetNewID(
+					nhswap_s(pHeader->Id),
+					(struct sockaddr_in*)addr,
+					FALSE, (int)nread, 0, pUrl
+				)
+			);
+
+			DisplayIDTransInfo(&idTable[nhswap_s(pHeader->Id)]);
+
+			// ËΩ¨ÂèërequestÊä•Êñá
+			uv_udp_send_t* sendRequest =
+				malloc(sizeof(uv_udp_send_t));
+			uv_buf_t		requestBuf =
+				uv_buf_init((char*)malloc(1024), (byte4)nread);
+
+			memcpy(requestBuf.base, buffer->base, nread);
+			uv_udp_send(
+				sendRequest,
+				&serverSocket,
+				&requestBuf, 1,
+				(const struct sockaddr*)&serverEP,
+				onSend2Server
+			);
+		}
 	}
 
-	// ªÿ ’◊ ‘¥
+	// ÂõûÊî∂ËµÑÊ∫ê
 	free(buffer->base);
 }
 
-
-//  ’µΩ‘∂≥ÃDNS∑˛ŒÒ∆˜ÀÕ¥ÔµƒœÏ”¶±®Œƒ
+// Êî∂Âà∞ËøúÁ®ãDNSÊúçÂä°Âô®ÈÄÅËææÁöÑÂìçÂ∫îÊä•Êñá
 void onReadResponse(
 	uv_udp_t* req,
 	ssize_t					nread,
@@ -299,7 +306,7 @@ void onReadResponse(
 		return;
 	}
 
-	// ªÒ»°∑¢ÀÕ∑ΩIP raw◊÷∑˚¥Æ
+	// Ëé∑ÂèñÂèëÈÄÅÊñπIP rawÂ≠óÁ¨¶‰∏≤
 	char sender[16] = { 0 };
 	uv_ip4_name((const struct sockaddr_in*)addr, sender, 15);
 
@@ -308,39 +315,133 @@ void onReadResponse(
 	idTable[temp].finished	= true;
 	byte2 prevID			= nhswap_s(idTable[temp].prevID);
 
-	// »Áπ˚Œ¥º”»ÎhashTable£¨‘ÚΩ´key(url) & value(ipaddr)º”»ÎhashTable
-	if (!FindItemByKey(dnsHashTable, idTable[temp].url)) {
-		InsertHashItem(dnsHashTable, idTable[temp].url, NULL);
-	}
-
-	byte* pData = buffer->base + sizeof(DNSHeader);
-	void* pIP	= pData + idTable[temp].offset;
-	byte4 integerIP = nhswap_l(*(byte4*)pIP);
-
-	// ªÒ»°µ⁄“ªÃı≤È—ØΩ·π˚
-	char result[17] = { 0 };
-	uv_ip4_name((const struct sockaddr_in*)&integerIP, result, 16);
+	byte* pData				= buffer->base + sizeof(DNSHeader);
+	byte* pAnsHeader		= FindAnswerStart(pData);
 	
-	{
-		strcpy(result, dnsTable[dnsRowCount].IP);
-		strcpy(idTable[temp].url, dnsTable[dnsRowCount].Domain);
-		InsertHashItem(dnsHashTable, idTable[temp].url, result);
+	// ÊâìÂç∞ÂÖ®Êä•Êñá
 
-		dnsRowCount++;
-		if (dnsRowCount >= MAX_AMOUNT) {
-			PRINTERR("[[WARNING]] RECORDS IN DNS_TABLE HAVE REACHED THE LIMIT");
-			exit(-114514);
-		}
+	printf("\n\n>>>>>>>>START OF RAW RESPONSE DATA\n");
+	for (int i = 0; i < nread; i++) {
+		printf("0x%02x ", (byte)*(buffer->base + i));
 	}
-
-	// ¥Ú”°≤Ÿ◊˜÷¥––◊¥Ã¨–≈œ¢
+	printf("\n>>>>>>>>>>END OF RAW RESPONSE DATA\n\n");
+	
+	// ------------------ USE 1\t FORMATING -------------------- // 
+	byte2 answerNum = nhswap_s(pHeader->AnswerNum);
 	DisplayTime(&sysTime);
-	printf("\t[get_external_server_response] the first result is: %s\n", result);
-	DisplayIDTransInfo(&idTable[temp]);
+	printf("\t[GET EXTERNAL DNS SERVER ANSWER] (count: %d)\n", answerNum);
+
+	// ------------------ USE 2\t FORMATING -------------------- //
+
+	size_t ptrOffset = 0;
+	for (int i = 1; i <= answerNum; i++) {
+		DNSAnswerHeader ansHeader = { 0, 0, 0, 0, 0 };
+		ansHeader.Name = nhswap_s(
+			*((byte2*)(pAnsHeader + ptrOffset))
+		);
+		ansHeader.Type = nhswap_s(
+			*((byte2*)(pAnsHeader + 2 + ptrOffset))
+		);
+		ansHeader.Class = nhswap_s(
+			*((byte2*)(pAnsHeader + 4 + ptrOffset))
+		);
+		ansHeader.TTL = nhswap_l(
+			*((byte4*)(pAnsHeader + 6 + ptrOffset))
+		);
+		ansHeader.DataLength = nhswap_s(
+			*((byte2*)(pAnsHeader + 10 + ptrOffset))
+		);
+		ptrOffset += 12;
+
+		// Ê†πÊçÆÊü•ËØ¢Âà∞ÁöÑÁªìÊûúÁ±ªÂûãËøõË°åÂàÜÊîØ
+		switch (ansHeader.Type) {
+		case A: {
+			char result[64] = { '\0' };
+			int  index		= 0;
+			for (int j = 1; j <= ansHeader.DataLength; j++) {
+				sprintf(
+					&result[0] + index,
+					"%u", *(byte*)(ptrOffset + pAnsHeader + j - 1));
+				index = (int)strlen(result);
+				if (j != ansHeader.DataLength) {
+					result[index++] = '.';
+				}
+			}
+
+			printf("\t\t<Answer %d> A: IPv4Âú∞ÂùÄ {\n", i);
+			printf("\t\t\tQuery result:\t%s\n", result);
+			
+			{
+				strcpy(result, dnsTable[dnsRowCount].Data);
+				strcpy(idTable[temp].url, dnsTable[dnsRowCount].Domain);
+				InsertHashItem(dnsHashTable, idTable[temp].url, result);
+
+				// Â¶ÇÊûúÊú™Âä†ÂÖ•hashTableÔºåÂàôÂ∞Ükey(url) & value(ipaddr)Âä†ÂÖ•hashTable
+				TransDNSRow* pDnsCache = FindItemByKey(dnsHashTable, idTable[temp].url);
+				if (!pDnsCache) {
+					InsertHashItem(dnsHashTable, idTable[temp].url, NULL);
+				}
+
+				dnsRowCount++;
+				if (dnsRowCount >= MAX_AMOUNT) {
+					PRINTERR("[[WARNING]] RECORDS IN DNS_TABLE HAVE REACHED THE LIMIT");
+					exit(-114514);
+				}
+			}
+		} break;
+		case MX: {
+			printf("\t\t<Answer %d> MX: ‰∏ªÊú∫‰∫§Êç¢ {\n", i);
+			// printf("\t\t\tQuery result:\t%s\n", result);
+		} break;
+		case AAAA: {
+			char result[64] = { '\0' };
+			int	 index		= 0;
+			bool firstZFlag = false;
+			for (int j = 0; j < ansHeader.DataLength; j += 2) {
+				byte2 ipValue = nhswap_s(
+					*(byte2*)(ptrOffset + pAnsHeader + j)
+				);
+				if (ipValue == 0) {
+					if (!firstZFlag) {
+						result[index++] = ':';
+						firstZFlag = true;
+					}
+					continue;
+				}
+					
+				sprintf(&result[0] + index, "%x", ipValue);
+				index = (int)strlen(result);
+
+				if (j+2 != ansHeader.DataLength) {
+					result[index++] = ':';
+				}
+			}
+
+			printf("\t\t<Answer %d> AAAA: IPv6Âú∞ÂùÄ {\n", i);
+			printf("\t\t\tQuery result:\t%s\n", result);
+		} break;
+		case CNAME: {
+			char* result = ParseUrlFromData(
+				buffer->base,
+				ptrOffset + pAnsHeader, ansHeader.DataLength
+			);
+			printf("\t\t<Answer %d> CNAME: Âà´ÂêçÂú∞ÂùÄ {\n", i);
+			printf("\t\t\tQuery result:\t%s\n", result);
+		} break;
+		default: {
+			printf("\t\t{\n\t\t\t*********"
+				"*****UNKNOWN RESPONSE TYPE**************\n");
+		} break;
+		}
+
+		ptrOffset += ansHeader.DataLength;
+		printf("\t\t}\n\n");
+		/*DisplayIDTransInfo(&idTable[temp]);*/
+	}
 
 	pHeader->Id = prevID;
 
-	// ◊™∑¢request±®Œƒ
+	// ËΩ¨ÂèërequestÊä•Êñá
 	uv_udp_send_t*	forwardResponse =
 		malloc(sizeof(uv_udp_send_t));
 	uv_buf_t		forwardBuf =
@@ -392,7 +493,7 @@ void onSend2Server(
 	}
 }
 
-// ªÚ’ﬂ≤…”√staticƒ⁄¥Ê+offsetÀ¯∑÷≈‰µƒ∑Ω Ω£ø
+// ÊàñËÄÖÈááÁî®staticÂÜÖÂ≠ò+offsetÈîÅÂàÜÈÖçÁöÑÊñπÂºèÔºü
 void allocBuffer(
 	uv_handle_t*	handle,
 	size_t			suggested_size,
@@ -403,7 +504,7 @@ void allocBuffer(
 }
 
 void initConfig() {
-	// ≤ª–Ë“™free data£¨‘≠∫Ø ˝÷– π”√static ˝◊È◊ˆª∫¥Ê
+	// ‰∏çÈúÄË¶Åfree dataÔºåÂéüÂáΩÊï∞‰∏≠‰ΩøÁî®staticÊï∞ÁªÑÂÅöÁºìÂ≠ò
 	char* data = GetIniKeyString(
 		"DNS_CONFIG",
 		"EXTERNAL_ENDPOINT_IPV4",
@@ -413,7 +514,7 @@ void initConfig() {
 		PRINTERR("failed to load config value : EXTERNAL_ENDPOINT_IPV4");
 		exit(-1);
 	}
-	// Ωˆ–£—È≥§∂»
+	// ‰ªÖÊ†°È™åÈïøÂ∫¶
 	if (strlen(data) > 15) {
 		PRINTERR("external_endpoint out of range");
 		exit(-1);
@@ -445,7 +546,7 @@ void initConfig() {
 
 }
 
-// Ω´«Î«ÛID◊™ªªŒ™–¬µƒID£¨≤¢Ω´–≈œ¢ÃÓ»ÎID◊™ªª±Ì÷–
+// Â∞ÜËØ∑Ê±ÇIDËΩ¨Êç¢‰∏∫Êñ∞ÁöÑIDÔºåÂπ∂Â∞Ü‰ø°ÊÅØÂ°´ÂÖ•IDËΩ¨Êç¢Ë°®‰∏≠
 byte2 GetNewID(
 	byte2				oldID,
 	struct sockaddr_in* addr,
@@ -481,8 +582,10 @@ void loadDNSTableData() {
 		char* pSpace = strchr(data, ' ');
 		*pSpace = '\0';
 
-		strcpy(dnsTable[dnsRowCount].IP, data);
+		strcpy(dnsTable[dnsRowCount].Data, data);
 		strcpy(dnsTable[dnsRowCount].Domain, pSpace + 1);
+		dnsTable[dnsRowCount].TTL	= 0x3F3F3F3F;
+		dnsTable[dnsRowCount].Type	= A;
 
 		size_t messIndex = strlen(pSpace + 1) - 1;
 		dnsTable[dnsRowCount].Domain[messIndex] = '\0';
@@ -490,7 +593,7 @@ void loadDNSTableData() {
 		InsertHashItem(
 			dnsHashTable,
 			dnsTable[dnsRowCount].Domain,
-			dnsTable[dnsRowCount].IP
+		    &dnsTable[dnsRowCount]
 		);
 
 		dnsRowCount++;

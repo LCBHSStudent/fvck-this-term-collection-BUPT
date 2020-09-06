@@ -10,7 +10,18 @@ void SyncTime(SYSTEMTIME* sysTime, TIME* sysTimeLocal) {
 	sysTimeLocal->Milliseconds	= (byte)sysTime->wMilliseconds;
 }
 
-char* ParseUrlFromData(char* buffer, int size) {
+int32_t GetTimeSubValue(TIME *pFormer, TIME *pLater) {
+	return (int32_t) (
+		(
+			(
+					(pLater->Day - pFormer->Day) * 24 
+				+ pLater->Hour - pFormer->Hour) * 60
+			+ pLater->Minute - pFormer->Minute) * 60
+		+ pLater->Second - pFormer->Second
+	);
+}
+
+char* ParseUrlFromData(char* baseBuffer, char* buffer, int size) {
 	static char result[1024] = { 0 };
 	if (size > 1024 || size <= 0) {
 		return NULL;
@@ -19,7 +30,7 @@ char* ParseUrlFromData(char* buffer, int size) {
 	memset(result, 0, 1024);
 	
 	//用.的位置做计数
-	char url[1024] = { 0 };
+	byte url[1024] = { 0 };
 	memcpy(url, buffer, size);
 
 	int i = 0,
@@ -33,8 +44,20 @@ char* ParseUrlFromData(char* buffer, int size) {
 				result[k] = url[i];
 			}
 		if (url[i] != 0) {
-			result[k] = '.';
-			k++;
+			if (url[i] >= 192) {
+				int offset		= (url[i] - 192) * 256 + url[i+1];
+				char* copySrc	= baseBuffer + offset + 1;
+				
+				result[k++] = '.';
+
+				strcpy_s(&result[k], sizeof(result) - k - 1, copySrc);
+				k += (int)strlen(copySrc);
+				break;
+			}
+			else {
+				result[k] = '.';
+				k++;
+			}
 		}
 	}
 	result[k] = '\0';
@@ -71,6 +94,11 @@ void DisplayIDTransInfo(TransIDRow* info) {
 	printf("\t\t[request_offset] %d\n", info->offset);
 }
 
+void* FindAnswerStart(byte* pData) {
+	return pData + strlen(pData) + 5;
+}
+
+
 #define BigLittleSwap16(X) (\
 	(((byte2)(X) & 0xFF00) >> 8)	|\
 	(((byte2)(X) & 0x00FF) << 8)	\
@@ -83,6 +111,7 @@ void DisplayIDTransInfo(TransIDRow* info) {
 	(((byte4)(X) & 0x000000FF) << 24) \
 )
 
+// in c++14 or later, use constexpr instead
 BOOL checkCPUendian() {
 	union {
 		unsigned long int i;
@@ -120,4 +149,47 @@ ULONG inet_addr_t(IN char* cp) {
 		if (!(cp = strchr(cp, '.'))) { break; }
 	}
 	return *(ULONG*)ipBytes;
+}
+
+int Len2RespDataEnd(char* pData) {
+	if (pData == NULL)
+		return 0;
+	int len = 0;
+	while (*pData != '\0') {
+		len++;
+		pData++;
+	}
+	return len;
+}
+
+bool isIPv4Str(const char* pData) {
+	if (!pData || !pData[0]) {
+		return false;
+	}
+
+	size_t len = strlen(pData);
+	if (len < 7 || len > 15) {
+		return false;
+	}
+
+	int num[4] = { 0 };
+	char c = 0;
+
+	if (sscanf_s(
+			pData,
+			"%d.%d.%d.%d%c",
+			num, num + 1, num + 2, num + 3, &c, sizeof(char)
+		) != 4
+	) {
+		return false;
+	}
+
+	int i = 0;
+	for (; i < 4; i++) {
+		if (num[i] < 0 || num[i] > 255) {
+			return false;
+		}
+	}
+
+	return true;
 }

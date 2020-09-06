@@ -36,12 +36,12 @@ BOOL DeleteHashTable(HashTable table) {
 	}
 }
 
-BOOL InsertHashItem(HashTable table, char* key, char* value) {
+BOOL InsertHashItem(HashTable table, char* key, void* value) {
 	if (table.size == 0)
 		return false;
 
-	size_t index = ELFHash(key, strlen(key)) % table.size;
-	Node* node = &table.data[index];
+	size_t index	= ELFHash(key, strlen(key)) % table.size;
+	Node* node		= &table.data[index];
 
 	if (node->key == NULL || node->value == NULL) {
 		table.data[index].key = key;
@@ -63,7 +63,7 @@ BOOL InsertHashItem(HashTable table, char* key, char* value) {
 	return true;
 }
 
-char* FindItemByKey(HashTable table, char* key) {
+void* FindItemByKey(HashTable table, char* key) {
 	if (table.size == 0 || key == NULL)
 		return NULL;
 

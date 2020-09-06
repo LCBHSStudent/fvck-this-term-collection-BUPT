@@ -6,7 +6,13 @@
 void 
 	SyncTime(SYSTEMTIME* sysTime, TIME* sysTimeLocal);
 char* 
-	ParseUrlFromData(char* buffer, int size);
+	ParseUrlFromData(char* baseBuffer, char* buffer, int size);
+int
+	Len2RespDataEnd(char* pData);
+void* 
+	FindAnswerStart(byte* pData);
+bool
+	isIPv4Str(const char* pData);
 
 void 
 	DisplayTime(SYSTEMTIME* sysTime);
