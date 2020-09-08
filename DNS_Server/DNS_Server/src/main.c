@@ -29,12 +29,12 @@ static char EXTERN_SERVER_HOST[16];
 static char LOCAL_SERVER_HOST[16];
 static int	DNS_SERVER_PORT = 0;
 
+// 对查询事务进行ID转换，便于进行查询信息的缓存
 byte2 GetNewID(
 	byte2				oldID,
 	struct sockaddr_in* addr,
 	BOOL				isDone,
 	int					offset,
-	int					joinTime,
 	char*				domain
 );
 void loadDNSTableData();
@@ -214,7 +214,7 @@ void onReadRequest(
 			GetNewID(
 				nhswap_s(pHeader->Id),
 				(struct sockaddr_in*)addr,
-				TRUE, (int)nread, 0, pUrl
+				TRUE, (int)nread, pUrl
 			);
 		DisplayIDTransInfo(&idTable[newID]);
 
@@ -272,24 +272,6 @@ void onReadRequest(
 			(const struct sockaddr*)&clientEP,
 			onSend2Client
 		);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		
 	}
 	else {
@@ -308,7 +290,7 @@ void onReadRequest(
 				GetNewID(
 					nhswap_s(pHeader->Id),
 					(struct sockaddr_in*)addr,
-					TRUE, (int)nread, 0, pUrl
+					TRUE, (int)nread, pUrl
 				);
 			DisplayIDTransInfo(&idTable[newID]);
 
@@ -396,7 +378,7 @@ void onReadRequest(
 				GetNewID(
 					nhswap_s(pHeader->Id),
 					(struct sockaddr_in*)addr,
-					FALSE, (int)nread, 0, pUrl
+					FALSE, (int)nread, pUrl
 				)
 			);
 
@@ -444,6 +426,17 @@ void onReadResponse(
 
 	DNSHeader* pHeader		= (DNSHeader*)buffer->base;
 	byte2 temp				= nhswap_s(pHeader->Id);
+	
+	// check whether is out of the time limit
+	SyncTime(&sysTime, &sysTimeLocal);
+	int curTime = (int)ToSecond(&sysTimeLocal);
+	if (curTime - idTable[temp].joinTime > 2) {
+		free(buffer->base);
+		PRINTERR("**[warning] Get over-time external dns server response");
+		PRINTERR("**[warning] response data dropped");
+		return;
+	}
+
 	idTable[temp].finished	= true;
 	byte2 prevID			= nhswap_s(idTable[temp].prevID);
 
@@ -694,14 +687,14 @@ byte2 GetNewID(
 	struct sockaddr_in* addr,
 	BOOL				isDone,
 	int					offset,
-	int					joinTime,
 	char*				url
 ) {
+	SyncTime(&sysTime, &sysTimeLocal);
 	idTable[idRowCount].prevID		= oldID;
 	idTable[idRowCount].client		= *addr;
 	idTable[idRowCount].finished	= isDone;
 	idTable[idRowCount].offset		= offset;
-	idTable[idRowCount].joinTime	= joinTime;
+	idTable[idRowCount].joinTime	= ToSecond(&sysTimeLocal);
 	strcpy(idTable[idRowCount].url, url);
 	
 	idRowCount = (idRowCount+1) % MAX_AMOUNT;
@@ -726,6 +719,7 @@ void loadDNSTableData() {
 
 		strcpy(dnsTable[dnsRowCount].Data, data);
 		strcpy(dnsTable[dnsRowCount].Domain, pSpace + 1);
+		// 从TXT中读出的域名可以被看作是永久支持进行解析,因此TTL初值设的较为大
 		dnsTable[dnsRowCount].TTL	= 0x3F3F3F3F;
 		dnsTable[dnsRowCount].Type	= A;
 
