@@ -10,11 +10,11 @@
 &emsp;&emsp;开发环境：**windows10 v2004** & **Qt version 5.14.1** & **MSVC version 1919**  
 &emsp;&emsp;其他依赖：**android ndk-r21b** & **mysql-8.0.20 x64** & **protoc 3.12.0 x64** & **protobuf 3.12.4**
   
-&emsp;&emsp;配置说明：本项目将client与server置于一个pri内，编译时需要的protobuf 依赖，其lib和header分别位于/Pokemon（项目根目录）下的/lib 与 /protobuf_headers 内。检查依赖，配置环境并选择编译kit为msvc2019后即可一次性完成client与server端的构建。
+&emsp;&emsp;*配置说明：本项目将client与server置于一个pri内，编译时需要的protobuf 依赖，其lib和header分别位于/Pokemon（项目根目录）下的/lib 与 /protobuf_headers 内。检查依赖，配置环境并选择编译kit为msvc2019后即可一次性完成client与server端的构建。
   
-&emsp;&emsp;于windows环境下运行时，除了配置Qt项目本身所需要的运行时环境，还需要将 /bin 内的dll文件拷贝到项目的运行目录下。（**release版的运行目录下直接复制生成的libprotobuf.dll，debug版的运行目录下复制debug生成版，去掉文件名最后的d**）
+&emsp;&emsp;\**于windows环境下运行时，除了配置Qt项目本身所需要的运行时环境，还需要将 /bin 内的dll文件拷贝到项目的运行目录下。（**release版的运行目录下直接复制生成的libprotobuf.dll，debug版的运行目录下复制debug生成版，去掉文件名最后的d**）
   
-&emsp;&emsp;关于网络环境的配置，修改**client端src/main.cpp**内的**ClientBackend构造参数字符串**为server端ipv4地址，在保证1919端口开放的条件下即可正常运行，若无法开放1919端口，则需要修改server与client的**NetworkHelper静态类变量-port**为指定的端口号。
+&emsp;&emsp;\*\**关于网络环境的配置，修改**client端src/main.cpp**内的**ClientBackend构造参数字符串**为server端ipv4地址，在保证1919端口开放的条件下即可正常运行，若无法开放1919端口，则需要修改server与client的**NetworkHelper静态类变量-port**为指定的端口号。
 
 ## 2.系统设计介绍
 ### 总体 (根据原实践题目要求，分为三个题目来进行介绍)
@@ -139,6 +139,8 @@ void NetworkHelper::readyRead() {
 
 
 ### Server端组件
+事件分拣列表
+![Server端事件分拣图](https://img-blog.csdnimg.cn/20200908131704827.png)
 &emsp;&emsp;Server端过滤后的结构如下  
 ————/include  
 ————————PreCompile.h（预编译头）  
@@ -169,6 +171,8 @@ void NetworkHelper::readyRead() {
 ————main.cpp（程序入口位点）  
 
 ### Client端组件
+结构及主要信号
+![Client端结构](https://img-blog.csdnimg.cn/20200908131725739.png)
 
 ————/include  
 ————————PreCompile.h（预编译头）  
@@ -963,7 +967,7 @@ REGISTER_SKILL(AppleAcid) {
 ### SERVER
 #### WIN10_DESKTOP
 &emsp;&emsp;**关于LOG没做时间戳和模块细分不够完备这两个问题，本人深表忏悔**  
-
+&emsp;&emsp;**注释掉代码内的ENABLE_DEBUG_OUTPUT宏即可取消大部分非必要控制台log输出，提高程序运行效率**  
 启动
 ![启动界面](https://img-blog.csdnimg.cn/20200811015804539.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NTg3NDYz,size_16,color_FFFFFF,t_70)
 对战LOG
@@ -973,8 +977,8 @@ REGISTER_SKILL(AppleAcid) {
 ### CLIENT
 #### ANDROID OS_BUILD_VERSION_10
 &emsp;&emsp;**以下图片内容包含 初始界面 宝可梦详情界面 用户信息界面 对战界面 弹窗样式等**  
-![](https://img-blog.csdnimg.cn/20200811021019843.png)![](https://img-blog.csdnimg.cn/20200811021041131.png)![](https://img-blog.csdnimg.cn/20200811021054227.png)![](https://img-blog.csdnimg.cn/20200811021107561.png)![](https://img-blog.csdnimg.cn/20200811021117194.png)![](https://img-blog.csdnimg.cn/20200811021128759.png)![](https://img-blog.csdnimg.cn/20200811021143340.png)![](https://img-blog.csdnimg.cn/20200811021155340.png)![](https://img-blog.csdnimg.cn/20200811021206831.png)![](https://img-blog.csdnimg.cn/20200811021220189.png)
+![](https://img-blog.csdnimg.cn/20200811021054227.png)![](https://img-blog.csdnimg.cn/20200811021107561.png)![](https://img-blog.csdnimg.cn/20200811021117194.png)![](https://img-blog.csdnimg.cn/20200811021019843.png)![](https://img-blog.csdnimg.cn/20200811021041131.png)![](https://img-blog.csdnimg.cn/20200811021128759.png)![](https://img-blog.csdnimg.cn/20200811021143340.png)![](https://img-blog.csdnimg.cn/20200811021155340.png)![](https://img-blog.csdnimg.cn/20200811021220189.png)![](https://img-blog.csdnimg.cn/20200811021206831.png)
 #### WIN10_DESKTOP
 &emsp;&emsp;**以下图片内容包含 登录&注册界面 用户列表 对战邀请弹窗样式等**  
-![](https://img-blog.csdnimg.cn/20200811021324563.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NTg3NDYz,size_16,color_FFFFFF,t_70)![](https://img-blog.csdnimg.cn/20200811021337433.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NTg3NDYz,size_16,color_FFFFFF,t_70)![](https://img-blog.csdnimg.cn/20200811021353693.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NTg3NDYz,size_16,color_FFFFFF,t_70)![](https://img-blog.csdnimg.cn/20200811021403180.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NTg3NDYz,size_16,color_FFFFFF,t_70)![](https://img-blog.csdnimg.cn/20200811021421215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NTg3NDYz,size_16,color_FFFFFF,t_70)
+![](https://img-blog.csdnimg.cn/20200811021324563.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NTg3NDYz,size_16,color_FFFFFF,t_70)![](https://img-blog.csdnimg.cn/20200811021337433.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NTg3NDYz,size_16,color_FFFFFF,t_70)![](https://img-blog.csdnimg.cn/20200811021353693.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NTg3NDYz,size_15,color_FFFFFF,t_70)![](https://img-blog.csdnimg.cn/20200811021403180.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NTg3NDYz,size_16,color_FFFFFF,t_70)![](https://img-blog.csdnimg.cn/20200811021421215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NTg3NDYz,size_16,color_FFFFFF,t_70)
 >仍待补充 (如选择战利品界面等) ，上图中存在过渡界面 (如等待建立对战) 在各处请求网络时都会存在，但由于测试在内网环境下进行，故暂时未保存各处的对应截图
